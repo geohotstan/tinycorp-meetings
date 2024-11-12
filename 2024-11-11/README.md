@@ -6,8 +6,6 @@ You can listen to the audio recording for this meeting by clicking the link belo
 
 [Listen to the audio on Google Drive](https://drive.google.com/file/d/1e-u_BMfIa_oLgkUrg40QgxaOONyaEHeR/view?usp=sharing)
 
----
-
 ## Transcript
 
 **Geohot** [00:00:01]  
