@@ -814,7 +814,7 @@ Do you know if sign is actually being written as sign or it's being written as s
 **Wmped** [00:45:50]
 A C-style has sign, I think.
 
-**SPEAKER_07** [00:45:55]
+**Geohot** [00:45:55]
 Oh, it does.
 It does.
 Okay, never mind.
@@ -831,13 +831,13 @@ I promise you 150 lines for WebGPU.
 **Wmped** [00:46:17]
 Okay.
 
-**SPEAKER_07** [00:46:18]
+**Geohot** [00:46:18]
 And we will get.
 
 **Wmped** [00:46:18]
 Yeah, and I promise you a cleanup and export it to stable diffusion.
 
-**SPEAKER_07** [00:46:32]
+**Geohot** [00:46:32]
 Sounds good.
 I'll answer this question quickly.
 You made a preorder for a tiny box, but now you want to buy a green one.
@@ -902,13 +902,13 @@ Uh, never on a tiny box.
 **Chenyu** [00:48:50]
 Yeah, but there's no tiny box when that was fenced.
 
-**SPEAKER_07** [00:48:56]
+**Geohot** [00:48:56]
 Yeah.
 
 **Chenyu** [00:48:58]
 I mean, the Mac one, Mac is 700 now.
 
-**SPEAKER_07** [00:49:02]
+**Geohot** [00:49:02]
 Yeah, that used to be 100 milliseconds.
 That's kind of crazy when you think about how to get so slow.
 that's 7x slower.
