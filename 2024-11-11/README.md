@@ -1031,7 +1031,7 @@ Yeah, I think with a bit more cleanup, I think this is good to merge.
 **Ignaciosica** [00:52:39]
 OK, thank you.
 
-**Geohot** [00:52:41] # responding to chat at this point
+**Geohot** [00:52:41]
 Cool.
 Is there progress on match speed?
 Oh, the matching engine speed.
