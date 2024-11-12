@@ -1,12 +1,6 @@
 # 2024-11-11 Meeting
 
-## Audio Recording
-
-You can listen to the audio recording for this meeting by clicking the link below:
-
-[Listen to the audio on Google Drive](https://drive.google.com/file/d/1e-u_BMfIa_oLgkUrg40QgxaOONyaEHeR/view?usp=sharing)
-
-## Transcript
+[Recording](https://drive.google.com/file/d/1e-u_BMfIa_oLgkUrg40QgxaOONyaEHeR/view?usp=sharing)
 
 **Geohot** [00:00:01]  
 Welcome, welcome people to meeting.  
