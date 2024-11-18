@@ -1,0 +1,7 @@
+# ignore every file in folders except the README
+2024-*/**
+!2024-*/README.md
+
+.DS_Store
+credentials.json
+
