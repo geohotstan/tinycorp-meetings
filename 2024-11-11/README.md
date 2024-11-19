@@ -1,5 +1,15 @@
 # 2024-11-11 Meeting
 
+### Meeting Agenda
+
+**Time:** 8 PM Hong Kong Time
+- Company update
+- Llvm, block, cloud
+- Real_strides, hcopt, beam slower than torch MPS
+- Big graph and lazybuffer
+- AM drivers, QCOM issues
+- Active bounties (webgpu, FSDP?, tensor cores, match speed)
+
 ### Audio
 
 [Recording](https://drive.google.com/file/d/1e-u_BMfIa_oLgkUrg40QgxaOONyaEHeR/view?usp=sharing)
