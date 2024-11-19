@@ -6,59 +6,41 @@
 
 ### Chapters
 
-- **00:00:00 Introductions and TinyBox Updates**  
-  TinyBox sales performance, pre-orders, and installation improvements.
+- **00:00:00 Introductions and TinyBox Updates**  TinyBox sales performance, pre-orders, and installation improvements.
 
-- **00:01:56 Conda Installation Fixes**  
-  Fixes for Conda compatibility on Mac.
+- **00:01:56 Conda Installation Fixes**  Fixes for Conda compatibility on Mac.
 
-- **00:03:15 Release Version Discussion**  
-  Deciding between version 0.10 or 0.9.3.
+- **00:03:15 Release Version Discussion**  Deciding between version 0.10 or 0.9.3.
 
-- **00:03:40 Big Graph and Lazy Buffer Updates**  
-  Progress on Big Graph and Lazy.py removal.
+- **00:03:40 Big Graph and Lazy Buffer Updates**  Progress on Big Graph and Lazy.py removal.
 
-- **00:05:28 Global Cache Challenges**  
-  Issues with global cache in scheduling.
+- **00:05:28 Global Cache Challenges**  Issues with global cache in scheduling.
 
-- **00:10:22 Lazy Buffer and UOp Integration**  
-  Simplifying Lazy Buffer with UOps.
+- **00:10:22 Lazy Buffer and UOp Integration**  Simplifying Lazy Buffer with UOps.
 
-- **00:18:19 Scheduler and Multi Buffer Handling**  
-  Optimizing multi-buffer scheduling.
+- **00:18:19 Scheduler and Multi Buffer Handling**  Optimizing multi-buffer scheduling.
 
-- **00:20:31 Backward Pass Redesign**  
-  Plans for a new gradient computation approach.
+- **00:20:31 Backward Pass Redesign**  Plans for a new gradient computation approach.
 
-- **00:25:13 Stable Diffusion Regression**  
-  Investigating and fixing performance declines.
+- **00:25:13 Stable Diffusion Regression**  Investigating and fixing performance declines.
 
-- **00:32:47 Driver Optimization**  
-  Updates on AMD and QCOM drivers.
+- **00:32:47 Driver Optimization**  Updates on AMD and QCOM drivers.
 
-- **00:34:58 WebGPU Backend Progress**  
-  WebGPU performance improvements and cleanup.
+- **00:34:58 WebGPU Backend Progress**  WebGPU performance improvements and cleanup.
 
-- **00:43:05 Data Type Handling in WebGPU**  
-  Challenges with uint8/uint16 support.
+- **00:43:05 Data Type Handling in WebGPU**  Challenges with uint8/uint16 support.
 
-- **00:50:07 TensorCore Refactor**  
-  Updates on TensorCore swizzling logic.
+- **00:50:07 TensorCore Refactor**  Updates on TensorCore swizzling logic.
 
-- **00:58:22 ONNX Support Expansion**  
-  Progress on ONNX integration and fixes.
+- **00:58:22 ONNX Support Expansion**  Progress on ONNX integration and fixes.
 
-- **01:00:32 Matcher Speed Optimization Bounties**  
-  Bounties for faster matcher implementation.
+- **01:00:32 Matcher Speed Optimization Bounties**  Bounties for faster matcher implementation.
 
-- **01:02:37 PTX Renderer Cleanup**  
-  Suggestions for reducing PTX renderer lines.
+- **01:02:37 PTX Renderer Cleanup**  Suggestions for reducing PTX renderer lines.
 
-- **01:03:13 Release Preparation**  
-  Final steps for version 0.10 release.
+- **01:03:13 Release Preparation**  Final steps for version 0.10 release.
 
-- **01:04:12 Meeting Wrap-Up**  
-  Closing remarks and next steps.
+- **01:04:12 Meeting Wrap-Up**  Closing remarks and next steps.
 
 ### Transcript
 
