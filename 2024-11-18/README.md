@@ -1,5 +1,16 @@
 # 2024-11-18 Meeting
 
+### Meeting Agenda
+
+**Time:** 8 PM Hong Kong Time  
+- Company update  
+- 0.10 release  
+- Big graph and lazybuffer  
+- Block, new style backward  
+- Speed (simple ops vs. theoretical, mid-size kernel search, high-level math simplification)  
+- AMD/QCOM driver issues  
+- Active bounties (WebGPU, TensorCores, ONNX, Matcher speed, PTX renderer)
+
 ### Audio
 
 [Recording](https://drive.google.com/file/d/1Rtqwh6nfymyqPkbnUjMOCspmSGWHy9VX/view?usp=sharing)
@@ -183,6 +194,7 @@ I'm not sure the performance will be, once we remove the global cache,
 But that's one issue that we might face.
 
 (network issue start)
+
 **Geohot** [00:05:28]
 The global cache is undesirable.
 So I don't, what do you think anything to break if we remove global cache?
@@ -197,6 +209,7 @@ I'm making progress.
 I'm moving to your diff from the toonygrad and from the step that you have.
 
 (network issue end)
+
 **Geohot** [00:06:00]
 Your signal's breaking up a bit.
 Is that just for me or for everyone?
