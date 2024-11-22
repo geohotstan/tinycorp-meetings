@@ -788,7 +788,7 @@ OK, let's move on.
 Do you want to server unmute?
 and talk now if you want.
 
-**Wmped** [00:41:32]
+**Wpmed** [00:41:32]
 Yeah, thanks.
 I made some refactors on the PR, like I had WebGPU specific stuff in C-style.
 This pre-kernel stuff has been deleted, so now C-style is, so there's no modifications there.
@@ -821,7 +821,7 @@ And there's clearly 20 lines that can go from that refactor.
 He didn't delete them because he wanted to make process preplay match.
 So you say there's still a bit more you want to do to clean up the PR for WebGPU?
 
-**Wmped** [00:43:59]
+**Wpmed** [00:43:59]
 Yeah, I want to do a bit more like, so this PR can be smaller if, so how I added support for char, so like uint8, uint16, int8, int16 is sort of like a workaround because WebGPU itself doesn't have these data types.
 And like if for the first version of the PR, like I don't, I just don't support those, then that could be a,
 I think maybe 10 lines or something like that.
@@ -830,7 +830,7 @@ But if I want to keep that, I have to clean that up.
 **Geohot** [00:44:38]
 I don't understand why you're doing this scale size thing.
 
-**Wmped** [00:44:42]
+**Wpmed** [00:44:42]
 so I think what you said is just to have them like tightly packed right so you have one yeah exactly and and you have like you can pack four bytes into a word but I also plan to do that but that also requires some rewrite rules for the indexing modifications you know because then when you index two bytes
 You have to rewrite that to points to the first, let's say you want to index byte one and two in the first word done.
 you have to sort of rewrite the indexing because you want to read from that word and shift out the bytes.
@@ -844,14 +844,14 @@ I don't think modifying indexing is very hard.
 I see the thing that is potentially annoying where if you want to only store one pack, what do you actually do?
 You have to load the others.
 
-**Wmped** [00:46:09]
+**Wpmed** [00:46:09]
 Yeah, exactly.
 
 **Geohot** [00:46:12]
 But that should still be fine.
 I would do that.
 
-**Wmped** [00:46:15]
+**Wpmed** [00:46:15]
 I proposed it a while ago.
 So I proposed this, that we do this, but I think there was discussion that, okay, maybe we don't want to do that first, just keep the PR simple.
 But yeah, then I still supported it, but with this other approach, but yeah, I can make it work with a type of fact and indexing modified way.
@@ -860,7 +860,7 @@ So yeah, if you want, I can make that change.
 **Geohot** [00:46:45]
 Yeah, the beauty of tightly packing it is then we don't have the modified buffer.
 
-**Wmped** [00:46:51]
+**Wpmed** [00:46:51]
 Exactly.
 Yeah.
 Yeah, that would be no, there would be no modification in core tinegrad or other than the runtime change.
@@ -874,7 +874,7 @@ We did it.
 We've succeeded.
 Remember how many hacks were in the first one, where we had stuff all over the place?
 
-**Wmped** [00:47:18]
+**Wpmed** [00:47:18]
 Yeah, a lot of hacks.
 
 **Geohot** [00:47:20]
@@ -884,7 +884,7 @@ OK, yeah, sounds good.
 Cool.
 Yeah, it's great to see stable diffusion back.
 
-**Wmped** [00:47:48]
+**Wpmed** [00:47:48]
 Yeah.
 Maybe once it's completely fine, I can also update the UI and stuff so that if we share it again, that way we have a new stable diffusion graph GPU demo.
 Now it's a bit faster.
@@ -910,7 +910,7 @@ The YOLO one is cool to run on your phone.
 We can even look and bring WebGL back.
 Does iPhone support WebGPU yet?
 
-**Wmped** [00:49:00]
+**Wpmed** [00:49:00]
 I think in new Safari, this is behind the toggle in the new Safari beta.
 So it's closed.
 So like WebGL will be irrelevant to it.

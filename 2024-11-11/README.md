@@ -692,7 +692,7 @@ Cool.
 The style looks pretty simple.
 I see you've moved away a lot from these style of stuff.
 
-**Wmped** [00:37:17]
+**Wpmed** [00:37:17]
 Yeah.
 So a lot of better mature stuff you see is this bool stuff, bool hacks and...
 You carry short acts, things like that.
@@ -711,7 +711,7 @@ So, yeah.
 I also still want to get rid of the ULONG stuff.
 I want to switch three fry itself to just use ints and not use ULONGs and then not do this emulation.
 
-**Wmped** [00:38:43]
+**Wpmed** [00:38:43]
 Yeah, I also wanted to do that.
 I have a look.
 I already tried it once, but I give it another try.
@@ -727,7 +727,7 @@ Yeah, no.
 I mean, before we converge this, there's way too many of these string rewrite rules here.
 Like I don't understand why the normal infinity rewrite rules from C style don't work.
 
-**Wmped** [00:39:29]
+**Wpmed** [00:39:29]
 Because infinity is a weird new webGPU spec.
 So there's a lot of bug there that I have to work around.
 If you look at it, there is a special isnan because in any other languages you do A not because A and this basically means you want to know if it's nan, but that doesn't work.
@@ -744,13 +744,13 @@ Yeah.
 **Geohot** [00:40:20]
 No, no, no, but I'm reading the specifically the infinity rewrite rules.
 
-**Wmped** [00:40:24]
+**Wpmed** [00:40:24]
 Yeah.
 
 **Geohot** [00:40:24]
 They look identical to me to the ones in C style.
 
-**Wmped** [00:40:30]
+**Wpmed** [00:40:30]
 Okay, let me see.
 Right.
 You mean the cards?
@@ -759,14 +759,14 @@ Which line?
 **Geohot** [00:40:36]
 75 and 76 in your pull request.
 
-**Wmped** [00:40:42]
+**Wpmed** [00:40:42]
 Oh, yes.
 
 **Geohot** [00:40:43]
 Identical to the ones in C style.
 except that maybe your render D-type thing.
 
-**Wmped** [00:40:51]
+**Wpmed** [00:40:51]
 Yeah.
 Exactly.
 The render D-type.
@@ -779,7 +779,7 @@ It might be mergeable.
 **Geohot** [00:41:18]
 A lot of this char and short stuff, things are generally better to be PM rewrites than to be string rewrites.
 
-**Wmped** [00:41:33]
+**Wpmed** [00:41:33]
 Yeah, I know which ones are you talking about.
 I can move those too.
 
@@ -788,7 +788,7 @@ These hacks for nan is going to make everything so slow.
 You can't, this doesn't work.
 You can't, you're rewriting all multiplies to have a where?
 
-**Wmped** [00:41:51]
+**Wpmed** [00:41:51]
 No, not all, not all, just, just where it's, it's one, just where it's a multiply by select one none and the conditions.
 So just specific for that.
 Not, not all, not all muls.
@@ -804,7 +804,7 @@ Half of me wants to say that TinyGrad just doesn't support Nans and Infinity.
 **Chenyu** [00:42:24]
 That doesn't make sense.
 
-**Wmped** [00:42:27]
+**Wpmed** [00:42:27]
 Yeah, but do you mean for WebGP?
 
 **Geohot** [00:42:32]
@@ -839,7 +839,7 @@ Oh, infinity.
 Yeah, whatever.
 If we can make it work with a bunch of hacks, we make it work with a bunch of hacks.
 
-**Wmped** [00:43:20]
+**Wpmed** [00:43:20]
 I can also like skip infinite and nan tests.
 
 **Geohot** [00:43:25]
@@ -848,7 +848,7 @@ If you could make them work, I'd rather they work.
 alright good.
 There's not too many if webGPUs around here.
 
-**Wmped** [00:43:37]
+**Wpmed** [00:43:37]
 Yeah, no, not.
 So we had one in
 And then init, it got removed with you moved the Dtype to device and that helped a lot with that.
@@ -879,7 +879,7 @@ Actually, wait, you don't even have a sign in your code for op, do you?
 C-style language, I don't think has sign.
 Do you know if sign is actually being written as sign or it's being written as something else?
 
-**Wmped** [00:45:50]
+**Wpmed** [00:45:50]
 A C-style has sign, I think.
 
 **Geohot** [00:45:55]
@@ -896,13 +896,13 @@ I see all the unaries and binaries being skipped.
 But cool.
 I promise you 150 lines for WebGPU.
 
-**Wmped** [00:46:17]
+**Wpmed** [00:46:17]
 Okay.
 
 **Geohot** [00:46:18]
 And we will get.
 
-**Wmped** [00:46:18]
+**Wpmed** [00:46:18]
 Yeah, and I promise you a cleanup and export it to stable diffusion.
 
 **Geohot** [00:46:32]
