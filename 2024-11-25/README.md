@@ -57,9 +57,9 @@
 ### Transcript
 
 **Chenyu** [00:00:00]
-We're going to start.
+We can start.
 Any company update?
-So you post our revenue line on Twitter?
+Saw you post our revenue line on Twitter?
 
 **Geohot** [00:00:11]
 Yeah.
