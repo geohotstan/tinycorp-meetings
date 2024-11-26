@@ -16,56 +16,39 @@
 
 ### Chapters
 
-- **00:00:00 Introductions and Tiny Box Sales Update**
-  Overview of Tiny Box sales, shipping improvements, and agenda.
+- **00:00:00 Introductions and Tiny Box Sales Update** Overview of Tiny Box sales, shipping improvements, and agenda.
 
-- **00:02:48 LLVM Rewrite and Optimization Goals**
-  Geohot discusses LLVM rewrite, PTX optimization bounty, and block structure improvements.
+- **00:02:48 LLVM Rewrite and Optimization Goals** Geohot discusses LLVM rewrite, PTX optimization bounty, and block structure improvements.
 
-- **00:05:48 TinyGrad Cloud Model and GPU Rental Pricing**
-  Introduction of the TinyGrad cloud model and GPU rental pricing structure.
+- **00:05:48 TinyGrad Cloud Model and GPU Rental Pricing** Introduction of the TinyGrad cloud model and GPU rental pricing structure.
 
-- **00:10:21 Stride Optimization and Caching Improvements**
-  Discussion on stride calculation optimizations and caching strategies.
+- **00:10:21 Stride Optimization and Caching Improvements** Discussion on stride calculation optimizations and caching strategies.
 
-- **00:12:34 Hand-Coded vs. BEAM Optimization**
-  Performance comparison of hand-coded optimizations with BEAM timing.
+- **00:12:34 Hand-Coded vs. BEAM Optimization** Performance comparison of hand-coded optimizations with BEAM timing.
 
-- **00:16:29 Release Plans and Python 3.10 Update**
-  Timeline for the upcoming release, QCOM fixes, and Python 3.10 migration.
+- **00:16:29 Release Plans and Python 3.10 Update** Timeline for the upcoming release, QCOM fixes, and Python 3.10 migration.
 
-- **00:17:48 Big Graph and Lazy.py Replacement**
-  Progress on Big Graph and plans to remove Lazy.py for gradient function rewrites.
+- **00:17:48 Big Graph and Lazy.py Replacement** Progress on Big Graph and plans to remove Lazy.py for gradient function rewrites.
 
-- **00:24:51 Driver Issues for AMD and QCOM**
-  Updates on AMD and QCOM driver challenges, including memory and compute queue handling.
+- **00:24:51 Driver Issues for AMD and QCOM** Updates on AMD and QCOM driver challenges, including memory and compute queue handling.
 
-- **00:33:58 WebGPU Development and Cleanup**
-  WebGPU support status, dtype handling, and planned code cleanup.
+- **00:33:58 WebGPU Development and Cleanup** WebGPU support status, dtype handling, and planned code cleanup.
 
-- **00:41:18 Removing ULONG Emulation and NaN Handling**
-  Alternatives to ULONG emulation and NaN handling for streamlined WebGPU performance.
+- **00:41:18 Removing ULONG Emulation and NaN Handling** Alternatives to ULONG emulation and NaN handling for streamlined WebGPU performance.
 
-- **00:46:17 Tiny Box Hardware Plans and Future GPU Integration**
-  Discussion on PCIe5, potential 5090 GPU integration, and power requirements.
+- **00:46:17 Tiny Box Hardware Plans and Future GPU Integration** Discussion on PCIe5, potential 5090 GPU integration, and power requirements.
 
-- **00:55:20 USB to PCIe for AMD GPUs**
-  Exploring USB connections for AMD GPUs in Comma devices and TinyGrad.
+- **00:55:20 USB to PCIe for AMD GPUs** Exploring USB connections for AMD GPUs in Comma devices and TinyGrad.
 
-- **00:59:11 MLPerf Update and Google’s TPU V6**
-  Preview of upcoming MLPerf benchmarks and Google’s latest TPU V6.
+- **00:59:11 MLPerf Update and Google’s TPU V6** Preview of upcoming MLPerf benchmarks and Google’s latest TPU V6.
 
-- **01:01:11 PCIe5 Feasibility and AMD Driver Support**
-  Feasibility of PCIe5, NVMe, and AMD driver support over USB.
+- **01:01:11 PCIe5 Feasibility and AMD Driver Support** Feasibility of PCIe5, NVMe, and AMD driver support over USB.
 
-- **01:11:28 Cloud Access for Tiny Box Users**
-  Demonstration of Tiny Box compatibility with TinyGrad cloud access.
+- **01:11:28 Cloud Access for Tiny Box Users** Demonstration of Tiny Box compatibility with TinyGrad cloud access.
 
-- **01:13:50 TinyGrad Book Idea**
-  Brief discussion on publishing TinyGrad source code as a book.
+- **01:13:50 TinyGrad Book Idea** Brief discussion on publishing TinyGrad source code as a book.
 
-- **01:16:03 TPU Backend Prospects and Final Remarks**
-  Consideration of TPU support for TinyGrad, followed by meeting wrap-up.
+- **01:16:03 TPU Backend Prospects and Final Remarks** Consideration of TPU support for TinyGrad, followed by meeting wrap-up.
 
 
 ### Transcript
