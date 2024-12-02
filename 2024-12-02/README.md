@@ -833,7 +833,7 @@ What was the number?
 No, 7951.
 
 **Geohot** [00:37:59]
-7951, okay.
+[7951](https://github.com/tinygrad/tinygrad/pull/7951), okay.
 
 **Geohot** [00:37:59]
 Ah, TrueTC Swizzle.
