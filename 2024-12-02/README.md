@@ -18,7 +18,7 @@
 
 - **00:00:00 Introductions and NEW TINYCORP EMPLOYEE!!!** New intern Wpmed joins for WEBGPU work.
 
-- **00:01:30 Geohot's WEBGPU Plan** How to prevent "shittification" of the AI internet.
+- **00:01:30 Geohot's WEBGPU Plan** How to prevent "enshittification" of the AI internet.
 
 - **00:05:50 WEBGPU Benchmarks** Plans for WEBGPU performance tracking.
 
@@ -26,7 +26,7 @@
 
 - **00:10:27 LazyBuffer Deletion Challenges** Addressing state sync and JIT issues.
 
-- **00:16:24 Block Linearization Improvements** New block approach. 
+- **00:16:24 Block Linearization Improvements** New block approach.
 
 - **00:17:36 Speed Regression Investigations** Investigating Stable Diffusion slowdowns.
 
@@ -79,7 +79,7 @@ either be cloud or in browsers, right?
 Like it has to be in browser, whether the compute is local or whether the compute is remote.
 I think a key advantage that all the local things have over the remote ones is that once the site's deployed, it just works, right?
 The problem with the remote one is, well, you have to come up with a business model and you're always going to make it shittier, right?
-And shittification comes to everything that has a cloud-based business model.
+And [enshittification](https://en.wikipedia.org/wiki/Enshittification) comes to everything that has a cloud-based business model.
 Think of the Claude or Openai limits.
 And I still believe these companies may be losing money, but it doesn't even matter if they're losing money.
 They could be making more money if they rate limit you harder.
@@ -100,7 +100,7 @@ I'm going to have Docker containers.
 Oh, now I need a DevOps guy.
 Oh, now I'm going to use this, right?
 You're just getting sucked into funnels everywhere to build out these incredibly complex systems.
-But if we can make the system simple and shitification will not happen in the AI space.
+But if we can make the system simple and enshitification will not happen in the AI space.
 And yeah, I think that like, I just posted on Twitter about it.
 Someone suggested we do transcription, we do Whisper.
 I think Whisper is a great application of putting it in the browser, right?
@@ -112,7 +112,7 @@ So yeah, that's why we're excited about WEBGPU.
 That's what we want to do.
 We want to both host, make common models, not host them.
 We're not hosting shit.
-It's all hosted by HuggingFace and GitHub, but make it easy to deploy models to the web in hopes that shitification is prevented.
+It's all hosted by HuggingFace and GitHub, but make it easy to deploy models to the web in hopes that enshitification is prevented.
 And then that's from the consumer side.
 And then from the server side,
 we are going to launch our first test cloud, hopefully in a month or two.
@@ -214,11 +214,11 @@ You say no frozen is faster or frozen is faster?
 
 **Geohot** [00:09:17]
 No frozen is faster.
-frozen is it's all emulated 
+frozen is it's all emulated
 
 **Chenyu** [00:09:23]
 Yeah frozen is emulated by python, so that's slow
- 
+
 **Geohot** [00:09:26]
 yeah yeah um but yeah no i uh i see what you're saying about how like yeah the buffers change for the JIT i updated the JIT test to actually test the JIT properly
 
@@ -263,13 +263,13 @@ Every time you run ExecItems, that's fine.
 
 **Qazalin** [00:11:48]
 I guess that's the only solution, yeah.
-for image um I don't know 
+for image um I don't know
 
 **Geohot** [00:11:59]
-uh the image mutability thing? 
+uh the image mutability thing?
 
 **Qazalin** [00:12:02]
-yeah 
+yeah
 
 **Geohot** [00:12:05]
 yeah I don't know about that either uh I can I can try to look at that one um I mean yeah I that shouldn't have gotten in there we were changing the
@@ -498,7 +498,7 @@ There's a lot of possibilities here.
 
 **Chenyu** [00:22:44]
 Yeah, there are also, yeah, it's another kind of,
-uh what we do in kernels up up now but that applies at the kernel level and I guess we have the blocks in some sense it's like applying to all the codes in that kernel 
+uh what we do in kernels up up now but that applies at the kernel level and I guess we have the blocks in some sense it's like applying to all the codes in that kernel
 
 **Geohot** [00:23:00]
 So my big project back in san diego I had two things to work on san diego uh one is getting the cloud up and the other is rewriting kernel.py
@@ -781,7 +781,7 @@ Tensor cores.
 **Ignaciosica** [00:35:56]
 Hi, hello.
 Last week I fixed the swizzle in the TensorCores, so now it's merging views the correct way.
-And I've been working on... 
+And I've been working on...
 
 **Geohot** [00:36:11]
 Did you get that merged?
