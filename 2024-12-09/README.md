@@ -31,11 +31,11 @@
 - **00:16:00 WebGPU Upgrades**  
   Moving to Dawn for better support and making exports easy for everyone.
 
-- **00:22:28 TensorCore Tweaks & Symbolic Chains**  
-  Improving TensorCore handling and cleaning up symbolic math.
+- **00:22:28 TensorCore Swizzling**  
+  Improving TensorCore handling by swizzling stores.
 
-- **00:33:12 Wrap-Up**  
-  Quick recap and plans for the week ahead.
+- **00:28:31 Symbolic Chains**  
+  Progress on new Symbolic bounty.
 
 ### Transcript
 
@@ -708,7 +708,7 @@ You have to exit and rejoin if you want to talk to him.
 I've been really liking those
 symbolic improvement PR.
 
-** HEADPHONE USERS PLS LOWER VOLUME **
+_HEADPHONE USERS PLS LOWER VOLUME!!!!!_
 
 **Siedslykles** [00:29:15]
 Hello.
