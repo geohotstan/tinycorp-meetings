@@ -1,6 +1,6 @@
 # 2024-12-16 Meeting
 
-### Nugget of weely wisdom from tinycorp meeting
+### Weekly nugget of wisdom from tinycorp meeting
 
 Software engineering is not about writing code.
 Software engineering is about communication.
