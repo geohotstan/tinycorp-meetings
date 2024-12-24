@@ -2,13 +2,14 @@
 
 ### Weekly nugget of wisdom from tinycorp meeting
 
-Software engineering is not about writing code.
-Software engineering is about communication.
-My operating systems professor told me this.
-He's like, George, the point of code is not for a computer.
-The point of code is for a human to read it.
-For the computer, give it machine code.
-But the point of code is to be readable and understandable and make the idea more readable and more understandable.
+_around [00:16:56]_  
+Software engineering is not about writing code.  
+Software engineering is about communication.  
+My operating systems professor told me this.  
+He's like, George, the point of code is not for a computer.  
+The point of code is for a human to read it.  
+For the computer, give it machine code.  
+But the point of code is to be readable and understandable and make the idea more readable and more understandable.  
 
 ### Meeting Agenda
 
