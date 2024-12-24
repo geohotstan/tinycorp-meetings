@@ -395,7 +395,7 @@ So I mark it as ready for review and that's it.
 PR [8292](https://github.com/tinygrad/tinygrad/pull/8292)?
 OK.
 
-**SPEAKER_01** [00:22:23]
+**Ignaciosica** [00:22:23]
 I added a guide to how to reason over the of the tensor cores.
 And as an example, I
 I made a walkthrough in adding tensor cores for TF32, and also the shapes for all the other tensor cores that are supported.
