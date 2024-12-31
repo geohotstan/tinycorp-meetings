@@ -412,7 +412,7 @@ We should figure out why that test is failing and fix that and not just add a co
 But yeah, these are in Chenyu's wheelhouse.  
 Yeah, cool.  
 
-# End of 2024 rant  
+### End of 2024 rant  
 
 That's a good holiday meeting.  
 Great things planned for 2025.  
@@ -543,7 +543,7 @@ Yeah.
 You're going to need to do this for your hardware anyway.  
 And if you can't do it on AMD's hardware, oh, I guess I'll talk about one more thing.  
 
-# CLOUD NEWS  
+### CLOUD NEWS  
 2025 is going to be the year of the TinyGrad Cloud.  
 We currently have people in the factory building nine TinyBox reds for the cloud.  
 And we're going to, these cloud machines are going to be beautiful.  
