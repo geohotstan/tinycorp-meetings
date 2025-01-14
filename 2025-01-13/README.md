@@ -330,7 +330,7 @@ That's my week.
 And we can move on to scheduler.  
 
 **Qazalin** [[00:14:42](https://www.youtube.com/watch?v=Ha4yFviaLps&t=882)]  
-So 8580, I got all the tests to pass, but assign contiguous and image.  
+So [8580](https://github.com/tinygrad/tinygrad/pull/8580), I got all the tests to pass, but assign contiguous and image.  
 And contiguous specifically, the hack we have for force realize.  
 This is constraining the new gradient stuff to merge, but cast before view is completely moved over.  
 It's two lines.  
@@ -731,7 +731,7 @@ And we're two orders of magnitude behind in inference compute now, but if we sti
 So yeah, there's the USB side of things, and then there's kind of the cloud side of things.  
 So we're building right now, we got a shelf in, I'll post some pictures once it's up, but we're building a nine tiny box red test cloud.  
 We're going to have two tiny box pros as like ingestion machines.  
-I posted a picture of the switch on Twitter.  
+I posted a [picture of the switch on Twitter](https://x.com/__tinygrad__/status/1878509277834260789).  
 So yeah, we should really be thinking about these GPU computers as like the dumbest nodes you could imagine.  
 They're just going to sit there, they're going to run some  
 Tiny Linux distribution, and then they're going to run TinyGrad.  
