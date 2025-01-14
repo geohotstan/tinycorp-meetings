@@ -220,7 +220,7 @@ There's a lot of cleanups blocked on that.
 
 **Chenyu** [[00:08:29](https://www.youtube.com/watch?v=Ha4yFviaLps&t=509)]  
 Okay.  
-The next one is about MLPerfBERT.  
+The next one is about MLPerf BERT.  
 Again, we want to make it fast.  
 Deadline is late April.  
 So I fixed the ring all reduce thing, and now it's better tested.  
