@@ -1159,7 +1159,7 @@ And then maybe the last one to talk about is the Tenstorrent backend.
 I haven't put this up before because it used to be a lot of effort to maintain backends, but I think the new webGPU has really shown that things have gotten a lot better and that we can deal with more backends.  
 So if someone writes a Tenstorrent backend, $1,000.  
 And then Corsix, put up an extra $1,000 if someone also gets it to work on Wormhole.  
-So if you can write a Ten's Torrent backend that works on Greyskull and Wormhole, $2,000.  
+So if you can write a Tenstorrent backend that works on Greyskull and Wormhole, $2,000.  
 And these, will they be performance?  
 Or is it just run correctly?  
 Just correctly.  
