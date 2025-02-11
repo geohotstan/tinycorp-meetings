@@ -342,7 +342,7 @@ Can I go and do the multi reduce back to back now?
 Or can I go and do the fuse Arange now?  
 Or should I wait?  
 
-##### **SPEAKER_03** [[00:18:10](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=1090)]  
+##### **Geohot** [[00:18:10](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=1090)]  
 It is a dream.  
 Yeah.  
 I mean, I want to definitely get this kernel stuff done first.  
