@@ -735,15 +735,15 @@ Sounds good.
 Tiny chat browser.
 I don't know if you have permission to talk.
 Who is that?
-Is it Hooped?
+Is it Hooved?
 
 **Geohot** [[00:40:06](https://www.youtube.com/watch?v=IEel2egz8pc&t=2406)]
 What's their Discord name?
-Hooped.
+Hooved.
 Yeah, you want to talk about it?
 You are a speaker now.
 
-**Hooped** [[00:40:33](https://www.youtube.com/watch?v=IEel2egz8pc&t=2433)]
+**Hooved** [[00:40:33](https://www.youtube.com/watch?v=IEel2egz8pc&t=2433)]
 Cool.
 So it's been working on WebGPU for a couple of weeks.
 I just got working on Wasm with Clang today, but it's not hosted yet.
@@ -770,7 +770,7 @@ Work reasonably well.
 Okay.
 Yeah, I made you a blue so you can talk in the channel, too.
 
-**Hooped** [[00:42:31](https://www.youtube.com/watch?v=IEel2egz8pc&t=2551)]
+**Hooved** [[00:42:31](https://www.youtube.com/watch?v=IEel2egz8pc&t=2551)]
 Cool, thanks.
 It's roughly 15 to 20 tokens per second on WebGPU.
 Yeah, I'm on a 3080, so that's probably why.
@@ -786,7 +786,7 @@ Yeah, I mean, I'd expect it to be more than a token per second, right?
 You just take the RAM bandwidth of the system and divide it by the size of what you're accessing.
 I would imagine Clang could find that no problem, unless something else is wrong.
 
-**Hooped** [[00:43:26](https://www.youtube.com/watch?v=IEel2egz8pc&t=2606)]
+**Hooved** [[00:43:26](https://www.youtube.com/watch?v=IEel2egz8pc&t=2606)]
 Yeah, I barely played with it.
 I just got it working.
 I want to just tinker with it.
@@ -795,7 +795,7 @@ I want to just tinker with it.
 Oh, cool.
 Yep, sounds like good progress.
 
-**Hooped** [[00:43:35](https://www.youtube.com/watch?v=IEel2egz8pc&t=2615)]
+**Hooved** [[00:43:35](https://www.youtube.com/watch?v=IEel2egz8pc&t=2615)]
 Thanks.
 
 **Chenyu & Geohot** [[00:43:35](https://www.youtube.com/watch?v=IEel2egz8pc&t=2615)]

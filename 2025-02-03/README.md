@@ -761,7 +761,7 @@ Don't mute it.
 I think that's on you.  
 I mean, you ever heard the speaker role?  
 
-##### **Hooped** [[00:37:53](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2273)]  
+##### **Hooved** [[00:37:53](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2273)]  
 Yeah, my bad.  
 Yeah, so I don't have that much to say beyond my PR message that I posted on Friday.  
 Concerning that, you know, hopefully within a day or so, I want to get it working on my iPhone 15 because that's the only phone I have to test.  
@@ -779,7 +779,7 @@ Yeah, I'm less worried about making float16 work.
 Is the model being cached?  
 Right now when I go back to it, it's redownloading the model.  
 
-##### **Hooped** [[00:39:00](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2340)]  
+##### **Hooved** [[00:39:00](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2340)]  
 That's interesting.  
 It should be cached.  
 I can do some testing there.  
@@ -791,7 +791,7 @@ Different platforms have different policies for indexed DB caching.
 The stable diffusion caches work.  
 This is Chromium on my Mac.  
 
-##### **Hooped** [[00:39:21](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2361)]  
+##### **Hooved** [[00:39:21](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2361)]  
 OK.  
 Yeah, I can look into that.  
 I do have a Mac that I could probably use for testing.  
@@ -809,7 +809,7 @@ I can also test later.
 Cool.  
 And you're waiting for iPhone before you want to start posting this link places and getting feedback and...  
 
-##### **Hooped** [[00:39:57](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2397)]  
+##### **Hooved** [[00:39:57](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2397)]  
 Yeah, just because I only use X on my phone.  
 I bet a lot of people do too.  
 So if someone sees a tweet and they click on it, I want it to be great if it just worked on the phone.  
@@ -821,13 +821,13 @@ Because Clang won't work on phones, I'm pretty sure.
 ##### **Geohot** [[00:40:44](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2444)]  
 Why not?  
 
-##### **Hooped** [[00:40/graph:45](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2445)]  
+##### **Hooved** [[00:40/graph:45](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2445)]  
 OK, so yeah, I posted on there.  
 
 ##### **Geohot** [[00:40:47](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2447)]  
 I saw the stuff about the, yeah.  
 
-##### **Hooped** [[00:40:50](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2450)]  
+##### **Hooved** [[00:40:50](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2450)]  
 I think we can make it work.  
 It's just like right now, it's just I can't allocate one gigabyte byte array, a JavaScript heap array on my browser based on my tests.  
 And that's the main bottleneck is just the token embeddings when they're not quantized.  
@@ -842,7 +842,7 @@ But yeah, it's all doing.
 ##### **Geohot** [[00:41:38](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2498)]  
 The token embedding alone is that large?  
 
-##### **Hooped** [[00:41:41](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2501)]  
+##### **Hooved** [[00:41:41](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2501)]  
 Yeah, yeah.  
 The token embedding in float32 is one gigabyte.  
 
@@ -850,7 +850,7 @@ The token embedding in float32 is one gigabyte.
 whoa okay i didn't realize that yeah i thought you i thought this was just like the whole trying to load the whole thing into one thing and i'm like can't you break it up by tensor but   
 uh yeah we'd have to kind of uh does the i mean this is kind of on the tinygrad side but does quantization work  
 
-##### **Hooped** [[00:42:15](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2535)]  
+##### **Hooved** [[00:42:15](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2535)]  
 I mean, I've quantized everything else.  
 Well, not everything, but the stuff, all the linears in the transformer blocks, because that was already supported out of the box in master branch code.  
 I haven't, I mean, to be clear, where I think Chenyu mentioned before, I'm using Q6K quantized weights and then unpacking them.  
@@ -868,7 +868,7 @@ I'm happy.
 If you get it running on a phone in any way, shape, or form, I'm happy with that.  
 Just something for the future.  
 
-##### **Hooped** [[00:43:24](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2604)]  
+##### **Hooved** [[00:43:24](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2604)]  
 Yeah, one last comment on that.  
 Yeah, so that's what I'll do, just targeting WebGPU.  
 The main reason I don't want to really do that right now is it's not so much because I don't think it can be done.  
