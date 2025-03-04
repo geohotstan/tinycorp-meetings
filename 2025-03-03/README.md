@@ -19,6 +19,20 @@
 
 [Youtube Link](https://www.youtube.com/watch?v=hIWzGyEX2do)
 
+### Highlights
+
+- [Company Update](#geohot-000006) New Hong Kong office from March 10 to April 10. Intel MAX 1450 GPUs are arriving.
+- [Torch Frontend](#geohot-000403) MNIST and ResNet inference work. NanoGPT has a memory leak but is being fixed.
+- [Multi-GPU & Torch Compile](#geohot-000909) Skeleton for Torch Compile exists, needs cleanup. Memory interop for TorchTensor and TinyTensor is merged.
+- [Fast GEMM & Quantized Devec](#geohot-001234) Fast GEMM achieves 40 TFLOPS; quantized devec optimizations improve performance.
+- [BERT & Fused Random](#chenyu-001945) First sub-four-hour BERT run. Working on FUSE_ARANGE to make RAND a single kernel.
+- [Scheduler & Memory Profiling](#qazalin-003415) Merged cast-before-view and fast-viz. Working on caching, profiling expands, and becomes map.
+- [Tenstorrent Backend Bounty](#geohot-001812) Bounty for adding Tenstorrent support with multiple backers.
+- [AMX Tensor Core](#ignaciosica-005304) Refactoring `define_acc`, `load`, and `store` for AMX support.
+- [RetinaNet](#flata-005502) Running on six GPUs, but utilization is low. Evaluating hyper-parameter tuning.
+- [Remove COMGR](#b1tg-010029) LLVM 18/19 backend works, but REMU lacks some instruction support.
+- [TinyChat & WebGPU](#hooved-004819) TinyChat PRs are ready for review.
+
 ### Transcript
 
 ##### **Chenyu** [[00:00:00](https://www.youtube.com/watch?v=hIWzGyEX2do&t=0)]
@@ -719,7 +733,7 @@ OK, let's move on to schedule.
 
 ##### **Qazalin** [[00:34:15](https://www.youtube.com/watch?v=hIWzGyEX2do&t=2055)]
 Right.
-Last week I merged cache-before-view.
+Last week I merged cast-before-view.
 So I think that got some speedups.
 We also have fast-viz now.
 So you can actually like viz the beautiful MNIST and BERT.
