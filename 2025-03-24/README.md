@@ -1,6 +1,6 @@
 # 2025-03-24 Meeting
 
-### Meeting Agenda
+## Meeting Agenda
 
 **Time:** 7am Monday San Diego time (10pm HK time)
 - company update
@@ -15,13 +15,11 @@
 - torch frontend (test_ops, multi gpu training, torch compile)
 - other bounties (AMD llvm backend)
 
-### Audio
+## Audio
 
 [Youtube Link](https://www.youtube.com/watch?v=eH_0eFcxDFA)
 
-### Highlights
-
-## Meeting Highlights (2025-03-24)
+## Highlights
 
 - [Company & GPU Update](#geohot-000004)  
 TinyBox v2 cases shipped, 12x 5090s expected soon. Intel GPU deal abandoned due to product line issues, with focus shifting to AMD and NVIDIA.
@@ -62,7 +60,7 @@ Awaiting fast sync for 8-GPU scaling; BERT/MLPerf submission possible if perform
 - [New Bounty: Fast MoE](#chenyu-005612)  
 $300 for 50%+ theoretical max speed on MoE via kernel fusion/rewrite rules.
 
-### Transcript
+## Transcript
 
 ##### **Chenyu** [[00:00:00](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=0)]
 Start with company updates?
