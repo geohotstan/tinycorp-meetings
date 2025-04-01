@@ -19,6 +19,34 @@
 
 [Youtube Link](https://www.youtube.com/watch?v=7AhKAlaQWNo)
 
+## Highlights
+
+- **[Company Update](#geohot-000004)**: Tiny box V2 green with four 5090s is available for order, shipping in May, priced at $25,000; orders processed based on wire transfer receipt.
+- **[AMD MI300X Support](#geohot-000337)**: First milestone achieved for MI300X support, with ongoing optimization efforts in collaboration with AMD.
+- **[Quantize DSP](#geohot-000415)**: Achieved 10.54 ms inference time on Qualcomm DSP for MobileNet v2, matching SNPE performance, with delivery planned shortly after April 1st.
+- **[Bounties Update](#nimlgen-000809)**: New bounties added: CPU Graph with Clang ($200) and 5090 support in NV backend ($300), listed at bounties.tinygraph.org.
+- **[DSP Graph and Memory Planner](#nimlgen-000809)**: DSP graph implemented with TLSF allocator-based memory planner; potential for further refinement.
+- **[USB GPU Bounty](#nimlgen-001019)**: $300 bounty for PPC90 support, with initial branch work underway.
+- **[CI Stability](#chenyu-001230)**: Addressing AM backend CI hangs by resetting machines and killing Python processes; proposing pre-run Python cleanup.
+- **[BERT Optimization](#chenyu-001523)**: BERT training time reduced to 3-3.5 hours, targeting 2 hours; identified 8% slowdown from dropout randomness for optimization.
+- **[Memory Planner Enhancements](#qazalin-002614)**: Fused conv backwards to cut memory usage, with visible improvements in scheduler channel updates.
+- **[Python Speed Optimization](#geohot-002726)**: Urgent focus on reducing Python execution time, with beautiful MNIST taking 3 seconds on null backend—aiming for 0.1 seconds.
+- **[Indexing and ALU Optimization](#geohot-002029)**: Simplifying indexing and ALU operations for faster, cleaner code, with potential Z3 solver integration.
+- **[Constraint Solver for Optimization](#geohot-002150)**: Suggested using Z3 constraint solver to optimize kernel performance, starting with index checks.
+- **[Scheduler Improvements](#qazalin-002302)**: Added null backend for faster testing (NULL=1) and fixed toposort memory leaks, with regression tests planned.
+- **[Tensor Core Support](#ignaciosica-003030)**: Local memory support added for Tensor Cores; working on rewrite patterns and fixing PTX bugs.
+- **[WebGPU Progress](#hooved-003253)**: Implemented WebGPU GraphRunner, boosting tiny chat performance by 40%; refining export logic for stateful buffers.
+- **[Kernel Graph Renderer](#geohot-004452)**: Proposed JavaScript renderer for kernel graphs to improve visualization, aligning with WebGPU export goals.
+- **[ONNX Float16 Handling](#chenyu-004733)**: Addressing float16 casting inconsistencies to ensure compatibility with key models like comma and top hogging face.
+- **[Torch Frontend Fixes](#chenyu-004900)**: Resolved stride issues and path test failures, nearing completion of Torch frontend integration.
+- **[RetinaNet Training](#flata-005011)**: Achieved 0.3396 accuracy (target 0.34) with batch size increased to 102; eval slowdowns noted for future optimization.
+- **[Multi-GPU Training Progress](#geohot-005511)**: Advancements in multi-GPU training, focusing on test ops and Torch backend integration.
+- **[Cloud=1 Intern](#geohot-005822)**: Cloud=1 intern starting in May to accelerate development efforts.
+- **[Tensor Core Bounty for 9700 XTX](#geohot-005922)**: $150 bounty to fix Tensor Cores on 9700 XTX, deemed an approachable task.
+- **[Linearizer Fixes](#geohot-010013)**: Merged linearizer fixes, but test failures persist; further review needed.
+- **[F8 Support PR](#geohot-010242)**: PR for F8 support (adding two new Dtypes) is ready for merge after review.
+- **[Viz Feature Reversion](#geohot-010351)**: Reverted copy button in Viz to maintain minimalism, favoring intuitive behaviors over added features.
+
 ## Transcript
 
 ##### **Chenyu** [[00:00:00](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=0)]
