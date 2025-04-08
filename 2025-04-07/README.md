@@ -22,7 +22,19 @@
 
 ### Highlights
 
-Coming!
+- **[Company Update](#geohot-000007)**: Tiny Box Green postponed due to evolving tariff situation in the U.S., impacting profitability; options include waiting for tariffs to change or moving production to Hong Kong for free trade benefits.
+- **[Fast Python Project](#geohot-000157)**: Discussion on improving Python code generation (PR 9737) with $3,000 in bounties available, aiming for 4x to 8x speedup by optimizing UPats and reducing function calls.
+- **[Softmax Project](#geohot-000353)**: Geohot plans to create a branch for single kernel Softmax by the end of the week, targeting completion in two weeks with scheduler and codegen enhancements.
+- **[MLPerf Submission Preparation](#chenyu-000503)**: Planning BERT submission by May 2nd, testing on TinyBox Green, TinyBox Red, and 8xMI300x machine; optimizations include reducing setup time from 24 to 18 minutes.
+- **[Grouper Scheduler](#qazalin-000954)**: Qazalin merged grouper.py, separating kernel creation and linearization to improve scheduling, with plans to support Softmax enhancements.
+- **[GPU Development](#nimlgen-001400)**: Challenges with GPU control using NVMe and USB register approaches; shifting to NVMe with firmware updates to address controller resets.
+- **[LDS Progress](#ignaciosica-001852)**: Achieved correctness in local data storage (LDS), with focus on asynchronous load/store optimizations for speed, though small matmuls may not benefit yet.
+- **[ONNX Challenges](#zibokapi-002540)**: Issues with pattern matching for half casts in ONNX and kernel optimizations for OLMOE, with suggestions to check memory access efficiency.
+- **[Model Export and Memory Planner](#hooved-003110)**: Studying memory planner to simplify model export logic, with bounties offered for fixing related bugs and improving buffer handling.
+- **[RetinaNet Training](#flata-003528)**: Successful float16 training run for RetinaNet exceeding 0.34 metric, with plans to optimize eval times and batch sizes for submission.
+- **[Fastdiv and Mod Implementations](#sied-lykles-004017)**: Merged fastdiv for performance gains (e.g., 5% faster Winograd), with $300 bounty offered for Z3 index validation to enhance correctness.
+- **[AMD LLVM Compiler Speed](#b1tg-004617)**: Progress on making AMD LLVM faster than AMD backend for BERT (faster at 2 layers, 2% slower at 24); $250 bounty for 5% faster kernel time in MLPerf submission.
+- **[FP8 Support](#geohot-005503)**: Plans to merge FP8 support after review for correctness, critical for future MLPerf submissions, with testing scheduled for the next day.
 
 ### Transcript
 
