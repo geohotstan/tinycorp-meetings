@@ -31,7 +31,7 @@
 - **[LDS Progress](#ignaciosica-001852)**: Achieved correctness in local data storage (LDS), with focus on asynchronous load/store optimizations for speed, though small matmuls may not benefit yet.
 - **[ONNX Challenges](#zibokapi-002540)**: Issues with pattern matching for half casts in ONNX and kernel optimizations for OLMOE, with suggestions to check memory access efficiency.
 - **[Model Export and Memory Planner](#hooved-003110)**: Studying memory planner to simplify model export logic, with bounties offered for fixing related bugs and improving buffer handling.
-- **[RetinaNet Training](#flata-003528)**: Successful float16 training run for RetinaNet exceeding 0.34 metric, with plans to optimize eval times and batch sizes for submission.
+- **[RetinaNet Training](#flata-003528)**: Successful float16 training run for RetinaNet 0.34 metric, with plans to optimize eval times and batch sizes for submission.
 - **[Fastdiv and Mod Implementations](#sied-lykles-004017)**: Merged fastdiv for performance gains (e.g., 5% faster Winograd), with $300 bounty offered for Z3 index validation to enhance correctness.
 - **[AMD LLVM Compiler Speed](#b1tg-004617)**: Progress on making AMD LLVM faster than AMD backend for BERT (faster at 2 layers, 2% slower at 24); $250 bounty for 5% faster kernel time in MLPerf submission.
 - **[FP8 Support](#geohot-005503)**: Plans to merge FP8 support after review for correctness, critical for future MLPerf submissions, with testing scheduled for the next day.
