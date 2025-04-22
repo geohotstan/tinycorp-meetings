@@ -21,6 +21,8 @@
 
 ### Highlights
 
+- **[NOTE TO TINYGRAD CONTRIBUTORS](#chenyu-004658)**: "empathize with reviewers" or just split PRs up so they're individually easy to click merge
+
 - **[Company Update](#geohot-000006)**: 100 RTX 5090s arriving; TinyBox Green 2 will honor original price for those with wire transfers; a 15% price hike ("Liberation Day tax") expected for late orders.
 
 - **[New Linearizer](#geohot-000107)**: Vastly improved; eliminates while-loop and now supports O(1) graph rewrites; focus shifting to micro-benchmarking UOP creation and toposort performance.
