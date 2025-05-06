@@ -1,6 +1,6 @@
 This repository serves as an archive for weekly meetings held on the [Tinygrad Discord](https://discord.gg/ZjZadyC7PK).  
 
-Meetings are currently Mondays 6:00 AM PST in the `#reds-only-vc` voice channel.  
+Meetings are currently Mondays 9:00 AM PST in the `#reds-only-vc` voice channel.  
 Feel free to join, listen, and ask questions in either `#general` or `#reds-only-vc` chat.  
 Please stay on topic when asking questions though (don't be asking about meme coins for example 😅). 
 
