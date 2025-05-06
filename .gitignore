@@ -3,6 +3,5 @@
 !2024-*/README.md
 
 .DS_Store
+.env
 credentials.json
-records
-

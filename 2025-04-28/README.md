@@ -26,7 +26,7 @@
 - **[MLPerf BERT Progress](#chenyu-000454)**: Green and MI300X runs completed; Red runs pending. Final submission targeted before Chenyu’s flight; driver issues causing NaNs identified as AMD-specific.
 - **[RetinaNet MLPerf Status](#flata-000754)**: Most runs successful after hyperparameter tuning; optimizations reduced tensor transfer time significantly by reassembling tensors on GPU.
 - **[Scheduler Updates](#qazalin-001233)**: Multi-output scheduler refactor nearing merge. Discussions on bugs in FuseKernelSoftmax and binding variables in schedules; bug fixes prioritized over new features.
-- **[Emulator Investigations](#geohot-001300)**: Exploring using an existing RDNA3 emulator rather than maintaining a custom one; potential benefits discussed.
+- **[Emulator Investigations](#geohot-001313)**: Exploring using an existing RDNA3 emulator rather than maintaining a custom one; potential benefits discussed.
 - **[Driver Work and USB GPU](#nimlgen-002324)**: USB GPU support progressing; goal to merge soon, followed by speed optimizations. PSP bypass explored as a potential major speed improvement.
 - **[TensorCore Validation Issues](#ignaciosica-002943)**: Two bugs identified—one from TinyGrad validation assumptions and one possibly from ROCm compiler optimizations (O1 vs O2); plan to isolate and report to AMD.
 - **[WebGPU Graph Work](#hooved-003415)**: WebGPU graph being split for easier merging; broader discussion emphasizing correctness over speed and encouraging usability improvements over complexity.
@@ -37,7 +37,6 @@
 - **[Linearizer and Reduce Bugs](#geohot-005416)**: Linearizer issues from unparented reduces addressed; better structured code reduces need for hacks and fixes subtle symbolic bugs.
 - **[Z3 Dependency Discussion](#geohot-005742)**: Decision to not make Z3 a core dependency unless absolutely necessary; current needs don’t justify it.
 - **[Meeting Time Adjustment](#chenyu-010000)**: Meeting will move two hours later to better accommodate California-based contributors; next week's meeting at 9AM PDT.
-
 
 ### Transcript
 
