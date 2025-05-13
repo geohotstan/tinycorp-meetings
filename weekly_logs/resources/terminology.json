@@ -1,0 +1,55 @@
+{
+  "Tinygrad": [
+    "TinyGrad",
+    "tiny grad",
+    "TinyGrab"
+  ],
+  "wgpu": [
+    "VGPU"
+  ],
+  "UOp": [
+    "uup",
+    "UOP"
+  ],
+  "ExecItems": [
+    "exec items"
+  ],
+  "LazyBuffer": [
+    "lazy buffer"
+  ],
+  "BLAKE3": [
+    "black three",
+    "BLAKE 3",
+    "Blake 3"
+  ],
+  "IOMMU": [
+    "IORMU",
+    "IOMVU"
+  ],
+  "TensorCores": [
+    "TensorFlow course",
+    "TensorFlow"
+  ],
+  "BEAM": [
+    "Beam",
+    "BIM"
+  ],
+  "Tenstorrent":[
+    "10-storrent",
+    "10-story",
+    "Ken Stewart"
+  ],
+  "JIT":[
+    "jet"
+  ],
+  "AST":[
+    "asd"
+  ],
+  "Arange":[
+    "A range"
+  ],
+  "ONNX":[
+    "ANNEX"
+  ]
+
+}

@@ -1,7 +1,18 @@
 # ignore every file in folders except the README
-2024-*/**
-!2024-*/README.md
 
+# System files
 .DS_Store
+
+# Environment and credentials
 .env
 credentials.json
+
+# Media and data files in year-specific folders
+/weekly_logs/202[4-5]/**.json
+/weekly_logs/202[4-5]/**.mp4
+/weekly_logs/202[4-5]/**.wav
+
+# Python cache files
+**/__pycache__/
+*.py[cod]
+*$py.class
