@@ -12,16 +12,17 @@ import shutil
 # TODO THIS IS STILL NOT VERY GOOD. CANNOT RELIABLY ONE SHOT.
 
 # update these
-SPEAKERS = 8
+SPEAKERS = 9
 MEETING_AGENDA = """9am Monday San Diego time
 - company update
-- tinygrad 1.0 plan, speed, lines
-- mlperf ci / div and mod / quantize onnx
+- tenstorrent
+- mlperf ci, sdxl search speed
 - scheduler
 - driver
+- wozeparrot stuff
 - webgpu
 - locals
-- onnx
+- onnx (proto parser), move to tinygrad proper
 - z3 fuzzer
 - other bounties
 """
@@ -70,9 +71,8 @@ def main():
     still_img_path = RESOURCES_PATH / "tiny.jpeg"
     assert still_img_path.exists()
     make_mp4(str(audio_path), str(still_img_path), str(mp4_path))
-    # youtube_url = upload_video(str(mp4_path), f"TINYCORP MEETING {date}", 'github.com/geohotstan/tinycorp-meetings/')
-    # print("youtube_url: ", youtube_url)
-    youtube_url = "https://www.youtube.com/watch?v=gZ6FvO5RYz4"
+    youtube_url = upload_video(str(mp4_path), f"TINYCORP MEETING {date}", 'github.com/geohotstan/tinycorp-meetings/')
+    print("youtube_url: ", youtube_url)
 
     run_whisperx(audio_path, LAST_WEEK_PATH, SPEAKERS)
     with open(LAST_WEEK_PATH / f"{date}.json", "r") as file:
