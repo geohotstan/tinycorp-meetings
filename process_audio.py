@@ -50,16 +50,16 @@ def main():
 
     # Validate date format
     try:
-        datetime.strptime(date, '%Y-%m-%d')
+        date_obj = datetime.strptime(date, '%Y-%m-%d')
     except ValueError:
         print(f"Error: '{date}' must be a valid date in YYYY-MM-DD format")
         sys.exit(1)
 
     # Create the folder with the provided date
-    LAST_WEEK_PATH = WEEKLY_LOG_PATH / date
-    LAST_WEEK_PATH.mkdir(exist_ok=True)
+    LAST_WEEK_PATH = WEEKLY_LOG_PATH / str(date_obj.year) / str(date_obj.month).zfill(2) / str(date_obj.day).zfill(2)
+    LAST_WEEK_PATH.mkdir(parents=True, exist_ok=True)
     # Move audio file to the date folder
-    new_audio_path = LAST_WEEK_PATH / audio_path
+    new_audio_path = LAST_WEEK_PATH / audio_path.name
     try:
         shutil.copy2(audio_path, new_audio_path)
     except OSError as e:
