@@ -243,7 +243,7 @@ def process_pr_data(pull_requests_json, repo_name):
             "closed_at": pr_data['closed_at'],
             "merged_at": pr_data['merged_at'],
             "html_url": pr_data['html_url'],
-            "comments": pr_data['comments'], # Overall comment count on PR
+            "comments": pr_data.get('comments', 0), # Overall comment count on PR
             "body": pr_data.get('body', ''), # Ensure PR body is carried over
         }
 
