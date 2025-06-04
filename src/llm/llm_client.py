@@ -45,7 +45,7 @@ class LLMClient:
 if __name__ == "__main__":
     try:
         client = LLMClient()
-        model_name = "openai/gpt-3.5-turbo"
+        model_name = "deepseek/deepseek-r1-0528:free"
 
         # Example 1: Simple user prompt
         messages_1 = [{"role": "user", "content": "What is the capital of France?"}]

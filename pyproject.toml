@@ -1,0 +1,17 @@
+[project]
+name = "recordings"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "google-api-python-client>=2.171.0",
+    "google-auth-oauthlib>=1.2.2",
+    "parakeet-mlx>=0.3.0",
+    "pygithub>=2.6.1",
+    "requests>=2.32.3",
+    "whisperx>=3.3.4",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
