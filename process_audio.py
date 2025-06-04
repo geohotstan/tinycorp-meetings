@@ -1,15 +1,19 @@
+# TODO THIS IS STILL NOT VERY GOOD. CANNOT RELIABLY ONE SHOT.
 import os
 import sys
 import json
 from pathlib import Path
 from datetime import datetime
-from src.audio_to_video import make_mp4
-from src.upload_youtube import upload_video
-from src.parse_transcript_json import json_to_transcript
-from src.run_transcription import run_whisperx
+from src.transcript_tools.audio_to_video import make_mp4
+from src.transcript_tools.upload_youtube import upload_video
+from src.transcript_tools.parse_transcript_json import json_to_transcript
+from src.transcript_tools.run_transcription import run_whisperx
 import shutil
+from dotenv import load_dotenv
+load_dotenv()
 
-# TODO THIS IS STILL NOT VERY GOOD. CANNOT RELIABLY ONE SHOT.
+HF_TOKEN = os.getenv("HF_TOKEN")
+CLIENT_SECRET_PATH = str(Path(__file__).parent / "client_secrets.json")
 
 # update these
 SPEAKERS = 9
@@ -71,29 +75,29 @@ def main():
     still_img_path = RESOURCES_PATH / "tiny.jpeg"
     assert still_img_path.exists()
     make_mp4(str(audio_path), str(still_img_path), str(mp4_path))
-    youtube_url = upload_video(str(mp4_path), f"TINYCORP MEETING {date}", 'github.com/geohotstan/tinycorp-meetings/')
+    youtube_url = upload_video(str(mp4_path), f"TINYCORP MEETING {date}", 'github.com/geohotstan/tinycorp-meetings/', CLIENT_SECRET_PATH)
     print("youtube_url: ", youtube_url)
 
-    run_whisperx(audio_path, LAST_WEEK_PATH, SPEAKERS)
+    run_whisperx(audio_path, LAST_WEEK_PATH, SPEAKERS, HF_TOKEN)
     with open(LAST_WEEK_PATH / f"{date}.json", "r") as file:
         transcript = json_to_transcript(json.load(file), youtube_url)
 
     # Create the README.md file with the desired content
     readme_content = f"""# {date} Meeting
 
-    ### Meeting Agenda
+### Meeting Agenda
 
-    **Time:** {MEETING_AGENDA}
+**Time:** {MEETING_AGENDA}
 
-    ### Audio
+### Audio
 
-    [Youtube Link]({youtube_url})
+[Youtube Link]({youtube_url})
 
-    ### Highlights
+### Highlights
 
-    ### Transcript
-    {transcript}
-    """
+### Transcript
+{transcript}
+"""
 
     readme_path = LAST_WEEK_PATH / "meeting-transcript.md"
     try:

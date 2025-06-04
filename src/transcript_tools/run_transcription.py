@@ -4,12 +4,9 @@ import os
 import argparse
 import json
 from pathlib import Path
-from dotenv import load_dotenv
-load_dotenv()
 
-HF_TOKEN = os.getenv("HF_TOKEN")
 
-def run_whisperx(audio_path, folder_path, speakers) -> None:
+def run_whisperx(audio_path, folder_path, speakers, HF_TOKEN) -> None:
     whisperx_cmd = [
         "uv", "run", "whisperx",
         str(audio_path),
@@ -37,7 +34,7 @@ def run_whisperx(audio_path, folder_path, speakers) -> None:
         sys.exit(1)
 
 
-def run_parakeet(audio_path, folder_path, speakers):
+def run_parakeet(audio_path, folder_path, speakers, HF_TOKEN):
     from whisperx.diarize import DiarizationPipeline, assign_word_speakers
     input_audio_path = str(audio_path)
     parakeet_cmd = [
@@ -72,6 +69,10 @@ def run_parakeet(audio_path, folder_path, speakers):
 
 
 if __name__ == "__main__":
+    from dotenv import load_dotenv
+    load_dotenv()
+    HF_TOKEN = os.getenv("HF_TOKEN")
+    assert HF_TOKEN is not None
     parser = argparse.ArgumentParser(description='Run WhisperX transcription on audio files')
     parser.add_argument('audio_path', type=str, help='Path to the audio file')
     parser.add_argument('--folder_path', type=str, default=os.getcwd(), help='Output folder path (default: current directory)')
@@ -79,4 +80,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    run_parakeet(args.audio_path, args.folder_path, args.speakers)
+    run_parakeet(args.audio_path, args.folder_path, args.speakers, HF_TOKEN)

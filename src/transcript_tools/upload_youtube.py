@@ -4,13 +4,12 @@ from googleapiclient.http import MediaFileUpload
 import sys
 from pathlib import Path
 
-def upload_video(file, title, description, category="22", privacy="public"):
+def upload_video(file, title, description, client_secret_path, category="22", privacy="public"):
     # Set up YouTube API client
     scopes = ["https://www.googleapis.com/auth/youtube.upload"]
-    client_secrets_file = str(Path(__file__).parent.parent.joinpath("client_secrets.json"))
 
     # Authenticate
-    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(client_secrets_file, scopes)
+    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(client_secret_path, scopes)
     credentials = flow.run_local_server(port=0)
     youtube = googleapiclient.discovery.build("youtube", "v3", credentials=credentials)
 
