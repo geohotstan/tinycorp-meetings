@@ -1,5 +1,6 @@
 import datetime
 import json # Not strictly necessary for this script, but good practice
+import argparse
 
 try:
     import requests
@@ -8,10 +9,21 @@ except ImportError:
     exit()
 
 def main():
-    # Calculate the date for 7 days ago
+    # Set up ArgumentParser
+    parser = argparse.ArgumentParser(description="Fetch GitHub repositories updated recently.")
+    parser.add_argument(
+        '--days',
+        '-d',
+        type=int,
+        default=7,
+        help="Number of days to look back for repository updates (default: 7)"
+    )
+    args = parser.parse_args()
+
+    # Calculate the date for N days ago
     today = datetime.date.today()
-    seven_days_ago = today - datetime.timedelta(days=7)
-    formatted_date = seven_days_ago.strftime('%Y-%m-%d')
+    days_ago_date = today - datetime.timedelta(days=args.days)
+    formatted_date = days_ago_date.strftime('%Y-%m-%d')
 
     # Construct the GitHub API query URL
     base_url = "https://api.github.com/search/repositories"
