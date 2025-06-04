@@ -5,6 +5,9 @@
 
 # Environment and credentials
 .env
+.venv
+.pytest_cache
+uv.lock
 credentials.json
 
 # Python cache files

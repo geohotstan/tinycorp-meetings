@@ -35,54 +35,59 @@ WEEKLY_LOG_PATH = Path(__file__).parent / "last-week-in-tinycorp"
 RESOURCES_PATH = Path(__file__).parent / "resources"
 
 
-def main():
-    # Check if a date is provided
+def parse_arguments():
     if len(sys.argv) < 2:
         print("Usage: python run.py <audio_file>")
         sys.exit(1)
 
-    audio_path = Path(sys.argv[1])
-    date, ext = audio_path.name.split(".")
+    audio_path_arg = Path(sys.argv[1])
+    date, ext = audio_path_arg.name.split(".")
 
-    if not os.path.isfile(audio_path):
-        print(f"Error: Audio file '{audio_path}' not found")
+    if not os.path.isfile(audio_path_arg):
+        print(f"Error: Audio file '{audio_path_arg}' not found")
         sys.exit(1)
 
     if ext != "wav":
-        print(f"Error: Audio file '{audio_path}' is not a wav file")
+        print(f"Error: Audio file '{audio_path_arg}' is not a wav file")
         sys.exit(1)
 
-    # Validate date format
     try:
         datetime.strptime(date, '%Y-%m-%d')
     except ValueError:
         print(f"Error: '{date}' must be a valid date in YYYY-MM-DD format")
         sys.exit(1)
 
-    # Create the folder with the provided date
-    LAST_WEEK_PATH = WEEKLY_LOG_PATH / date
-    LAST_WEEK_PATH.mkdir(exist_ok=True)
-    # Move audio file to the date folder
-    new_audio_path = LAST_WEEK_PATH / audio_path
+    return audio_path_arg, date
+
+
+def setup_paths_and_folders(audio_path_arg, date):
+    last_week_path = WEEKLY_LOG_PATH / date
+    last_week_path.mkdir(exist_ok=True)
+
+    new_audio_path = last_week_path / audio_path_arg.name
     try:
-        shutil.copy2(audio_path, new_audio_path)
+        shutil.copy2(audio_path_arg, new_audio_path)
     except OSError as e:
         print(f"Error copying audio file to '{new_audio_path}': {e}")
         sys.exit(1)
-    audio_path = str(new_audio_path)
 
-    mp4_path = LAST_WEEK_PATH / f"{date}.mp4"
+    return str(new_audio_path), last_week_path
+
+
+def process_audio_and_video(audio_path, date, last_week_path):
+    mp4_path = last_week_path / f"{date}.mp4"
     still_img_path = RESOURCES_PATH / "tiny.jpeg"
     assert still_img_path.exists()
     make_mp4(str(audio_path), str(still_img_path), str(mp4_path))
     youtube_url = upload_video(str(mp4_path), f"TINYCORP MEETING {date}", 'github.com/geohotstan/tinycorp-meetings/', CLIENT_SECRET_PATH)
-    print("youtube_url: ", youtube_url)
+    return youtube_url
 
-    run_whisperx(audio_path, LAST_WEEK_PATH, SPEAKERS, HF_TOKEN)
-    with open(LAST_WEEK_PATH / f"{date}.json", "r") as file:
+
+def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url):
+    run_whisperx(audio_path, last_week_path, SPEAKERS, HF_TOKEN)
+    with open(last_week_path / f"{date}.json", "r") as file:
         transcript = json_to_transcript(json.load(file), youtube_url)
 
-    # Create the README.md file with the desired content
     readme_content = f"""# {date} Meeting
 
 ### Meeting Agenda
@@ -99,13 +104,21 @@ def main():
 {transcript}
 """
 
-    readme_path = LAST_WEEK_PATH / "meeting-transcript.md"
+    readme_path = last_week_path / "meeting-transcript.md"
     try:
         with open(readme_path, 'w') as f:
             f.write(readme_content)
     except IOError as e:
         print(f"Error writing to '{readme_path}': {e}")
         sys.exit(1)
+
+
+def main():
+    audio_path_arg, date = parse_arguments()
+    audio_path, last_week_path = setup_paths_and_folders(audio_path_arg, date)
+    youtube_url = process_audio_and_video(audio_path, date, last_week_path)
+    print(f"{youtube_url=}")
+    transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url)
 
 if __name__ == "__main__":
     main()
