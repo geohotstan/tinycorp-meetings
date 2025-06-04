@@ -80,7 +80,6 @@ def process_audio_and_video(audio_path, date, last_week_path):
     assert still_img_path.exists()
     make_mp4(str(audio_path), str(still_img_path), str(mp4_path))
     youtube_url = upload_video(str(mp4_path), f"TINYCORP MEETING {date}", 'github.com/geohotstan/tinycorp-meetings/', CLIENT_SECRET_PATH)
-    print("youtube_url: ", youtube_url)
     return youtube_url
 
 
@@ -118,6 +117,7 @@ def main():
     audio_path_arg, date = parse_arguments()
     audio_path, last_week_path = setup_paths_and_folders(audio_path_arg, date)
     youtube_url = process_audio_and_video(audio_path, date, last_week_path)
+    print(f"{youtube_url=}")
     transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url)
 
 if __name__ == "__main__":
