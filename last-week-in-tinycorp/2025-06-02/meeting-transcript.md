@@ -435,7 +435,7 @@ Chenyu: PADDING is wrong.
 
 ##### **Chenyu** [[00:26:22](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1582)]
 So I saw you post a pretty good looking graph in the Viz channel.
-Do you intend to as well?![that image](image.webp)
+Do you intend to as well?
 
 ##### **Ignaciosica** [[00:26:30](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1590)]
 Yeah, that's what the draft PR I was talking to I was going to do later today.
