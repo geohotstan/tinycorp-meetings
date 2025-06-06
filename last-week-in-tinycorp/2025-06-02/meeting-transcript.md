@@ -42,12 +42,12 @@
 Let's get started.
 Company update.
 I don't have anything to update.
-Do you know anything about Tinybox?
-I also don't know if Woz is there.
+Woze do you know anything about Tinybox?
+I also don't know if Woze is there.
 
 ##### **Chenyu** [[00:00:26](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=26)]
 Let's skip the company update unless any of you
-If those insiders have any more info, my understanding is we are shipping boxes, and we got more orders of new boxes.
+insiders have any more info, my understanding is we are shipping boxes, and we got more orders of new boxes.
 So that should be good.
 And I am flying to San Diego later this week.
 We'll have in-person sessions to discuss Tinycorp and Tinygrad stuff.
@@ -58,9 +58,9 @@ Hello?
 Can you hear me?
 Yes.
 Did you say something?
-Oh, yeah, no, just about the tiny boxes.
 
 ##### **Geohot** [[00:01:11](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=71)]
+Oh, yeah, no, just about the tiny boxes.
 They're shipping.
 Things are good.
 And I had a few good email exchanges with AMD last week.
@@ -76,16 +76,16 @@ Since they made a submission and they are really looking to drive the numbers do
 Our time is May, so there's that.
 And I have moved the... So there are two benchmark jobs running about MLPerf.
 One is ResNet running on Red Machine.
-And I also have another job that runs the stable diffusion Excel.
+And I also have another job that runs the stable diffusion XL.
 The ResNet job is running daily every day now.
 And so far it's a mix of, I think the successful rate is like 30%.
 And we will talk more in the next point.
-I want to discuss about the stability of RCI now.
+I want to discuss about the stability of our CI now.
 And the other one I really want to also make a Chrome job is the stable diffusion XL one.
 For some reason, the GitHub action is constantly slower than if I just run the job on the real machine, and I really don't know why.
 
 ##### **Chenyu** [[00:03:07](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=187)]
-After, oh, I mean, I can post what I have, but I don't have other.
+After, oh, I mean, I can post what I have now, but I don't have other.
 
 ##### **Chenyu** [[00:03:15](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=195)]
 Attempts to make it comparable.
@@ -100,7 +100,7 @@ But speaking of the CI stability, if you go to Tinygrad GitHub page and check th
 So I think one is the green machines.
 One green machine is weird and consistently go out of memory.
 And there are all sorts of issues with red machines that I just complained in the AMD channel.
-I still believe there are issues with AM drivers.
+I still believe there are 8 issues with AM drivers.
 Maybe we can talk more when we move on to the driver section.
 But I think we discussed about a lot of driving Tinygrad adoptions.
 I think ML training is one thing.
@@ -128,37 +128,35 @@ Basically, reordering the G-barriers.
 There is a final regression in OpenPilot.
 I need to investigate.
 I'm happy about that.
-You are being cut.
-I cannot quite hear you.
+Chenyu: You are being cut.I cannot quite hear you.
 Is it good now?
-Yes, maybe.
-I heard something about open pilot regression is the last thing.
-It is the last blocker, yeah.
+Chenyu: Yes, maybe.
+Chenyu: I heard something about open pilot regression is the last thing.
+Chenyu: It is the last blocker, yeah.
 I'm just going to move a bunch of stuff.
-The blocker for enabling what?
+CHneyu: The blocker for enabling what?
 Just refactoring Fusion.
 The thing that decides which intermediates to realize is this custom thing that has existed as long as the scheduler was a concept.
 So it's the oldest part of the scheduler that I need to rip out and make it modern.
-Sounds good.
-And I was not sure, but I guess nothing new for the Qualcomm.
+Chenyu: Ok,Sounds good.
+Chenyu: And I was not sure, but I guess nothing new for the Qualcomm.
 No.
-Okay.
-Okay, no problem.
+Chenyu: Okay.Okay, no problem.
 Let's move on to driver.
 
 ##### **Nimlgen** [[00:08:14](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=494)]
 Yeah, so I suppose, yes, stability, I think.
 Yeah.
-You reported several
-So, actually, I mean, the page files are, actually, I mean, like, for the half of the year, we've never seen page files in EM related to EM.
+You reported several bugs about llama and like
+So, actually, I mean, the page files are, actually, I mean, like, for the half of the year, we've never seen page files in AM related to AM.
 So, I think that the page files which are reported as page files are
 Kernel page files.
-And we had some tooling to repro these kernels, like beam kernels in heap or AMD, but it was ripped off.
+And we had some tooling to repro these kernels, like beamed kernels in heap or AMD, but it was ripped off.
 
 ##### **Chenyu** [[00:09:09](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=549)]
 Yeah, so I think in terms of usability, I'm fine trying all these stuff.
 And I mean, if reporting these as a specific issue helps you try out the issue, I'm happy to do that.
-For me, it's more of a, I have seen three, four different kinds of valuers.
+For me, it's more of a, I have seen three, four different kinds of failures.
 And other than retrying stuff, I have no way to really understand what's happening.
 And that makes it pretty hard.
 So I don't know if you have any suggestions.
@@ -171,9 +169,9 @@ Generally, I mean,
 Yeah, okay, yeah, I'll think about that.
 So, and the issue, I think, with NAN issues in BERT we had, and this ResNet issue today.
 So, yeah, I think it looks like they are really like AM related, and it might be the, like, we have two differences in AM comparing to the AMD driver.
-Uh, first is like the, that we just reproved the mess.
+Uh, first is like the, that we just ripped off the mess.
 And the second one is like the location of our cues, because I mean, we use cues.
-We shall store it on like cues, uh, on a Yammer stored on the device and AMD stores them in system memory.
+We shall store it on like cues, uh, on AM is stored on the device and AMD stores them in system memory.
 So that's actually the different because they, it's just completely different path with
 Interrupts and so on.
 I mean, in our case.
@@ -182,7 +180,7 @@ Yeah, and we need to test that and maybe match AMD here.
 
 ##### **Chenyu** [[00:11:16](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=676)]
 Yeah, I think this should be a priority because value error is kind of very hard to detect.
-I mean, sure here we are lucky because if it's NAND during training, or if it's like completely garbage value, it's very easy to tell, but it's also likely like this can be silent and something just slightly go wrong.
+I mean, sure here we are lucky because if it's NAN during training, or if it's like completely garbage value, it's very easy to tell, but it's also likely like this can be silent and something just slightly go wrong.
 And that's really bad because it's very hard for user to tell.
 
 ##### **Nimlgen** [[00:11:46](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=706)]
@@ -197,14 +195,14 @@ So that's even worse, because it's even harder to reproduce.
 But then I still think it's important, and we should find a way to figure it out.
 
 ##### **Nimlgen** [[00:12:25](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=745)]
-Yeah, and I think that's the EM issue and not the graph issue because I've seen some crashes like on the second step and it's not jitted.
+Yeah, and I think that's the AM issue and not the graph issue because I've seen some crashes like on the second step and it's not jitted.
 So yeah, it should be some same case here.
 Yeah, I'll try to, yeah, I'll switch to, I'll switch cues to system memory and we'll see if it's better.
 
 ##### **Chenyu** [[00:12:53](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=773)]
 Yeah, I mean, if you have candidate fix, we can definitely enable those on our CI job to see if it's better.
 Because this is kind of a subtle fix.
-So maybe our best strategy is to enable that on the Chrome job.
+So maybe our best strategy is to enable that on the Cron job.
 And it's probably fine to make it
 Since we have one more machine now, I think it's fine to make it run maybe twice a day or something and see if the fix is more stable.
 Maybe that's the best we can do.
@@ -219,12 +217,10 @@ Yeah, so for NVIDIA, I got some RPC messages.
 So yes, I'm talking with the Falcon CPU.
 So yeah, it's still not done.
 I mean, all this virtual memory, and yeah, it's a to-do.
-
-##### **Chenyu** [[00:14:15](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=855)]
-I'll do this this week.
+I'll do this, this week.
 
 ##### **Nimlgen** [[00:14:25](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=865)]
-Actually, you said that you've seen some problems around ResNet on 5090s.
+Actually, Woze you said that you've seen some problems around ResNet on 5090s.
 I don't know.
 I just tried to report this on the single 5090.
 Like with Beam and just, it was fine.
@@ -234,9 +230,9 @@ So if you have any details, it would be good to know.
 Oh, I didn't test on 5090.
 Was that from George?
 
-##### **Chenyu** [[00:14:55](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=895)]
-No, both said that.
-That was from me.
+##### **Nimlgen & Wozeparrot** [[00:14:55](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=895)]
+Nimlgen: No, Woze said that.
+Woze: That was from me.
 Unfortunately, I don't know if I have logs for it.
 It was on the machine.
 It was on that Tinybox V2 that was going out to people that don't have logs on this.
@@ -246,47 +242,46 @@ If I ever reproduce it on another one, I can send you logs.
 Yeah, it would be great.
 Actually, I mean, there should be some problematic kernel like we hit during Beam.
 
-##### **Chenyu** [[00:15:32](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=932)]
+##### **Wozeparrot & Chenyu** [[00:15:32](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=932)]
 Yeah, I'm assuming it's that.
-OK.
-I think we can try it.
+Chenyu: OK.
+Chenyu: I think we can try it.
 
 ##### **Chenyu** [[00:15:42](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=942)]
 I think maybe we should start to create more concrete issues for these.
 So we have something to track and something to make sure we are improving on this front.
 By the way, so what's the, do we run anything MLPerf for the new TinyBox v2 before leadership?
 
-##### **Chenyu** [[00:16:07](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=967)]
+##### **Wozeparrot** [[00:16:07](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=967)]
 It's the same as Tinybox v1.
 We still do a ResNet training run, the same provisioning stack.
 
 ##### **Chenyu** [[00:16:14](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=974)]
 I assume it doesn't.
-But it's for GPU now.
+But it's 4 GPUs now.
 So did you change batch size or something?
 
-##### **Chenyu** [[00:16:22](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=982)]
+##### **Wozeparrot** [[00:16:22](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=982)]
 No.
 It's mostly same settings.
-Oh, it's for GPU?
-Yeah.
-How do you do that?
+Chenyu: With 4 GPUs?
+Wozeparrot: Yeah.
+Chenyu: How do you do that?
 
 ##### **Chenyu** [[00:16:30](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=990)]
 Same batch size?
 I mean, it's probably divided by 4, but OK.
 
-##### **Chenyu & Wozeparrot** [[00:16:33](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=993)]
-Yeah, it just provides a 4.
-OK, great.
-Cool.
+##### **Chenyu, Wozeparrot & Nimlgen** [[00:16:33](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=993)]
+Wozeparrot: Yeah, it just provides a 4.
+Chenyu: OK, great.Cool.
 Anything else for driver?
-No.
-OK.
-OK, moving to your stuff.
-I think Leo is doing pretty good for hashing.
-Making decent progress.
-So I think we're just we'll be good on that.
+Nimlgen: No.
+Chenyu: OK.
+Chenyu: OK, moving to Wozeparrot your stuff.
+Wozeparrot: I think [Leopf](https://github.com/tinygrad/tinygrad/pull/7186) is doing pretty good for hashing.
+Chenyu: Did you merge that?
+Wozeparrot: Making decent progress. So I think we're just we'll be good on that.
 Then I have a PR open.
 
 ##### **Wozeparrot** [[00:17:18](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1038)]
@@ -300,9 +295,9 @@ Not entirely sure how we want to do this because the current way is I'm fetching
 ##### **Wozeparrot** [[00:17:43](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1063)]
 But that means that you can't switch which compiler you're using on your host machine.
 
-##### **Chenyu** [[00:17:52](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1072)]
-Does that make sense?
-Not really.
+##### **Wozeparrot & Chenyu** [[00:17:52](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1072)]
+Wozeparrot: Does that make sense?
+Chenyu: Not really.
 
 ##### **Chenyu** [[00:17:57](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1077)]
 Can you describe how this is supposed to be used?
@@ -317,85 +312,79 @@ The main problem with the way it's currently set up is if you set, you have to s
 That's weird.
 Okay.
 
-##### **Wozeparrot** [[00:18:34](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1114)]
-So I guess the final goal is we have a local compile or maybe an instance that's specifically used for a compile.
-Then after a compile, it sends the exact item to remote, and it runs on remote?
-Yeah.
-Yeah.
-And so what makes this PR janky?
+##### **Chenyu & Wozeparrot** [[00:18:34](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1114)]
+Chenyu: So I guess the final goal is we have a local compile or maybe an instance that's specifically used for a compile.
+Chenyu: Then after a compile, it sends the exact item to remote, and it runs on remote?
+Wozeparrot: Yeah.Yeah.
+Chenyu: Ok. And so what makes this PR janky?
 
-##### **Chenyu** [[00:18:59](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1139)]
-Mainly just the thing where it fetches the compiler from the remote.
-Oh, because you don't really want or need the compilers from remote.
-You want the compiler on host.
-Yes.
-I don't know.
-So maybe it's fine.
+##### **Wozeparrot & Chenyu** [[00:18:59](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1139)]
+Wozeparrot: Mainly just the thing where it fetches the compiler from the remote.
+Chenyu: Oh, because you don't really want or need the compilers from remote.
+Chenyu: You want the compiler on host.
+Wozeparrot: Yes.
+Chneyu: I don't know. So maybe it's fine.
 
-##### **Wozeparrot** [[00:19:24](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1164)]
+##### **Chenyu** [[00:19:24](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1164)]
 This sounds like something I can use a document or something to say what we want to do.
 
-##### **Chenyu** [[00:19:33](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1173)]
+##### **Wozeparrot** [[00:19:33](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1173)]
 Yeah.
 
-##### **Wozeparrot** [[00:19:36](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1176)]
+##### **Chenyu** [[00:19:36](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1176)]
 Because I don't know if there are alternative considerations here, right?
 
-##### **Chenyu** [[00:19:42](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1182)]
+##### **Wozeparrot** [[00:19:42](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1182)]
 Yeah.
 
-##### **Wozeparrot** [[00:19:44](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1184)]
+##### **Chenyu** [[00:19:44](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1184)]
 If you don't ever really need a compiler on remote, then I don't see this as, this cannot be the only way to do it, right?
 You have compilers run your host, you will use that.
 Maybe you have more explicitly specific, you can specify like which compiler you use, something like that.
 I don't really know.
 
-##### **Chenyu** [[00:20:07](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1207)]
-That's the main problem with this is that you can't specify which compiler you use on your host.
-Because it always fetches it from the remote.
-I don't know.
-That sounds something like, how do you do multiple remote?
-Yeah, that's the other thing.
-OK.
-I really do listen to that.
+##### **Wozeparrot & Chenyu** [[00:20:07](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1207)]
+Wozeparrot: That's the main problem with this is that you can't specify which compiler you use on your host.
+Wozeparrot: Because it always fetches it from the remote.
+Chenyu: I don't know.That sounds something like, how do you do multiple remote?
+Wozeparrot: Yeah, that's the other thing.
+Chenyu: OK. I really do listen to that.
 
-##### **Chenyu** [[00:20:33](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1233)]
-I'm from multi-GPU and remote.
-UVN has pretty good stuff on that.
-Yeah, but that's one remote there.
-Yeah, I feel this can use at least a little bit of write-up to say what was considered before we know if this is good or bad.
-Because just by the way you describe it, it doesn't sound like the best design.
-But if you tell me this is the easiest way, I don't know.
-I think this can use a little bit of write-up.
-OK.
-OK, let's write a little bit of this and maybe just I don't I don't know what you intend to run after this is done.
-Do we have like some testing stuff?
+##### **Wozeparrot** [[00:20:33](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1233)]
+Wozeparrot: This feels fine multi-GPU and remote.Uuuvn has pretty good stuff on that.
+Chenyu: Yeah, but that's one remote there.
+Chenyu: Yeah, I feel this can use at least a little bit of write-up to say what was considered before we know if this is good or bad.
+Chenyu: Because just by the way you describe it, it doesn't sound like the best design.
+Wozeparrot: Yeah
+Chenyu: But if you tell me this is the easiest way, I don't know.I think this can use a little bit of write-up.
+Wozeparrot: OK.
+Chenyu: OK, let's write a little bit of this and maybe just I don't I don't know what you intend to run after this is done.
+Chenyu: Do we have like some testing stuff?
 
-##### **Chenyu** [[00:21:28](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1288)]
-Things you want to test?
-Yeah.
-Not entirely sure yet.
-We have some remote tests in CI.
-Could I just start off with that?
+##### **Chenyu & Wozeparrot** [[00:21:28](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1288)]
+Chenyu: Things you want to test?
+Wozeparrot: Yeah.Not entirely sure yet.
+Wozeparrot: We have some remote tests in CI.
+Wozeparrot: Could I just start off with that?
 
 ##### **Chenyu** [[00:21:45](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1305)]
 I don't know if this is related.
 I'll figure it out later this week.
-But I really want to look into running AMs inference.
+But I really want to look into running llamas inference.
 So we should be able to have, like, taking their model maybe in ONNX form and run something like a remote.
 I don't really know.
 But I want to.
-For 1.2 drive adoption of Tinygrad, we definitely did that for Kalmas on-device inference.
+For one part drive adoption of Tinygrad, we definitely did that for [Comma's](comma.ai) on-device inference.
 And the next step is probably their model roll-up and stuff.
-So that's something I really look into.
+So that's something I'll really look into.
 
-##### **Chenyu** [[00:22:26](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1346)]
-Maybe that's related to the remote setup and what we can use.
-Yeah.
-Oh, great, since we talk about
+##### **Chenyu & Wozeparrot** [[00:22:26](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1346)]
+Chenyu: Maybe that's related to the remote setup and what we can use.
+Wozeparrot: Yeah.
+Chenyu: Oh, great, since we talk about
 
 ##### **Chenyu** [[00:22:40](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1360)]
-Running Commerce ONNX module, we can move on to ONNX.
+Running Comma's ONNX module, we can move on to ONNX.
 So ONNX I think has two parts.
 The first is the ONNX protobuf thing.
 See B1TG is here.
@@ -410,21 +399,21 @@ Yes, I didn't reproduce it with a VM or GPU backend, so maybe I can get access t
 
 ##### **Chenyu** [[00:23:33](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1413)]
 After the meeting, I will make sure you have access to a Qualcomm machine.
-I think once that is resolved, we should be able to merge Lab PR.
-And I believe that will greatly simplify the moving on X to Tinygrad proper.
+I think once that is resolved, we should be able to merge that PR.
+And I believe that will greatly simplify the moving ONNX to Tinygrad proper.
 
 ##### **Chenyu** [[00:23:53](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1433)]
-I think that's people copy.
-Do you have anything to add to that?
+I think that's it.
+Zibokapi, do you have anything to add to that?
 
 ##### **Chenyu** [[00:24:11](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1451)]
-OK, yeah, so I think that's another part that we want to focus soonish.
+OK, yeah, so I think that's another part that we want to focus like soonish.
 Using ONNX as a front end, importing ONNX, running the model should be straightforward.
 And similar in that spirit, we add the protocol parser.
 We implement the ONNX ops.
 Things like that hopefully should move more after we have done these two parts.
-And we should try to really run those Annex CI tests running various different models, trying to make sure they're all run correctly.
-OK, here UVM said something, something will be done soonish.
+And we should try to really run those ONNX CI tests running various different models, trying to make sure they're all run correctly.
+OK, here Uuuvn said something, something will be done soonish.
 
 ##### **Chenyu** [[00:25:13](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1513)]
 With that, I'll move on to local.
@@ -437,12 +426,12 @@ So that's fixed.
 So the state of the PR, it's basically the same as it's been for the past weeks.
 The only thing that's blocking it right now, I think it's that it doesn't work with padding.
 And I think there's no reason why it should be.
-And that's why I started to work on the for the layout, because it might help me figure out what's going on.
+And that's why I started to work on the base for the layout, because it might help me figure out what's going on.
 So yeah.
 
-##### **Chenyu** [[00:26:13](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1573)]
-That's progress.
-PADDING is wrong.
+##### **Ignaciosica & Chenyu** [[00:26:13](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1573)]
+Ignaciosica: That's progress.
+Chenyu: PADDING is wrong.
 
 ##### **Chenyu** [[00:26:22](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1582)]
 So I saw you post a pretty good looking graph in the Viz channel.
@@ -460,7 +449,7 @@ So that's it.
 
 ##### **Chenyu** [[00:27:07](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1627)]
 I think the idea is we want these tools if it helps you during development.
-I think being able to see the tile and being able to see the layouts definitely help with TensorFlow core stuff.
+I think being able to see the tile and being able to see the layouts definitely help with Tensor core stuff.
 So I think the idea is if it helps you, then find a way to make it maybe even a standalone script or something, like being able to generate graph
 Graphics like this is already pretty helpful in some cases.
 But even if it's not fully upstream, I think this would be a benefit.
@@ -481,10 +470,9 @@ If there's an easy way to print it as a script, I think it will already be helpf
 Yeah, yeah.
 
 ##### **Chenyu** [[00:28:21](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1701)]
-Great.
-Thank you.
-It looks pretty nice.
-Okay, moving on to WebGPU.
+Ignaciosica: Great.Thank you.
+Chenyu: It looks pretty nice.
+Chenyu: Okay, moving on to WebGPU.
 
 ##### **Hooved** [[00:28:36](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1716)]
 So I have a new PR open that's ready for review on refactored JIT capture.
@@ -636,10 +624,12 @@ You know that there was a change before and after you called the function where 
 And then you're assigning to it within the function.
 And afterwards, that tensor now exists with a new lazy data graph that's different than it originally was.
 And so you detect that change.
+Because you now the UOps have different memory address for lazy data before and after.
+And so.
+
+##### **Geohot** [[00:40:17](https://youtu.be/xyn3mZGiXd8?t=2417)]
 I'll stop you here if you're thinking about looking at the tensor graph.
 How does a sign behave differently from replace?
-
-##### **Geohot** [[00:40:39](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2439)]
 If you look at what Replace does, Replace replaces the lazy data in a tensor.
 What happens if you do Replace inside of a JIT?
 This is what I mean about all these things.
@@ -649,16 +639,15 @@ So from what I got from what you were saying is you're saying that you want to b
 ##### **Hooved** [[00:41:18](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2478)]
 Yeah.
 
-##### **Chenyu** [[00:41:20](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2480)]
+##### **Geohot** [[00:41:20](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2480)]
 Okay.
-Does a sign mutate the tensor?
-Um...
+Does assign mutate the tensor?
 
 ##### **Hooved** [[00:41:31](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2491)]
-I think so.
+Um...I think so.
 Yeah, tensor.assign, it calls uop.assign and doesn't assign, you know, inserts and assigns.
 
-##### **Chenyu** [[00:41:40](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2500)]
+##### **Geohot** [[00:41:40](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2500)]
 And that mutates the tensor?
 
 ##### **Hooved** [[00:41:47](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2507)]
@@ -676,14 +665,14 @@ Yeah, I mean, replace and assign both change lazy data that they're called on, I
 So the current implement, I mean, both of those things result in tensor lazy data changing.
 So not that I'm too attached to the current approach, but the current approach detects both of those things.
 
-##### **Chenyu** [[00:42:23](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2543)]
+##### **Geohot** [[00:42:23](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2543)]
 But should it detect or replace?
 
 ##### **Hooved** [[00:42:26](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2546)]
 Should it detect or replace?
 Is that your question?
 
-##### **Chenyu** [[00:42:29](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2549)]
+##### **Geohot** [[00:42:29](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2549)]
 Yes.
 
 ##### **Hooved** [[00:42:32](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2552)]
@@ -734,8 +723,6 @@ Do the behaviors differ?
 I think the truth is we don't even really know what the behavior of V1 is.
 This stuff kind of evolved organically.
 So yeah, I mean, I think that the direction here is much more to document, okay, this is exactly what this behavior is.
-
-##### **Chenyu** [[00:46:06](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2766)]
 And then after it's documented, we can decide whether we want it or we don't want it.
 
 ##### **Hooved** [[00:46:16](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2776)]
@@ -743,7 +730,7 @@ OK, so in terms of next steps, like trying to keep this organized.
 
 ##### **Chenyu** [[00:46:28](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2788)]
 My suggestion would be to make some progress would be
-So for legit parts, understand what current behavior is and document it.
+So for JIT parts, understand what current behavior is and document it.
 And document is almost best done by writing a test to test the same behavior.
 Then from the WebGPU export part, I think it's useful to, you can start to add tests like you believe should pass.
 And maybe it's not currently passed to the codebase.
@@ -792,17 +779,15 @@ It's not about whether it changes.
 It's about building on a foundation that's going to be ripped out.
 And then we have to carefully put supports up to hold up each piece of that thing while we rip the foundation out.
 And it makes the foundation
-
-##### **Chenyu** [[00:50:27](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3027)]
 Replacement project, more expensive.
-So far, what we have gotten from this process is we know how hard it is.
 
-##### **Chenyu** [[00:50:44](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3044)]
+##### **Chenyu** [[00:50:34](https://youtu.be/xyn3mZGiXd8?t=3040)]
+So far, what we have gotten from this process is we know how hard it is.
 And I guess we promised you that this would be good in a few months.
 And if you are interested, feel free to tackle this problem, continue working on the problem.
 Otherwise, I think just document what needs to be done for you to add web GPU export.
 And we will think about how to work on it.
-But as Roger said, I think the best I can put is we are not ready for it.
+But as George said, I think the best I can put is we are not ready for it.
 So we really want to be ready for it.
 Unfortunately, we are not yet.
 
@@ -836,12 +821,12 @@ I can try to tackle that and see if it'll work.
 I can start researching.
 What I will say about,
 What I will say about this project is you will learn a lot doing it, and there is no easy solution to this.
-It's just like, okay, what do we do about realizes and chits?
+It's just like, okay, what do we do about realizes and JITs?
 Is this approach of using the all tensors thing good?
 I'm worried about that, right?
 You have this thing where you take all tensors before and all tensors after.
 Well, which tensors can change?
-Maybe the right thing to do is to hook a sign, but I'm not sure that's the right thing to do.
+Maybe the right thing to do is to hook assign, but I'm not sure that's the right thing to do.
 That's the kind of like, you know.
 
 ##### **Hooved** [[00:53:13](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3193)]
@@ -866,11 +851,11 @@ But that's another reference point that we're looking to.
 Okay.
 
 ##### **Chenyu** [[00:53:49](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3229)]
-With that, we'll have the symbolic list for all S-LICOs.
-Hey, hi.
-Sorry, yeah.
+With that, we'll have the symbolic list stuff from S-Lykles.
 
 ##### **Sied Lykles** [[00:54:01](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3241)]
+Hey, hi.
+Sorry, yeah.
 Yeah, I don't really have much to add.
 You merged the symbolic fuzzer, I guess the one that replaced the old fuzzer.
 I know what I want, to test individual rewrite rules, but I don't have time for that.
@@ -890,7 +875,7 @@ That's the bounty.
 I will see how fast we can run that and if we can add that to some kind of a CI job to monitor that.
 
 ##### **Chenyu** [[00:55:03](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3303)]
-And we have AMD LLVM week thing.
+And we have AMD LLVM
 
 ##### **Chenyu** [[00:55:10](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3310)]
 Almost work.
@@ -923,7 +908,7 @@ OK, I think that's something we can add on top of your short write up for your C
 Then we can see what components needs to be factored out.
 
 ##### **Chenyu** [[00:56:49](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3409)]
-Cloud was for UVM stuff, but he gave some updates already.
+Cloud was for Uuuvn stuff, but he gave some updates already.
 
 ##### **Geohot** [[00:57:01](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3421)]
 Yeah, last week we got all six red machines connected on the 100 gig network, so it should be easy to test everything on there.
@@ -943,25 +928,21 @@ And everyone kind of does part of it and asks for benchmark numbers.
 
 ##### **Chenyu** [[00:57:46](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3466)]
 I don't know if they reply to me.
-Yeah, for that one, I see the five PRs.
 
 ##### **Geohot** [[00:57:57](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3477)]
+Yeah, for that one, I see the five PRs.
 They're all very mediocre quality, like
 I don't know.
-
-##### **Chenyu** [[00:58:01](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3481)]
 Let's wait a week and then we'll review the best one.
 
 ##### **Geohot** [[00:58:10](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3490)]
 To everybody who's listening here, please don't use AI.
 If you submit stuff that you just copy and paste it from AI, I know you're wasting everybody's time.
 Please don't do it.
-
-##### **Chenyu** [[00:58:21](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3501)]
 If you're not going to put in the effort, just don't do it.
-Using AI to understand what's going on is great.
 
 ##### **Chenyu** [[00:58:32](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3512)]
+Using AI to understand what's going on is great.
 Using AI to improve your knowledge is great.
 Maybe even use AI for drafting is fine.
 But at the end of the day, we accept good PRs.
@@ -993,9 +974,6 @@ Bye.
 
 ##### **Geohot** [[00:59:45](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3585)]
 Absolutely.
-
-##### **Chenyu** [[00:59:45](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3585)]
 All green check marks.
 Bye bye.
 Bye.
-    
