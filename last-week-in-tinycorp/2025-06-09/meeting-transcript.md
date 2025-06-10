@@ -13,6 +13,10 @@
 - local
 - other bounties (lm_eval, AMD_LLVM)
 
+### Last weeks stream:
+
+[Building a ramp for tinygrad](https://youtu.be/QUry9dHC-bk?si=u1WzkL0G4t81WjoY)
+
 ### Audio
 
 [Youtube Link](https://www.youtube.com/watch?v=axTYYYYOHHY)
@@ -56,12 +60,11 @@
 
 ### Transcript
 ##### **Geohot** [[00:00:00](https://www.youtube.com/watch?v=axTYYYYOHHY&t=0)]
-Okay, everyone here?
+Geohot, Chenyu , Wozeparrot are here in the San Diego tinygrad office
 
 ##### **Chenyu** [[00:00:06](https://www.youtube.com/watch?v=axTYYYYOHHY&t=6)]
-Kind of?
-More or less?
-Okay.
+Okay, everyone here? Kind of?
+More or less? Okay.
 Okay, let's start with company updates.
 
 ##### **Geohot** [[00:00:29](https://www.youtube.com/watch?v=axTYYYYOHHY&t=29)]
@@ -70,14 +73,14 @@ I don't know, boxes are shipping, kind of.
 ##### **Chenyu** [[00:00:33](https://www.youtube.com/watch?v=axTYYYYOHHY&t=33)]
 We didn't ship any new box last week.
 
-##### **Geohot** [[00:00:35](https://www.youtube.com/watch?v=axTYYYYOHHY&t=35)]
-We didn't ship any boxes last week, that's true, because of cases, yeah.
-They're getting airship from China, I don't know.
-Supply chain's hard.
-Yeah, supply chain's hard.
-And we're paying tariffs on them, so I hope you all appreciate it.
-Great.
-Yeah, I don't think we have anything to say about the other thing.
+##### **Geohot & Chenyu** [[00:00:35](https://www.youtube.com/watch?v=axTYYYYOHHY&t=35)]
+Geohot:We didn't ship any boxes last week, that's true, because of cases, yeah.
+Geohot: They're getting airship from China, I don't know.
+Chenyu: Supply chain's hard.
+Geohot: Yeah, supply chain's hard.
+Geohot: And we're paying tariffs on them, so I hope you all appreciate it.
+Chenyu: Great.
+Geohot: Yeah, I don't think we have anything to say about the other thing.
 
 ##### **Chenyu** [[00:01:04](https://www.youtube.com/watch?v=axTYYYYOHHY&t=64)]
 So I think the thing that we discussed in the office was we want to do some refactors, some cleanups, we added a bunch of new features and something in the middle, so many things look messy and we want to clean those up.
@@ -95,27 +98,25 @@ The push is going to be for visualization tools, for improved developer experien
 ##### **Chenyu** [[00:02:18](https://www.youtube.com/watch?v=axTYYYYOHHY&t=138)]
 Better error messages in general or more actionable error message, not just somewhere something said it failed.
 
-##### **Geohot** [[00:02:26](https://www.youtube.com/watch?v=axTYYYYOHHY&t=146)]
-Well, I mean, we have to separate this concept of like user error from internal error.
-Yeah, but most of the errors we are talking here are internal errors.
-No, look at the ignore out of bounds one, right?
-Like look at the one that we're hitting now when I try to merge that ignore out of bounds thing.
+##### **Geohot & Chenyu** [[00:02:26](https://www.youtube.com/watch?v=axTYYYYOHHY&t=146)]
+Geohot: Well, I mean, we have to separate this concept of like user error from internal error.
+Chenyu: Yeah, but most of the errors we are talking here are internal errors.
+Geohot: No, look at the ignore out of bounds one, right? Like look at the one that we're hitting now when I try to merge that ignore out of bounds thing.
 It's not an internal error, it's a user error.
-Now we could probably catch it earlier.
+Chenyu: Ok, yeah, what specifically?
+Geohot: Now we could probably catch it earlier.
 Now if we are going to find user errors, we want to catch them as soon as possible, try to link it back.
 There's tons of ways to make user errors.
 
-##### **Chenyu** [[00:02:54](https://www.youtube.com/watch?v=axTYYYYOHHY&t=174)]
-Yeah, so we should have clear... Yeah, so I think for user errors, we try to catch it earlier, we try to provide actionable ways for users to resolve stuff.
-For internal errors, it should at least be understandable.
-Linearizer failure.
-Yes.
-So that's my plan and focus next.
-We can move on to the next point.
-So with a new linearizer refactor, things are a lot easier.
-I tried to write it.
-I can pretty much understand it.
-I think the idea is straightforward.
+##### **Chenyu & Geohot** [[00:02:54](https://www.youtube.com/watch?v=axTYYYYOHHY&t=174)]
+Chenyu: Yeah, 
+Geohot: Reshape a tensor wrong
+Chenyu: Yeah, so I think for user errors, we try to catch it earlier, we try to provide actionable ways for users to resolve stuff.
+For internal errors, it should at least be understandable and 
+Geohot: Linearizer failure.
+Chenyu: Uh, Yes. So that's my plan and focus next. We can move on to the next point.
+So with a new linearizer refactor, things are a lot easier. I tried to write it.
+I can pretty much understand it. I think the idea is straightforward.
 And now we have a lot more linearized failures.
 I think as part of it, I will see how I will fix it.
 But I think in terms of the idea, the idea is definitely simpler than before.
@@ -159,20 +160,14 @@ Okay, how?
 Yeah, so just stuff to understand that whole missing middle part, and it'll make some scheduler things a lot easier to debug.
 Like that splitting one where the kernels end up being bad.
 You almost want to be able to click on a kernel and see the input and output tensors.
-
-##### **Geohot** [[00:06:56](https://www.youtube.com/watch?v=axTYYYYOHHY&t=416)]
 I think we could even get to that point.
 There's no reason that everything's not reconstructable.
-
-##### **Geohot** [[00:07:07](https://www.youtube.com/watch?v=axTYYYYOHHY&t=427)]
 So we could actually see, OK, here at this step, what actually happened.
-This is the right tool if you want to figure out if there's NANDs in your model.
-Well, where did the NANDs start?
-So yeah, run the thing and maybe things that have NANDs light up red or something.
+This is the right tool if you want to figure out if there's NANs in your model.
+Well, where did the NANs start?
+So yeah, run the thing and maybe things that have NANs light up red or something.
 But that's the right interface that you want it on, right?
-Because think about in the current viz, I'm not saying that's an actual practical use case, but in the current viz, think about where you'd want to put it if you wanted to show which steps produce NANDs.
-
-##### **Geohot** [[00:07:42](https://www.youtube.com/watch?v=axTYYYYOHHY&t=462)]
+Because think about in the current viz, I'm not saying that's an actual practical use case, but in the current viz, think about where you'd want to put it if you wanted to show which steps produce NANs.
 There's nowhere to really put that, and that's what we want in the new stuff.
 
 ##### **Qazalin** [[00:07:53](https://www.youtube.com/watch?v=axTYYYYOHHY&t=473)]
@@ -193,11 +188,9 @@ Yeah, yeah, like you could click on a kernel.
 Well, so the other thing about this whole time project is you have to separate the, like, almost the kernel is like a class and the run is like an instantiation.
 So you have to separate this concept of the object and the instantiation.
 
-##### **Geohot** [[00:08:51](https://www.youtube.com/watch?v=axTYYYYOHHY&t=531)]
-Like the type and the instantiation.
-What are the real words for that?
-That sounds correct.
-Yeah.
+##### **Geohot & Chenyu** [[00:08:51](https://www.youtube.com/watch?v=axTYYYYOHHY&t=531)]
+Geohot: Like the type and the instantiation. What are the real words for that?
+Chenyu: That sounds correct. Yeah.
 
 ##### **Chenyu** [[00:09:00](https://www.youtube.com/watch?v=axTYYYYOHHY&t=540)]
 The definition, maybe?
@@ -235,7 +228,7 @@ Oh, no, this one.
 Yeah.
 Yeah.
 Wait, it's not a fixed reg update.
-Which VR is this?
+Which PR is this?
 
 ##### **Wozeparrot** [[00:10:29](https://www.youtube.com/watch?v=axTYYYYOHHY&t=629)]
 I don't particularly like the way... I feel like there's too many random OS.system calls.
@@ -243,14 +236,12 @@ I don't particularly like the way... I feel like there's too many random OS.syst
 ##### **Geohot** [[00:10:36](https://www.youtube.com/watch?v=axTYYYYOHHY&t=636)]
 Where there are OS.system calls.
 
-##### **Wozeparrot** [[00:10:39](https://www.youtube.com/watch?v=axTYYYYOHHY&t=639)]
-The way he fixed this is... The way no one should fix this is an OS.system call.
-Oh, this.
-Yeah.
-It feels really jank.
-Disable migration of locked pages.
-Interesting.
-Okay, so how is this supposed to work?
+##### **Wozeparrot & Geohot** [[00:10:39](https://www.youtube.com/watch?v=axTYYYYOHHY&t=639)]
+Wozeparrot: The way he fixed this is... The way Nimlgen fixed this is an OS.system call.
+Geohot: Oh, this.
+Wozeparrot: Yeah. It feels really jank.
+Geohot: Disable migration of locked pages.
+Interesting. Okay, so how is this supposed to work?
 How can you migrate a locked page?
 
 ##### **Nimlgen** [[00:11:15](https://www.youtube.com/watch?v=axTYYYYOHHY&t=675)]
@@ -266,7 +257,7 @@ Well, that's a foot gun.
 I always assumed locked pages meant that it was locked and you got that address all the time.
 All right, well.
 Yeah, no, we should definitely not be using
-Oh, but you have to be pseudo for that.
+Oh, but you have to be sudo for that.
 I know, it's really jank.
 Yeah, yeah.
 
@@ -283,12 +274,10 @@ I think we do, yeah.
 Oh, okay.
 Then you can just write to it directly.
 
-##### **Nimlgen** [[00:12:16](https://www.youtube.com/watch?v=axTYYYYOHHY&t=736)]
-Yeah.
-No, no, no, no.
-Because kernel checks that you actually user should be like zero.
-UID should be zero.
-Not only capsys admin.
+##### **Geohot & Nimlgen** [[00:12:16](https://www.youtube.com/watch?v=axTYYYYOHHY&t=736)]
+Geohot: Yeah.
+Nimlgen: No, no, no, no. Because kernel checks that you actually user should be like zero.
+Nimlgen: UID should be zero. Not only capsys admin.
 
 ##### **Geohot** [[00:12:27](https://www.youtube.com/watch?v=axTYYYYOHHY&t=747)]
 Wait, the kernel checks UID zero and not capsys admin?
@@ -299,28 +288,22 @@ Yeah.
 I just try to write it directly.
 It can open it for right.
 
-##### **Geohot** [[00:12:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=760)]
-All right.
-Yeah, I believe you.
-All right.
-Well, the kernel moves the lock.
+##### **Geohot ,Chenyu & Nimlgen** [[00:12:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=760)]
+Geohot: All right.Yeah, I believe you.
+All right.Well, the kernel moves the lock.
 Someday we're going to get rid of the kernel.
-Great.
-Great.
-I can move locked pages.
-Cool.
-Nice work finding that.
-Yeah.
+Chenyu: Great.Great.
+Geohot: I can move locked pages. Cool.
+Nice work finding that. Yeah.
 Two other things to talk about.
 We still got to fix the copy out speed of the USB.
-Yeah.
-I bought a... Oh, this is flaky.
+Nimlgen: Yeah.
+Geohot: I bought a... Oh, this is flaky.
+I'll remove that.
 
 ##### **Chenyu** [[00:13:14](https://www.youtube.com/watch?v=axTYYYYOHHY&t=794)]
-I'll remove that.
-Yeah.
-Sorry.
-Before we move on to a new point, so the NAND issue is fixed.
+Yeah. Sorry.
+Before we move on to a new point, so the NAN issue is fixed.
 Does that mean we can run RetinaNet with AM now?
 
 ##### **Nimlgen** [[00:13:25](https://www.youtube.com/watch?v=axTYYYYOHHY&t=805)]
@@ -337,21 +320,20 @@ Cool.
 ##### **Nimlgen** [[00:13:35](https://www.youtube.com/watch?v=axTYYYYOHHY&t=815)]
 Yeah, I tried BERT and ResNet, and the issue seems gone.
 
-##### **Geohot** [[00:13:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=820)]
-Yeah, BERT is still out of memory, I think.
-Great.
-I love when we actually root cause things, and it has a clear root cause.
+##### **Chenyu & Geohot** [[00:13:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=820)]
+Chenyu: Yeah, BERT is still out of memory, I think. Great.
+Geohot: I love when we actually root cause things, and it has a clear root cause.
 
 ##### **Chenyu** [[00:13:49](https://www.youtube.com/watch?v=axTYYYYOHHY&t=829)]
 I think for stuff like that it's also probably useful to have at least some comments saying why you put sudo here.
 
 ##### **Geohot** [[00:13:57](https://www.youtube.com/watch?v=axTYYYYOHHY&t=837)]
-Well, I mean, the pseudo is, yeah, you got to write to this thing.
+Well, I mean, the sudo is, yeah, you got to write to this thing.
 It's clear what the code is doing.
 
 ##### **Chenyu** [[00:14:02](https://www.youtube.com/watch?v=axTYYYYOHHY&t=842)]
 Yeah, but it's not clear why it's done this way, right?
-If Wolfsburg has questions on that.
+If Wozeparrot has questions on that.
 
 ##### **Geohot** [[00:14:08](https://www.youtube.com/watch?v=axTYYYYOHHY&t=848)]
 Yeah, yeah, yeah.
@@ -402,21 +384,17 @@ I mean, Tinybox V2s are really expensive.
 So we'll eventually get some.
 But for now, we just have machines with one 5090.
 Yeah, they cost us a lot of money.
-And the machines with 15090 are Gen 4.
-They're PCI 4.
-They're not 5.
-Again, very expensive.
-Those CPUs and RAM cost so much.
+And the machines with one 5090 are Gen 4.
+They're PCI 4.They're not 5.
+Again, very expensive.Those CPUs and RAM cost so much.
 But yeah, they should be good for any sort of 5090 debugging.
 It's nice that we have the NVIDIA driver coming along.
 Whenever you write something, when you write something that only targets one thing, your abstractions are never good.
 But then, as soon as you go from one to two, your abstractions become good.
 
 ##### **Chenyu** [[00:16:44](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1004)]
-Yeah.
-Yeah.
-Sweet.
-OK.
+Yeah.Yeah.
+Sweet.OK.
 Cloud?
 
 ##### **Wozeparrot** [[00:16:52](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1012)]
@@ -433,14 +411,12 @@ Yeah, that'll be nice.
 We got to make sure we got that 100 gig coming in.
 Also, cloud is crashing right now.
 Remote is crashing.
-Remote is crashing.
 I added dash auto, and I mean, I tested it, but I'll take it out.
 But I don't understand why that shouldn't work.
 Like, that definitely should not crash.
 Yeah, no, we should.
 It's good to test, because I know there's some other segfault in there, too, and we should figure out what's going on.
-I don't know.
-I don't know.
+I don't know. I don't know.
 This one could even be just like a race condition in the startup.
 But still, obviously, the remote, it should all be hitting the same back end process.
 And I just got to make sure there's no race conditions on the startup.
@@ -471,16 +447,17 @@ And we also verify that only some things that indicates a number and the subsequ
 Everything merged this week.
 Great.
 
-##### **Chenyu** [[00:20:07](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1207)]
-Yeah.
-Testing?
-Yeah, so we have the script to test talking face models, but it's not ready to be put in CI yet.
+##### **Chenyu & Geohot** [[00:20:07](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1207)]
+Chenyu: Yeah. Testing?
+Yeah, so we have the script to test hugging face models, but it's not ready to be put in CI yet.
 I give it a try, and I found a bug.
-So there are things to improve, but it definitely helped catching other things in the onX parser, so we already got values from it.
-How slow is it?
-So the problem is it's fast once you have the model download and you just want to run the model.
+So there are things to improve, but it definitely helped catching other things in the ONNX parser, so we already got values from it.
+Geohot: How slow is it?
+Chenyu: So the problem is it's fast once you have the model download and you just want to run the model.
 That's a few seconds per model.
-How big are the models?
+Geohot: How big are the models?
+
+##### **Chenyu**
 Depends on the model.
 There are very big ones that we probably want to skip.
 Yeah, so we'll give, I don't know, if we can give it a size gate or something and making sure.
@@ -519,25 +496,24 @@ That's ONNX.
 Move on to Locals.
 
 ##### **Ignaciosica** [[00:22:17](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1337)]
-Hi.
-Hello.
+Hi. Hello.
 Last week, I've been focusing on the masking bug.
 So I posted an update on the Tinygrad dev channel.
 So yeah, it hasn't been that easy because it spawns across all code gen.
 
 ##### **Chenyu** [[00:22:34](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1354)]
 So where is the bug located?
-
-##### **Ignaciosica** [[00:22:39](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1359)]
 Which part of Tinygrad is it?
-No, it's in code gen.
+
+##### **Ignaciosica & Geohot** [[00:22:39](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1359)]
+Ignaciosica: No, it's in code gen.
 But specifically, I could work around it by modifying things in the lower or modifying things in the vectorizer and the expander.
 So it's a, yeah, it's, I think it's, yeah.
-Yeah, but I mean, is this still the bug about the buffer numbering?
-No, no, that's solved like two weeks ago.
+Geohot: Yeah, but I mean, is this still the bug about the buffer numbering?
+Ignaciosica: No, no, that's solved like two weeks ago.
 
 ##### **Chenyu** [[00:23:12](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1392)]
-This is if you apply, I think, PAT2 or something with patting and masking, the co-gen is incorrect.
+This is if you apply, I think, PAT2 or something with padding and masking, the codgen is incorrect.
 
 ##### **Geohot** [[00:23:18](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1398)]
 Got it.
@@ -575,7 +551,7 @@ So that's it.
 OK.
 Sounds good.
 OK, move on to other bounties.
-So lmevel.
+So lm_eval.
 I think it's pretty close.
 
 ##### **Wozeparrot** [[00:24:15](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1455)]
@@ -587,22 +563,21 @@ We want to use MGSM EN rather than the full GSM 8K because that seems to be what
 ##### **Chenyu** [[00:24:29](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1469)]
 So the idea is we want to reproduce.
 There was a discussion on Twitter about how AMD's implementation through SGLAN is worse.
-It might be a bug in SGLAN.
-I don't know.
-But we want to see if we can reproduce the LMEVL number, at least on this small set.
-And by our approach, we should see comparable numbers on AMD and Envy.
+It might be a bug in SGLAN. I don't know.
+But we want to see if we can reproduce the lm_eval number, at least on this small set.
+And by our approach, we should see comparable numbers on AMD and NV.
 But it's always good to verify that.
-And AMD AIO VM, thanks for the fix for MI300X.
+And AMD LLVM, thanks for the fix for MI300X.
 I verify that fix it.
 So now I think the state is it's just overall like 1% to 3% slower.
 And I don't know, B1TG, if you have any insight.
-You say that it's not AIO VM version and something else.
+You say that it's not LLVM version and something else.
 
 ##### **Geohot** [[00:25:22](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1522)]
 What even could it be?
 What's left?
 What's different?
-I mean, AMD is just using that LLVM2.
+I mean, AMD is just using that LLVM too.
 I'm curious about that.
 
 ##### **Chenyu** [[00:25:34](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1534)]
@@ -613,13 +588,13 @@ Yes.
 
 ##### **B1tg** [[00:25:50](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1550)]
 When I was testing the speed, I made a
-HIP LLVM backend, using HIPCC, compare the HIP to the LLVM IRR, and then compare it to the AMD.
+HIP LLVM backend, using HIPCC, compare the HIP to the LLVM IR, and then compare it to the AMD.
 And I found that the optimization happened in the first stage.
 
-##### **Geohot** [[00:26:20](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1580)]
-Specifically what optimization?
-Regarding instructions.
-Oh, it's an instruction order issue.
+##### **Geohot & B1tg** [[00:26:20](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1580)]
+Geohot: Specifically what optimization?
+B1tg: Regarding instructions.
+Geohot: Oh, it's an instruction order issue.
 
 ##### **B1tg** [[00:26:34](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1594)]
 Yes.
@@ -627,11 +602,11 @@ Yes.
 ##### **Geohot** [[00:26:35](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1595)]
 Yeah, if it's a couple percent in an instruction order issue.
 
-##### **Chenyu** [[00:26:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1600)]
+##### **B1tg** [[00:26:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1600)]
 Okay, I mean, we are always... This has something to do...
-
-##### **B1tg** [[00:26:46](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1606)]
 Look like the register pressure issue.
+
+##### **Chenyu** [[00:26:46](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1606)]
 Oh, register pressure?
 
 ##### **Geohot** [[00:26:51](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1611)]
@@ -647,11 +622,11 @@ Yeah, I mean, eventually, we're going to want that to be some kind of linear pro
 
 ##### **Chenyu** [[00:27:12](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1632)]
 Yeah, and constraint on register some bonds on those, like, register thingy.
+We'll get there.
 
 ##### **B1tg** [[00:27:20](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1640)]
-We'll get there.
 The program, the HIPCC do the optimization.
-For the VMIR, the compiler can't do the organization.
+For the LLVM IR, the compiler can't do the optimization.
 Yeah.
 
 ##### **Geohot** [[00:27:37](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1657)]
@@ -661,7 +636,7 @@ So I'm fine with just merging it.
 ##### **Chenyu** [[00:27:49](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1669)]
 OK.
 I'll give you one last test on everything that we have run.
-And if all looks good, I will merge that and bump yours.
+And if all looks good, I will merge that and bounty's yours.
 
 ##### **Geohot** [[00:27:56](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1676)]
 Yeah, just make it the default.
@@ -699,20 +674,20 @@ So we at least try RHN.
 It will at least be put into a known error or an issue or something else.
 
 ##### **Geohot** [[00:29:51](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1791)]
-Oh, I'll put a bounty up for these Torch, like LinAlge, SVD.
+Oh, I'll put a bounty up for these Torch, like linalg.svd.
 
 ##### **Chenyu** [[00:29:55](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1795)]
 No, so the problem is people will just, at least for the Torch, they just call into Torch.
 
-##### **Geohot** [[00:30:00](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1800)]
-No, no, no, you can't call into Torch.
+##### **Geohot & Chenyu** [[00:30:00](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1800)]
+Geohot: No, no, no, you can't call into Torch.
 No, you have to implement a singular value decomposition in Tinygrad.
 Is that doable?
-Not clear.
+Chenyu: Not clear.
+Geohot: What's the algorithm?
 
 ##### **Chenyu** [[00:30:08](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1808)]
-What's the algorithm?
-So usually it's a solver, and you have like iterative approximation that calls us something multiple times to one of those decompositions.
+So usually it's a solver, and you have like iterative approximation that calls something multiple times to one of those decompositions.
 
 ##### **Wozeparrot** [[00:30:26](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1826)]
 I believe in Torch, a lot of these sync with CPU.
@@ -721,35 +696,32 @@ I believe in Torch, a lot of these sync with CPU.
 A lot of you CPU?
 No, SVD has to be on GPU.
 
-##### **Wozeparrot** [[00:30:34](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1834)]
-SVD might be, but a lot of these do sync with CPU.
-Ooh.
-Yeah, a lot of the lin-alg stuff.
-Pretty brutal.
+##### **Wozeparrot & Geohot** [[00:30:34](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1834)]
+Wozeparrot:SVD might be, but a lot of these do sync with CPU.
+Wozeparrot: Ooh. Yeah, a lot of the lin-alg stuff.
+Geohot: Pretty brutal.
 
-##### **Chenyu** [[00:30:44](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1844)]
-Okay, anyway, it's completely as a bounty, and if someone saw it.
-Yeah, yeah, let's see if ChatGPD says this is possible or not.
-Okay, cool.
-So I post the new MLPerf deadline for training 5.1.
-It will be October 10th.
+##### **Chenyu & Geohot** [[00:30:44](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1844)]
+Chenyu: Okay, anyway, it's completely as a bounty, and if someone saw it.
+Geohot: Yeah, yeah, let's see if ChatGPT says this is possible or not.
+Chenyu: Okay, cool.
+So I post the new MLPerf deadline for training 5.1.It will be October 10th.
 So Flata, just so you know, I lock the bounty for you, we say six hours.
 If you can do that before next round, bounty is yours.
 
-##### **Geohot** [[00:31:18](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1878)]
-Yeah, do we know what is getting, is Burke going to make it?
-I think so.
-Great.
+##### **Geohot & Chenyu** [[00:31:18](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1878)]
+Geohot: Yeah, do we know what is getting, is BERT going to make it?
+Chenyu: I think so.
+Geohot: Great.
 
 ##### **Chenyu** [[00:31:25](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1885)]
 I would double confirm.
 They have some meetings.
 Can we bring ResNet back?
 That is very unlikely.
-Oh.
 
 ##### **Geohot** [[00:31:33](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1893)]
-Why'd they remove it?
+Oh.Why'd they remove it?
 I mean, and they're going to remove, I think they're not going to remove BERT from the next one, 5.1, but they're going to remove it from 6.0.
 And it's like, now you're just, all the models are just like, yeah, it's just like, NVIDIA's trying to pull the ladder up behind them.
 
@@ -759,7 +731,7 @@ I didn't participate in all their training group meetings, but I think they also
 So people are training those big models, and they are making decisions for what's this.
 Sure.
 Yeah.
-Not many people really benefit from knowing how fast they can trim birds.
+Not many people really benefit from knowing how fast they can trim BERTs.
 
 ##### **Geohot** [[00:32:19](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1939)]
 Yeah, I don't know.
@@ -767,7 +739,7 @@ I mean, it's just like, it's accessible in a way that the other ones aren't.
 It's not like, it almost always scales.
 
 ##### **Chenyu** [[00:32:29](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1949)]
-So the good thing is now we have a daily Chrome job that changes ResNet and it's been working correctly.
+So the good thing is now we have a daily Cron job that changes ResNet and it's been working correctly.
 The only reason it's not properly shown on dashboard is because our dashboard shows data in the past two days.
 So we will fix that.
 
@@ -777,7 +749,7 @@ It's like what has changed is the dollars barrier to entry to get on MLPerf has 
 Like if you're training 405B, you just can't unless you have a very expensive computer.
 
 ##### **Chenyu** [[00:33:12](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1992)]
-Yeah, I think that's one main reason why they still keep birds.
+Yeah, I think that's one main reason why they still keep BERTs.
 
 ##### **Geohot** [[00:33:16](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1996)]
 Yeah.
@@ -786,31 +758,30 @@ I'm just literally complaining about dollars cost of the computer to run these t
 Yeah.
 You look at the Llama 405B, and the smallest one on there, I think, is like 512 H100s.
 
-##### **Geohot** [[00:33:33](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2013)]
-That's like more money than I've ever had in my life.
-Yep.
+##### **Geohot & Chenyu** [[00:33:33](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2013)]
+Geohot: That's like more money than I've ever had in my life.
+Chenyu: Yep.
 
 ##### **Geohot** [[00:33:45](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2025)]
 What is that?
 512 H100 is $15 million?
+$10 million?
 
 ##### **Chenyu** [[00:33:48](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2028)]
-$10 million?
 Yeah.
 
 ##### **Chenyu** [[00:33:55](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2035)]
 Okay.
-And we probably will do something to the HLVC for Bounty.
+And we probably will do something to the hlb_cifar Bounty.
 I don't think none of those are really good.
-Those are very good.
 
 ##### **Geohot** [[00:34:09](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2049)]
 No, yeah.
 If you're going to submit code with AI and half-assed effort stuff, just don't.
-But if someone really dives into that HLPC part one and is like, oh, I did a really good job, I went in, I found out which kernels were slow and made them fast and re-implemented this and it's good and I tested it...
+But if someone really dives into that hlb_c part one and is like, oh, I did a really good job, I went in, found out which kernels were slow and made them fast and re-implemented this and it's good and tested it... regressions tests , yeah.
 
 ##### **Chenyu** [[00:34:32](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2072)]
-Regression tasks, yeah, that's... So this is ResNet time after your fix?
+So this is ResNet time after your fix?
 Oh, nice.
 Because you regressed to five hours, now it's three hours again.
 
@@ -821,26 +792,20 @@ Are we using AM or AMD to run that?
 ##### **Chenyu** [[00:34:44](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2084)]
 Oh, it's AM.
 
-##### **Geohot** [[00:34:45](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2085)]
-Great.
-Yeah.
-Yeah, we can get BERT on there too?
-Sure, if you want to occupy that machine for another five hours.
-Why is it five?
-On red?
-Five.
-We just summed it.
-It's five.
-300 minutes?
-Oh, yeah.
+##### **Geohot & Chenyu** [[00:34:45](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2085)]
+Geohot: Great. Yeah, we can get BERT on there too?
+Chenyu: Sure, if you want to occupy that machine for another five hours.
+Geohot: Why is it five?
+Chenyu: On red? Five. We just summed it.
+It's five. 300 minutes? Oh, yeah.
 It's not 100 minutes.
-Who made these English units?
+Geohot: Who made these English units?
 
 ##### **Chenyu** [[00:35:11](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2111)]
 Yeah, 5.5 includes setup.
 0.3 kilominutes.
 Okay, I don't know.
-Also, Bird doesn't run now.
+Also, BERT doesn't run now.
 
 ##### **Geohot** [[00:35:23](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2123)]
 Well, we should fix that.
@@ -850,17 +815,18 @@ I have a lot of Tinybox Reds.
 Is anyone interested in my Tinybox Red?
 
 ##### **Chenyu** [[00:35:35](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2135)]
-Yeah.
-I think that's it for this meeting.
+Yeah. I think that's it for this meeting.
 Do we want to quickly go through the bounty list?
 Yeah.
-UUVM, you have anything to add for the thing you are working on?
+Uuuvn, you have anything to add for the thing you are working on?
 
-##### **Geohot** [[00:35:48](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2148)]
-Any progress or bottleneck?
-The remote part's ready.
-I'll look at basic multi-host remote again today.
-Cool.
+##### **Chenyu, Geohot & Wozeparrot** [[00:35:48](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2148)]
+Chenyu: Any progress or bottleneck?
+Geohot: The remote part's ready.
+Wozeparrot: I'll look at basic multi-host remote again today.
+Geohot: Cool.
+
+##### **Geohot**
 I wish someone would take the HVAC decode support on the COVID.
 Bounties are like that accessible.
 Buffers are GC'd on CPU with Viz.
@@ -892,16 +858,16 @@ Yeah.
 For people in this meeting, any questions or suggestions?
 Or any bounties you would like to see?
 
-##### **Geohot** [[00:38:12](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2292)]
-Yeah, I mean, that's part of the...
-Yeah, the mask select being slow.
+##### **Chenyu & Geohot** [[00:38:12](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2292)]
+Chenyu: Yeah, I mean, that's part of the...
+Geohot: Yeah, the mask select being slow.
 Yeah, look into why mask select is slow.
 I don't think it has to be.
 I think that it's like maybe one line of fusion away from fixing it.
-Or we want to remove the realizing set item.
-Oh, yeah.
-Yeah, who can?
-I didn't know there was a realizing set item.
+Chenyu: Or we want to remove the realizing set item.
+Geohot: Oh, yeah.
+Chenyu: Yeah, who can?
+Geohot: I didn't know there was a realizing set item.
 
 ##### **Chenyu** [[00:38:35](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2315)]
 Maybe now you can just change to kernelize and it will work.
@@ -920,22 +886,15 @@ Version or time of this, right?
 ##### **Qazalin** [[00:38:50](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2330)]
 No, it's about views.
 
-##### **Geohot** [[00:38:53](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2333)]
-Oh, there's a realize in set item, not get item.
-Yeah, get item is set item.
-Oh, set item.
-Okay, I thought there was a realize in get item.
+##### **Geohot & Chenyu** [[00:38:53](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2333)]
+Geohot: Oh, there's a realize in set item, not get item.
+Chenyu: Yeah, get item is set item.
+Geohot: Oh, set item. Okay, I thought there was a realize in get item.
 That would upset me a lot more.
-Oh, set item is... It's a sign.
-That's a sign.
-Okay.
-Yeah, I can think about that.
-Yeah.
-Okay, no, okay.
-It's in set item and I misread that.
-I thought it was in get item.
-It's a lot better now.
-Great.
+Chenyu: Oh, set item is... It's a sign. That's a sign.
+Geohot: Okay. Yeah, I can think about that. Yeah.
+Okay, no, okay.It's in set item and I misread that.
+I thought it was in get item.It's a lot better now. Great.
 Yeah, no, I thought like our tensor select had to be... No, of course not.
 
 ##### **Geohot** [[00:39:25](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2365)]
@@ -943,9 +902,9 @@ Great.
 Yeah.
 What?
 Oh, okay.
-Yeah, so...
 
 ##### **Chenyu** [[00:39:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2380)]
+Yeah, so...
 Comma is also interested in running Tinygrad on their diffusion stuff, and I think they will provide us a script so we can start to benchmark and see how good or bad we are compared to Torch.
 
 ##### **Geohot** [[00:39:50](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2390)]
