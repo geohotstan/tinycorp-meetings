@@ -101,26 +101,25 @@ Better error messages in general or more actionable error message, not just some
 ##### **Geohot & Chenyu** [[00:02:26](https://www.youtube.com/watch?v=axTYYYYOHHY&t=146)]
 Geohot: Well, I mean, we have to separate this concept of like user error from internal error.
 Chenyu: Yeah, but most of the errors we are talking here are internal errors.
-Geohot: No, look at the ignore out of bounds one, right?
-Geohot: Like look at the one that we're hitting now when I try to merge that ignore out of bounds thing.
-Geohot: It's not an internal error, it's a user error.
+Geohot: No, look at the ignore out of bounds one, right? Like look at the one that we're hitting now when I try to merge that ignore out of bounds thing.
+It's not an internal error, it's a user error.
 Chenyu: Ok, yeah, what specifically?
 Geohot: Now we could probably catch it earlier.
-Geohot: Now if we are going to find user errors, we want to catch them as soon as possible, try to link it back.
-Geohot: There's tons of ways to make user errors.
+Now if we are going to find user errors, we want to catch them as soon as possible, try to link it back.
+There's tons of ways to make user errors.
 
 ##### **Chenyu & Geohot** [[00:02:54](https://www.youtube.com/watch?v=axTYYYYOHHY&t=174)]
 Chenyu: Yeah, 
 Geohot: Reshape a tensor wrong
 Chenyu: Yeah, so I think for user errors, we try to catch it earlier, we try to provide actionable ways for users to resolve stuff.
-Chenyu: For internal errors, it should at least be understandable and 
+For internal errors, it should at least be understandable and 
 Geohot: Linearizer failure.
 Chenyu: Uh, Yes. So that's my plan and focus next. We can move on to the next point.
-Chenyu: So with a new linearizer refactor, things are a lot easier. I tried to write it.
-Chenyu: I can pretty much understand it. I think the idea is straightforward.
-Chenyu: And now we have a lot more linearized failures.
-Chenyu: I think as part of it, I will see how I will fix it.
-Chenyu: But I think in terms of the idea, the idea is definitely simpler than before.
+So with a new linearizer refactor, things are a lot easier. I tried to write it.
+I can pretty much understand it. I think the idea is straightforward.
+And now we have a lot more linearized failures.
+I think as part of it, I will see how I will fix it.
+But I think in terms of the idea, the idea is definitely simpler than before.
 That's nice.
 
 ##### **Geohot** [[00:03:48](https://www.youtube.com/watch?v=axTYYYYOHHY&t=228)]
@@ -190,8 +189,7 @@ Well, so the other thing about this whole time project is you have to separate t
 So you have to separate this concept of the object and the instantiation.
 
 ##### **Geohot & Chenyu** [[00:08:51](https://www.youtube.com/watch?v=axTYYYYOHHY&t=531)]
-Geohot: Like the type and the instantiation.
-Geohot: What are the real words for that?
+Geohot: Like the type and the instantiation. What are the real words for that?
 Chenyu: That sounds correct. Yeah.
 
 ##### **Chenyu** [[00:09:00](https://www.youtube.com/watch?v=axTYYYYOHHY&t=540)]
@@ -243,8 +241,8 @@ Wozeparrot: The way he fixed this is... The way Nimlgen fixed this is an OS.syst
 Geohot: Oh, this.
 Wozeparrot: Yeah. It feels really jank.
 Geohot: Disable migration of locked pages.
-Geohot: Interesting. Okay, so how is this supposed to work?
-Geohot: How can you migrate a locked page?
+Interesting. Okay, so how is this supposed to work?
+How can you migrate a locked page?
 
 ##### **Nimlgen** [[00:11:15](https://www.youtube.com/watch?v=axTYYYYOHHY&t=675)]
 No, it's fine.
@@ -292,13 +290,13 @@ It can open it for right.
 
 ##### **Geohot ,Chenyu & Nimlgen** [[00:12:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=760)]
 Geohot: All right.Yeah, I believe you.
-Geohot: All right.Well, the kernel moves the lock.
-Geohot: Someday we're going to get rid of the kernel.
+All right.Well, the kernel moves the lock.
+Someday we're going to get rid of the kernel.
 Chenyu: Great.Great.
 Geohot: I can move locked pages. Cool.
-Geohot: Nice work finding that. Yeah.
-Geohot: Two other things to talk about.
-Geohot: We still got to fix the copy out speed of the USB.
+Nice work finding that. Yeah.
+Two other things to talk about.
+We still got to fix the copy out speed of the USB.
 Nimlgen: Yeah.
 Geohot: I bought a... Oh, this is flaky.
 I'll remove that.
@@ -451,12 +449,12 @@ Great.
 
 ##### **Chenyu & Geohot** [[00:20:07](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1207)]
 Chenyu: Yeah. Testing?
-Chenyu: Yeah, so we have the script to test hugging face models, but it's not ready to be put in CI yet.
-Chenyu: I give it a try, and I found a bug.
-Chenyu: So there are things to improve, but it definitely helped catching other things in the ONNX parser, so we already got values from it.
+Yeah, so we have the script to test hugging face models, but it's not ready to be put in CI yet.
+I give it a try, and I found a bug.
+So there are things to improve, but it definitely helped catching other things in the ONNX parser, so we already got values from it.
 Geohot: How slow is it?
 Chenyu: So the problem is it's fast once you have the model download and you just want to run the model.
-Chenyu: That's a few seconds per model.
+That's a few seconds per model.
 Geohot: How big are the models?
 
 ##### **Chenyu**
@@ -509,8 +507,8 @@ Which part of Tinygrad is it?
 
 ##### **Ignaciosica & Geohot** [[00:22:39](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1359)]
 Ignaciosica: No, it's in code gen.
-Ignaciosica: But specifically, I could work around it by modifying things in the lower or modifying things in the vectorizer and the expander.
-Ignaciosica: So it's a, yeah, it's, I think it's, yeah.
+But specifically, I could work around it by modifying things in the lower or modifying things in the vectorizer and the expander.
+So it's a, yeah, it's, I think it's, yeah.
 Geohot: Yeah, but I mean, is this still the bug about the buffer numbering?
 Ignaciosica: No, no, that's solved like two weeks ago.
 
@@ -683,8 +681,8 @@ No, so the problem is people will just, at least for the Torch, they just call i
 
 ##### **Geohot & Chenyu** [[00:30:00](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1800)]
 Geohot: No, no, no, you can't call into Torch.
-Gehot: No, you have to implement a singular value decomposition in Tinygrad.
-Geohot: Is that doable?
+No, you have to implement a singular value decomposition in Tinygrad.
+Is that doable?
 Chenyu: Not clear.
 Geohot: What's the algorithm?
 
@@ -707,9 +705,9 @@ Geohot: Pretty brutal.
 Chenyu: Okay, anyway, it's completely as a bounty, and if someone saw it.
 Geohot: Yeah, yeah, let's see if ChatGPT says this is possible or not.
 Chenyu: Okay, cool.
-Chenyu: So I post the new MLPerf deadline for training 5.1.It will be October 10th.
-Chenyu: So Flata, just so you know, I lock the bounty for you, we say six hours.
-Chenyu: If you can do that before next round, bounty is yours.
+So I post the new MLPerf deadline for training 5.1.It will be October 10th.
+So Flata, just so you know, I lock the bounty for you, we say six hours.
+If you can do that before next round, bounty is yours.
 
 ##### **Geohot & Chenyu** [[00:31:18](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1878)]
 Geohot: Yeah, do we know what is getting, is BERT going to make it?
@@ -799,8 +797,8 @@ Geohot: Great. Yeah, we can get BERT on there too?
 Chenyu: Sure, if you want to occupy that machine for another five hours.
 Geohot: Why is it five?
 Chenyu: On red? Five. We just summed it.
-Chenyu: It's five. 300 minutes? Oh, yeah.
-Chenyu: It's not 100 minutes.
+It's five. 300 minutes? Oh, yeah.
+It's not 100 minutes.
 Geohot: Who made these English units?
 
 ##### **Chenyu** [[00:35:11](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2111)]
@@ -863,9 +861,9 @@ Or any bounties you would like to see?
 ##### **Chenyu & Geohot** [[00:38:12](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2292)]
 Chenyu: Yeah, I mean, that's part of the...
 Geohot: Yeah, the mask select being slow.
-Geohot: Yeah, look into why mask select is slow.
-Geohot: I don't think it has to be.
-Geohot: I think that it's like maybe one line of fusion away from fixing it.
+Yeah, look into why mask select is slow.
+I don't think it has to be.
+I think that it's like maybe one line of fusion away from fixing it.
 Chenyu: Or we want to remove the realizing set item.
 Geohot: Oh, yeah.
 Chenyu: Yeah, who can?
@@ -892,12 +890,12 @@ No, it's about views.
 Geohot: Oh, there's a realize in set item, not get item.
 Chenyu: Yeah, get item is set item.
 Geohot: Oh, set item. Okay, I thought there was a realize in get item.
-Geohot: That would upset me a lot more.
+That would upset me a lot more.
 Chenyu: Oh, set item is... It's a sign. That's a sign.
 Geohot: Okay. Yeah, I can think about that. Yeah.
-Geohot: Okay, no, okay.It's in set item and I misread that.
-Geohot: I thought it was in get item.It's a lot better now. Great.
-Geohot: Yeah, no, I thought like our tensor select had to be... No, of course not.
+Okay, no, okay.It's in set item and I misread that.
+I thought it was in get item.It's a lot better now. Great.
+Yeah, no, I thought like our tensor select had to be... No, of course not.
 
 ##### **Geohot** [[00:39:25](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2365)]
 Great.
