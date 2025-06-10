@@ -15,7 +15,7 @@ def run_whisperx(audio_path, folder_path, speakers, HF_TOKEN) -> None:
         "--diarize",
         "--language", "en",
         "--initial_prompt", "Audio of Tinygrad weekly meeting, a technical meeting about artificial intelligence, GPU and other computational hardware, and the machine learning framework Tinygrad.",
-        # "--condition_on_previous_text",
+        "--condition_on_previous_text", "True",
         "--compute_type", "float32",
         "--segment_resolution", "chunk",
         "--print_progress", "True",
@@ -80,4 +80,5 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    run_parakeet(args.audio_path, args.folder_path, args.speakers, HF_TOKEN)
+    # run_parakeet(args.audio_path, args.folder_path, args.speakers, HF_TOKEN)
+    run_whisperx(args.audio_path, args.folder_path, args.speakers, HF_TOKEN)
