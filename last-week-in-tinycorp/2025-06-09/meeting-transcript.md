@@ -243,7 +243,7 @@ I don't particularly like the way... I feel like there's too many random OS.syst
 ##### **Geohot** [[00:10:36](https://www.youtube.com/watch?v=axTYYYYOHHY&t=636)]
 Where there are OS.system calls.
 
-##### **SPEAKER_06** [[00:10:39](https://www.youtube.com/watch?v=axTYYYYOHHY&t=639)]
+##### **Wozeparrot** [[00:10:39](https://www.youtube.com/watch?v=axTYYYYOHHY&t=639)]
 The way he fixed this is... The way no one should fix this is an OS.system call.
 Oh, this.
 Yeah.
@@ -467,7 +467,7 @@ Now we have a proper parser and parse reading to tensor.
 So those are great.
 And we also verify that only some things that indicates a number and the subsequent things to parse are done in CPU, but the weights are all done on device.
 
-##### **SPEAKER_06** [[00:20:04](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1204)]
+##### **Chenyu** [[00:20:04](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1204)]
 Everything merged this week.
 Great.
 
