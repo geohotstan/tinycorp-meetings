@@ -11,3 +11,26 @@
 3. 不要修改疑似口语表达，保持transcript的原始性 
 4. 不要修改换行和多余空格, 不要添加任何空格，目标是保持diff的简短
 5. 考虑transcript的错误往往来自于同音字或者发言模糊，但不要过分扩展或补充，比如AMD不太可能发音成AM
+
+
+
+下面是一段技术公司会议的transcript,参加人数在6-10个人左右，使用工具对说话人进行了分段和标注，下面我给你参会人的基础特征，
+你来对整段文本中的说话人进行重新标记，只返回最终结果
+
+注意点：
+- 工具标注会存在错位的情况，比如SPEAKER_04，不一定是同一个人，需要你结合上下文猜测
+- 主持人一般是chenyu和geohot，讲company update的是geohot，开头的是chenyu
+- 一般对话是分段进行，一个员工介绍这周的工作，然后主持人会做一些问答
+- 猜测不出来的人你就保留原来的名字，并不是下面的所有人都会参加会议，还有些情况有的员工会在群聊里面打字参加会议
+- 公司各员工一般负责的方向有：
+    - geohot(George): many things
+    - chenyu: train, mlperf
+    - qazalin: scheduler, linearizer, VIZ
+    - nimlgen: driver, AM driver(company version of AMD driver), Nvidia driver, USB
+    - wozeparrot: remote stuff, multi-gpu
+    - zibokapi: onnx stuff, OLMoE
+    - ignaciosica: vectorizer and expander, TC(tensor core) and SWIZZLE 
+    - uuuvn: cloud stuff
+    - hooved: webgpu
+    - francislata: RetinaNet train
+    - b1tg: AMD_LLVM, onnx parser
