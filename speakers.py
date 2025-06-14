@@ -15,15 +15,15 @@ else:
     print(f"usage: python speakers.py <audio.mp3> <meeting-transcript.md>")
     sys.exit(0)
 people = {
-    "geohot": "0609-geohot.mp3",
-    "chenyu": "0609-chenyu.mp3",
-    "wozeparrot": "0609-wozeparrot.mp3",
-    "qazalin": "0609-qazalin.mp3",
-    "nimlgen": "0609-nimlgen.mp3",
-    "ignaciosica": "0609-ignaciosica.mp3",
-    "hooved": "0602-hooved.mp3",
+    "Geohot": "0609-geohot.mp3",
+    "Chenyu": "0609-chenyu.mp3",
+    "Wozeparrot": "0609-wozeparrot.mp3",
+    "Qazalin": "0609-qazalin.mp3",
+    "Nimlgen": "0609-nimlgen.mp3",
+    "Ignaciosica": "0609-ignaciosica.mp3",
+    "Hooved": "0602-hooved.mp3",
     "Sied Lykles": "0602-sied.mp3",
-    "b1tg": "0609-b1tg.mp3",
+    "B1tg": "0609-b1tg.mp3",
 }
 TIMESTAMP_RE = re.compile(r'\[\[(\d{2}:\d{2}:\d{2})\]\(.*\)]')
 timestamps = []
@@ -73,9 +73,14 @@ targets = [(t2n(x), x) for x in timestamps]
 verification = SpeakerRecognition.from_hparams(source="speechbrain/spkrec-ecapa-voxceleb", savedir="pretrained_models/spkrec-ecapa-voxceleb")
 for i, target in enumerate(targets[:-1]):
     tn, ts = target
-    tn1 = targets[i+1][0]
+    tn1 = targets[i+1][0]-1
+    if tn >= tn1:
+        print(f"{ts} unknow short")
+        continue
+        
     max_score = tensor([-100])
     candidate = ""
+    scores = {}
     for name in people:
         stuff_vioce = os.path.join("samples", people[name])
         #score, prediction = verification.verify_files(audio_file, stuff_vioce, t1=(tn,tn1), t2=(0,10))
@@ -84,7 +89,10 @@ for i, target in enumerate(targets[:-1]):
             max_score = score
             candidate = name
         if DEBUG: print(f"  {name} {score=}, {prediction=}")
+        scores[name] = score
 
     if max_score < tensor([THRESHOLD]):
-        candidate = "unknow" # TODO print top3 for debug
+        sorted_scores = sorted(scores.items(), key=lambda item: item[1], reverse=True)
+        top3 = ", ".join([f"{k}:{v}" for k, v in sorted_scores[:3]])
+        candidate = f"unknow top3={top3}" 
     print(f"{ts} {candidate}")
