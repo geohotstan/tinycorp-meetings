@@ -27,7 +27,7 @@
 - **[MLPerf Benchmarks](#chenyu-000132)**: Official MLPerf results releasing Wednesday; daily cron jobs running ResNet and Stable Diffusion XL with varied reliability; focusing on CI stability.
 - **[CI Stability](#chenyu-000315)**: CI experiencing frequent benchmark failures; ongoing issues with AMD driver memory errors and instability; prioritizing AMD LLVM integration to improve reliability.
 - **[Scheduler and Qualcomm](#qazalin-000610)**: Fusion refactoring nearly complete; addressing regression in OpenPilot; no new updates on Qualcomm.
-- **[Driver Stability (AMD)](#nimlgen-000814)**: Kernel page faults linked to EM drivers; issues likely related to queue memory locations; testing memory queue changes as potential fixes.
+- **[Driver Stability (AMD)](#nimlgen-000814)**: Kernel page faults linked to AM drivers; issues likely related to queue memory locations; testing memory queue changes as potential fixes.
 - **[NVIDIA Issues](#nimlgen-001425)**: Investigating kernel issues on 5090 GPUs reported by users; request for detailed logs to aid debugging.
 - **[Cloud Hashing & Local Compile](#wozeparrot-001718)**: Progress on hashing projects; discussing PR to handle remote compilation locally; considering architecture changes to allow explicit local compiler specification.
 - **[ONNX Integration](#chenyu-002240)**: Qualcomm-specific bugs blocking ONNX protobuf PR; plans to enhance ONNX support and automated testing once resolved.
@@ -81,7 +81,7 @@ The ResNet job is running daily every day now.
 And so far it's a mix of, I think the successful rate is like 30%.
 And we will talk more in the next point.
 I want to discuss about the stability of our CI now.
-And the other one I really want to also make a Chrome job is the stable diffusion XL one.
+And the other one I really want to also make a cron job is the stable diffusion XL one.
 For some reason, the GitHub action is constantly slower than if I just run the job on the real machine, and I really don't know why.
 
 ##### **Chenyu** [[00:03:07](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=187)]
@@ -100,7 +100,7 @@ But speaking of the CI stability, if you go to Tinygrad GitHub page and check th
 So I think one is the green machines.
 One green machine is weird and consistently go out of memory.
 And there are all sorts of issues with red machines that I just complained in the AMD channel.
-I still believe there are 8 issues with AM drivers.
+I still believe there are latent issues with AM drivers.
 Maybe we can talk more when we move on to the driver section.
 But I think we discussed about a lot of driving Tinygrad adoptions.
 I think ML training is one thing.
@@ -134,7 +134,7 @@ Chenyu: Yes, maybe.
 Chenyu: I heard something about open pilot regression is the last thing.
 Chenyu: It is the last blocker, yeah.
 I'm just going to move a bunch of stuff.
-CHneyu: The blocker for enabling what?
+Chenyu: The blocker for enabling what?
 Just refactoring Fusion.
 The thing that decides which intermediates to realize is this custom thing that has existed as long as the scheduler was a concept.
 So it's the oldest part of the scheduler that I need to rip out and make it modern.
@@ -148,9 +148,9 @@ Let's move on to driver.
 Yeah, so I suppose, yes, stability, I think.
 Yeah.
 You reported several bugs about llama and like
-So, actually, I mean, the page files are, actually, I mean, like, for the half of the year, we've never seen page files in AM related to AM.
-So, I think that the page files which are reported as page files are
-Kernel page files.
+So, actually, I mean, the page faults are, actually, I mean, like, for the half of the year, we've never seen page faults in AM related to AM.
+So, I think that the page faults which are reported as page faults are
+Kernel page faults.
 And we had some tooling to repro these kernels, like beamed kernels in heap or AMD, but it was ripped off.
 
 ##### **Chenyu** [[00:09:09](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=549)]
@@ -170,8 +170,8 @@ Yeah, okay, yeah, I'll think about that.
 So, and the issue, I think, with NAN issues in BERT we had, and this ResNet issue today.
 So, yeah, I think it looks like they are really like AM related, and it might be the, like, we have two differences in AM comparing to the AMD driver.
 Uh, first is like the, that we just ripped off the mess.
-And the second one is like the location of our cues, because I mean, we use cues.
-We shall store it on like cues, uh, on AM is stored on the device and AMD stores them in system memory.
+And the second one is like the location of our queues, because I mean, we use queues.
+We shall store it on like queues, uh, on AM is stored on the device and AMD stores them in system memory.
 So that's actually the different because they, it's just completely different path with
 Interrupts and so on.
 I mean, in our case.
@@ -195,9 +195,9 @@ So that's even worse, because it's even harder to reproduce.
 But then I still think it's important, and we should find a way to figure it out.
 
 ##### **Nimlgen** [[00:12:25](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=745)]
-Yeah, and I think that's the AM issue and not the graph issue because I've seen some crashes like on the second step and it's not jitted.
-So yeah, it should be some same case here.
-Yeah, I'll try to, yeah, I'll switch to, I'll switch cues to system memory and we'll see if it's better.
+Yeah, and I think that's the AM issue and not the graph issue because I'veseen some crashes like on the second step and it's not jitted.
+So yeah, it should be some sync issue here.
+Yeah, I'll try to, yeah, I'll switch to, I'll switch queues to system memory and we'll see if it's better.
 
 ##### **Chenyu** [[00:12:53](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=773)]
 Yeah, I mean, if you have candidate fix, we can definitely enable those on our CI job to see if it's better.
@@ -222,7 +222,7 @@ I'll do this, this week.
 ##### **Nimlgen** [[00:14:25](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=865)]
 Actually, Woze you said that you've seen some problems around ResNet on 5090s.
 I don't know.
-I just tried to report this on the single 5090.
+I just tried to repro this on the single 5090.
 Like with Beam and just, it was fine.
 So if you have any details, it would be good to know.
 
@@ -250,7 +250,7 @@ Chenyu: I think we can try it.
 ##### **Chenyu** [[00:15:42](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=942)]
 I think maybe we should start to create more concrete issues for these.
 So we have something to track and something to make sure we are improving on this front.
-By the way, so what's the, do we run anything MLPerf for the new TinyBox v2 before leadership?
+By the way, so what's the, do we run anything MLPerf for the new TinyBox v2 before we ship?
 
 ##### **Wozeparrot** [[00:16:07](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=967)]
 It's the same as Tinybox v1.
@@ -273,13 +273,13 @@ Same batch size?
 I mean, it's probably divided by 4, but OK.
 
 ##### **Chenyu, Wozeparrot & Nimlgen** [[00:16:33](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=993)]
-Wozeparrot: Yeah, it just provides a 4.
+Wozeparrot: Yeah, it just divides by 4.
 Chenyu: OK, great.Cool.
 Anything else for driver?
 Nimlgen: No.
 Chenyu: OK.
 Chenyu: OK, moving to Wozeparrot your stuff.
-Wozeparrot: I think [Leopf](https://github.com/tinygrad/tinygrad/pull/7186) is doing pretty good for hashing.
+Wozeparrot: I think [lepot](https://github.com/tinygrad/tinygrad/pull/7186) is doing pretty good for hashing.
 Chenyu: Did you merge that?
 Wozeparrot: Making decent progress. So I think we're just we'll be good on that.
 Then I have a PR open.
@@ -323,7 +323,7 @@ Wozeparrot: Mainly just the thing where it fetches the compiler from the remote.
 Chenyu: Oh, because you don't really want or need the compilers from remote.
 Chenyu: You want the compiler on host.
 Wozeparrot: Yes.
-Chneyu: I don't know. So maybe it's fine.
+Chenyu: I don't know. So maybe it's fine.
 
 ##### **Chenyu** [[00:19:24](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1164)]
 This sounds like something I can use a document or something to say what we want to do.
@@ -384,7 +384,7 @@ Wozeparrot: Yeah.
 Chenyu: Oh, great, since we talk about
 
 ##### **Chenyu** [[00:22:40](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1360)]
-Running Comma's ONNX module, we can move on to ONNX.
+Running Comma's ONNX model, we can move on to ONNX.
 So ONNX I think has two parts.
 The first is the ONNX protobuf thing.
 See B1TG is here.
@@ -409,7 +409,7 @@ Zibokapi, do you have anything to add to that?
 ##### **Chenyu** [[00:24:11](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1451)]
 OK, yeah, so I think that's another part that we want to focus like soonish.
 Using ONNX as a front end, importing ONNX, running the model should be straightforward.
-And similar in that spirit, we add the protocol parser.
+And similar in that spirit, we add the protobuf parser.
 We implement the ONNX ops.
 Things like that hopefully should move more after we have done these two parts.
 And we should try to really run those ONNX CI tests running various different models, trying to make sure they're all run correctly.
@@ -426,7 +426,7 @@ So that's fixed.
 So the state of the PR, it's basically the same as it's been for the past weeks.
 The only thing that's blocking it right now, I think it's that it doesn't work with padding.
 And I think there's no reason why it should be.
-And that's why I started to work on the base for the layout, because it might help me figure out what's going on.
+And that's why I started to work on the viz for the layout, because it might help me figure out what's going on.
 So yeah.
 
 ##### **Ignaciosica & Chenyu** [[00:26:13](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1573)]
@@ -504,7 +504,7 @@ But it all depends on this.
 
 ##### **Chenyu** [[00:31:40](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1900)]
 So yeah, I'm reading this PR.
-Is there a reason why Ben realized it's not a default behavior?
+Is there a reason why ban realized it's not a default behavior?
 
 ##### **Chenyu** [[00:31:53](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1913)]
 Yeah.
@@ -514,7 +514,7 @@ Well, so yeah.
 If you look at the test cases, it shows you in the test where you need realizes in some of the cases, where you need them to happen.
 
 ##### **Chenyu** [[00:32:15](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1935)]
-My point is, is it preferable to make Ben realize the only behavior by not introducing this?
+My point is, is it preferable to make ban realize the only behavior by not introducing this?
 And if the only place is that this fail is in some test case, we can just update the test case.
 Because it's really annoying to have a flag like this and allow both behavior, right?
 
@@ -523,7 +523,7 @@ Oh, so I think maybe I see what you're saying.
 Why do we have this whole new thing with the flag?
 
 ##### **Chenyu** [[00:32:49](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1969)]
-Basically, why does Ben realize a flag?
+Basically, why is ban realize a flag?
 And every time we introduce a flag, we need to think about what's the default value of a flag?
 What happens if the user changes the flag?
 
@@ -533,7 +533,7 @@ Say that again?
 
 ##### **Geohot** [[00:33:12](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1992)]
 I see the reason why... So the problem is if you do an assign inside of a JIT, if you don't realize that assign, it may not end up in the JIT.
-So I'm not sure exactly how we want to deal with this, but yeah, no, I don't think then realize should be a flag.
+So I'm not sure exactly how we want to deal with this, but yeah, no, I don't think ban realize should be a flag.
 
 ##### **Chenyu** [[00:33:36](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2016)]
 Okay.
@@ -624,12 +624,12 @@ You know that there was a change before and after you called the function where 
 And then you're assigning to it within the function.
 And afterwards, that tensor now exists with a new lazy data graph that's different than it originally was.
 And so you detect that change.
-Because you now the UOps have different memory address for lazy data before and after.
+Because now the UOps have different memory address for lazy data before and after.
 And so.
 
 ##### **Geohot** [[00:40:17](https://youtu.be/xyn3mZGiXd8?t=2417)]
 I'll stop you here if you're thinking about looking at the tensor graph.
-How does a sign behave differently from replace?
+How does assign behave differently from replace?
 If you look at what Replace does, Replace replaces the lazy data in a tensor.
 What happens if you do Replace inside of a JIT?
 This is what I mean about all these things.
@@ -645,7 +645,7 @@ Does assign mutate the tensor?
 
 ##### **Hooved** [[00:41:31](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2491)]
 Um...I think so.
-Yeah, tensor.assign, it calls uop.assign and doesn't assign, you know, inserts and assigns.
+Yeah, tensor.assign, it calls uop.assign and does an assign, you know, inserts and assigns.
 
 ##### **Geohot** [[00:41:40](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2500)]
 And that mutates the tensor?
@@ -662,14 +662,14 @@ The tensor lazy data also changes on replace.
 ##### **Hooved** [[00:42:00](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2520)]
 Correct.
 Yeah, I mean, replace and assign both change lazy data that they're called on, I believe.
-So the current implement, I mean, both of those things result in tensor lazy data changing.
+So the current implementation, I mean, both of those things result in tensor lazy data changing.
 So not that I'm too attached to the current approach, but the current approach detects both of those things.
 
 ##### **Geohot** [[00:42:23](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2543)]
-But should it detect or replace?
+But should it detect a replace?
 
 ##### **Hooved** [[00:42:26](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2546)]
-Should it detect or replace?
+Should it detect a replace?
 Is that your question?
 
 ##### **Geohot** [[00:42:29](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2549)]
@@ -703,12 +703,12 @@ I don't know.
 Maybe you are more interested in the WebGPU part and less so for the JIT part.
 That's why the proposal to
 Yeah, so my point is we don't really want to introduce a flag so that we can build things on top of that.
-Because now this flag becomes a ban that we still need to remove later.
+Because now this flag becomes a bane that we still need to remove later.
 So from our perspective, from our maintenance perspective, we definitely want things to be figured out or thought out before we merge any codes related to that.
 And I don't know, maybe it needs more people's time or stuff to be done before we can merge this stuff.
 So I think there are a few steps that we can do to move this forward.
 For example, you can write a test that you believe needs to be ready before you can further add more codes, add those test cases, and wait until someone
-Make those test paths, then you can move on to your next steps.
+Make those tests pass, then you can move on to your next steps.
 Or you can be the person, in this case, try to figure stuff out.
 And during this research process, be the most knowledgeable person that consider all the cases that can also work.
 
@@ -731,9 +731,9 @@ OK, so in terms of next steps, like trying to keep this organized.
 ##### **Chenyu** [[00:46:28](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2788)]
 My suggestion would be to make some progress would be
 So for JIT parts, understand what current behavior is and document it.
-And document is almost best done by writing a test to test the same behavior.
+And document is almost best done by writing a test to test this behavior.
 Then from the WebGPU export part, I think it's useful to, you can start to add tests like you believe should pass.
-And maybe it's not currently passed to the codebase.
+And maybe it's not currently passing in the codebase.
 We can certainly merge that.
 As long as it's fundamental and not go to the weed of your potential implementation details, I think we can merge those.
 So we know these are the things that should be done when we decide what the new behavior should look like.
@@ -841,7 +841,7 @@ I think one specific thing is, if I'm working on this, I will also check how JAX
 As an input.
 
 ##### **Chenyu** [[00:53:33](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3213)]
-They make that trade-off for layer JIT and assign.
+They make that trade-off for their JIT and assign.
 Not clear.
 Maybe we want to do that.
 Maybe we don't.
@@ -862,7 +862,7 @@ I know what I want, to test individual rewrite rules, but I don't have time for 
 
 ##### **Chenyu** [[00:54:21](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3261)]
 Okay, no worries.
-For other bounties, we have a PR for an eval.
+For other bounties, we have a PR for lm-eval.
 
 ##### **Chenyu** [[00:54:36](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3276)]
 At least it runs.
