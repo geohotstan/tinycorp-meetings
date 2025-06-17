@@ -75,20 +75,20 @@ You know, if they come through with it.
 But it's just so... It's so like... You don't know anything about what's true.
 They don't show you any of their... Now it's in legal review.
 
-##### **Geohot** [[00:00:53](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=53)]
+##### **Geohot & Chenyu** [[00:00:53](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=53)]
 Like, what?
-Yeah.
-Why?
+Chenyu: Yeah.
+Geohot: Why?
 I don't get it.
 What does this have to do with legal?
-Of course it has to do with legal.
-Why?
+Chenyu: Of course it has to do with legal.
+Geohot: Why?
 We're not getting anything.
 
 ##### **Geohot** [[00:01:13](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=73)]
 Something I'm really concerned about in general is you never want to... You see so many people... This is how I feel about using React and Kubernetes.
 If you use these things, you become Meta or Google.
-The app's a Trojan horse.
+The app's a [Trojan horse](https://en.wikipedia.org/wiki/Trojan_Horse).
 And this sort of mentality is a Trojan horse too.
 You start thinking about it and interacting with this kind of thing.
 
@@ -98,20 +98,19 @@ And then you just become this.
 ##### **Chenyu** [[00:01:46](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=106)]
 I think having a lawyer looking over your contract makes sense.
 
-##### **Geohot** [[00:01:50](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=110)]
+##### **Geohot & Chenyu** [[00:01:50](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=110)]
 Yeah, sure, but like...
 Oh, you know, I'd say legally, I don't know.
 I don't know.
 So I'm lowering to a 50% chance this contract goes through.
-No, I think legal review is pretty serious.
+Chenyu: No, I think legal review is pretty serious.
 I'll give you a higher chance if it's really like just a legal review.
-But is it even true?
+Geohot: But is it even true?
 Like?
 
 ##### **Chenyu** [[00:02:10](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=130)]
 Of course.
-Maybe.
-I don't know.
+Geohot: Maybe. I don't know.
 Okay, anyway, we should we should get we should see if this is happening anyway soon.
 
 ##### **Geohot** [[00:02:23](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=143)]
@@ -120,14 +119,14 @@ Again, I'm this close to saying, no, when you guys are serious, come back and, y
 ##### **Geohot** [[00:02:31](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=151)]
 Yeah, but that's... I don't know.
 
-##### **Geohot** [[00:02:36](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=156)]
+##### **Geohot & Chenyu** [[00:02:36](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=156)]
 Like, actually, when you're serious, come back to me with something.
 When you're serious, here's my wiring info.
 Wire me the money.
-Yeah.
-No, it's just like, you don't want to start... We don't need the money.
+Chenyu: Yeah.
+Geohot: No, it's just like, you don't want to start... We don't need the money.
 You don't want to start letting this behavior into your company.
-I mean, it's not like we are doing legal review.
+Chenyu:I mean, it's not like we are doing legal review.
 I understand.
 I understand.
 But, you know, really, really at arm's length.
@@ -156,9 +155,9 @@ Well, yeah, but like, you know, we asked for like two lines to be changed.
 It's been a week.
 I just don't think they're very serious.
 I don't think we're going to end up working with them.
-I see.
 
 ##### **Chenyu** [[00:03:53](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=233)]
+I see.
 Okay.
 
 ##### **Geohot** [[00:03:54](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=234)]
@@ -168,7 +167,7 @@ No, I'm going to say, if this isn't signed, if the money's not in our bank accou
 ##### **Chenyu** [[00:04:03](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=243)]
 Okay.
 Yeah.
-We get tiny box cases.
+Did we get tiny box cases?
 
 ##### **Geohot** [[00:04:10](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=250)]
 No, we didn't get the tiny box cases yet either.
@@ -185,13 +184,13 @@ There's one in the mail by FedEx.
 They were shipped on June 7th by DHL.
 I don't know why there's no tracking number here, but it says ETA end of last week, which didn't happen, or the beginning of this week.
 And then the other one, shipping by FedEx, I have a tracking number for, and it is in Memphis, Tennessee.
-Great, sounds pretty close.
-Yes, it was in Memphis, Tennessee at 10.18 a.m., which is the future.
+Chenyu: Great, sounds pretty close.
+Geohot: Yes, it was in Memphis, Tennessee at 10.18 a.m., which is the future.
 
 ##### **Chenyu** [[00:05:01](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=301)]
 We should have a resumed box delivery next week, if the case arrives this week.
 
-##### **Geohot** [[00:05:09](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=309)]
+##### **Geohot & Chenyu** [[00:05:09](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=309)]
 Yes.
 Yeah.
 So we started building.
@@ -202,22 +201,21 @@ But yeah, boxes should go out this week.
 Boxes should go out this week and we should then be able to build like another 10.
 And then once we have 10, I'll send out the email to the mailing list and I think they'll sell very quickly.
 Imean, I know if I was buying something like this, I would wait till it's actually in stock.
-Yeah.
-Then if it sells quickly, do we need more cases?
-Well, okay.
+Chenyu: Yeah. Then if it sells quickly, do we need more cases?
+Geohot: Well, okay.
 So we ordered 40 cases.
 We have 10 coming in the DHL, 10 coming by FedEx, and 20 by sea that will be here July 5th.
 
 ##### **Chenyu** [[00:06:02](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=362)]
 By 5th, okay.
 
-##### **Geohot** [[00:06:05](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=365)]
+##### **Geohot & Chenyu** [[00:06:05](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=365)]
 Yeah, so we can sell 20 in the next two weeks.
-No, here we go.
-Okay, sounds good.
-Okay, we're still selling red.
+No, we should be good.
+Chenyu: Okay, sounds good.
+Okay, we're still selling reds?
 
-##### **Geohot** [[00:06:20](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=380)]
+##### **Geohot & Chenyu** [[00:06:20](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=380)]
 We sold two reds.
 We sold two reds, and I'm 80% sure we sold them to the government.
 So the government has been sending me emails through various different things trying to buy these.
@@ -228,8 +226,8 @@ Okay, okay, but the least you could do is send us a W-9 and we're going to deliv
 I'm like, no, you have to use the website.
 So they eventually, this company bought it that looks like a front for the government or at least someone the government contracts with.
 So I'm going to guess what happened is the government bought it through this company and then this company is going to charge the government an extra 20 or 30% using their process.
-Interesting.
-Because who else is buying two red boxes?
+Chenyu: Interesting.
+Geohot: Because who else is buying two red boxes?
 But no, we legit sold two red boxes and they sent the wire, so they'll ship today.
 So yeah, two red boxes left.
 
@@ -239,21 +237,21 @@ Oh, only two left?
 ##### **Geohot** [[00:07:23](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=443)]
 Only two left, yeah, and then that's it.
 
-##### **Chenyu** [[00:07:28](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=448)]
+##### **Chenyu & Geohot** [[00:07:28](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=448)]
 I just realized Green V2 has exactly double the flops than Red.
-It's exactly double?
-That's what we... No, more than double, I guess.
+Geohot: It's exactly double?
+Chenyu: That's what we... No, more than double, I guess.
 
-##### **Geohot** [[00:07:40](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=460)]
+##### **Geohot & Chenyu** [[00:07:40](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=460)]
 Yeah, I mean, the Green V2, like, originally I had a smaller number for the flops because I was going off of NVIDIA's datasheet, but NVIDIA's datasheet is just... It's just funny that... Like, I've never seen a company underpublish what the card is capable of so much.
-That 1492 is actually what it tests at.
-Uh-huh.
-I don't know if it's like boost clocks or what it is.
+The 4090 too is actually what it tests at.
+Chenyu: Uh-huh.
+Geohot: I don't know if it's like boost clocks or what it is.
 But yeah, the red one is actually probably a little less than that.
 I'm not sure you can actually get that number.
 Yeah, I mean, I don't know.
 You need like a canonical way to measure this.
-There's flops, there's gem flops.
+There's flops, there's gemm flops.
 But yeah, no, I think that the way we should measure it going forward for all the tiny boxes is whatever we can actually achieve with something like MMA Peak.
 Similarly with RAM bandwidth, you have all these instructions.
 You have to build it.
@@ -272,7 +270,7 @@ OK.
 Sounds good.
 
 ##### **Chenyu** [[00:09:10](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=550)]
-Let's move on to your TestGrad.
+Let's move on to your [TestGrad](https://github.com/tinygrad/testgrad).
 
 ##### **Geohot** [[00:09:14](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=554)]
 Yeah, so I think I'm making pretty good progress there.
@@ -324,12 +322,12 @@ I just need to make it all work.
 ##### **Chenyu** [[00:13:23](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=803)]
 And how do you, in the new world, how do you group kernels?
 
-##### **Geohot** [[00:13:31](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=811)]
+##### **Geohot & Chenyu** [[00:13:31](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=811)]
 How do you decide what's in a kernel?
-How do you decide when you need to split a new kernel?
+Chenyu:How do you decide when you need to split a new kernel?
 So everything can be in one kernel, presumably, but then for different reasons, you might want to split into a smaller one?
 
-##### **Chenyu** [[00:13:48](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=828)]
+##### **Geohot** [[00:13:48](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=828)]
 Yeah.
 
 ##### **Geohot** [[00:13:51](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=831)]
@@ -337,10 +335,9 @@ There's a distinction between a global... So we still have the GBarrier instruct
 The GBarrier UOP is the same as the barrier UOP, except it applies on a global level.
 So for the GPU, GBarrier means a new kernel.
 For the CPU, all it means is close all the loops.
-Oh, I see.
 
 ##### **Chenyu** [[00:14:16](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=856)]
-Okay.
+Oh, I see. Okay.
 
 ##### **Geohot** [[00:14:17](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=857)]
 So yeah, it'll just close all the loops, and then it'll write that out to a thing, and then that's it.
@@ -382,17 +379,15 @@ It just basically means that you're ending the scope so that this entire array m
 
 ##### **Geohot** [[00:16:28](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=988)]
 Actually, that's interesting.
-
-##### **Geohot** [[00:16:34](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=994)]
 Maybe it should just be one barrier instruction that says up to what axis number you have to close.
 So GBarrier would be barrier 0, and LBarrier would be something like barrier 2 or 3.
 
-##### **Geohot** [[00:16:52](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1012)]
+##### **Geohot & Chenyu** [[00:16:52](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1012)]
 But I don't know.
-OK.
+Chenyu: OK.
 Anyway, that sounds like good progress.
 That's it?
-I think so, yeah.
+Geohot: I think so, yeah.
 
 ##### **Geohot** [[00:17:11](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1031)]
 I mean, that's basically the only change.
@@ -402,7 +397,7 @@ I still have to look into that.
 All of the ops tests are passing except for the ones with zero shape, which I have to think about what that actually means.
 I think those are things where we basically have tests for it, and then we just put hacks in a few places to deal with it, and it should just be dealt with in one place.
 
-##### **Geohot** [[00:17:49](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1069)]
+##### **Chenyu** [[00:17:49](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1069)]
 OK.
 Sounds good.
 
@@ -417,14 +412,15 @@ Not exactly sure why.
 That was my plan this week.
 Or at least to understand what's causing that and see if it's effective.
 
-##### **Geohot** [[00:18:34](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1114)]
+##### **Geohot & Chenyu** [[00:18:34](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1114)]
 We definitely have to fix BERT.
 I mean, it's just a question.
-Look, if we don't get the AMD contract... We are still going to work on BERT and submit BERT next run anyway.
-Absolutely.
+Look, if we don't get the AMD contract... 
+Chenyu: We are still going to work on BERT and submit BERT next run anyway.
+Geohot: Absolutely.
 And what I'd really like to submit for BERT next run is training on multiple machines.
 
-##### **Geohot** [[00:18:52](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1132)]
+##### **Chenyu** [[00:18:52](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1132)]
 Great.
 
 ##### **Geohot** [[00:18:53](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1133)]
@@ -438,10 +434,10 @@ I don't know.
 It's a shame.
 It's a shame how difficult, again, like, why don't these companies just make it easy?
 
-##### **Geohot** [[00:19:17](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1157)]
+##### **Geohot & Chenyu** [[00:19:17](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1157)]
 Like, do you want to do this or not?
 You know?
-I don't know.
+Chenyu: I don't know.
 We'll see if that goes through.
 
 ##### **Chenyu** [[00:19:33](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1173)]
@@ -449,11 +445,9 @@ On a separate note, I want to see if we can run Llama 405B inference.
 So I think Wozeparrot was helping me download the weight on MI300X machine.
 I was hoping, I don't know if the memory bug is there, but it should be fairly easy for us to like split into eight GPUs and just run a few tokens.
 
-##### **Geohot** [[00:20:09](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1209)]
+##### **Chenyu** [[00:20:09](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1209)]
 That's it.
-
-##### **Chenyu** [[00:20:11](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1211)]
-With that, we can move on to reverse tooling.
+With that, we can move on to VIZ tooling.
 
 ##### **Qazalin** [[00:20:18](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1218)]
 I think I got one round of review from you, George.
@@ -461,9 +455,10 @@ It's in a good spot.
 I tested on a full BERT run and it was pretty responsive.
 I'm thinking we can merge it.
 It's a little more lines than the UOPs viz is because I'm not using any libraries and stuff.
+It's just literally... 
 
 ##### **Geohot** [[00:20:41](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1241)]
-It's just literally... So, I mean, to ask the question if we can merge it, right?
+So, I mean, to ask the question if we can merge it, right?
 So I really like that it's the default, that it just shows up.
 Are there any downsides, right?
 Like, I don't want to have a flag to turn it off.
@@ -474,15 +469,15 @@ It's overhead?
 No overhead.
 Great.
 Yeah, I'll test it today and give you some more feedback.
-I'll wait for that before merging.
-Cool.
+Qazalin: I'll wait for that before merging.
+Geohot: Cool.
 How many lines is it?
 
 ##### **Qazalin** [[00:21:28](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1288)]
 153 lines of JavaScript.
 
 ##### **Geohot** [[00:21:32](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1292)]
-Three lines of JavaScript.
+153 of JavaScript.
 Any lines of anything else?
 
 ##### **Geohot** [[00:21:34](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1294)]
@@ -509,9 +504,9 @@ I do, actually.
 
 ##### **Geohot** [[00:22:02](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1322)]
 Great.
+Then let's delete it.
 
 ##### **Qazalin** [[00:22:02](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1322)]
-Then let's delete it.
 I did last minute just made the Perfetto UI match exactly with the flame graph style stacking.
 That looks good.
 
@@ -521,13 +516,13 @@ Do we have lines like Perfetto?
 ##### **Qazalin** [[00:22:22](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1342)]
 Lines on the grid, you mean?
 
-##### **Geohot** [[00:22:25](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1345)]
+##### **Geohot & Qazalin** [[00:22:25](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1345)]
 So in Perfetto, when you click on a kernel, there's lines connecting to what its dependencies are?
-No.
-Play with Perfetto a bit more and see if you're really confident that we've 100% replicated the features of it.
+Qazalin: No.
+Geohot: Play with Perfetto a bit more and see if you're really confident that we've 100% replicated the features of it.
 And then for every feature, I'm not saying we have to replicate it, but for every feature you should say, okay, this is outside the scope, this is something we should have too.
 
-##### **Geohot** [[00:22:57](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1377)]
+##### **Qazalin** [[00:22:57](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1377)]
 Perfetto has a lot of things.
 
 ##### **Geohot** [[00:23:00](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1380)]
@@ -548,7 +543,7 @@ Okay.
 Yeah.
 
 ##### **Qazalin** [[00:23:45](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1425)]
-Giving it out there, anyone can go with equals one tested.
+Giving it out there, anyone can go with VIZ equals one test it.
 The first thing that opens up is this graph.
 Beautiful MNIST or multi GPU.
 
@@ -596,10 +591,7 @@ Yeah, and I think for specifically this, maybe just open an issue to track the f
 So people who have experience with Perfetto can take a look and comment on anything if it's missing.
 
 ##### **Geohot** [[00:25:46](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1546)]
-Cool.
-Nice.
-
-##### **Chenyu** [[00:25:51](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1551)]
+Cool. Nice.
 Let's move on to drivers.
 
 ##### **Nimlgen** [[00:25:55](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1555)]
@@ -619,20 +611,20 @@ Great.
 Any progress on copy out speed?
 
 ##### **Nimlgen** [[00:27:06](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1626)]
-I don't really know.
+Oh, really no.
 
 ##### **Geohot** [[00:27:09](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1629)]
 Yeah, we got to get that done.
 We got to improve the copy out speed and then profiling on the Comma devices, figure out why the USB is slow, because Comma can't really use it yet.
 
-##### **Geohot** [[00:27:25](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1645)]
-Yeah, okay.
-But cool, no, glad NVIDIA's almost done.
+##### **Nimlgen & Geohot** [[00:27:25](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1645)]
+Nimlgen: Yeah, okay.
+Geohot: But cool, no, glad NVIDIA's almost done.
 
 ##### **Geohot** [[00:27:37](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1657)]
 I think there's also some time to spend just refactoring the general driver stuff and HCQ stuff, making sure everything's in its right place.
 Hopefully the NVIDIA driver will force some good refactors.
-A lot of the PCI interface stuff is fairly generic PCI stuff, but then there's a bunch of hard-coded AMD stuff.
+Like a lot of the PCI interface stuff is fairly generic PCI stuff, but then there's a bunch of hard-coded AMD stuff.
 I always prefer instantiation over inheritance.
 You have a choice when you have something like PCI interface.
 You can either create a class that has an object inside the class called interface, which is PCI interface, or you can override PCI interface with AMD PCI interface.
@@ -642,14 +634,12 @@ But yeah, no, I think, yeah, once NVIDIA is merged, I could sit down and do a re
 I think a bunch of the HCQ stuff is kind of like this too, where there's lots of overriding.
 There's lots of inheritance.
 There's lots of HCQ devices being inherited by the AMD device and the NVIDIA device, and it makes it kind of confusing to track through what really needs to be implemented here.
-Overriding a class is fine if what you're doing is you're adding a bunch of parameters to it or two, clear, 10-line functions.
+Overriding a class is fine if what you're doing is you're adding a bunch of parameters to it or two clear, 10-line functions.
 But when you have one 600-line class and then you inherit that class and then make another 500-line class, that's pretty unreadable.
 
-##### **Geohot** [[00:29:34](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1774)]
+##### **Nimlgen** [[00:29:34](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1774)]
 Yeah, I see.
 Yeah.
-
-##### **Nimlgen** [[00:29:37](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1777)]
 Yeah, I think this week a lot of refactors for NVIDIA.
 
 ##### **Geohot** [[00:29:42](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1782)]
@@ -657,55 +647,53 @@ Cool.
 But yeah, no, if you have the 600-line class and the 500-line class, that's fine.
 I'd rather the 500-line class, instead of inheriting, creates an object.
 
-##### **Geohot** [[00:29:52](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1792)]
+##### **Geohot, Chenyu & Nimlgen** [[00:29:52](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1792)]
 AMD device creates an object called PCI interface.
 And then that object can be reused by NVIDIA.
-That's it?
-Yeah, that's it for me.
+Chenyu: That's it?
+Nimlgen: Yeah, that's it for me.
 
 ##### **Chenyu** [[00:30:31](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1831)]
 Great.
-Is Word Spirit there?
+Is Wozeparrot there?
 
-##### **Geohot** [[00:30:35](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1835)]
+##### **Wozeparrot** [[00:30:35](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1835)]
 Yep, yep.
 
 ##### **Chenyu** [[00:30:36](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1836)]
 OK, your stuff?
 
-##### **Geohot** [[00:30:39](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1839)]
+##### **Wozeparrot** [[00:30:39](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1839)]
 Hoping to get something up for file system this week.
 
 ##### **Wozeparrot** [[00:30:46](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1846)]
 Mostly just working on file system manager right now, because currently we need something that
 When the user uploads a file to, it chunks it and then determines which machine each chunk lives on.
+I don't know if it is here.
 
-##### **Geohot** [[00:31:07](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1867)]
-I don't know if is here.
-
-##### **Geohot** [[00:31:13](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1873)]
+##### **Geohot & Wozeparrot** [[00:31:13](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1873)]
 What, you want to talk about the symbolic expand?
-Yeah.
-Do you need it?
-It's not just symbolic expand.
+Wozeparrot: Yeah.
+Geohot: Do you need it?
+Wozeparrot: It's not just symbolic expand.
 A lot of stuff.
 So the other thing is our current symbolic seems to not support
 
 ##### **Wozeparrot** [[00:31:25](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1885)]
 Like exactly what the variable batch size is doing.
 
-##### **Geohot** [[00:31:31](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1891)]
+##### **Wozeparrot** [[00:31:31](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1891)]
 Because our symbolic is very shaped around how the LLM KV cache works, which is a lot of shrinking.
 
 ##### **Chenyu** [[00:31:46](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1906)]
 OK.
 So I think the best way to proceed is probably
 
-##### **Geohot** [[00:31:52](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1912)]
+##### **Chenyu & Geohot** [[00:31:52](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1912)]
 Also open an issue, or add some tests, or things you think should happen.
 At the same time, I don't believe variable batch size will block you.
 I mean, you can just use variable batch size.
-Yeah, I think the test is the way to go here.
+Geohot: Yeah, I think the test is the way to go here.
 
 ##### **Geohot** [[00:32:10](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1930)]
 Just write some small tests.
@@ -719,17 +707,14 @@ So I think one big thing here is integer division is pretty annoying.
 I think before we add more rules to like, I think adding rules to fix stuff or removing rules to fix stuff is always good.
 But before we add yet another bunch of rules, we need to decide what's the division, which version of division we want to use, and what's the reason for that.
 
-##### **Geohot** [[00:33:09](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1989)]
+##### **Chenyu & Geohot** [[00:33:09](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1989)]
 And even if later we want to do the transcendental style rewrite ourselves to define the div behavior, we still need to decide and fully unify the divide Z3 is using, the divide Python is using, and it seems to be the C div that the current device is using.
-Yeah, agreed.
+Geohot: Yeah, agreed.
 I think we should probably look into, like read like the RDNA3 spec, and we should look into what the hardware actually supports.
 And whatever the hardware does is just what our divide should be.
 
-##### **Geohot** [[00:33:59](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2039)]
-Sure.
-
-##### **Chenyu** [[00:34:00](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2040)]
-I mean, there's a argument that your IR might want to use a different one because it simplifies better.
+##### **Chenyu** [[00:33:59](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2039)]
+Sure. I mean, there's a argument that your IR might want to use a different one because it simplifies better.
 
 ##### **Geohot** [[00:34:11](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2051)]
 Yeah, OK.
@@ -765,11 +750,10 @@ I don't know if yellow means not paid or what the question mark is.
 I think the question mark is green, though I do see some crashes sometimes.
 I see some seg faults in ONNX, and I don't know why.
 
-##### **Geohot** [[00:35:21](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2121)]
+##### **Chenyu & Geohot** [[00:35:21](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2121)]
 I also see that ONNX Runner... I think sometimes maybe out of memory or something.
-I see this PR that says ONNX Runner file as an input.
-Do we still need this?
-To spec parsing.
+Geohot: I see this PR that says ONNX Runner file as an input.
+Do we still need this?Need true spec parsing.
 
 ##### **Geohot** [[00:36:01](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2161)]
 I don't know what that means.
@@ -808,11 +792,7 @@ Yes, I've been mostly working on, still, the masking problem for shared buffers.
 I kind of identified three different issues.
 One, for example, being when you want to promote something to shared memory, you want to keep the access ..
 Broadcast it.
-
-##### **Geohot** [[00:37:48](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2268)]
 You don't want to expand it and to share the repeated elements.
-
-##### **Ignaciosica** [[00:37:57](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2277)]
 So that right now is only hinted in shared_permute.
 But in process_acc, there is a test in process_acc.
 And it's a propagated pragma.
@@ -840,13 +820,13 @@ Okay, cool.
 So then I, I, I mean, I.
 I kind of talked a little bit about the issues here, but I'll post more findings on this masking issue later today as a progress report, because I think there are some interesting things to be addressed.
 So yeah, if it's useful to keep working on this, I'll keep updating it.
-Yeah, so I think it's definitely useful.
 
 ##### **Chenyu** [[00:40:31](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2431)]
+Yeah, so I think it's definitely useful.
 We definitely want this picture more down the line.
 The best way is the same as you discover the issue, you discover the kernel that would trigger the issue, add it as a test so that we know if we are correct or we are incorrect.
 
-##### **Geohot** [[00:40:55](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2455)]
+##### **Ignaciosica** [[00:40:55](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2455)]
 Yes.
 
 ##### **Chenyu** [[00:40:55](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2455)]
@@ -856,11 +836,7 @@ Some of this is probably just hack around because we didn't have cases like this
 
 ##### **Ignaciosica** [[00:41:11](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2471)]
 No, I think most of the issue arise before linearizer.
-
-##### **Geohot** [[00:41:17](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2477)]
 But yes.
-
-##### **Ignaciosica** [[00:41:22](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2482)]
 Well, some minor thing that I didn't know if it was worth also upstreaming because of this change in the opt-ops is that Upcast, I think it should be reserved for global dims.
 Upcasting a local dim is the same as upcasting a global dim, but with extra steps.
 And it does reduce the search space significantly, but it unfortunately also decreases the speed of some kernels found.
@@ -878,11 +854,9 @@ Part of it from that local.
 Yeah, I think it's equivalent.
 And if you don't upcast locals, you can arrive to the same kernel, but with fewer opt-ops.
 So it does reduce the search space.
-
-##### **Geohot** [[00:42:45](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2565)]
 But given the current algorithm right now, it might happen.
 
-##### **Geohot** [[00:42:52](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2572)]
+##### **Geohot & Chenyu** [[00:42:52](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2572)]
 You're just going to have to test that, and we're going to need some way to test that, right?
 Like completely, they're totally equivalent, right?
 It does not matter if you upcast a global dim, then local a global dim, like upcast for local 32, right?
@@ -894,15 +868,16 @@ Just saying they're equivalent, therefore we should only do it one way,
 Yeah.
 I mean, you can't assume that you have a perfect search algorithm.
 Yeah, but we .
-I think it's more.
+Chneyu: I think it's more.
 So we had been doing this for a while.
 
 ##### **Chenyu** [[00:43:50](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2630)]
 If you can show that it's not off by too much and it indeed reduced the search space, I think that's more preferred.
 Yeah, I mean... It's not like we're on the line of, like, we have a frontier of search thing that we want to maintain.
-As long as the memo looks fine, the batch size one transformer looks fine, like... Yeah, yeah, yeah.
+As long as the memo looks fine, the batch size one transformer looks fine, like... 
 
 ##### **Geohot** [[00:44:20](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2660)]
+Yeah, yeah, yeah.
 That's what I mean by a test suite, right?
 Like, we should just make sure that we're doing fine on...
 On all of those.
@@ -916,21 +891,21 @@ If you think about the dim globally, the thing that you actually probably want i
 ##### **Chenyu** [[00:45:10](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2710)]
 Because you can decide, kind of start from your upcast, right?
 
-##### **Geohot** [[00:45:13](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2713)]
+##### **Chenyu & Geohot** [[00:45:13](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2713)]
 That's your kind of a minimal element in your compute.
 So you start, it's hard for search, but you really want to start from that, then build.
-Wait, no, I think you want to start from locals.
+Geohot: Wait, no, I think you want to start from locals.
 
 ##### **Ignaciosica** [[00:45:26](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2726)]
 Yeah, I think you want to start from locals too.
 I mean, if you start from locals, your threads are contiguous, right?
 
-##### **Geohot** [[00:45:35](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2735)]
+##### **Geohot, Chenyu & Ignaciosica** [[00:45:35](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2735)]
 Yeah, you want your memory to coalesce as much as possible.
 So the ideal first step in most kernels should be doing locals on the thing that's stride 1, or the closest to stride 1.
-I see.
-If you upcast first, you can vectorize.
-Well, it's kind of counterintuitive.
+Chenyu: I see.
+Ignaciosica: If you upcast first, you can vectorize.
+Geohot: Well, it's kind of counterintuitive.
 Yeah, it's kind of counterintuitive.
 Like you usually think, actually, no, this isn't probably, no, wait, no, no, no, no.
 I'll correct this again.
@@ -959,23 +934,22 @@ We need to write tools that show how the search is happening.
 ##### **Chenyu** [[00:47:19](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2839)]
 Basically, a way to have a script or tools that shows these hypotheses are indeed happening for search.
 
-##### **Geohot** [[00:47:29](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2849)]
-That might also give us better ideas for how search should improve.
-Yeah.
+##### **Chenyu & Geohot** [[00:47:29](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2849)]
+Chenyu: That might also give us better ideas for how search should improve.
+Geohot: Yeah.
 I wrote some bad graph tooling around it, but it would be great to get this integrated.
-Maybe that'll be the project after time this.
+Maybe that'll be the project after time VIZ.
 
-##### **Geohot** [[00:47:44](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2864)]
-Beam search viz.
+##### **Chenyu** [[00:47:44](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2864)]
 Thank you.
 
-##### **Chenyu** [[00:47:50](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2870)]
+##### **Ignaciosica & Chenyu** [[00:47:50](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2870)]
 Thank you.
-Okay.
-Other boundaries.
+Chenyu: Okay.
+Other bounties.
 I don't know if we got any update for RetinaNet.
 
-##### **Wozeparrot** [[00:48:02](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2882)]
+##### **Flata** [[00:48:02](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2882)]
 Oh, hello.
 Yeah, so I've been still working on the eval itself.
 I think I'm halfway there.
@@ -987,7 +961,7 @@ So I've been just updating my draft PR over time to make those changes.
 Yeah.
 If you have the chance, you can also post some of these
 
-##### **Geohot** [[00:48:33](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2913)]
+##### **Chenyu** [[00:48:33](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2913)]
 In the channel, I think similar to the moving CIFAR to Tinygrad one, I think there are some stuff that we currently don't support well.
 
 ##### **Chenyu** [[00:48:41](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2921)]
@@ -996,34 +970,33 @@ And we might want to improve those, either like adding a corresponding tensor fu
 Because we expect people to rewrite this Torch code or equivalent to Tinygrad.
 Any blockers that you find would be helpful for us to improve.
 
-##### **Geohot** [[00:49:05](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2945)]
+##### **Flata, Chenyu & Wozeparrot** [[00:49:05](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2945)]
 OK, sounds good.
-OK, LM-Eval.
-I don't know if Venkat can talk here.
-I don't think they can.
+Chenyu: OK, LM-Eval.
+I don't know if Fancat can talk here.
+Wozeparrot: I don't think they can.
 
 ##### **Geohot** [[00:49:21](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2961)]
 Who?
-Venkat, you're added as a speaker if you have to exit and reenter the voice chat if you want to talk.
+Fancat, you're added as a speaker if you have to exit and reenter the voice chat if you want to talk.
 
 ##### **Geohot** [[00:49:45](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2985)]
 You don't have to talk, it's totally up to you.
-SGLang is...
 
-##### **Geohot** [[00:49:53](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2993)]
-Quite different.
+##### **Wozeparrot & Geohot** [[00:49:53](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2993)]
+SGLang is...Quite different.
 Their prompt is different, but it seems they're prompting for a reasoning model.
 It seems a little unclear.
-Oh, I tried to use Ollama this weekend for a project I'm working on.
+Geohot: Oh, I tried to use Ollama this weekend for a project I'm working on.
 Yeah, we can do so much better.
 The most annoying thing, the thing that took me forever to realize, is it was like catting a file into it, and the default context length is 2048.
-Oh, yeah, people complain about this all the time.
-And then there's no environment variable to set it.
+Wozeparrot: Oh, yeah, people complain about this all the time.
+Geohot: And then there's no environment variable to set it.
 
-##### **Nimlgen** [[00:50:32](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3032)]
+##### **Wozeparrot** [[00:50:32](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3032)]
 No, you have to get it, the modelfile.
 
-##### **Geohot** [[00:50:33](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3033)]
+##### **Geohot & Wozeparrot** [[00:50:33](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3033)]
 Yes.
 Which is crazy.
 And then eventually I do it, and then it just starts taking forever.
@@ -1035,7 +1008,7 @@ How many tokens is my file?
 How come it doesn't tell me this?
 Like, yeah.
 So I think there's actually...
-Ollama is pretty bad.
+Wozeparrot: Ollama is pretty bad.
 If you use just base llama.cpp, it's better.
 It's just more annoying to work with.
 Base llama.cpp?
@@ -1046,15 +1019,15 @@ It's the same thing.
 ##### **Wozeparrot** [[00:51:14](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3074)]
 I mean, it's nice.
 
-##### **Geohot** [[00:51:15](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3075)]
+##### **Geohot & Wozeparrot** [[00:51:15](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3075)]
 They make it very easy to fetch models, but then you fetch models.
-Well, other models are out of date as well.
-You fetch a model, and it doesn't tell you anything about the quantization of the model.
-It's just called like Q4_0.
-You fetch like DeepSeek-Coder.
+Wozeparrot: Well, other models are out of date as well.
+Geohot: You fetch a model, and it doesn't tell you anything about the quantization of the model.
+It's just called like Qwen 32 b.
+Wozeparrot: You fetch like DeepSeek-R1.
 It just fetches the 8B version.
 But it's called DeepSeek-Coder.
-What do you mean the 8B?
+Geohot: What do you mean the 8B?
 It fetches the 8B version.
 Oh, the 8 billion weights?
 Distilled into like... Yeah, yeah, yeah, yeah.
@@ -1073,17 +1046,15 @@ We don't have an easy, I just don't even like know how to do it.
 And this is like, yeah, we need to, so I don't know, back to tinygrad/apps.
 
 ##### **Chenyu** [[00:52:30](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3150)]
-OK, anyway, so I think we just want some composable stuff.
+OK, anyway, so I think we just want some comparable stuff.
 
 ##### **Wozeparrot** [[00:52:38](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3158)]
 Yeah, so I think we just copy SGLang.
 Whatever SGLang is doing, I think we just do that.
 
 ##### **Chenyu** [[00:52:46](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3166)]
-OK. Anyway, for Venkat, I assigned the validation of the bounty to Wozeparrot.
+OK. Anyway, for Fancat, I assigned the validation of the bounty to Wozeparrot.
 So just let him know if you have any questions.
-
-##### **Geohot** [[00:53:00](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3180)]
 Great.
 
 ##### **Chenyu** [[00:53:03](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3183)]
@@ -1092,7 +1063,7 @@ And I think, at least on ResNet, because we update LLVM version to 20, it seems 
 Slightly, like 1% faster, but slightly faster.
 That's pretty nice.
 
-##### **Geohot** [[00:53:32](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3212)]
+##### **Wozeparrot** [[00:53:32](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3212)]
 Interesting.
 Because ROCm is LLVM 21.
 LLVM is faster.
@@ -1109,7 +1080,7 @@ I mean, it's nice that we support both, but overall it's just so much cleaner to
 It's real.
 Oh, it turns out also, I was engaging with some guy on Twitter, there's a SASS, there's an open source SASS compiler now.
 
-##### **Chenyu** [[00:54:08](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3248)]
+##### **Wozeparrot** [[00:54:08](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3248)]
 Yeah, the one in Mesa.
 
 ##### **Geohot** [[00:54:09](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3249)]
@@ -1121,18 +1092,18 @@ If anyone can get that wired up.
 ##### **Wozeparrot** [[00:54:20](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3260)]
 I think if you do that, it will support AMD, like Mesa's AMD output as well.
 
-##### **Geohot** [[00:54:24](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3264)]
+##### **Geohot & Wozeparrot** [[00:54:24](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3264)]
 Yeah, it'll support the ACO one, yeah.
 Yeah.
 Yeah, so I called the bounty both of them.
 You could do either one.
 Yeah, I'm curious how performant that is.
-Pretty decent, I think.
+Wozeparrot: Pretty decent, I think.
 
 ##### **Geohot** [[00:54:39](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3279)]
 Yeah.
 
-##### **Geohot** [[00:54:39](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3279)]
+##### **Geohot, Wozeparrot & Chenyu** [[00:54:39](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3279)]
 And then even more, we need the infrastructure to support the separation of device and compiler.
 Who is working on that?
 I'm working on it.
@@ -1146,30 +1117,30 @@ And just say, okay, we're going to comment out the test suite.
 Yeah, no one is using CPUGraph now.
 Yeah, okay, great.
 I'll just remove it.
-CPUGraph breaks some stuff.
-There's a special rule in remote for CPUGraph.
+Wozeparrot: CPUGraph breaks some stuff.
+Geohot: There's a special rule in remote for CPUGraph.
 It's just not... It doesn't look like the other graphs.
-There's an open issue right now.
+WozeparrotL There's an open issue right now.
 A lot of stuff, when you try to run it on CPU, without J=2, it just doesn't work.
-Oh, great.
+Geohot: Oh, great.
 Yeah, okay.
 Well, it just got deleted.
-Great.
-Best code is no code.
+Chenyu: Great.
+Geohot: Best code is no code.
 
 ##### **Chenyu** [[00:55:36](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3336)]
 Great.
 Okay.
 Second time we say goodbye to CPUGraph.
 
-##### **Geohot** [[00:55:41](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3341)]
+##### **Geohot & Chenyu** [[00:55:41](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3341)]
 It really doesn't want to exist.
 No, I mean, the real solution to CPUGraph is something that looks like a runtime.
 It's something that looks like a GPU-style runtime implemented on CPU that does hyper-threaded dispatch.
 This will also be Tinygrad's answer to multi-threaded.
 Like, yeah, if you have a CPU with 32 cores, there's no reason that we can't use it the same way you use a GPU with basically 32 cores.
-Oh, so it would be a multi-threaded dispatcher, I see.
-Yeah, yeah, yeah.
+Chenyu: Oh, so it would be a multi-threaded dispatcher, I see.
+Geohot: Yeah, yeah, yeah.
 It'd be a threading dispatcher, right?
 It's not like multi-GPUs, because the CPU does have a unified memory space.
 But it would be the same way the GPU, when you have a G dimension, how it dispatches them to all the compute units on the GPU.
@@ -1180,27 +1151,24 @@ And then we have a CPU command queue.
 And then the CPU command queue is parsed by something that's running on every thread.
 That's the right way to do this.
 
-##### **Geohot** [[00:56:55](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3415)]
+##### **Chenyu** [[00:56:55](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3415)]
 Great.
-
-##### **Chenyu** [[00:56:57](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3417)]
 OK.
-Lastly, so I think uvm is not here.
-What's the priority?
-Do you have anything to say?
+Lastly, so I think Uuuvn is not here.
+Wozeparrot, do you have anything to say?
 
-##### **Nimlgen** [[00:57:03](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3423)]
+##### **Wozeparrot** [[00:57:03](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3423)]
 I didn't get to looking at remote multi-host last week, so I'll do it this week.
 
-##### **Geohot** [[00:57:12](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3432)]
+##### **Geohot, Chenyu & Wozeparrot** [[00:57:12](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3432)]
 OK.
-Just making sure it's not blocked on us.
-We have something that we should be reviewing now?
-You can look at basic remote mode.
+Chenyu: Just making sure it's not blocked on us.
+Geohot; We have something that we should be reviewing now?
+Wozeparrot: You can look at basic remote mode.
 Yeah, this one.
-All right, cool.
+Geohot; All right, cool.
 All right, so you got this?
-Yeah.
+Wozeparrot: Yeah.
 Great.
 Looks OK.
 I don't know about the format for specifying the hosts.
@@ -1209,20 +1177,20 @@ You look in the test.
 You have to do this.
 You specify one device times the amount of devices on the device.
 
-##### **Chenyu** [[00:57:45](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3465)]
+##### **Geohot** [[00:57:45](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3465)]
 Where?
 
-##### **Geohot** [[00:57:47](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3467)]
+##### **Wozeparrot & Geohot** [[00:57:47](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3467)]
 At the top.
 Yeah, right there.
 Yeah, you specify like this host.
-Wait, that seems great.
+Geohot: Wait, that seems great.
 I love that.
-What?
-How do you want to do it better?
-I don't know.
+Wozeparrot; What?
+Geohot: How do you want to do it better?
+Wozeparrot: I don't know.
 Yeah, that's what I mean.
-That's actually super nice with the *.
+Geohot: That's actually super nice with the *.
 Okay.
 Yeah, I like it.
 I mean, how else are you going to say that there's... Yeah.
@@ -1239,8 +1207,9 @@ Yeah, that was my thought.
 It's like you don't actually have to specify how many devices are on it.
 You just specify the hosts.
 
-##### **Geohot** [[00:58:13](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3493)]
-Like, no, I don't see any other multi-framework that... Well, no, but I actually do kind of like that, because you could say, like, I want to put on four GPUs there and four GPUs there.
+##### **Wozeparrot & Geohot** [[00:58:13](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3493)]
+Like, no, I don't see any other multi-framework that... 
+Geohot: Well, no, but I actually do kind of like that, because you could say, like, I want to put on four GPUs there and four GPUs there.
 Yeah, I like this better.
 I like it better, specifying on the client.
 Well, you could also say that, like, okay, we'll have it just query the number of GPUs from the process, but then, I don't know.
