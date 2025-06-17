@@ -108,7 +108,7 @@ I'll give you a higher chance if it's really like just a legal review.
 Geohot: But is it even true?
 Like?
 
-##### **Chenyu** [[00:02:10](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=130)]
+##### **Chenyu & Geohot** [[00:02:10](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=130)]
 Of course.
 Geohot: Maybe. I don't know.
 Okay, anyway, we should we should get we should see if this is happening anyway soon.
@@ -1163,10 +1163,10 @@ I didn't get to looking at remote multi-host last week, so I'll do it this week.
 ##### **Geohot, Chenyu & Wozeparrot** [[00:57:12](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3432)]
 OK.
 Chenyu: Just making sure it's not blocked on us.
-Geohot; We have something that we should be reviewing now?
+Geohot: We have something that we should be reviewing now?
 Wozeparrot: You can look at basic remote mode.
 Yeah, this one.
-Geohot; All right, cool.
+Geohot: All right, cool.
 All right, so you got this?
 Wozeparrot: Yeah.
 Great.
