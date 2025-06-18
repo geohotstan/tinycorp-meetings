@@ -84,7 +84,7 @@ def process_audio_and_video(audio_path, date, last_week_path):
 def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url):
     run_whisperx(audio_path, last_week_path, SPEAKERS, HF_TOKEN)
     with open(last_week_path / f"{date}.json", "r") as file:
-        transcript = json_to_transcript(json.load(file), youtube_url)
+        transcript = json_to_transcript(json.load(file), youtube_url, audio_path)
 
     readme_content = f"""# {date} Meeting
 
