@@ -1,92 +1,215 @@
 import subprocess
+import runpy
 import sys
 import os
-import argparse
+import torch
 import json
+import tempfile
+from datetime import timedelta
+from typing import Any
 from pathlib import Path
 
+initial_prompt =  "Audio of Tinygrad weekly meeting, a technical meeting about artificial intelligence, GPU and other computational hardware, and the machine learning framework Tinygrad."
+
+def standardize_audio(audio_path):
+    tmpfile = tempfile.NamedTemporaryFile(suffix='.wav', delete=False)
+    cmd = ["ffmpeg", "-y", "-i", audio_path, "-ac", "1", "-ar", "16000", tmpfile.name]
+    subprocess.run(cmd, check=True)
+    return tmpfile.name
+
 class BaseTranscription:
+    """Base class for audio transcription.
+
+    Input must be a WAV file and output will be a JSON file containing the transcription.
+    """
     def __init__(self, input_path, output_path):
-        self.audio_path = audio_path
-        self.folder_path = folder_path
-        self.speakers = speakers
-    def forward(self):
+        """
+        Args:
+            input_path: Path to input WAV file
+            output_path: Path where output JSON will be saved
+        """
+        assert Path(input_path).suffix == ".wav"
+        assert Path(output_path).suffix == ".json"
+        self.input_path = input_path
+        self.output_path = output_path
+    def transcribe(self):
         raise NotImplementedError()
 
+class WhisperX(BaseTranscription):
+    def transcribe(self):
+        try:
+            import whisperx
+        except ImportError:
+            raise ImportError("Please install whisperx")
 
-def run_whisperx(audio_path, folder_path, speakers, HF_TOKEN) -> None:
-    whisperx_cmd = [
-        "uv", "run", "whisperx",
-        str(audio_path),
-        "--hf_token", HF_TOKEN,
-        "--model", "large-v3",
-        "--diarize",
-        "--language", "en",
-        "--initial_prompt", "Audio of Tinygrad weekly meeting, a technical meeting about artificial intelligence, GPU and other computational hardware, and the machine learning framework Tinygrad.",
-        "--condition_on_previous_text", "True",
-        "--compute_type", "float32",
-        "--segment_resolution", "chunk",
-        "--print_progress", "True",
-        "--min_speakers", str(speakers),
-        "--max_speakers", str(speakers),
-        "--align_model", "WAV2VEC2_ASR_LARGE_LV60K_960H",
-        "--batch_size", "4",
-        "--output_dir", str(folder_path),
-        "--output_format", "json"
-    ]
+        HF_TOKEN = os.getenv("HF_TOKEN")
+        SPEAKERS = os.getenv("SPEAKERS")
+        output_dir = str(Path(self.output_path).parent)
+        whisperx_cmd = [
+            "whisperx",
+            str(self.input_path),
+            "--hf_token", HF_TOKEN,
+            "--model", "large-v3",
+            "--diarize",
+            "--language", "en",
+            "--initial_prompt", initial_prompt,
+            "--condition_on_previous_text", "True",
+            "--compute_type", "float32",
+            "--segment_resolution", "chunk",
+            "--print_progress", "True",
+            "--align_model", "WAV2VEC2_ASR_LARGE_LV60K_960H",
+            "--chunk_size", "10",
+            "--batch_size", "4",
+            "--output_dir", output_dir,
+            "--output_format", "json"
+        ]
+        if SPEAKERS is not None:
+            whisperx_cmd.extend(["--min_speakers", SPEAKERS, "--max_speakers", SPEAKERS])
 
-    try:
-        subprocess.run(whisperx_cmd, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error running whisperx: {e}")
-        sys.exit(1)
+        original_argv = sys.argv
+        try:
+            sys.argv = whisperx_cmd
+            runpy.run_module("whisperx", run_name="__main__")
+        finally:
+            sys.argv = original_argv
 
+class ParakeetMLX(BaseTranscription):
+    def transcribe(self):
+        from whisperx.diarize import DiarizationPipeline, assign_word_speakers
+        HF_TOKEN = os.getenv("HF_TOKEN")
+        SPEAKERS = os.getenv("SPEAKERS")
 
-def run_parakeet(audio_path, folder_path, speakers, HF_TOKEN):
-    from whisperx.diarize import DiarizationPipeline, assign_word_speakers
-    input_audio_path = str(audio_path)
-    parakeet_cmd = [
-        "uv", "run", "parakeet-mlx",
-        input_audio_path,
-        "--model", "mlx-community/parakeet-tdt-0.6b-v2",
-        "--output-dir", str(folder_path),
-        "--output-format", "json",
-    ]
+        input_audio_path = str(self.input_path)
+        parakeet_cmd = [
+            "uv", "run", "parakeet-mlx",
+            input_audio_path,
+            "--model", "mlx-community/parakeet-tdt-0.6b-v2",
+            "--output-dir", str(Path(self.output_path).parent),
+            "--output-format", "json",
+        ]
 
-    try:
-        subprocess.run(parakeet_cmd, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error running parakeet: {e}")
-        sys.exit(1)
+        try:
+            subprocess.run(parakeet_cmd, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error running parakeet: {e}")
+            sys.exit(1)
 
-    json_path = Path(audio_path).with_suffix('.json')
-    with json_path.open('r', encoding='utf-8') as f:
-        result = json.load(f)["sentences"]
-        result = [{**d, "words": d.pop("tokens")} if "tokens" in d else d for d in result]
-        result = {"segments": result}
+        json_path = Path(self.output_path)
+        with json_path.open('r', encoding='utf-8') as f:
+            result = json.load(f)["sentences"]
+            result = [{**d, "words": d.pop("tokens")} if "tokens" in d else d for d in result]
+            result = {"segments": result}
 
-    print(">>Performing diarization...")
-    diarize_model = DiarizationPipeline(use_auth_token=HF_TOKEN, device='cpu')
-    diarize_segments = diarize_model(input_audio_path, min_speakers=speakers, max_speakers=speakers)
-    result = assign_word_speakers(diarize_segments, result)
+        print(">>Performing diarization...")
+        diarize_model = DiarizationPipeline(use_auth_token=HF_TOKEN, device='cpu')
+        diarize_segments = diarize_model(input_audio_path, min_speakers=SPEAKERS, max_speakers=SPEAKERS)
+        result = assign_word_speakers(diarize_segments, result)
 
-    with json_path.open('w', encoding='utf-8') as f:
-        json.dump(result, f, indent=2)
+        with json_path.open('w', encoding='utf-8') as f:
+            json.dump(result, f, indent=2)
 
+class Whisper(BaseTranscription):
+    def transcribe(self):
+        try:
+            import whisper
+            from pyannote.audio import Pipeline
+            from pyannote.core.annotation import Annotation
+        except ImportError:
+            raise ImportError("Please install whisper and pyannote")
 
+        HF_TOKEN = os.getenv("HF_TOKEN")
+        if os.getenv("TINYGRAD"):
+            device = "tiny"
+            import tinygrad.frontend.torch # noqa: F401 # pylint: disable=unused-import
+            torch.set_default_device(device)
+        else:
+            device = "cpu"
+            torch.set_default_device(device)
+
+        # setup
+        whisper_model = whisper.load_model("base")
+        diarization_pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", use_auth_token=HF_TOKEN)
+        standardized_audio = standardize_audio(self.input_path)
+
+        # pipeline
+        try:
+            transcription = whisper_model.transcribe(
+                standardized_audio,
+                initial_prompt=initial_prompt,
+                condition_on_previous_text=True,
+                word_timestamps=True,
+                verbose=False
+            )
+
+            out: Annotation = diarization_pipeline(standardized_audio)
+            diarization = []
+            for turn, _, speaker in out.itertracks(yield_label=True):
+                diarization.append((turn.start, turn.end, speaker))
+
+            aligned_segments = []
+            for segment in transcription.get('segments', []):
+                start_time = segment['start']
+                end_time = segment['end']
+                text = segment['text'].strip()
+                if not text:
+                    continue
+                best_speaker = self._find_best_speaker(start_time, end_time, diarization)
+                aligned_segments.append({
+                    'start': start_time,
+                    'end': end_time,
+                    'text': text,
+                    'speaker': best_speaker,
+                    'words': segment.get('words', [])
+                })
+            segments = self._merge_consecutive_speaker_segments(aligned_segments)
+            segments_json = {"segments": []}
+            for seg in segments:
+                segments_json["segments"].append({
+                    "start": self.format_datetime(seg["start"]),
+                    "end": self.format_datetime(seg["end"]),
+                    "text": seg["text"],
+                    "speaker": seg["speaker"],
+                })
+            with open(self.output_path, 'w', encoding='utf-8') as f:
+                json.dump(segments_json, f, indent=2)
+
+        finally:
+            print("REMOVING")
+            os.remove(standardized_audio)
+
+    def format_datetime(self, seconds: float) -> str:
+        td = timedelta(seconds=seconds)
+        hours, rem = divmod(td.total_seconds(), 3600)
+        minutes, sec = divmod(rem, 60)
+        return f"{int(hours):02d}:{int(minutes):02d}:{int(sec):02d}"
+
+    def _find_best_speaker(self, start_time: float, end_time: float, diarization: list[tuple[float, float, str]]) -> str:
+        best_speaker = "SPEAKER_00"
+        max_overlap = 0.0
+        for dia_start, dia_end, speaker in diarization:
+            overlap = max(0.0, min(end_time, dia_end) - max(start_time, dia_start))
+            if overlap > max_overlap:
+                max_overlap = overlap
+                best_speaker = speaker
+        return best_speaker
+
+    def _merge_consecutive_speaker_segments(self, segments: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        if not segments:
+            return []
+        merged = []
+        current = segments[0].copy()
+        for seg in segments[1:]:
+            if seg['speaker'] == current['speaker']:
+                current['end'] = seg['end']
+                current['text'] += ' ' + seg['text']
+                current['words'].extend(seg.get('words', []))
+            else:
+                merged.append(current)
+                current = seg.copy()
+        merged.append(current)
+        return merged
 
 
 if __name__ == "__main__":
-    from dotenv import load_dotenv
-    load_dotenv()
-    HF_TOKEN = os.getenv("HF_TOKEN")
-    assert HF_TOKEN is not None
-    parser = argparse.ArgumentParser(description='Run WhisperX transcription on audio files')
-    parser.add_argument('audio_path', type=str, help='Path to the audio file')
-    parser.add_argument('--folder_path', type=str, default=os.getcwd(), help='Output folder path (default: current directory)')
-    parser.add_argument('--speakers', type=int, default=None, help='Number of speakers in the audio (optional)')
-
-    args = parser.parse_args()
-
-    # run_parakeet(args.audio_path, args.folder_path, args.speakers, HF_TOKEN)
-    run_whisperx(args.audio_path, args.folder_path, args.speakers, HF_TOKEN)
+    run = Whisper("2025-06-16.wav", "2025-06-16-test.json")
+    run.transcribe()
