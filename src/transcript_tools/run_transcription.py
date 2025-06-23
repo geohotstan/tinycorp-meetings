@@ -5,14 +5,6 @@ import argparse
 import json
 from pathlib import Path
 
-class BaseTranscription:
-    def __init__(self, input_path, output_path):
-        self.audio_path = audio_path
-        self.folder_path = folder_path
-        self.speakers = speakers
-    def forward(self):
-        raise NotImplementedError()
-
 
 def run_whisperx(audio_path, folder_path, speakers, HF_TOKEN) -> None:
     whisperx_cmd = [
