@@ -24,6 +24,7 @@ people = {
     "Hooved": "0602-hooved.mp3",
     "Sieds Lykles": "0602-sied.mp3",
     "B1tg": "0609-b1tg.mp3",
+    "Uuvn": "0623-uuvn.mp3"
 }
 
 TIMESTAMP_RE = re.compile(r'\[\[(\d{2}:\d{2}:\d{2})\]\(.*\)]')
