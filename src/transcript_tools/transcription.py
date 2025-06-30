@@ -164,9 +164,15 @@ class Whisper(BaseTranscription):
             segments = self._merge_consecutive_speaker_segments(aligned_segments)
             segments_json = {"segments": []}
             for seg in segments:
+                # segments_json["segments"].append({
+                #     "start": self.format_datetime(seg["start"]),
+                #     "end": self.format_datetime(seg["end"]),
+                #     "text": seg["text"],
+                #     "speaker": seg["speaker"],
+                # })
                 segments_json["segments"].append({
-                    "start": self.format_datetime(seg["start"]),
-                    "end": self.format_datetime(seg["end"]),
+                    "start": seg["start"],
+                    "end": seg["end"],
                     "text": seg["text"],
                     "speaker": seg["speaker"],
                 })
