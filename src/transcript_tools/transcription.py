@@ -217,5 +217,5 @@ class Whisper(BaseTranscription):
 
 
 if __name__ == "__main__":
-    run = Whisper("2025-06-16.wav", "2025-06-16-test.json")
+    run = Whisper("2025-06-30.wav", "2025-06-30-test.json")
     run.transcribe()

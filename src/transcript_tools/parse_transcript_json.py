@@ -15,15 +15,15 @@ from torch import tensor
 
 
 people = {
-    "Geohot": "0609-geohot.mp3",
-    "Chenyu": "0609-chenyu.mp3",
-    "Wozeparrot": "0609-wozeparrot.mp3",
-    "Qazalin": "0609-qazalin.mp3",
-    "Nimlgen": "0609-nimlgen.mp3",
-    "Ignaciosica": "0609-ignaciosica.mp3",
-    "Hooved": "0602-hooved.mp3",
-    "Sieds Lykles": "0602-sied.mp3",
-    "B1tg": "0609-b1tg.mp3",
+    "Geohot": "geohot.mp3",
+    "Chenyu": "chenyu.mp3",
+    "Wozeparrot": "wozeparrot.mp3",
+    "Qazalin": "qazalin.mp3",
+    "Nimlgen": "nimlgen.mp3",
+    "Ignaciosica": "ignaciosica.mp3",
+    "Hooved": "hooved.mp3",
+    # "Sieds Lykles": "sieds_lykles.mp3",
+    "B1tg": "b1tg.mp3",
 }
 
 TIMESTAMP_RE = re.compile(r'\[\[(\d{2}:\d{2}:\d{2})\]\(.*\)]')
