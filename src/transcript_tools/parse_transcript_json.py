@@ -121,7 +121,7 @@ def json_to_transcript(j:dict, url:str, audio_file:str):
             ts = math.floor(data["start"])
             te = ts+min(math.floor(data["dur"]), 60)
             for name in people:
-                stuff_vioce = os.path.join("samples", people[name])
+                stuff_vioce = os.path.join("resources", "samples", people[name])
                 score, prediction = verify_files(verification, audio_file, stuff_vioce, t1=(ts,te), t2=(0,10))
                 # print(f"  {name} {score=}, {prediction=}")
                 if name not in scores:
