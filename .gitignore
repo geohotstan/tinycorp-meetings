@@ -19,4 +19,7 @@ last-week-in-tinycorp/**/*.wav
 last-week-in-tinycorp/**/*.json
 last-week-in-tinycorp/**/*.mp4
 client_secrets.json
-pretrained_models
+pretrained_models/
+recordings.egg-info/
+*.wav
+*.json

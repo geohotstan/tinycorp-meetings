@@ -7,7 +7,7 @@ from datetime import datetime
 from src.transcript_tools.audio_to_video import make_mp4
 from src.transcript_tools.upload_youtube import upload_video
 from src.transcript_tools.parse_transcript_json import json_to_transcript
-from src.transcript_tools.run_transcription import run_whisperx
+from src.transcript_tools.transcription import Whisper
 import shutil
 from dotenv import load_dotenv
 load_dotenv()
@@ -17,16 +17,19 @@ CLIENT_SECRET_PATH = str(Path(__file__).parent / "client_secrets.json")
 
 # update these
 SPEAKERS = 8
-MEETING_AGENDA = """meeting #74, 9am Monday San Diego time
+os.environ["SPEAKERS"] = str(SPEAKERS)
+MEETING_AGENDA = """9am Monday San Diego time
 - company update
-- fixed multi (and resnet dataloader), faster ci
-- linearizer
-- viz
+- scheduler kernel ops stuff
+- tests with uop and kernel dataset
+- mlperf llama 405b
+- viz tooling
 - drivers
-- cloud, hash
+- cloud, tinyfs
+- z3 symbolic
 - onnx
 - local
-- other bounties (lm_eval, AMD_LLVM)
+- other bounties (retinanet, cloud sync stuff, refactors, SVD, cifar torch backend)
 """
 
 WEEKLY_LOG_PATH = Path(__file__).parent / "last-week-in-tinycorp"
@@ -82,7 +85,9 @@ def process_audio_and_video(audio_path, date, last_week_path):
 
 
 def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url):
-    run_whisperx(audio_path, last_week_path, SPEAKERS, HF_TOKEN)
+    output_json_path = last_week_path / f"{date}.json"
+    whisper = Whisper(audio_path, str(output_json_path))
+    whisper.transcribe()
     with open(last_week_path / f"{date}.json", "r") as file:
         transcript = json_to_transcript(json.load(file), youtube_url, audio_path)
 
@@ -114,8 +119,7 @@ def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url
 def main():
     audio_path_arg, date = parse_arguments()
     audio_path, last_week_path = setup_paths_and_folders(audio_path_arg, date)
-    # youtube_url = process_audio_and_video(audio_path, date, last_week_path)
-    youtube_url = "https://www.youtube.com/watch?v=axTYYYYOHHY"
+    youtube_url = process_audio_and_video(audio_path, date, last_week_path)
     print(f"{youtube_url=}")
     transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url)
 
