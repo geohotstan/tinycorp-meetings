@@ -22,7 +22,7 @@ people = {
     "Nimlgen": "nimlgen.mp3",
     "Ignaciosica": "ignaciosica.mp3",
     "Hooved": "hooved.mp3",
-    "Sieds Lykles": "sieds_lykles.mp3",
+    "Sieds Lykles": "sied.mp3",
     "B1tg": "b1tg.mp3",
 }
 

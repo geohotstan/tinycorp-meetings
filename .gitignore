@@ -23,4 +23,3 @@ pretrained_models/
 recordings.egg-info/
 *.wav
 *.json
-*.mp3
