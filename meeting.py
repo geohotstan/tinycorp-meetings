@@ -16,20 +16,19 @@ HF_TOKEN = os.getenv("HF_TOKEN")
 CLIENT_SECRET_PATH = str(Path(__file__).parent / "client_secrets.json")
 
 # update these
-SPEAKERS = 8
+SPEAKERS = 7
 os.environ["SPEAKERS"] = str(SPEAKERS)
 MEETING_AGENDA = """9am Monday San Diego time
-- company update
-- scheduler kernel ops stuff
-- tests with uop and kernel dataset
-- mlperf llama 405b
-- viz tooling
-- drivers
-- cloud, tinyfs
-- z3 symbolic
-- onnx
-- local
-- other bounties (retinanet, cloud sync stuff, refactors, SVD, cifar torch backend)
+company updates
+can tinygrad win?
+app ollama
+mlperf llama 405b
+viz tool
+drivers
+cloud
+onnx
+symbolic stuff (div 0 view)
+other bounties
 """
 
 WEEKLY_LOG_PATH = Path(__file__).parent / "last-week-in-tinycorp"
@@ -119,7 +118,9 @@ def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url
 def main():
     audio_path_arg, date = parse_arguments()
     audio_path, last_week_path = setup_paths_and_folders(audio_path_arg, date)
-    youtube_url = process_audio_and_video(audio_path, date, last_week_path)
+    # youtube_url = "https://www.youtube.com/watch?v=-rsgItjHIu"
+    youtube_url = "https://www.youtube.com/watch?v=DSWQCT9mypQ"
+    # youtube_url = process_audio_and_video(audio_path, date, last_week_path)
     print(f"{youtube_url=}")
     transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url)
 

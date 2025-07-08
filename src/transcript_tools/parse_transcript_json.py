@@ -13,7 +13,7 @@ from speechbrain.utils.data_utils import split_path
 from speechbrain.utils.fetching import fetch
 from torch import tensor
 
-
+# ffmpeg -i 2025-07-07.wav -ss 01:11:57 -t 00:00:15 -c:a libmp3lame flata.mp3
 people = {
     "Geohot": "geohot.mp3",
     "Chenyu": "chenyu.mp3",
@@ -24,6 +24,7 @@ people = {
     "Hooved": "hooved.mp3",
     "Sieds Lykles": "sied.mp3",
     "B1tg": "b1tg.mp3",
+    "Flata": "flata.mp3",
 }
 
 TIMESTAMP_RE = re.compile(r'\[\[(\d{2}:\d{2}:\d{2})\]\(.*\)]')
