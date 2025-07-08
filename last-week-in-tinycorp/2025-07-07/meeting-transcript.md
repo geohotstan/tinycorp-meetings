@@ -38,7 +38,7 @@
 
 - **[Symbolic Engine](#sieds_lykles-010311)**: A bug in symbolic simplification has been fixed and the PR is ready to be merged again. A new fuzzer is uncovering edge cases, particularly around integer overflow in symbolic comparisons. The consensus is to treat overflow as an implementation detail and keep the high-level symbolic rules abstract.
 
-- **[Bounties](#chenyu-011123)**: Flata has completed the ONNX Runtime rewrite bounty and is now debugging its performance. Geohot clarified the `setitem` bounty, explaining the goal is to generate a single kernel with multiple individual store operations, not a loop.
+- **[Bounties](#chenyu-011123)**: Flata has completed the retinanet rewrite bounty and is now debugging its performance. Geohot clarified the `setitem` bounty, explaining the goal is to generate a single kernel with multiple individual store operations, not a loop.
 
 ### Transcript
 
