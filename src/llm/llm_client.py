@@ -1,4 +1,5 @@
 import os
+import re
 import dotenv
 import requests
 
@@ -42,11 +43,21 @@ class LLMClient:
         except Exception as e: # Catches other exceptions, including the one raised above
             raise Exception(f"Error processing API response: {e}")
 
+    def _parse_markdown(self, text: str) -> str:
+        # The pattern looks for a markdown code block and captures the content inside.
+        # It handles optional language specifiers (like 'md' or 'markdown') and is case-insensitive.
+        pattern = r"```(?:md|markdown)?\s*\n(.*?)\n```"
+        match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+        return text.strip()
+
     def get_llm_highlights(self, readme_content: str, highlights_prompt: str) -> str:
         prompt = f"{readme_content}\n\n{highlights_prompt}"
         messages = [{"role": "user", "content": prompt}]
         # Using Gemini Pro as requested
-        return self.call_llm("google/gemini-pro", messages)
+        response = self.call_llm("google/gemini-pro", messages)
+        return self._parse_markdown(response)
 
 if __name__ == "__main__":
     try:
