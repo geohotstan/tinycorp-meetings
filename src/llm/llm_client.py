@@ -42,6 +42,12 @@ class LLMClient:
         except Exception as e: # Catches other exceptions, including the one raised above
             raise Exception(f"Error processing API response: {e}")
 
+    def get_llm_highlights(self, readme_content: str, highlights_prompt: str) -> str:
+        prompt = f"{readme_content}\n\n{highlights_prompt}"
+        messages = [{"role": "user", "content": prompt}]
+        # Using Gemini Pro as requested
+        return self.call_llm("google/gemini-pro", messages)
+
 if __name__ == "__main__":
     try:
         client = LLMClient()
