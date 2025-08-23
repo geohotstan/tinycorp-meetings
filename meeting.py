@@ -8,6 +8,7 @@ from src.transcript_tools.audio_to_video import make_mp4
 from src.transcript_tools.upload_youtube import upload_video
 from src.transcript_tools.parse_transcript_json import json_to_transcript
 from src.transcript_tools.transcription import Whisper
+from src.llm.llm_client import LLMClient
 import shutil
 from dotenv import load_dotenv
 load_dotenv()
@@ -105,6 +106,9 @@ def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url
 ### Transcript
 {transcript}
 """
+    highlights_path = RESOURCES_PATH / "templates" / "highlights.md"
+    highlights = generate_highlights(readme_content, highlights_path)
+    readme_content = readme_content.replace("### Highlights", f"### Highlights\n\n{highlights}")
 
     readme_path = last_week_path / "meeting-transcript.md"
     try:
@@ -114,6 +118,12 @@ def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url
         print(f"Error writing to '{readme_path}': {e}")
         sys.exit(1)
 
+def generate_highlights(readme_content, highlights_path):
+    llm_client = LLMClient()
+    with open(highlights_path, "r") as f:
+        highlights_prompt = f.read()
+
+    return llm_client.get_llm_highlights(readme_content, highlights_prompt)
 
 def main():
     audio_path_arg, date = parse_arguments()
