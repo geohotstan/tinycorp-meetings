@@ -127,7 +127,7 @@ class Whisper(BaseTranscription):
             torch.set_default_device(device)
 
         # setup
-        whisper_model = whisper.load_model("base")
+        whisper_model = whisper.load_model("large-v3")
         diarization_pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", use_auth_token=HF_TOKEN)
         standardized_audio = standardize_audio(self.input_path)
 
