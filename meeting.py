@@ -17,20 +17,19 @@ HF_TOKEN = os.getenv("HF_TOKEN")
 CLIENT_SECRET_PATH = str(Path(__file__).parent / "client_secrets.json")
 
 # update these
-SPEAKERS = 7
+SPEAKERS = 8
 os.environ["SPEAKERS"] = str(SPEAKERS)
 MEETING_AGENDA = """9am Monday San Diego time
 - company updates
-- release!
-- rangeify
-- mlperf llama (eval / MP / grad_acc mem, fp8)
+- rangeify opt
+- bfloat16 alu stuff
+- mlperf llama
 - viz tool
 - drivers
-- cloud
 - symbolic
+- cloud
 - onnx
-- other bounties
-"""
+- other bounties"""
 
 WEEKLY_LOG_PATH = Path(__file__).parent / "last-week-in-tinycorp"
 RESOURCES_PATH = Path(__file__).parent / "resources"
@@ -106,9 +105,10 @@ def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url
 ### Transcript
 {transcript}
 """
-    highlights_path = RESOURCES_PATH / "templates" / "highlights.md"
-    highlights = generate_highlights(readme_content, highlights_path)
-    readme_content = readme_content.replace("### Highlights", f"### Highlights\n\n{highlights}")
+    # wtf gemini is no longer free on openrouter
+    # highlights_path = RESOURCES_PATH / "templates" / "highlights.md"
+    # highlights = generate_highlights(readme_content, highlights_path)
+    # readme_content = readme_content.replace("### Highlights", f"### Highlights\n\n{highlights}")
 
     readme_path = last_week_path / "meeting-transcript.md"
     try:
@@ -128,7 +128,8 @@ def generate_highlights(readme_content, highlights_path):
 def main():
     audio_path_arg, date = parse_arguments()
     audio_path, last_week_path = setup_paths_and_folders(audio_path_arg, date)
-    youtube_url = process_audio_and_video(audio_path, date, last_week_path)
+    # youtube_url = process_audio_and_video(audio_path, date, last_week_path)
+    youtube_url = "https://www.youtube.com/watch?v=KA0h9zmJtcs"
     print(f"{youtube_url=}")
     transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url)
 
