@@ -5,7 +5,6 @@ import os
 import torch
 import json
 import tempfile
-from datetime import timedelta
 from typing import Any
 from pathlib import Path
 
@@ -164,12 +163,6 @@ class Whisper(BaseTranscription):
             segments = self._merge_consecutive_speaker_segments(aligned_segments)
             segments_json = {"segments": []}
             for seg in segments:
-                # segments_json["segments"].append({
-                #     "start": self.format_datetime(seg["start"]),
-                #     "end": self.format_datetime(seg["end"]),
-                #     "text": seg["text"],
-                #     "speaker": seg["speaker"],
-                # })
                 segments_json["segments"].append({
                     "start": seg["start"],
                     "end": seg["end"],
@@ -182,12 +175,6 @@ class Whisper(BaseTranscription):
         finally:
             print("REMOVING")
             os.remove(standardized_audio)
-
-    def format_datetime(self, seconds: float) -> str:
-        td = timedelta(seconds=seconds)
-        hours, rem = divmod(td.total_seconds(), 3600)
-        minutes, sec = divmod(rem, 60)
-        return f"{int(hours):02d}:{int(minutes):02d}:{int(sec):02d}"
 
     def _find_best_speaker(self, start_time: float, end_time: float, diarization: list[tuple[float, float, str]]) -> str:
         best_speaker = "SPEAKER_00"
@@ -215,7 +202,41 @@ class Whisper(BaseTranscription):
         merged.append(current)
         return merged
 
+# class OLMoASR(BaseTranscription):
+#     def transcribe(self):
+#         import .OLMoASR.olmoasr
+#         from whisperx.diarize import DiarizationPipeline, assign_word_speakers
+#         from collections import Counter
+#         HF_TOKEN = os.getenv("HF_TOKEN")
+#         SPEAKERS = os.getenv("SPEAKERS")
+#
+#         model = olmoasr.load_model("large-v2", inference=True)
+#         result = model.transcribe(
+#             self.input_path,
+#             initial_prompt=initial_prompt,
+#             condition_on_previous_text=True,
+#             word_timestamps=True,
+#             verbose=False,
+#         )
+#
+#         print(">>Performing diarization...")
+#         diarize_model = DiarizationPipeline(use_auth_token=HF_TOKEN, device='cpu')
+#         diarize_segments = diarize_model(str(self.input_path), min_speakers=SPEAKERS, max_speakers=SPEAKERS)
+#         result = assign_word_speakers(diarize_segments, result)
+#
+#         # Promote speaker label to segment-level by majority vote over words
+#         for seg in result.get("segments", []):
+#             words = seg.get("words", [])
+#             speakers = [w.get("speaker") for w in words if w.get("speaker")]
+#             if speakers:
+#                 seg["speaker"] = Counter(speakers).most_common(1)[0][0]
+#
+#         with open(self.output_path, 'w', encoding='utf-8') as f:
+#             json.dump(result, f, indent=2)
+
 
 if __name__ == "__main__":
     run = Whisper("2025-06-30.wav", "2025-06-30-test.json")
     run.transcribe()
+    # run = OLMoASR("2025-08-25.wav", "2025-08-25-test.json")
+    # run.transcribe()

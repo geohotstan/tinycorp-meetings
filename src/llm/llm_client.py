@@ -55,8 +55,8 @@ class LLMClient:
     def get_llm_highlights(self, readme_content: str, highlights_prompt: str) -> str:
         prompt = f"{readme_content}\n\n{highlights_prompt}"
         messages = [{"role": "user", "content": prompt}]
-        # Using Gemini Pro as requested
-        response = self.call_llm("google/gemini-pro", messages)
+        # TODO upodate to better free models
+        response = self.call_llm("deepseek/deepseek-chat-v3.1:free", messages)
         return self._parse_markdown(response)
 
 if __name__ == "__main__":

@@ -84,11 +84,20 @@ def process_audio_and_video(audio_path, date, last_week_path):
 
 
 def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url):
-    output_json_path = last_week_path / f"{date}.json"
     whisper = Whisper(audio_path, str(output_json_path))
+    llm_client = LLMClient()
+
+    output_json_path = last_week_path / f"{date}.json"
     whisper.transcribe()
     with open(last_week_path / f"{date}.json", "r") as file:
         transcript = json_to_transcript(json.load(file), youtube_url, audio_path)
+
+    # TODO
+    # preprocess transcript
+    # clean = ""
+    # for line in transcript.split("\n\n"):
+    #     llm
+
 
     readme_content = f"""# {date} Meeting
 
@@ -106,9 +115,15 @@ def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url
 {transcript}
 """
     # wtf gemini is no longer free on openrouter
-    # highlights_path = RESOURCES_PATH / "templates" / "highlights.md"
-    # highlights = generate_highlights(readme_content, highlights_path)
-    # readme_content = readme_content.replace("### Highlights", f"### Highlights\n\n{highlights}")
+    highlights_path = RESOURCES_PATH / "templates" / "highlights.md"
+
+    # generate highlights
+    with open(highlights_path, "r") as f:
+        highlights_prompt = f.read()
+    highlights = llm_client.get_llm_highlights(readme_content, highlights_prompt)
+
+    # update readme
+    readme_content = readme_content.replace("### Highlights", f"### Highlights\n\n{highlights}")
 
     readme_path = last_week_path / "meeting-transcript.md"
     try:
@@ -119,11 +134,6 @@ def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url
         sys.exit(1)
 
 def generate_highlights(readme_content, highlights_path):
-    llm_client = LLMClient()
-    with open(highlights_path, "r") as f:
-        highlights_prompt = f.read()
-
-    return llm_client.get_llm_highlights(readme_content, highlights_prompt)
 
 def main():
     audio_path_arg, date = parse_arguments()

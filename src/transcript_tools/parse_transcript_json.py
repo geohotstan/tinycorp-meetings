@@ -142,11 +142,6 @@ def json_to_transcript(j:dict, url:str, audio_file:str):
         minutes = int((start % 3600) // 60)
         seconds = int(start % 60)
         title = f"##### **{speaker}** [[{hours:02}:{minutes:02}:{seconds:02}]({url}&t={math.floor(start)})]"
-        # TODO: prompt engineer this properly so it returns the right stuff
-        # text = llm(
-        #     user_prompt=text,
-        #     system_prompt=SYSTEM_PROMPT
-        # )
         full_text_segment = f"{title}\n{text}"
         ret.append(full_text_segment)
 
