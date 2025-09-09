@@ -17,19 +17,17 @@ HF_TOKEN = os.getenv("HF_TOKEN")
 CLIENT_SECRET_PATH = str(Path(__file__).parent / "client_secrets.json")
 
 # update these
-SPEAKERS = 8
+SPEAKERS = 7
 os.environ["SPEAKERS"] = str(SPEAKERS)
-MEETING_AGENDA = """9am Monday San Diego time
-- company updates
-- rangeify opt
-- bfloat16 alu stuff
+MEETING_AGENDA = """ 9am Monday San Diego time
+- company updates (new meeting time?)
+- make rangeify default, speed regression/bug
+- ci speed
 - mlperf llama
 - viz tool
-- drivers
+- cpu thread
 - symbolic
-- cloud
-- onnx
-- other bounties"""
+- cloud"""
 
 WEEKLY_LOG_PATH = Path(__file__).parent / "last-week-in-tinycorp"
 RESOURCES_PATH = Path(__file__).parent / "resources"
@@ -84,10 +82,10 @@ def process_audio_and_video(audio_path, date, last_week_path):
 
 
 def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url):
+    output_json_path = last_week_path / f"{date}.json"
     whisper = Whisper(audio_path, str(output_json_path))
     llm_client = LLMClient()
 
-    output_json_path = last_week_path / f"{date}.json"
     whisper.transcribe()
     with open(last_week_path / f"{date}.json", "r") as file:
         transcript = json_to_transcript(json.load(file), youtube_url, audio_path)
@@ -133,13 +131,11 @@ def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url
         print(f"Error writing to '{readme_path}': {e}")
         sys.exit(1)
 
-def generate_highlights(readme_content, highlights_path):
-
 def main():
     audio_path_arg, date = parse_arguments()
     audio_path, last_week_path = setup_paths_and_folders(audio_path_arg, date)
-    # youtube_url = process_audio_and_video(audio_path, date, last_week_path)
-    youtube_url = "https://www.youtube.com/watch?v=KA0h9zmJtcs"
+    youtube_url = process_audio_and_video(audio_path, date, last_week_path)
+    # youtube_url = "https://www.youtube.com/watch?v=KA0h9zmJtcs"
     print(f"{youtube_url=}")
     transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url)
 
