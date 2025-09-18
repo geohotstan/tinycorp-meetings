@@ -525,7 +525,7 @@ CloudFile system.
 ##### **Geohot** [[00:44:15](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2655)]
 Great. Yeah, I mean, there's hacks in tensor.py to deal with disk assigns. That can probably be taken out. Yeah, and that actually probably makes sense. Nimlgen, if you want to take a look at the JIT and figure out how to make the JIT good.
 
-##### **SPEAKER_02** [[00:44:32](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2672)]
+##### **Sieds Lykles** [[00:44:32](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2672)]
 Yeah, OK.
 
 ##### **Geohot** [[00:44:35](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2675)]
@@ -675,7 +675,7 @@ We can control the heuristic and figure out. I mean, you could write a heuristic
 ##### **Geohot** [[00:56:09](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=3369)]
 If you have gradient checkpointing.
 
-##### **SPEAKER_02** [[00:56:12](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=3372)]
+##### **Chenyu** [[00:56:12](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=3372)]
 Mm-hmm.
 
 ##### **Geohot** [[00:56:15](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=3375)]
