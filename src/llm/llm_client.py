@@ -56,7 +56,7 @@ class LLMClient:
         prompt = f"{readme_content}\n\n{highlights_prompt}"
         messages = [{"role": "user", "content": prompt}]
         # TODO upodate to better free models
-        response = self.call_llm("deepseek/deepseek-chat-v3.1:free", messages)
+        response = self.call_llm("x-ai/grok-4-fast:free", messages)
         return self._parse_markdown(response)
 
 if __name__ == "__main__":
