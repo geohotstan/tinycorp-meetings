@@ -17,18 +17,16 @@
 - **[Company Update](#chenyu-000042)**: Sold a few more Tiny Boxes; no major updates on provisioning machines, which have been depleted.
 - **[Rangeify Overview](#chenyu-000121)**: Rangeify is the new scheduler for tinygrad, aimed at fixing issues to make it the default; enables advanced features like fusion, local buffers, flash attention; focus on resolving store/assign, group reduce, disk, JIT, const folding, buffer limits, LLM, openpilot, and image issues.
 - **[Store/Assign Issues](#chenyu-000222)**: Current state involves incomplete handling of buffers, views, and constants in the graph; copy operations need optimization for expansions; Qazalin working on multi-device copies and fixing pointer swaps in tensors post-realize, addressing bugs from old scheduler.
-- **[Permutator and Asserts](#chenyu-000518)**: Permutator sign issues mostly asserts for cycles; outputs can be wrong without asserting; path forward is either fixing cycles or asserting them, with Rangeify allowing buffer insertion to prevent cycles.
 - **[Group Reduce Problems](#chenyu-000617)**: Fails in linearizer for nested reduces; issue with if statements for shared memory reduction across thread blocks; discussion on removing unnecessary ifs since all threads can perform the work safely, avoiding write conflicts on AMD; plan to add custom error for unsupported cases before merging as default.
 - **[Disk Handling](#chenyu-001004)**: Fixed as part of copy improvements; old issue with copying disk-opened NumPy arrays resolved by avoiding invalid kernel runs on disk; remaining cleanup involves using shape trackers instead of hacks, no Rangeify-specific issues left.
 - **[JIT Fixes](#chenyu-001202)**: Symbolic JIT fixed by Sieds; copy-related JIT issues resolved; some shape update problems persist but tests pass; input realization now works correctly.
 - **[GPT-2 Output Issues](#qazalin-001316)**: GPT-2 produces wrong output in Rangeify; potentially linked to group reduce; plan to disable group reduce temporarily with an error to ensure correctness, then investigate; also fusing RoPE embeddings creates large slow buffers.
 - **[Fusion and Performance](#chenyu-001423)**: Rangeify fuses aggressively, leading to slowdowns like in GPT-2; prioritize correctness first (fix errors), then optimize cost function for fusion decisions post-correctness.
-- **[Rewrite Rules and Index Dtype](#chenyu-001619)**: Issues with arbitrary casts breaking index dtype, causing ALU errors; related to image tests; plan to delete problematic section zero rewrites (e.g., tags disappearing, reduce folding); kernel counts improved with better fusion.
-- **[Buffer Limit](#chenyu-001827)**: Not yet implemented, causing test failures on Metal GPU; Nimlgen to investigate.
+- **[Rewrite Rules and Index Dtype](#qazalin-001705)**: Issues with arbitrary casts breaking index dtype, causing ALU errors; related to image tests; plan to delete problematic section zero rewrites (e.g., tags disappearing, reduce folding); kernel counts improved with better fusion.
+- **[Buffer Limit](#chenyu-001739)**: Not yet implemented, causing test failures on Metal GPU; Nimlgen to investigate.
 - **[Openpilot Children Not Progressing](#qazalin-001910)**: Related to uncached map pad calls hitting 10,000 iteration limit; symbolic shapes cause deep indexing slowdowns; not infinite recursion but long single calls; need better caching for symbolic map pad and examples to debug.
-- **[Image Issues](#chenyu-002307)**: Persistent index dtype problems from casts; isolated feature, easier to debug after other fixes.
+- **[Image Issues](#chenyu-002230)**: Persistent index dtype problems from casts; isolated feature, easier to debug after other fixes.
 - **[Stats Database Update](#wozeparrot-002512)**: InfluxDB corrupted after power outage; new data collection working, historic data recovering; issue with versions >3.0 hanging on start; limitation fetching data past 12 days; temporary setup, migration to alternative database planned.
-- **[ROCm Compatibility](#chenyu-002821)**: ROCm update to version 7 pending; provisioning fixes prioritized this week before Hong Kong trip.
 - **[Stable Diffusion Bounty](#chenyu-002857)**: Training ongoing with last checkpoint eval in ~1 hour; reduce beam search to drop end-to-end time to 24 hours; issues with driver faults on beam=1 and memory leaks; focus on pinning crashing ASTs/optimizations; trade-offs in beam parameters for search speed vs. kernel performance; 10x utilization gap partly from power limiting.
 - **[Core Tinygrad Changes](#chenyu-003511)**: For crashing kernels and mismatches (e.g., dtype upcast/downcast hacks), propose inclusion if aligned with Torch/Dex behaviors; custom implementations acceptable otherwise.
 - **[RetinaNet Bounty](#flata-003632)**: Eval script issues with JIT on mask_select due to internal realize/dot_item calls; device mismatches in multi-GPU; NumPy version faster; exploring batching improvements for prediction loops/splits; plan to fix device specs and remove realizes, collaborate on mask_select implementation.
@@ -54,7 +52,10 @@ More. House for company update.
 We usually talk about how many box we sell. I think we sold a few more. That's about it.
 
 ##### **Chenyu** [[00:00:50](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=50)]
-I don't know if it was perhaps any update for the provision machine or anything regarding provisioning. Not really. The machines are gone. Oh, good.
+I don't know if it was perhaps any update for the provision machine or anything regarding provisioning. 
+
+##### **Wozeparrot** [[00:01:01](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=50)]
+Not really. The machines are gone. Oh, good.
 
 ##### **Chenyu** [[00:01:09](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=69)]
 Oh, okay.
@@ -63,7 +64,7 @@ Oh, okay.
 Is that good? I don't know. And Let's the company update.
 
 ##### **Chenyu** [[00:01:21](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=81)]
-And next, basically the main point and what everyone has been doing for the past week is rentify. For the people who want to get the So in this meeting rentify is the new, I guess, paradise shift for tiny grads that we are trying to fix every box in it so we can make rentify the default. Rentify leads to all the advanced fusion local buffer support flash attention and friends. So we really want to get this working and basically pass everything and that we can remove start to remove a lot. So I just list some I guess issue or the things that I can think of here and we can go through that. See if people have ideas for what it is.
+And next, basically the main point and what everyone has been doing for the past week is rangeify. For the people who want to get the So in this meeting rangeify is the new, I guess, paradise shift for tiny grads that we are trying to fix every box in it so we can make rangeify the default. rangeify leads to all the advanced fusion local buffer support flash attention and friends. So we really want to get this working and basically pass everything and that we can remove start to remove a lot. So I just list some I guess issue or the things that I can think of here and we can go through that. See if people have ideas for what it is.
 
 ##### **Chenyu** [[00:02:13](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=133)]
 And we can start with store and assign. Yes, also copy.
@@ -96,7 +97,7 @@ It doesn't have assert by the output is wrong.
 It gives the wrong answer, which is shouldn't. The path forward for a sign is either fix it and never assert cycles. Or assert cycles and the old scheduler. So you can be actually like in range of is nice because you can insert buffers right before to cycle would happen.
 
 ##### **Chenyu** [[00:05:57](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=357)]
-Okay. I think generally I go through the like the fail test or the things that still fail was rentify is the things that wrong. But I'll put is incorrect. That's very bothersome.
+Okay. I think generally I go through the like the fail test or the things that still fail was rangeify is the things that wrong. But I'll put is incorrect. That's very bothersome.
 
 ##### **Wozeparrot** [[00:06:13](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=373)]
 And I think that's yeah.
@@ -215,19 +216,19 @@ Yeah, okay. I will see what I can do with const folding and other folding stuff.
 ##### **Nimlgen** [[00:18:27](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1107)]
 Yeah, probably I can take a look into this.
 
-##### **Flata** [[00:18:31](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1111)]
+##### **Chenyu** [[00:18:31](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1111)]
 Okay.
 
 ##### **Chenyu** [[00:18:37](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1117)]
-Sounds good. Okay. Oh, we already discussed. Let's disable group reduce. I think this is the issue is it's fusing too much stuff and it's slow. So as long as the output is correct, it's correct on the rentify equals to one PR is just like 10 minutes to run. So I think that we can wait. The open pilot, oh, children not making progress. This I don't know if anyone has.
+Sounds good. Okay. Oh, we already discussed. Let's disable group reduce. I think this is the issue is it's fusing too much stuff and it's slow. So as long as the output is correct, it's correct on the rangeify equals to one PR is just like 10 minutes to run. So I think that we can wait. The open pilot, oh, children not making progress. This I don't know if anyone has.
 
 ##### **Qazalin** [[00:19:10](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1150)]
-I believe that's related to pad. This stuff was the case for vinaigrette. Map pad isn't cached right now. So it keeps calling it. And it never actually like resolves. At least like it hits the 10,000 limits of the. Rentify. I'm sure it will resolve at some point in some distant future. We should catch that thing. And we.
+I believe that's related to pad. This stuff was the case for vinaigrette. Map pad isn't cached right now. So it keeps calling it. And it never actually like resolves. At least like it hits the 10,000 limits of the. rangeify. I'm sure it will resolve at some point in some distant future. We should catch that thing. And we.
 
 ##### **Sieds Lykles** [[00:19:47](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1187)]
 Right. I mean, the cash. I think we talked about this is for symbolic, right?
 
-##### **SPEAKER_09** [[00:19:52](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1192)]
+##### **Chenyu** [[00:19:52](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1192)]
 Yeah.
 
 ##### **Sieds Lykles** [[00:19:54](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1194)]
@@ -248,31 +249,31 @@ We. Yeah, but I, like, I mean, the times I looked. At it, it was just one single
 ##### **Chenyu** [[00:22:30](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1350)]
 Okay. I mean. I don't think we have. A. Answer. No. Let's find. Let's see if we can find other. Other examples. That. Is causing this issue. And. What can we do next? Okay. So image we discussed before. There was. Some. Index issue. I don't quite understand. But again, images quite isolated as a feature. So maybe if we fix. Other issues. It would become much. Easier. To understand what was left.
 
-##### **Flata** [[00:23:07](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1387)]
+##### **Chenyu** [[00:23:07](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1387)]
 Okay.
 
 ##### **Chenyu** [[00:23:19](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1399)]
 Is there anything I missed? That the issues you are aware. But. I didn't. Listen here.
 
-##### **Flata** [[00:23:33](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1413)]
+##### **Chenyu** [[00:23:33](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1413)]
 Okay. So.
 
 ##### **Chenyu** [[00:24:01](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1441)]
 For things. That we did fix. I think most of the annex stuff is. Fixed. The high level tensor stuff is. Looks good. We added a lot more tests. Also. I just added. The. Mac OS. For. Metal as well. It's quite annoying. That sometimes. It works for. Especially. Open COS. I don't know why it's different. Sometimes. Open. Open COS. Fails in one of the. Metal and Linux version. I just added. Okay. So. First. Of issues. Inter 걤d. Up to.
 
-##### **Flata** [[00:24:50](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1490)]
+##### **Chenyu** [[00:24:50](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1490)]
 propor.
 
 ##### **Chenyu** [[00:24:51](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1491)]
 I just mean.
 
-##### **Flata** [[00:24:54](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1494)]
+##### **Chenyu** [[00:24:54](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1494)]
 Hmm.
 
 ##### **Chenyu** [[00:24:56](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1496)]
 Alright, then.
 
-##### **Flata** [[00:24:57](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1497)]
+##### **Chenyu** [[00:24:57](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1497)]
 So.
 
 ##### **Chenyu** [[00:25:00](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1500)]
@@ -287,25 +288,25 @@ Okay.
 ##### **Wozeparrot** [[00:25:45](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1545)]
 The after the power outage the database corrupted.
 
-##### **Flata** [[00:25:52](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1552)]
+##### **Chenyu** [[00:25:52](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1552)]
 Okay.
 
 ##### **Wozeparrot** [[00:25:54](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1554)]
 Great but that was a pretty easy fix and I also thought I'll do a... I'll do a minor version bump.
 
-##### **SPEAKER_09** [[00:26:04](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1564)]
+##### **Wozeparrot** [[00:26:04](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1564)]
 Or...
 
 ##### **Wozeparrot** [[00:26:04](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1564)]
 And then the problem is for the database. Okay. And then there's an open GitHub issue on influx right now but on all versions past 3.0 for some reason they just hang when starting.
 
-##### **Flata** [[00:26:23](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1583)]
+##### **Chenyu** [[00:26:23](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1583)]
 Okay.
 
 ##### **Wozeparrot** [[00:26:26](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1586)]
 So I'm currently unable to start the database. Okay. They need a live access to the database. Yeah exactly, so they're responsible to add a unique or edit blank or just run some hooks by name.
 
-##### **Flata** [[00:26:43](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1603)]
+##### **Chenyu** [[00:26:43](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1603)]
 Absolutely.
 
 ##### **Chenyu** [[00:26:59](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1619)]
@@ -380,7 +381,7 @@ OK. Yeah. OK. We'll look at that. Thank you.
 ##### **Chenyu** [[00:35:11](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=2111)]
 Directionally, I'm pretty happy that this is working. I know it's hard. For the changes that touch core TinyGrad, you can make a decision if you think it should be included in the core thing. I know there are some detect changes. If you find the corresponding behaviors in Torch or Dex, I think we will consider that and add it to the. Add it to the core implementations. If not, you can have it as your custom. That's also fine. But basically, see other than the main loop. See if there are things that you want to be included separately. And I know some of the D type upcast, downcast, it's a hack. Because the way we previously schedule and fuse kernels, that was maybe just faster. So I think we should consider that. Without sacrificing a performance. If you find there's a mismatch between implementations, we should definitely consider.
 
-##### **Flata** [[00:36:21](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=2181)]
+##### **Chenyu** [[00:36:21](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=2181)]
 Yeah. OK.
 
 ##### **Chenyu** [[00:36:26](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=2186)]
