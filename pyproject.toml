@@ -7,9 +7,12 @@ requires-python = ">=3.12"
 dependencies = [
     "google-api-python-client>=2.171.0",
     "google-auth-oauthlib>=1.2.2",
+    "openai-whisper>=20250625",
     "parakeet-mlx>=0.3.0",
     "pygithub>=2.6.1",
+    "python-dotenv>=1.2.1",
     "requests>=2.32.3",
+    "speechbrain>=1.0.3",
     "whisperx>=3.3.4",
 ]
 

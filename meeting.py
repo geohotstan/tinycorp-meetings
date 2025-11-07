@@ -1,33 +1,35 @@
 # TODO THIS IS STILL NOT VERY GOOD. CANNOT RELIABLY ONE SHOT.
-import os
-import sys
 import json
-from pathlib import Path
+import os
+
+# from src.llm.llm_client import LLMClient
+import shutil
+import sys
 from datetime import datetime
+from pathlib import Path
+
+from dotenv import load_dotenv
+
 from src.transcript_tools.audio_to_video import make_mp4
-from src.transcript_tools.upload_youtube import upload_video
 from src.transcript_tools.parse_transcript_json import json_to_transcript
 from src.transcript_tools.transcription import Whisper
-from src.llm.llm_client import LLMClient
-import shutil
-from dotenv import load_dotenv
+from src.transcript_tools.upload_youtube import upload_video
+
 load_dotenv()
 
 HF_TOKEN = os.getenv("HF_TOKEN")
 CLIENT_SECRET_PATH = str(Path(__file__).parent / "client_secrets.json")
 
 # update these
-SPEAKERS = 7
+SPEAKERS = 6
 os.environ["SPEAKERS"] = str(SPEAKERS)
-MEETING_AGENDA = """ 9am Monday San Diego time
-- company updates (new meeting time?)
-- make rangeify default, speed regression/bug
-- ci speed
-- mlperf llama
-- viz tool
-- cpu thread
-- symbolic
-- cloud"""
+MEETING_AGENDA = """9am Monday San Diego time, 1am Hong Kong time
+- CDNA4/RDNA3 SQTT in VIZ, same view as RGP
+- apple usb gpu without SIP bypass. i bought 3x 5060 for mac CI machines
+- why is progress on tinykittens so slow? if it can't do a SOTA gemm, we should look elsewhere
+- llama trainer using custom_kernel to get memory usage to acceptable place, figure out what kernels we need to write
+- openpilot regressions
+- other bounties"""
 
 WEEKLY_LOG_PATH = Path(__file__).parent / "last-week-in-tinycorp"
 RESOURCES_PATH = Path(__file__).parent / "resources"
@@ -50,7 +52,7 @@ def parse_arguments():
         sys.exit(1)
 
     try:
-        datetime.strptime(date, '%Y-%m-%d')
+        datetime.strptime(date, "%Y-%m-%d")
     except ValueError:
         print(f"Error: '{date}' must be a valid date in YYYY-MM-DD format")
         sys.exit(1)
@@ -77,14 +79,19 @@ def process_audio_and_video(audio_path, date, last_week_path):
     still_img_path = RESOURCES_PATH / "tiny.jpeg"
     assert still_img_path.exists()
     make_mp4(str(audio_path), str(still_img_path), str(mp4_path))
-    youtube_url = upload_video(str(mp4_path), f"TINYCORP MEETING {date}", 'github.com/geohotstan/tinycorp-meetings/', CLIENT_SECRET_PATH)
+    youtube_url = upload_video(
+        str(mp4_path),
+        f"TINYCORP MEETING {date}",
+        "github.com/geohotstan/tinycorp-meetings/",
+        CLIENT_SECRET_PATH,
+    )
     return youtube_url
 
 
 def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url):
     output_json_path = last_week_path / f"{date}.json"
     whisper = Whisper(audio_path, str(output_json_path))
-    llm_client = LLMClient()
+    # llm_client = LLMClient()
 
     whisper.transcribe()
     with open(last_week_path / f"{date}.json", "r") as file:
@@ -95,7 +102,6 @@ def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url
     # clean = ""
     # for line in transcript.split("\n\n"):
     #     llm
-
 
     readme_content = f"""# {date} Meeting
 
@@ -112,32 +118,31 @@ def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url
 ### Transcript
 {transcript}
 """
-    # wtf gemini is no longer free on openrouter
-    highlights_path = RESOURCES_PATH / "templates" / "highlights.md"
-
     # generate highlights
-    with open(highlights_path, "r") as f:
-        highlights_prompt = f.read()
-    highlights = llm_client.get_llm_highlights(readme_content, highlights_prompt)
-
-    # update readme
-    readme_content = readme_content.replace("### Highlights", f"### Highlights\n\n{highlights}")
+    # highlights_path = RESOURCES_PATH / "templates" / "highlights.md"
+    # with open(highlights_path, "r") as f:
+    #     highlights_prompt = f.read()
+    # highlights = llm_client.get_llm_highlights(readme_content, highlights_prompt)
+    # readme_content = readme_content.replace("### Highlights", f"### Highlights\n\n{highlights}")
 
     readme_path = last_week_path / "meeting-transcript.md"
     try:
-        with open(readme_path, 'w') as f:
+        with open(readme_path, "w") as f:
             f.write(readme_content)
     except IOError as e:
         print(f"Error writing to '{readme_path}': {e}")
         sys.exit(1)
 
+
 def main():
     audio_path_arg, date = parse_arguments()
     audio_path, last_week_path = setup_paths_and_folders(audio_path_arg, date)
-    youtube_url = process_audio_and_video(audio_path, date, last_week_path)
-    # youtube_url = "https://www.youtube.com/watch?v=KA0h9zmJtcs"
+    # youtube_url = process_audio_and_video(audio_path, date, last_week_path)
+    youtube_url = "https://www.youtube.com/watch?v=gmY_RjZsYys"
+    # youtube_url = "https://www.youtube.com/watch?v=z_FDsZ1ms2s"
     print(f"{youtube_url=}")
     transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url)
+
 
 if __name__ == "__main__":
     main()

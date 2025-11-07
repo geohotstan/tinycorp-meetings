@@ -111,10 +111,8 @@ class Whisper(BaseTranscription):
     def transcribe(self):
         try:
             import whisper
-            from pyannote.audio import Pipeline
-            from pyannote.core.annotation import Annotation
-        except ImportError:
-            raise ImportError("Please install whisper and pyannote")
+        except ImportError as exc:
+            raise ImportError("Please install whisper") from exc
 
         HF_TOKEN = os.getenv("HF_TOKEN")
         if os.getenv("TINYGRAD"):
@@ -125,9 +123,12 @@ class Whisper(BaseTranscription):
             device = "cpu"
             torch.set_default_device(device)
 
+        model_name = os.getenv("WHISPER_MODEL", "large-v3")
+        enable_pyannote = os.getenv("ENABLE_PYANNOTE", "").lower() in {"1", "true", "yes"}
+        diarization = []
+
         # setup
-        whisper_model = whisper.load_model("large-v3")
-        diarization_pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", use_auth_token=HF_TOKEN)
+        whisper_model = whisper.load_model(model_name)
         standardized_audio = standardize_audio(self.input_path)
 
         # pipeline
@@ -140,10 +141,22 @@ class Whisper(BaseTranscription):
                 verbose=False
             )
 
-            out: Annotation = diarization_pipeline(standardized_audio)
-            diarization = []
-            for turn, _, speaker in out.itertracks(yield_label=True):
-                diarization.append((turn.start, turn.end, speaker))
+            if enable_pyannote:
+                try:
+                    from pyannote.audio import Pipeline
+                    from pyannote.core.annotation import Annotation
+                    diarization_pipeline = Pipeline.from_pretrained(
+                        "pyannote/speaker-diarization-3.1", use_auth_token=HF_TOKEN
+                    )
+                    out: Annotation = diarization_pipeline(standardized_audio)
+                    for turn, _, speaker in out.itertracks(yield_label=True):
+                        diarization.append((turn.start, turn.end, speaker))
+                except Exception as exc: # pylint: disable=broad-exception-caught
+                    enable_pyannote = False
+                    print(f"[WARN] pyannote diarization unavailable ({exc}); falling back to heuristic speakers.")
+
+            if not enable_pyannote:
+                print("[INFO] Running without pyannote diarization; speakers will be assigned heuristically.")
 
             aligned_segments = []
             for segment in transcription.get('segments', []):
@@ -152,7 +165,12 @@ class Whisper(BaseTranscription):
                 text = segment['text'].strip()
                 if not text:
                     continue
-                best_speaker = self._find_best_speaker(start_time, end_time, diarization)
+
+                if diarization:
+                    best_speaker = self._find_best_speaker(start_time, end_time, diarization)
+                else:
+                    best_speaker = self._fallback_speaker(len(aligned_segments))
+
                 aligned_segments.append({
                     'start': start_time,
                     'end': end_time,
@@ -185,6 +203,14 @@ class Whisper(BaseTranscription):
                 max_overlap = overlap
                 best_speaker = speaker
         return best_speaker
+
+    def _fallback_speaker(self, segment_index: int) -> str:
+        try:
+            speaker_pool = max(1, int(os.getenv("SPEAKERS", "1")))
+        except ValueError:
+            speaker_pool = 1
+        speaker_id = segment_index % speaker_pool
+        return f"SPEAKER_{speaker_id:02d}"
 
     def _merge_consecutive_speaker_segments(self, segments: list[dict[str, Any]]) -> list[dict[str, Any]]:
         if not segments:
