@@ -7,13 +7,18 @@ requires-python = ">=3.12"
 dependencies = [
     "google-api-python-client>=2.171.0",
     "google-auth-oauthlib>=1.2.2",
+    "matplotlib>=3.10.7",
     "openai-whisper>=20250625",
-    "parakeet-mlx>=0.3.0",
+    # "parakeet-mlx>=0.3.0",
+    "pyannote-audio==3.3.1",
     "pygithub>=2.6.1",
     "python-dotenv>=1.2.1",
     "requests>=2.32.3",
     "speechbrain>=1.0.3",
-    "whisperx>=3.3.4",
+    "torch<2.6.0",
+    "numpy<2.0",
+    "torchaudio<2.8.0",
+    # "whisperx==3.3.1",
 ]
 
 [tool.setuptools]
