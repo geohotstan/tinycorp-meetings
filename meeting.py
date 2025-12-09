@@ -21,14 +21,15 @@ HF_TOKEN = os.getenv("HF_TOKEN")
 CLIENT_SECRET_PATH = str(Path(__file__).parent / "client_secrets.json")
 
 # update these
-SPEAKERS = 6
+SPEAKERS = 10
 os.environ["SPEAKERS"] = str(SPEAKERS)
-MEETING_AGENDA = """9am Monday San Diego time, 1am Hong Kong time
-- CDNA4/RDNA3 SQTT in VIZ, same view as RGP
-- apple usb gpu without SIP bypass. i bought 3x 5060 for mac CI machines
-- why is progress on tinykittens so slow? if it can't do a SOTA gemm, we should look elsewhere
-- llama trainer using custom_kernel to get memory usage to acceptable place, figure out what kernels we need to write
-- openpilot regressions
+MEETING_AGENDA = """9am Monday San Diego time
+- company update
+- training loop, llama 8B
+- flash attention
+- VIZ/Profiling
+- drivers
+- MESA backend
 - other bounties"""
 
 WEEKLY_LOG_PATH = Path(__file__).parent / "last-week-in-tinycorp"
@@ -137,9 +138,9 @@ def transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url
 def main():
     audio_path_arg, date = parse_arguments()
     audio_path, last_week_path = setup_paths_and_folders(audio_path_arg, date)
-    # youtube_url = process_audio_and_video(audio_path, date, last_week_path)
-    youtube_url = "https://www.youtube.com/watch?v=gmY_RjZsYys"
-    # youtube_url = "https://www.youtube.com/watch?v=z_FDsZ1ms2s"
+    youtube_url = process_audio_and_video(audio_path, date, last_week_path)
+    # youtube_url = "https://www.youtube.com/watch?v=gmY_RjZsYys"
+    # youtube_url = "https://www.youtube.com/watch?v=S7w_cqqW8BM"
     print(f"{youtube_url=}")
     transcribe_and_generate_readme(audio_path, date, last_week_path, youtube_url)
 

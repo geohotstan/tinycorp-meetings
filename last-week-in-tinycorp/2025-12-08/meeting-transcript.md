@@ -17,35 +17,29 @@
 
 ### Highlights
 
-- **[Company revenue & Shopify sales](#geohot-000005)**: Year-over-year revenue up ~50%, with Shopify hardware sales increasing from $1.5M to $1.83M plus $400k from AMD; Tinybox hardware is driving much of the growth.
- 
-- **[Hardware product mix & thermals](#geohot-000259)**: RTX 6000 boxes are selling well; Red V2 boxes are more popular than the original Red, with some power limiting to avoid brownouts, and the 4×Blackwell “tinybox” layout is stable with all GPUs staying under 80°C.
- 
-- **[Training loop refactor & gradient accumulation](#chenyu-000454)**: Training loop has been updated (inspired by the `gradient_accumulate_mnas` style), with plans for a functional optimizer API and a “one big gradient” approach, while keeping multi-GPU sharding in mind.
- 
-- **[LLaMA 8B on MI350X performance target](#geohot-000938)**: Goal is to match MLPerf-like runs where LLaMA 8B finishes in ~2 hours on a single MI350X machine (8 GPUs), once the new training loop and optimizations are in place.
- 
-- **[FlashAttention integration & backward pass](#wozeparrot-001014)**: FlashAttention has been merged into `tensor.py`; backward pass prerequisites are in, and the backward kernel is expected to land this week, with BERT runs as the main correctness/perf test on MI300/MI350.
- 
-- **[Dataset placement across big machines](#geohot-001323)**: Plan to ensure all large MI300/MI350 machines have local copies of BERT, small/large LLaMA, and wiki datasets so they can all launch BERT, LLaMA-8B, and LLaMA-405B training without network/data bottlenecks.
- 
-- **[Profiling UI & GEMM performance focus](#qazalin-001426)**: PMCs have been added to the profiling UI; next step is a memory-access visualizer (à la HIP kernels’ tool) to reason about coalescing and use that to iteratively speed up GEMM on MI350s via tighter tooling–kernel feedback loop.
- 
-- **[MI350 bugs & AMD driver work](#nimlgen-001748)**: A rare MI350 bug appears tied to instruction cache / context-restore behavior; rather than chasing it in the custom driver, focus is shifting to the official AMD driver, including proper reset handling and eventually lowering idle power (mClock) to cut large power bills.
- 
-- **[Index overflow & HVEC decoder status](#chenyu-002103)**: Very large tensors (e.g., single huge fp16 arrays) can overflow due to packing/index size issues; tests are needed to catch this. HVEC decoder works functionally but is still slow due to `getitem` overhead.
- 
-- **[Mesa backend & image handling plan](#chrism-002325)**: Qualcomm/Mesa path shows what looks like a Mesa register-allocation bug when `no_locals` is enabled; plan is to merge current work with `no_locals` disabled if needed, then prioritize removing `image` from DType and making low-level image writes performant (image=1 fast instead of image=2).
- 
-- **[ctypes struct bugs & possible replacement](#chrism-002711)**: Recent ctypes issues (notably `c_bool` bitfields) have been patched in the struct implementation; longer-term, there’s agreement to eventually replace `ctypes.Structure` with a custom, faster, more stable struct system if bugs become annoying enough.
- 
-- **[MLPerf / FP8 bounty progress](#b1tg-002906)**: MMU faults are mostly resolved and some ATP runs succeed, but coverage stalls around 0.70–0.72; experiments continue with FP layer tweaks and block scaling, and results will be documented in the BERT channel.
- 
-- **[FP8 behavior parity with PyTorch](#chenyu-003305)**: FP8 implementations differ between MI300 and MI350; the target behavior is to match PyTorch semantics by default unless there’s a very strong reason not to, with issues/PRs documenting any deliberate divergences.
- 
-- **[USB chip firmware reimplementation & schedule cache](#geohot-003634)**: Using LLM agents, the USB chip firmware is being almost fully reverse-engineered and re-implemented in clean C, including a high-quality register map; in parallel, work continues on Python speed and making schedule cache cover much more of the scheduling pipeline.
- 
-- **[LLM-assisted reverse engineering & long-term vision](#geohot-003948)**: Geohot anticipates LLMs soon being able to fully re-implement complex firmware (e.g., AMD MECH) from binaries alone, eroding hardware secrecy. Long-term vision is network-attached GPUs and a unified tensor-level abstraction where one vs. many GPUs looks the same, with Tinygrad’s “big vs. small graph” gap shrinking toward a single hierarchical scheduling model.
+- **[Company Update & Revenue](#geohot-000005)**: Shopify hardware revenue grew from $1.5M to $1.83M (~22%), plus $400k from AMD, putting total revenue up nearly 50% year-over-year; Shopify is used to track and fulfill essentially all box sales.
+
+- **[Hardware Product Status (Tinybox / RTX 6000 / Red V2 / Blackwell)](#geohot-000235)**: RTX 6000 boxes and Red V2 boxes are selling, with first Red V2 units shipped; Blackwell box layout was adjusted (3 cards stacked + 1 offset) and power capped so all GPUs now stay under 80°C and the system is “super stable.”
+
+- **[New Hire Onboarding](#geohot-000263)**: Chris’s first day is acknowledged; Geohot notes he should already know what he’s working on and points him to Julie for any onboarding logistics.
+
+- **[Training Loop & LLaMA 8B Goals](#chenyu-000294)**: Training loop has been updated with debug tooling (schedule hashing, JIT vs non-JIT comparison) and gradient-accumulation plans; they discuss potential “one big gradient” optimizations and sharding complexities, with a target of running LLaMA-8B on an MI350X machine (8 GPUs) in about two hours, mirroring MLPerf results.
+
+- **[FlashAttention Integration & BERT Bring-up](#wozeparrot-000614)**: FlashAttention has been merged into `tensor.py` with prereqs for the backward pass; backward support is expected to land before Thursday so they can run BERT benchmarks on MI350 and MI300 machines, with an explicit goal of having a successful forward+backward BERT run replicated across all big boxes.
+
+- **[Profiling UI & GEMM Optimization](#qazalin-000866)**: Performance monitoring counters (PMCs) are now visible in the profiling studio UI; next step is a memory-access visualizer to show per-thread buffer accesses and coalescing, which will then drive work on making GEMM fast on MI350 (closing the loop between tooling and GEMM performance).
+
+- **[MI350 Bugs, Drivers, & Power Usage](#nimlgen-001068)**: A sporadic MI350 crash involving strange instruction-cache addresses has been partially understood but not reliably reproduced; they suspect context-save/restore features similar to RDNA3 issues. Work continues on the AMD (“AM”) driver for MI350, with hopes it can lower idle clocks and power draw, since current machines cost ~$3k/month just sitting idle.
+
+- **[Index Overflow & HEVC Decoder Performance](#chenyu-001263)**: Some index/packing code still uses 32-bit types and overflows when creating very large tensors (e.g., all parameters in one giant tensor); they want tests to catch this. Separately, the HEVC decoder is functionally working but slow, with `getitem` overhead inside `jit` identified as a key bottleneck.
+
+- **[Mesa Backend & Image=1 Performance](#chrism-001405)**: Qualcomm/Mesa backend debugging suggests a possible Mesa register-allocation bug that appears when `no_locals` optimization is enabled; Chrism wants to merge current work while marking `no_locals` as broken and then focus on removing `image` from the dtype and implementing low-level image read/writes. Current `image=1` vision benchmark runs but is ~3× slower, so improving that path is a priority.
+
+- **[CTypes Struct Bugs & Possible Replacement](#chrism-001631)**: Recent CTypes issues (notably `c_bool` bitfields being “totally broken” before a patch) have been addressed for reported cases, but Geohot pushes for a longer-term project to replace CTypes structs with a custom, faster, more stable abstraction that’s easier to reason about and can have better syntax/highlighting.
+
+- **[FP8 Training Bounty & Torch Compatibility](#b1tg-001752)**: MMU faults in the training bounty runs are mostly fixed and some successful ATP runs exist, but coverage plateaus around 0.70–0.71 instead of the 0.72 target. FP8 changes for MI300 vs MI350 are being explored, and the team agrees behavior should generally match PyTorch unless there’s a strong, documented reason to diverge.
+
+- **[USB Firmware Reverse Engineering, Schedule Cache, & Long-Term Vision](#geohot-002194)**: Geohot is using LLM agents to almost completely re-implement the USB chip firmware in clean C, with accurate register maps validated against manual RE. He plans to improve Python speed and extend schedule caching so more of the scheduling pipeline is reused. He also lays out a vision where future agents can fully reverse-engineer GPU/firmware stacks, enabling network-attached GPU “NAS-like” boxes and a Tinygrad world where the abstraction is at the tensor/model layer—making 1, 8, or 1000 GPUs look the same and unifying scheduling across all hierarchy levels.
 
 
 ### Transcript
