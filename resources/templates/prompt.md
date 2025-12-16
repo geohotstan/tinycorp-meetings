@@ -13,17 +13,13 @@ The mp3 file uses the person's name as the file name.
 - chenyu: training, mlperf, and the host of the meetings.
 - qazalin: scheduler, linearizer, VIZ
 - nimlgen: driver, AM driver(company version of AMD driver), Nvidia driver, USB GPU
-- wozeparrot: remote stuff, multi-gpu
+- wozeparrot: remote stuff, multi-gpu, flash attention, tinykittens
 - ignaciosica: vectorizer and expander, TC(tensor core) and SWIZZLE 
 - hooved: webgpu
-- b1tg: AMD_LLVM, onnx parser
+- b1tg: AMD_LLVM, onnx parser, fp8 quantization training
+- chrism: image dtype / ctype, MESA
 
 # Requirements
 - Please have the segments be separated by different speakers. Each segment must be only one speaker, and the next segment must have a different speaker than the previous speaker.
 - Please use correct technical terms. This is a very technical discussion about machine learning, hardware, GPUs, etc.
 - Please assign names to speakers according to the names in "People within tinygrad". Please do so by examining their mp3 to see what they sound like and match their sound with the segment.
-
-# Terminology
-here are some known terminology that is potentially used in the transcript
-- Llama
-- BERT
