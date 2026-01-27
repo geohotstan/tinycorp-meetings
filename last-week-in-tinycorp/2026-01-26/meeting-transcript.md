@@ -19,7 +19,6 @@
 ### Highlights
 
 - **[Company focus + January sales](#geohot-000008)**: Posted cloud analysis; big priority is proving high-MFU LLM training on 64+ GPUs (not just 405B), and January sales are reported at **$430,000**.
-- **[“Seven black whale bucks”](#geohot-000152)**: Frames January sales as “seven black whale bucks.”
 - **[Pricing + product mix](#geohot-000157)**: Mentions honoring earlier Blackwell pricing, charging more for other units, selling “reds” and “pros,” and suggests momentum could **double revenue** this year.
 
 - **[LLaMA training status: slow step time](#wozeparrot-000313)**: K192 training is around a **10-second step**, needs investigation (attention vs other components).
