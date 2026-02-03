@@ -7,7 +7,7 @@
 - gradient, new multi, cloud machines
 - scheduler
 - driver
-- mlperf bert, softmax, attention
+- MLPerf bert, softmax, attention
 - tensor cores
 - onnx
 - bounties: int64 merged, WebGPU f16, retinanet, whisper, graph rewrite?, x86?, BLAKE3?, some new bounties!
@@ -83,8 +83,8 @@ Cool.
 Yeah, so Gradient is blocked on new multi.  
 New multi is not blocked on anything.  
 I think I'm making pretty good progress on that.  
-This basically takes multi lazy buffer and turns it into a UOP.  
-So it's UOP multi where the sources are the individual lazy buffers.  
+This basically takes multi LazyBuffer and turns it into a UOp.  
+So it's UOp multi where the sources are the individual lazy buffers.  
 And then you can do something that looks a lot like the way we push unroll through the graph with multi to expand it to a full  
 You know, expand it.  
 Basically, if you're on six devices, it's 6x is the graph.  
@@ -95,8 +95,8 @@ And then we can differentiate through it.
 And then gradient will work.  
 Because right now, gradient's broken.  
 Because it can't call the..  
-Like, it can't call the UOP methods, and the different UOP methods are on multi-lazy buffer now.  
-So that needs to be rewritten in a rewrite rule, and that kind of continues in the UOP-ification of everything.  
+Like, it can't call the UOp methods, and the different UOp methods are on multi-LazyBuffer now.  
+So that needs to be rewritten in a rewrite rule, and that kind of continues in the UOp-ification of everything.  
 We move things from being done instantly to being specified and then transformed.  
 So the specification transform thing is slower, but it's much easier to reason about.  
 If you guys haven't tried Viz, it's really beautiful.  
@@ -109,7 +109,7 @@ So as a result, we currently don't have LLaMA running on 6 GPU because it doesn'
 And I also disabled the 70B for now.  
 I will find a way to add it back later with the new multi stuff, probably with some padding.  
 But the idea is we want  
-We want the UOPs and kernels to be the same on each device.  
+We want the UOps and kernels to be the same on each device.  
 
 **Geohot** [[00:04:42](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=282)]  
 Yeah, and then the kernels can take in an argument, which says which GPU they're in.  
@@ -256,7 +256,7 @@ So that's when it has to be turned into float.
 
 **Qazalin** [[00:12:00](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=720)]  
 So this tensor, tensor doesn't do that, right?  
-The UOP that you're describing, if I visit, if I visit literal tensor, it's image.  
+The UOp that you're describing, if I visit, if I visit literal tensor, it's image.  
 
 **Geohot** [[00:12:13](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=733)]  
 Yeah, so the problem, the reason tensor can't do it is, well, tensor could certainly detect when you're doing that expand.  
@@ -517,13 +517,13 @@ I kind of see how to do it with kind of like a, it's like a gated store, really.
 I mean, you have like a define ACC and you have like a gated store, and then that store gate is the max.  
 Yeah, but how do you know.. This is, like, sequential.  
 It's not sequential.  
-It fits in UOPs.  
-I don't exactly know how we're going to do the transformation to UOPs.  
+It fits in UOps.  
+I don't exactly know how we're going to do the transformation to UOps.  
 But okay, so you have this, like, is this the max, which is a bool.  
 And then that's your gate for a store.  
 And then the store, instead of being to memory, is to a defined ACC.  
 It's like a gated assign, which is..  
-It's fancier than what we're doing, but I certainly see the correct UOPs for it.  
+It's fancier than what we're doing, but I certainly see the correct UOps for it.  
 Okay, great.  
 You see what I mean, though.  
 When you have the max, you're tracking that in a defined ACC.  
@@ -541,7 +541,7 @@ No, it doesn't require order.
 Same thing for Softmax.  
 It also doesn't require order.  
 Well, it does require that the two orders be the same.  
-It does require that they both point to the same range UOP.  
+It does require that they both point to the same range UOp.  
 Both the max and the arg are in the same.  
 I mean, they obviously would be.  
 
@@ -571,15 +571,15 @@ Yeah, BERT is a.. BERT is one of the most important things we're going to do in 
 Except for a while, this is the year of speed.  
 Last year was like the year of like correctness.  
 Now we're not going to find something better.  
-There's nothing better than UOPs and graph rewrite, right?  
-Like UOPs and graph rewrite is the end of the line.  
+There's nothing better than UOps and graph rewrite, right?  
+Like UOps and graph rewrite is the end of the line.  
 It will be in the final tinygrad.  
 So just like this style of writing code is what we spent most of last year figuring out.  
 And then I think we did that.  
 A phenomenal style.  
-When you look at UOPs and graph rewrite and you compare that to.. You read an LLVM rewrite rule.  
+When you look at UOps and graph rewrite and you compare that to.. You read an LLVM rewrite rule.  
 Read an MLIR rewrite rule.  
-They're so difficult to understand compared to UOPs and graph rewrite.  
+They're so difficult to understand compared to UOps and graph rewrite.  
 So yeah, I think we did a great job of that last year.  
 And this year we got to prove that it's great by actually making things fast.  
 
@@ -685,7 +685,7 @@ I'm not even sure how this is working, if that's not true.
 I guess you can just, yeah, kind of loop it.  
 If it's in the same process as cache, right?  
 No, no, no, no.  
-But then what if it's like, how does it go in the Beam cache?  
+But then what if it's like, how does it go in the BEAM cache?  
 I mean, isn't it all you.. I don't know, maybe it picks the same thing every time.  
 
 ##### need for speed  
@@ -729,7 +729,7 @@ Does it have the same?
 It should have the same API, basically.  
 Oh, change it to call?  
 Yeah, I think that.  
-Yeah, as long as it's call and just instead of get run onyx, use onyx runner.  
+Yeah, as long as it's call and just instead of get_run_onnx, use ONNX runner.  
 I think I pushed this to benchmark.  
 Training.  
 Did it work on benchmark?  
@@ -1084,7 +1084,7 @@ HVAC decode support for the NV driver.
 If you're good at the low-level stuff,  
 You know, you got to read the NVIDIA driver, figure out, use the I.O. control sniffer, figure out what calls it's making to use CU vid.  
 Probably works out to be something like 30 lines.  
-And then, yeah, you want to basically, you can kind of hack it in with like a custom UOP now that just magically makes a tensor have an HVAC.  
+And then, yeah, you want to basically, you can kind of hack it in with like a custom UOp now that just magically makes a tensor have an HVAC.  
 So that's a fun one if you want to play with NVIDIA drivers.  
 Matching engine speed bounties.  
 These have all been discussed.  

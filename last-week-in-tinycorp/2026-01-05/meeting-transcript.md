@@ -223,7 +223,7 @@ Yeah. Cloud can make it very clean. I made it go through every single line, make
 that are provably a good thing. Every one of the speed ups was done by me.
 
 ##### **Geohot** [[00:14:14](https://www.youtube.com/watch?v=GNdNtguh1zo&t=854)]
-Speed ups. No, it's no good at that. I got like 5% over the said matmall, but every single one of the things was just done by me thinking about it. And looking at the SQTT and just doing it. But yeah, no, I think also what we can do is more search. We can automate every bit of pipelining and stuff.
+Speed ups. No, it's no good at that. I got like 5% over the said matmul, but every single one of the things was just done by me thinking about it. And looking at the SQTT and just doing it. But yeah, no, I think also what we can do is more search. We can automate every bit of pipelining and stuff.
 
 ##### **Geohot** [[00:14:43](https://www.youtube.com/watch?v=GNdNtguh1zo&t=883)]
 Just have it try every combination. Parameterize it.
@@ -448,7 +448,7 @@ Yeah, should have something this week.
 I want to talk a little about the JIT and chat. I don't know. I'm really happy if.. Part of the problem with me just rewriting it is I'll just deliver another thing that's not comprehensible, and has a bunch of random foot guns and stuff. I mean, yeah. I think that probably instead of rewriting the JIT, what we want to do is just add more assertions to the JIT.
 
 ##### **Chenyu** [[00:25:38](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1538)]
-Yeah, I think that's a good start. Yeah, I think that's a good start. Because the only real way we improve these, I think Torch compile may have a similar issue. Jack's compile has a similar issue. These are like usability errors that only when people start to use it and use it more extensively will find. It's very hard to design these upfront correctly. So I think we already, I already find like the issue when I was implemented gradient accumulation in bird that I would just walk around. Oh yeah. Adding more asserts here.
+Yeah, I think that's a good start. Yeah, I think that's a good start. Because the only real way we improve these, I think Torch compile may have a similar issue. JAX's compile has a similar issue. These are like usability errors that only when people start to use it and use it more extensively will find. It's very hard to design these upfront correctly. So I think we already, I already find like the issue when I was implemented gradient accumulation in BERT that I would just walk around. Oh yeah. Adding more asserts here.
 
 ##### **Geohot** [[00:26:20](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1580)]
 An assert that should kind of get everything is if you add a, another step. So right now we run the JIT for like three steps. If you add one step, you get a new step. If you add one more step and then have it assert that that step captures the exact same
@@ -514,13 +514,13 @@ I'm reading through my PRs from last week. Also, I enable the ignore OOB, the Z3
 Yeah. So you posted the tweet. Yeah, totally, totally agree.
 
 ##### **Chenyu** [[00:29:23](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1763)]
-Yeah. Also fix the hypothesis. So I think another, a thing I found. Like cloud does more diligently than me is say the hypothesis issue. It just goes through the hypothesis source code and profile each bit of that and find out why it's so slow. And the stupid part is initially it suggests a workaround to, I don't know, change the hypothesis internal. And that was great. Then I ask, can you try updating the hypothesis version to see if it's fixed? Then they update it and it's fixed. So that's great. So sometimes, sometimes it will try too hard. Then I fix. So another thing I did is I, I tried to use cloud to comment on every rewriting rules and see if the tests still pass. And I specifically test, I test metal because I'm working on Mac. Then web GPU, because I know there are web GPUs. So I can test the CPU specific rules and LLVN for similar reasons. Well, that was pretty useful. I found several rules that by commenting out, also I teach cloud how to run process replay locally. That was also kind of useful. So you can basically commenting out rules and run process replay to making sure things are correct. I deleted bunch of rules. Oh, I also asked cloud to, you know, I'm not sure. I'm not sure. I'm going to read through. Look, it's diff to find the initial comment and make a judgment call to see if it's just oversight or is actually useful. I don't know if less than useful, but that's what it did. Well, I ended up deleting bunch of rules that by inspection, I cannot tell is doing anything. So that was also, that's a little better part. Then I asked Cloud to look into the OpenPilot driver vision model with debug equals to 4. It prints all the source code and asks Cloud to read it to find anything that looks dumb or should be able to simplify. And it complains about the NAND in loading image, because image has four channels. And for some reason, after Rangify, there was a code that always inited with NAND, even though you know it's between 0, 1, 2, 3. It never should load the NAND, basically.
+Yeah. Also fix the hypothesis. So I think another, a thing I found. Like cloud does more diligently than me is say the hypothesis issue. It just goes through the hypothesis source code and profile each bit of that and find out why it's so slow. And the stupid part is initially it suggests a workaround to, I don't know, change the hypothesis internal. And that was great. Then I ask, can you try updating the hypothesis version to see if it's fixed? Then they update it and it's fixed. So that's great. So sometimes, sometimes it will try too hard. Then I fix. So another thing I did is I, I tried to use cloud to comment on every rewriting rules and see if the tests still pass. And I specifically test, I test metal because I'm working on Mac. Then web GPU, because I know there are web GPUs. So I can test the CPU specific rules and LLVM for similar reasons. Well, that was pretty useful. I found several rules that by commenting out, also I teach cloud how to run process replay locally. That was also kind of useful. So you can basically commenting out rules and run process replay to making sure things are correct. I deleted bunch of rules. Oh, I also asked cloud to, you know, I'm not sure. I'm not sure. I'm going to read through. Look, it's diff to find the initial comment and make a judgment call to see if it's just oversight or is actually useful. I don't know if less than useful, but that's what it did. Well, I ended up deleting bunch of rules that by inspection, I cannot tell is doing anything. So that was also, that's a little better part. Then I asked Cloud to look into the OpenPilot driver vision model with debug equals to 4. It prints all the source code and asks Cloud to read it to find anything that looks dumb or should be able to simplify. And it complains about the NaN in loading image, because image has four channels. And for some reason, after rangeify, there was a code that always inited with NaN, even though you know it's between 0, 1, 2, 3. It never should load the NaN, basically.
 
 ##### **Geohot** [[00:32:15](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1935)]
 Yeah, I remember that.
 
 ##### **Chenyu** [[00:32:17](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1937)]
-Yeah, so that is not complete, because there's another rabbit hole for the C mod. For negative numbers, can be negative, some weird issues like that. But for the general negative case, you don't need to load NAND. So that's kind of 0.3 seconds faster for OpenPilot, considering that win. It's that much? Wow. It's a lot of NAND. I think Cloud counts like 200 or something like that.
+Yeah, so that is not complete, because there's another rabbit hole for the C mod. For negative numbers, can be negative, some weird issues like that. But for the general negative case, you don't need to load NaN. So that's kind of 0.3 seconds faster for OpenPilot, considering that win. It's that much? Wow. It's a lot of NaN. I think Cloud counts like 200 or something like that.
 
 ##### **Geohot** [[00:32:55](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1975)]
 That should only happen when the load isn't four byte aligned.
@@ -535,7 +535,7 @@ Yeah, no, I mean, I read the back end. I read the back end. I think it's pretty 
 I know we have a plan to remove image D type altogether. So this is just to make that task more difficult.
 
 ##### **Geohot** [[00:33:37](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2017)]
-Yeah, I don't know, but I think we still kind of need this. But again, I really thought that.. Because I wrote that code. And I was like, oh, this is never actually going to happen. Right? Like, I just wrote the code to save lines. But I wrote the code to do the NAND thing to save lines. But.. Yeah. Uh.. So.. Like..
+Yeah, I don't know, but I think we still kind of need this. But again, I really thought that.. Because I wrote that code. And I was like, oh, this is never actually going to happen. Right? Like, I just wrote the code to save lines. But I wrote the code to do the NaN thing to save lines. But.. Yeah. Uh.. So.. Like..
 
 ##### **Chenyu** [[00:33:56](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2036)]
 Yeah. That's fine.
@@ -595,13 +595,13 @@ We need to have a command line Viz.
 I mean, Viz equals minus one and two are not meant to be entire visualizers. They're just meant to give you the pickle file. And then you can we can write tools. Yeah, yeah, of course. Right? Like, the idea is that we should write tools very, very tastefully and carefully that give humans a good interface to use those pickle files. And they happen to also work for agents. Okay.
 
 ##### **Chenyu** [[00:37:38](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2258)]
-Then, finally, I also fix a lot of tools. So, like, for example, tensor and basically the very higher level stuff in tensor.py, onX.py. There were, like, several to-dos. We have some functions that is just a giant blob of functions. Imagine something like or get item or resize or pad, things like that. I find it useful to just that and output something.
+Then, finally, I also fix a lot of tools. So, like, for example, tensor and basically the very higher level stuff in tensor.py, onnx.py. There were, like, several to-dos. We have some functions that is just a giant blob of functions. Imagine something like or get item or resize or pad, things like that. I find it useful to just that and output something.
 
 ##### **Chenyu** [[00:38:09](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2289)]
 Yeah.
 
 ##### **Chenyu** [[00:38:11](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2291)]
-It's very good at, like, fixing small spec issue in onX. Because it will try random stuff until it works. And it will try a lot more comprehensive test cases than maybe what we have test coverage for. The lows are fine. I'm sure there are more. But I probably won't do them all. But if anyone is interested, I think we can do that. So, I'll show you some examples. So, it's basically how other people will use tiny grid. Right? It's like can Asian write tiny grid in higher level to train a model or implement some ops that they want. So, I think this layer is good. We just have sometimes we have inconsistent error message and different error types. Sometimes it's a runtime error. Like small inconsistency. LLM doesn't really have issues on these.
+It's very good at, like, fixing small spec issue in ONNX. Because it will try random stuff until it works. And it will try a lot more comprehensive test cases than maybe what we have test coverage for. The lows are fine. I'm sure there are more. But I probably won't do them all. But if anyone is interested, I think we can do that. So, I'll show you some examples. So, it's basically how other people will use tinygrad. Right? It's like can Asian write tinygrad in higher level to train a model or implement some ops that they want. So, I think this layer is good. We just have sometimes we have inconsistent error message and different error types. Sometimes it's a runtime error. Like small inconsistency. LLM doesn't really have issues on these.
 
 ##### **Chenyu** [[00:39:12](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2352)]
 But it's more of having a consistent error system from the library.
@@ -610,7 +610,7 @@ But it's more of having a consistent error system from the library.
 Yeah. Great. Definitely. Yeah.
 
 ##### **Chenyu** [[00:39:27](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2367)]
-So, overall, I think there are many things that can be further polished. I probably won't spend too much time on this. But so far it's pretty positive. And a lot of I feel between so there are codes that we want the very highest quality code with quality. And I know currently tiny grid several pieces doesn't hit really hit that. And there are pieces of code that LLM can read. And I feel that's the. There are pieces of code. Even though we cannot really polish it to the perfect level, making it LLM readable is probably already a very good improvement. That's my current standard.
+So, overall, I think there are many things that can be further polished. I probably won't spend too much time on this. But so far it's pretty positive. And a lot of I feel between so there are codes that we want the very highest quality code with quality. And I know currently tinygrad several pieces doesn't hit really hit that. And there are pieces of code that LLM can read. And I feel that's the. There are pieces of code. Even though we cannot really polish it to the perfect level, making it LLM readable is probably already a very good improvement. That's my current standard.
 
 ##### **Geohot** [[00:40:26](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2426)]
 Definitely finds very subtle bugs.
@@ -652,10 +652,10 @@ They shouldn't be equal. Yeah. I mean, the uop deduper should not work on zero a
 Yeah.
 
 ##### **Chenyu** [[00:41:32](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2492)]
-Does it eval NAND to NAND?
+Does it eval NaN to NaN?
 
 ##### **Geohot** [[00:41:37](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2497)]
-Well, I don't know about that might be a problem too. And maybe all the NANDs aren't the same, right? And that's a whole nother problem. So.
+Well, I don't know about that might be a problem too. And maybe all the NaNs aren't the same, right? And that's a whole nother problem. So.
 
 ##### **Chenyu** [[00:41:44](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2504)]
 Okay.
@@ -673,13 +673,13 @@ Yeah.
 I mean, it's just something to know.
 
 ##### **Chenyu** [[00:42:11](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2531)]
-But then you run into all the silent NAND and all the different kinds of NAND.
+But then you run into all the silent NaN and all the different kinds of NaN.
 
 ##### **Geohot** [[00:42:17](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2537)]
-Oh, I've learned a lot about different types of NANDs recently. Quiet NANDs.
+Oh, I've learned a lot about different types of NaNs recently. Quiet NaNs.
 
 ##### **Chenyu** [[00:42:21](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2541)]
-Okay. Anyway, I digress. Okay. So I think I still encourage everyone to try for maybe not for the employee, but for the NANDs. So for everyone in this meeting, if you are interested in using TinyGrid, there are several to-dos, especially in the Annex and tensor.py. I think cloud does this really well. You can use this to practice the workflow. Don't commit AI slop. Don't try to open PR for that. We'll close it. But there are legit use case that will help both developers, maintainers and the users for TinyGrid.
+Okay. Anyway, I digress. Okay. So I think I still encourage everyone to try for maybe not for the employee, but for the NaNs. So for everyone in this meeting, if you are interested in using TinyGrad, there are several to-dos, especially in the ONNX and tensor.py. I think cloud does this really well. You can use this to practice the workflow. Don't commit AI slop. Don't try to open PR for that. We'll close it. But there are legit use case that will help both developers, maintainers and the users for TinyGrad.
 
 ##### **Geohot** [[00:43:00](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2580)]
 So give it a try. Okay. Next, drivers.
@@ -913,7 +913,7 @@ Oh, it's just a cast.
 I see. And then you have a rewrite rule that detects if float image equals 1 is set.
 
 ##### **Geohot** [[00:58:10](https://www.youtube.com/watch?v=GNdNtguh1zo&t=3490)]
-No, no, you don't detect if image equals 1 is set. So you can just do this. You can do this in you can express this in normal tiny grad completely image free, right? So if you want to store something in float 16, you do cast float 16 contiguous cast float 32.
+No, no, you don't detect if image equals 1 is set. So you can just do this. You can do this in you can express this in normal tinygrad completely image free, right? So if you want to store something in float 16, you do cast float 16 contiguous cast float 32.
 
 ##### **Geohot** [[00:58:31](https://www.youtube.com/watch?v=GNdNtguh1zo&t=3511)]
 Yeah. Yeah, OK. Yeah, that should just work, right? Yeah.
@@ -1042,7 +1042,7 @@ Yeah. Yeah. That, yeah. I'll benchmark a lot of that stuff and make sure that th
 Cool.
 
 ##### **Chrism** [[01:06:46](https://www.youtube.com/watch?v=GNdNtguh1zo&t=4006)]
-Oh, yeah. The one other thing was we talked about last meeting, refactoring all of the compilers to be part of the renderers. Yep. I'd done a little bit of thinking about that. I haven't started that at all yet. But I had thought about what to do there a little bit. And it feels like a lot of the stuff, you might want to move more stuff into program spec. So for instance, if you look at opsqcom right now, we have all this. We have a separate way of parsing the neural output and a separate way of parsing the. Yeah. The output of the CL compiler. And this doesn't really seem like what you want to be doing. Instead, it seems like you probably want to pass the flat binary, the image, literally like the binary, like the assembly code. And then you also want to pass some metadata. So like the branch stack and the number of registers and this sort of stuff.
+Oh, yeah. The one other thing was we talked about last meeting, refactoring all of the compilers to be part of the renderers. Yep. I'd done a little bit of thinking about that. I haven't started that at all yet. But I had thought about what to do there a little bit. And it feels like a lot of the stuff, you might want to move more stuff into program spec. So for instance, if you look at ops_qcom right now, we have all this. We have a separate way of parsing the neural output and a separate way of parsing the. Yeah. The output of the CL compiler. And this doesn't really seem like what you want to be doing. Instead, it seems like you probably want to pass the flat binary, the image, literally like the binary, like the assembly code. And then you also want to pass some metadata. So like the branch stack and the number of registers and this sort of stuff.
 
 ##### **Geohot** [[01:07:43](https://www.youtube.com/watch?v=GNdNtguh1zo&t=4063)]
 I think this is independent of the moving the compilers to the renderers.

@@ -68,7 +68,7 @@
 Welcome everyone. Star Wars company update.
 
 ##### **Geohot** [[00:00:08](https://www.youtube.com/watch?v=IAbOilYNLdc&t=8)]
-Yes, I posted the cloud analysis. I put the meetings repo into cloud. Yeah, I mean, I think we can do it, but I think this is super important that we get this done. And then pretty much I think for the rest of the year, we're just going to be cleaning this up. You know, because it's not just about training 405B LLMA. What does everybody want to do? They want to train LLMs on large quantities of GPUs. So that's kind of what we should be, what we should be targeting. And if we can't do that, you know, so, so, Eporat came in and asked, like a fully fledged training example of training LLMs with high MFU for 64 plus GPUs. So, you know, that's kind of our, kind of our target. We've sold a whole bunch of tiny boxes. They're selling pretty well. Yeah, we're off to a good year revenue wise. We log into the shop here and tell you what our revenue to date is. So, just in January, I'll make sure this is right because this is a big number. Yeah, just in January, our sales have been $430,000.
+Yes, I posted the cloud analysis. I put the meetings repo into cloud. Yeah, I mean, I think we can do it, but I think this is super important that we get this done. And then pretty much I think for the rest of the year, we're just going to be cleaning this up. You know, because it's not just about training 405B LLaMA. What does everybody want to do? They want to train LLMs on large quantities of GPUs. So that's kind of what we should be, what we should be targeting. And if we can't do that, you know, so, so, Eporat came in and asked, like a fully fledged training example of training LLMs with high MFU for 64 plus GPUs. So, you know, that's kind of our, kind of our target. We've sold a whole bunch of tiny boxes. They're selling pretty well. Yeah, we're off to a good year revenue wise. We log into the shop here and tell you what our revenue to date is. So, just in January, I'll make sure this is right because this is a big number. Yeah, just in January, our sales have been $430,000.
 
 ##### **Geohot** [[00:01:52](https://www.youtube.com/watch?v=IAbOilYNLdc&t=112)]
 So that's seven Blackwell bucks, more or less.
@@ -281,7 +281,7 @@ I think that's about my training for now.
 Next. So I'm going to go ahead and do some assembly stuff.
 
 ##### **Geohot** [[00:13:26](https://www.youtube.com/watch?v=IAbOilYNLdc&t=806)]
-Yeah, so I got the emulator finally works. The speed is decent. If you see, I have a pull request to set Python remu to 1 as the default. And I mean, the emulator was great because I found every last little bug. I mean, OK, there's probably still way more bugs. But because it's all tightly integrated, because the DSL and the instruction stuff is all tightly integrated with it, I can do it with the emulator. If there's bugs in one thing, it's easy to find them. So yeah, I have the emulator working for pretty much everything. I think it has more support than remu for re-instructions. It's mostly working on RDNA 4 as well. CDNA is weirder, always. The CDNA-SQGD stuff is weirder, too. Yeah. So I think that's it. Yeah, we're on track for what I said in my sprinkles. I'm going to spend most of the week just cleaning up the cloud-generated code, which I don't know. Again, I have mixed thoughts on it. This is the first time I really tried to aggressively use it for stuff. Everything tiny grad, I ended up doing it by hand. But it is good when I have a test suite, just getting it to pass. And I have a great test suite, too, in extra AMD assembly test hardware, which tests all these weird edge cases of RDNA 3. So yeah. I think I'm just going to clean that up this week, get that merged. I'll at least have RDNA 4 support in the emulator. I have RDNA 4 support for sqgt, mostly.
+Yeah, so I got the emulator finally works. The speed is decent. If you see, I have a pull request to set Python remu to 1 as the default. And I mean, the emulator was great because I found every last little bug. I mean, OK, there's probably still way more bugs. But because it's all tightly integrated, because the DSL and the instruction stuff is all tightly integrated with it, I can do it with the emulator. If there's bugs in one thing, it's easy to find them. So yeah, I have the emulator working for pretty much everything. I think it has more support than remu for re-instructions. It's mostly working on RDNA 4 as well. CDNA is weirder, always. The CDNA-SQGD stuff is weirder, too. Yeah. So I think that's it. Yeah, we're on track for what I said in my sprinkles. I'm going to spend most of the week just cleaning up the cloud-generated code, which I don't know. Again, I have mixed thoughts on it. This is the first time I really tried to aggressively use it for stuff. Everything tinygrad, I ended up doing it by hand. But it is good when I have a test suite, just getting it to pass. And I have a great test suite, too, in extra AMD assembly test hardware, which tests all these weird edge cases of RDNA 3. So yeah. I think I'm just going to clean that up this week, get that merged. I'll at least have RDNA 4 support in the emulator. I have RDNA 4 support for sqgt, mostly.
 
 ##### **Geohot** [[00:15:19](https://www.youtube.com/watch?v=IAbOilYNLdc&t=919)]
 So yeah, I think it's going pretty well. Hopefully, the rest of the day is going to be good. I think the DSL is fun to program in. Oh, I'm reading the. I think it's a little unergonomic to do labels and stuff.
@@ -311,10 +311,10 @@ I'm thinking about how to start on an assembly outputting back end. It's so nice
 Oh.
 
 ##### **Geohot** [[00:17:22](https://www.youtube.com/watch?v=IAbOilYNLdc&t=1042)]
-There's only a few kernel that are running Scratch. There's only a few kernels that we make that actually use Scratch. Scratch is this special spillover area on RDNA 3. The diversity of instructions that LLVM can output is very high. And you can use all these weird features that you can use. But yeah, you should never actually be using Scratch. If you have a kernel that somehow uses Scratch, you've made a mistake because that kernel will never ever be fast. So yeah, we should be able to build an RDNA 3 back end. On top of the assembly stuff. And then I also want to play with the UOP, with the Asm.matmall, and see if I can get warp specialization
+There's only a few kernel that are running Scratch. There's only a few kernels that we make that actually use Scratch. Scratch is this special spillover area on RDNA 3. The diversity of instructions that LLVM can output is very high. And you can use all these weird features that you can use. But yeah, you should never actually be using Scratch. If you have a kernel that somehow uses Scratch, you've made a mistake because that kernel will never ever be fast. So yeah, we should be able to build an RDNA 3 back end. On top of the assembly stuff. And then I also want to play with the UOp, with the Asm.matmul, and see if I can get warp specialization
 
 ##### **Geohot** [[00:18:03](https://www.youtube.com/watch?v=IAbOilYNLdc&t=1083)]
-and see if I can get a 60 teraflop matmall from the 900xdx.
+and see if I can get a 60 teraflop matmul from the 900xdx.
 
 ##### **Chenyu** [[00:18:19](https://www.youtube.com/watch?v=IAbOilYNLdc&t=1099)]
 You also changed some of the D type stuff. Anything? That people should be aware of?
@@ -375,7 +375,7 @@ So we can just bet for negative 0.
 Again, I don't know how much we should care about matching the stack. But I think we probably should.
 
 ##### **Chenyu** [[00:21:59](https://www.youtube.com/watch?v=IAbOilYNLdc&t=1319)]
-I think this is good. Yeah. I think it's good to know the issues. I think negative 0 is more fundamental. NANDs are really nasty. Yeah. And there are backends like WebGPU. It doesn't even support the IE standard. Yeah.
+I think this is good. Yeah. I think it's good to know the issues. I think negative 0 is more fundamental. NaNs are really nasty. Yeah. And there are backends like WebGPU. It doesn't even support the IEEE standard. Yeah.
 
 ##### **Geohot** [[00:22:27](https://www.youtube.com/watch?v=IAbOilYNLdc&t=1347)]
 OK. Good. Next, drivers. Yeah.
@@ -921,7 +921,7 @@ half. Yeah.
 What I would do there is I would add a rewrite rule that rewrites all halves to floats in the Qualcomm renderer.
 
 ##### **Chrism** [[01:06:10](https://www.youtube.com/watch?v=IAbOilYNLdc&t=3970)]
-Okay. Wait, there's one. Yeah, well, this is a little bit more complicated, actually, because if you have, like, a buffer in your ONNX model, you need to connect it to the onX model. So if you have a buffer in your onX model, you need to cast it on CPU. So if the buffer contains floats, or sorry, contains halves, you need to be able to rewrite the buffer, like, you need to be able to cast all the contents of the buffer to whatever data type you actually do support. So it can't just be a rewrite rule.
+Okay. Wait, there's one. Yeah, well, this is a little bit more complicated, actually, because if you have, like, a buffer in your ONNX model, you need to connect it to the ONNX model. So if you have a buffer in your ONNX model, you need to cast it on CPU. So if the buffer contains floats, or sorry, contains halves, you need to be able to rewrite the buffer, like, you need to be able to cast all the contents of the buffer to whatever data type you actually do support. So it can't just be a rewrite rule.
 
 ##### **Geohot** [[01:06:35](https://www.youtube.com/watch?v=IAbOilYNLdc&t=3995)]
 No, but no, okay, then this can be a rewrite rule. So it can. So here's how you can do it. You can use, again, this is a place where we can, how would you fix this with a decomposition?
@@ -930,7 +930,7 @@ No, but no, okay, then this can be a rewrite rule. So it can. So here's how you 
 I mean, I guess you would, you would. Yeah, you can do the cast without actual support, right? You can do it with, like, state fiddling. Exactly.
 
 ##### **Geohot** [[01:06:56](https://www.youtube.com/watch?v=IAbOilYNLdc&t=4016)]
-So yeah, we don't want to see, like, like, think about tiny grad as, like, something that's, like, moving down the stack. I do not want to have any back pressure. Like, like, what you're saying there is like, oh, well, so the Qualcomm thing needs to be able to report to the higher level and say, I don't support half. So therefore, you have to do a cast on the CPU. How do we just? Yeah, implement this with a bunch of pitch shifts.
+So yeah, we don't want to see, like, like, think about tinygrad as, like, something that's, like, moving down the stack. I do not want to have any back pressure. Like, like, what you're saying there is like, oh, well, so the Qualcomm thing needs to be able to report to the higher level and say, I don't support half. So therefore, you have to do a cast on the CPU. How do we just? Yeah, implement this with a bunch of pitch shifts.
 
 ##### **Chrism** [[01:07:23](https://www.youtube.com/watch?v=IAbOilYNLdc&t=4043)]
 Okay.

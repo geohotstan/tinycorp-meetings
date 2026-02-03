@@ -16,11 +16,11 @@
 
 ### Highlights
 
-- **[Symbolic Improvements](#sieds-lykles-000006)**: Added ad chain sorting, eliminated distinction between symbolic flat and symbolic, improved UOP-Given-Valid and UOP-Blood-Factor methods for expression factoring and substitution, targeting ResonateConf range simplification.
+- **[Symbolic Improvements](#sieds-lykles-000006)**: Added ad chain sorting, eliminated distinction between symbolic flat and symbolic, improved UOp-Given-Valid and UOp-Blood-Factor methods for expression factoring and substitution, targeting ResonateConf range simplification.
 - **[Rangeify Progress](#chenyu-000147)**: Nearing default merge; remaining issues include a contiguous cat bug in OpenPilot models and performance regressions, particularly in Stable Diffusion and OpenPilot scheduling times.
-- **[Performance Bottlenecks](#chenyu-000324)**: Z3 checks disabled due to slowness; focus on eliminating float indexing and improving UOP-Given-Valid efficiency in large graphs.
+- **[Performance Bottlenecks](#chenyu-000324)**: Z3 checks disabled due to slowness; focus on eliminating float indexing and improving UOp-Given-Valid efficiency in large graphs.
 - **[OpenPilot Speed Regression](#chenyu-000624)**: Two models slowed by 3ms each due to large reduce kernels; exploring optimizations like Nemoji's reduce fusion improvements.
-- **[Pipelining & Rewrite Optimizations](#chenyu-000852)**: George working on pipelining for faster gens/full attention; new recursive property approach fixes stack overflow and improves rewrite speed in TinyGrade.
+- **[Pipelining & Rewrite Optimizations](#chenyu-000852)**: George working on pipelining for faster gens/full attention; new recursive property approach fixes stack overflow and improves rewrite speed in TinyGrad.
 - **[Multi-GPU Fixes](#chenyu-001205)**: Resolved correctness issues with N-stacks; benchmarks show slow but correct execution, with ongoing tuning for memory and scheduling speed.
 - **[FP8 Tensor Core Development](#b1tg-001339)**: FP8 tensor core functional but slower than FP16; priority on correctness before speed optimizations, aligning with pipelining efforts.
 - **[AMD FP8 Training Bounty](#chenyu-001439)**: New bounty for FP8 BERT training on AMD MI300/MI350; complexity noted beyond FP8 support, requiring collaboration.
@@ -32,10 +32,10 @@
 Maybe Cid, so you can start with the symbolic stuff.
 
 ##### **Sieds Lykles** [[00:00:06](https://www.youtube.com/watch?v=-boFPBPcUK8&t=6)]
-Alright, so good morning. Yeah, so the big symbolic update is that we have ad chain sorting now, finally. And also we can get rid of the distinction between symbolic flat and symbolic. And yeah, I made some improvements to UOP-Given-Valid and to a method called UOP-Blood-Factor, which allows you to factor out multiples of an expression, and then you can substitute them. So that works well. That was all necessary for the Resonate on stuff, which is still not fixed. I know how to fix it. It just made CI quite a bit slower, so it was very close to timing out. So we just have to figure out how to make it a little bit faster. But that's for the range of ResonateConf. That was not simplifying on some reshapes.
+Alright, so good morning. Yeah, so the big symbolic update is that we have ad chain sorting now, finally. And also we can get rid of the distinction between symbolic flat and symbolic. And yeah, I made some improvements to UOp-Given-Valid and to a method called UOp-Blood-Factor, which allows you to factor out multiples of an expression, and then you can substitute them. So that works well. That was all necessary for the Resonate on stuff, which is still not fixed. I know how to fix it. It just made CI quite a bit slower, so it was very close to timing out. So we just have to figure out how to make it a little bit faster. But that's for the range of ResonateConf. That was not simplifying on some reshapes.
 
 ##### **Chenyu** [[00:01:24](https://www.youtube.com/watch?v=-boFPBPcUK8&t=84)]
-And some of the reshapes had to use UOP-Given-Valid. But yeah, doing that on every..
+And some of the reshapes had to use UOp-Given-Valid. But yeah, doing that on every..
 
 ##### **Sieds Lykles** [[00:01:39](https://www.youtube.com/watch?v=-boFPBPcUK8&t=99)]
 In rangeify on the big graph was just slow, but it doesn't need to happen.
@@ -104,7 +104,7 @@ Not like nature to me.
 I don't know.
 
 ##### **Chenyu** [[00:08:52](https://www.youtube.com/watch?v=-boFPBPcUK8&t=532)]
-So George is working on adding pipelining and I guess in general making gens and full attention fast. That would be his main thing and also improving the rewriting algorithm or the rewriting speed itself. Now TinyGrade is pretty slow. Slow because like a lot of rewrite steps. So there are rewrites for index, rewrites for rangeify, rewrites for big graph, all the recursive thing, recursive property. Well that's a new thing he added. Supposedly makes everything faster and fixed one of the old issue that. Because it recurs too much, it surpasses the Python stack limits. Replacement was more like.. So instead of going like stack, go into the stack, it just tried to paint the whole top of the sort with that property so that the next time it's something like that. Anyway. Supposedly it's faster. And it fixed the stack overflow issue.
+So George is working on adding pipelining and I guess in general making gens and full attention fast. That would be his main thing and also improving the rewriting algorithm or the rewriting speed itself. Now TinyGrad is pretty slow. Slow because like a lot of rewrite steps. So there are rewrites for index, rewrites for rangeify, rewrites for big graph, all the recursive thing, recursive property. Well that's a new thing he added. Supposedly makes everything faster and fixed one of the old issue that. Because it recurs too much, it surpasses the Python stack limits. Replacement was more like.. So instead of going like stack, go into the stack, it just tried to paint the whole top of the sort with that property so that the next time it's something like that. Anyway. Supposedly it's faster. And it fixed the stack overflow issue.
 
 ##### **Chenyu** [[00:10:29](https://www.youtube.com/watch?v=-boFPBPcUK8&t=629)]
 Stack recursion too deep issue. Okay. And now our backend is ready for review. Okay. So we'll figure out that one probably tomorrow. Figure out like who is going to review that. Okay.
@@ -212,7 +212,7 @@ we should be able to merge rankify soon. Not sure if it's tomorrow but definitel
 cover all the correctness issues and the rest is more of tuning. Is using match statement in compiling a pattern manager worth trying? What do you mean? Oh you mean
 
 ##### **Chenyu** [[00:20:28](https://www.youtube.com/watch?v=-boFPBPcUK8&t=1228)]
-George's meta code version? Probably. I don't know too much about this. Uh. If you can show that it's faster or if it's like simpler with similar performance then sure. This is the principle for every part of a tiny grid. It's like we don't really know and if you want to propose something open a PR we will test it. If it's better we merge it.
+George's meta code version? Probably. I don't know too much about this. Uh. If you can show that it's faster or if it's like simpler with similar performance then sure. This is the principle for every part of a tinygrad. It's like we don't really know and if you want to propose something open a PR we will test it. If it's better we merge it.
 
 ##### **Chenyu** [[00:20:59](https://www.youtube.com/watch?v=-boFPBPcUK8&t=1259)]
 Cool. Yeah I mean now we have more and more

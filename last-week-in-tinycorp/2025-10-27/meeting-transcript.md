@@ -45,7 +45,7 @@ So it seems like the new linearizer causes a lot of trouble. We've sold a bunch 
 It's not just that. Rentify also caused a bunch of regression, but we'll talk about that later. We can talk about a good thing about a new linearizer.
 
 ##### **Geohot** [[00:01:11](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=71)]
-Yeah, so it even cleans up a little bit more. It's even cleaner now. It's a linearizer is just a toposort that has some priorities. So it's just an opinionated toposort, which is nice. I also factored if and end if out of the graph. If and end if are over, they were always kind of confusing. So the only place they're inserted at the very end just for renderers, so that we can do gated stores. So you know, the dream is finally happening with the deletion of a whole bunch of UOPs or at least some places and I've tightened the spec up a whole lot. So the spec is now pretty low.
+Yeah, so it even cleans up a little bit more. It's even cleaner now. It's a linearizer is just a toposort that has some priorities. So it's just an opinionated toposort, which is nice. I also factored if and end if out of the graph. If and end if are over, they were always kind of confusing. So the only place they're inserted at the very end just for renderers, so that we can do gated stores. So you know, the dream is finally happening with the deletion of a whole bunch of UOps or at least some places and I've tightened the spec up a whole lot. So the spec is now pretty low.
 
 ##### **Nimlgen** [[00:01:57](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=117)]
 So the spec is now pretty low.
@@ -69,7 +69,7 @@ Okay.
 That's just what Thompson called it.
 
 ##### **Geohot** [[00:02:39](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=159)]
-But yeah, so now spec equals two checks, both that the UOPs match the full UOP spec and that all of the three points PyRender, PyRender, exec PyRender returns the same UOP. So.
+But yeah, so now spec equals two checks, both that the UOps match the full UOp spec and that all of the three points PyRender, PyRender, exec PyRender returns the same UOp. So.
 
 ##### **Nimlgen** [[00:02:54](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=174)]
 Mm-hmm.
@@ -78,7 +78,7 @@ Mm-hmm.
 Yeah, I'll get that. And I'll get that in CI. It's a little bit slow right now, but I'll just disable some tests. Yeah. Figure something out about that. I'm for flash attention. I mean, what kind of got me started doing this was that the de vectorizer, another expander doesn't work for flash attention. So, yeah, I mean, I don't know what, what does that mean? The expander. Uh. If you have. Intermediate buffers. Okay. So there's two ways you could have an intermediate buffer interact with like upcasts in one way. The upcast terminates at the bufferize and in the other way, the upcast flows through the bufferize. But when the upcast flows through the bufferize, you have to make the buffer bigger. And this is easy to do when it's a bufferize, but hard to do after you've lowered it to stores. So there's some you can do in one. Abstraction and some you can do in the other abstraction. But in reality, I think that like we have a problem right now where shape is in two places. So we have shape in like dot shape and then we have shapes in the D types. And I think we should unify all of that to one.
 
 ##### **Geohot** [[00:04:16](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=256)]
-And then the expander will basically be free. I also am starting to like really understand semantically with each one of these UOPs means.
+And then the expander will basically be free. I also am starting to like really understand semantically with each one of these UOps means.
 
 ##### **Geohot** [[00:04:27](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=267)]
 So like index selects a region and then load. What load does is moves that region from whatever memory system it's in to a different memory system. So maybe D types will start including an address space. We'll start including a shape and then we can like work on this stuff better.
@@ -135,7 +135,7 @@ So since I just changed them into 2.0,
 it's gonna give you the same truth. Yeah. That wouldn't be doing Viola lga.
 
 ##### **Chenyu** [[00:09:59](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=599)]
-I think for NAND, it's better to just use the math.version anyway. We probably want to do that.
+I think for NaN, it's better to just use the math.version anyway. We probably want to do that.
 
 ##### **Geohot** [[00:10:07](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=607)]
 Yeah, we should always use the math.version.
@@ -147,7 +147,7 @@ Great. Let's move on to the next one. Next is open pilot regression. So I think 
 Well, it does do something concretely pretty stupid. And I remember this bug in the old linearizer. And it's hard to even think about how we want to beat it. But like the biases. So the biases are loaded before the ranges and then added after the ranges. So you just have you just waste your registers, basically.
 
 ##### **Chenyu** [[00:11:59](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=719)]
-Yeah, I think it's something like that. Because previously, I tried to remove block reorder. And that caused some other issue. Onyx model won't compile. I think for now it's fine just because we removed that model from benchmark. I don't know if we currently run that model. That they're wrong or not. Yeah. Yeah. So I will see. So the good thing is this time is not image value pack. So all the image stuff looks fine. So something else. Great. Yeah. Yeah. Because Karma really wants to upgrade. So they can use they can benefit from all the USB stuff.
+Yeah, I think it's something like that. Because previously, I tried to remove block reorder. And that caused some other issue. ONNX model won't compile. I think for now it's fine just because we removed that model from benchmark. I don't know if we currently run that model. That they're wrong or not. Yeah. Yeah. So I will see. So the good thing is this time is not image value pack. So all the image stuff looks fine. So something else. Great. Yeah. Yeah. Because Comma really wants to upgrade. So they can use they can benefit from all the USB stuff.
 
 ##### **Nimlgen** [[00:12:47](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=767)]
 Yeah.
@@ -336,7 +336,7 @@ I think the thing to do here is to first achieve some.. first get their fast exa
 Yeah.
 
 ##### **Geohot** [[00:26:39](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1599)]
-In the low-level UOP stuff. Also, even with their stuff, we should be able to still get it working with our run times. We should be able to see all these counters and stuff. This is why we're getting all the counters working. It's time to really push on performance. But cool. I'm glad the map all got merged today. Yeah, check out Warp Group. I actually really like how they do it with the warp colon colon thing, which is like it's clear that that thing.. is running on the whole warp. And then Warp Group is like, yeah, it's like the four. So I wonder if you literally just change
+In the low-level UOp stuff. Also, even with their stuff, we should be able to still get it working with our run times. We should be able to see all these counters and stuff. This is why we're getting all the counters working. It's time to really push on performance. But cool. I'm glad the map all got merged today. Yeah, check out Warp Group. I actually really like how they do it with the warp colon colon thing, which is like it's clear that that thing.. is running on the whole warp. And then Warp Group is like, yeah, it's like the four. So I wonder if you literally just change
 
 ##### **Geohot** [[00:27:11](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1631)]
 that, if that would fix. That probably doubled the perf. Well, now we also have the FP8 memo that you can test. Wait, how is this example double buffered? Not the one that I merged. I have a..
@@ -687,7 +687,7 @@ Sure.
 So this is not just D type, right? You are basically creating a new metadata that you want to match this up.
 
 ##### **Geohot** [[00:53:14](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=3194)]
-Yeah. I mean, it's not necessarily, it's one piece of metadata. And like type is the right name for it. But it really is like the type of the UOP.
+Yeah. I mean, it's not necessarily, it's one piece of metadata. And like type is the right name for it. But it really is like the type of the UOp.
 
 ##### **Geohot** [[00:53:29](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=3209)]
 It's not clear, right? We don't have such a concept for tensor. What do you mean we don't have a concept for tensor?
@@ -696,13 +696,13 @@ It's not clear, right? We don't have such a concept for tensor. What do you mean
 It's like when I have a tensor and I code tensor dot dot. D type. Do you expect it to also return you the shape of such tensor?
 
 ##### **Geohot** [[00:53:48](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=3228)]
-No, but that's, I mean, that's like a separate thing. It's like we have these three things that are like properties on tensor, the tensor, the shape and the device. Yeah. I mean, maybe. Okay. You're right. Maybe they don't actually have to be the same thing on the UOP. They could just be like different properties just like that.
+No, but that's, I mean, that's like a separate thing. It's like we have these three things that are like properties on tensor, the tensor, the shape and the device. Yeah. I mean, maybe. Okay. You're right. Maybe they don't actually have to be the same thing on the UOp. They could just be like different properties just like that.
 
 ##### **Chenyu** [[00:54:07](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=3247)]
 Yeah. So I think that's fine. And because we have the same concept in tensor, if you want to create a new field and say, that such field needs to match, that's why you can find a good name for that. But I don't think it should be like expanding the current D type.
 
 ##### **Geohot** [[00:54:21](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=3261)]
-You don't think it should be? Okay. I mean, the problem with doing it so you don't expand the current D type is that like the more of these things you add to UOP, the slower it's going to get.
+You don't think it should be? Okay. I mean, the problem with doing it so you don't expand the current D type is that like the more of these things you add to UOp, the slower it's going to get.
 
 ##### **Chenyu** [[00:54:36](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=3276)]
 Yeah. But then that comes with the drawback to make D type very convoluted, right? D type starts with very simple idea and very simple. And now it has a lot more to that.

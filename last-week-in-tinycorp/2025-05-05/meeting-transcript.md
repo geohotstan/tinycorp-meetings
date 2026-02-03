@@ -32,7 +32,7 @@
 - **[Division Semantics](#geohot-001352)**: Discussion on symbolic division complexity and Z3 handling; symbolic divisor cases require slower non-linear solvers.
 - **[FastMod PR](#geohot-001543)**: FastMod approved and merged.
 - **[WebGPU Refactor](#hooved-001604)**: Restarted from scratch without JIT. New `GraphRenderer` modularizes logic for rendering kernel graphs in JS/C. Future work will integrate a true linearizer replacement.
-- **[Fast OLMoE / Multi-level Graph](#geohot-001901)**: Discussion on hierarchical graph structure (kernel/block UOPs) and vision for unified multi-level representation. Bounty tied to performance goal of 76.9.
+- **[Fast OLMoE / Multi-level Graph](#geohot-001901)**: Discussion on hierarchical graph structure (kernel/block UOps) and vision for unified multi-level representation. Bounty tied to performance goal of 76.9.
 - **[Other Active Bounties]**: Includes unsigned firmware for 7900XTX, FlashAttention integration, Mnist Torch compile fixes, and GPTFast beating AMD backend. Speed remains a core focus.
 
 ### Transcript
@@ -57,7 +57,7 @@ I have it pre-build all of the list of graph rewrite rules, kind of like a pass 
 And then it runs the rules.
 I left all the old functions in because the tests still use them, but we should take them all out.
 So if anyone's interested in picking up one of those PRs.. do so.
-Things like rewrite shape tracker with index, expand rewrite, full graph rewrite, all that stuff.
+Things like rewrite ShapeTracker with index, expand rewrite, full graph rewrite, all that stuff.
 And yeah, that's get rewrite for renderer.
 
 ##### **Geohot** [[00:01:40](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=100)]
@@ -375,15 +375,15 @@ Um, so how fast are we doing?
 Let's give it a try.
 Uh..
 I also want to talk for a minute.
-I was realizing I did a stream this weekend, and you understand where the.. I'm not sure if this is what the multi-level in MLIR means, but so many of these things look like.. So the kernelizing collapses groups of UOPs into a kernel, and then the linearizer collapses groups into a block.
+I was realizing I did a stream this weekend, and you understand where the.. I'm not sure if this is what the multi-level in MLIR means, but so many of these things look like.. So the kernelizing collapses groups of UOps into a kernel, and then the linearizer collapses groups into a block.
 this concept of collapsing into.. The linearizer should really be replaced with the new kind of reduced stuff.
 And then you'll have.. It's a multi-level graph.
 I see everything kind of moving to this.
 And we're already doing it.
 It's not far off from what we have now.
-But right now we have this kernel UOP, and the kernel UOP has a special data structure called kernel.
+But right now we have this kernel UOp, and the kernel UOp has a special data structure called kernel.
 We have the..
-It's a block UOP, and it has a special data structure called Basic Block 2.
+It's a block UOp, and it has a special data structure called Basic Block 2.
 That stuff should be replaced by whatever generic multilevel representation we eventually move to.
 But..
 Cool.

@@ -5,7 +5,7 @@
 **Time:** 8 PM Hong Kong Time  
 - Company update  
 - 0.10 release  
-- Big graph and lazybuffer  
+- Big graph and LazyBuffer  
 - Block, new style backward  
 - Speed (simple ops vs. theoretical, mid-size kernel search, high-level math simplification)  
 - AMD/QCOM driver issues  
@@ -23,11 +23,11 @@
 
 - **00:03:15 Release Version Discussion**  Deciding between version 0.10 or 0.9.3.
 
-- **00:03:40 Big Graph and Lazy Buffer Updates**  Progress on Big Graph and Lazy.py removal.
+- **00:03:40 Big Graph and LazyBuffer Updates**  Progress on Big Graph and lazy.py removal.
 
 - **00:05:28 Global Cache Challenges**  Issues with global cache in scheduling.
 
-- **00:10:22 Lazy Buffer and UOp Integration**  Simplifying Lazy Buffer with UOps.
+- **00:10:22 LazyBuffer and UOp Integration**  Simplifying LazyBuffer with UOps.
 
 - **00:18:19 Scheduler and Multi Buffer Handling**  Optimizing multi-buffer scheduling.
 
@@ -161,7 +161,7 @@ Cool.
 
 **Chenyu** [00:03:32]
 Okay.
-Uh, I moved the big graph and lazy buffer to the first point.
+Uh, I moved the big graph and LazyBuffer to the first point.
 So, uh, Qazalin can you?
 
 **Qazalin** [00:03:40]
@@ -184,11 +184,11 @@ This is the [complete milestone list](https://github.com/tinygrad/tinygrad/issue
 Sorry, server muted.
 
 **Qazalin** [00:04:34]
-So I'm going through the milestone list of lazy buffer one at a time.
-It's a little challenging to merge everything in small points now that I'm at the point where I'm going to just make lazy buffer equal UOp.
+So I'm going through the milestone list of LazyBuffer one at a time.
+It's a little challenging to merge everything in small points now that I'm at the point where I'm going to just make LazyBuffer equal UOp.
 So I think I need to merge that like a big diff.
 Then I want to, like, there is one thing I want to bring up in this meeting, which is that lazy cache right now is global.
-If you create a lazy buffer and an operation, it's globally across the entire runtime, not the dedupping of the schedule itself.
+If you create a LazyBuffer and an operation, it's globally across the entire runtime, not the dedupping of the schedule itself.
 The dedupping of graph rewrite is a part of lazy cache, but it's not that important.
 I'm not sure the performance will be, once we remove the global cache,
 But that's one issue that we might face.
@@ -243,7 +243,7 @@ But we'll see.
 
 **Geohot** [00:07:50]
 Yeah, you don't have to you don't have to stick with any of that stuff.
-The only really important thing is that lazy buffer equals UOp.
+The only really important thing is that LazyBuffer equals UOp.
 
 **Qazalin** [00:08:02]
 And then I think multi, we need to do work on multi.
@@ -255,8 +255,8 @@ Why?
 Most just comes to UOp or list of UOp.
 
 **Geohot** [00:08:19]
-Yeah, it becomes list of UOp, but it should just work if you say you up equals lazy buffer and it has all the same API, right?
-The idea is that UOp should have all the same API as lazy buffer.
+Yeah, it becomes list of UOp, but it should just work if you say you up equals LazyBuffer and it has all the same API, right?
+The idea is that UOp should have all the same API as LazyBuffer.
 
 **Qazalin** [00:08:30]
 Yeah, sure.
@@ -276,18 +276,18 @@ I think Multi stays completely as is.
 
 **Chenyu** [00:09:01]
 Yeah, I think it's under the hood.
-It used to be a collection of lazy buffer and some metadata along this collection.
+It used to be a collection of LazyBuffer and some metadata along this collection.
 Now it's a UOp.
 
 **Geohot** [00:09:16]
 Yeah, but it should be.
-We should actually make a lazy.py that says lazy buffer equals UOp.
+We should actually make a lazy.py that says LazyBuffer equals UOp.
 And then we can work on refactoring that later.
 
 **Chenyu** [00:09:24]
 How do you?
 So for now, you can create a tensor out of UOp.
-And you can create a tensor out of a lazy buffer.
+And you can create a tensor out of a LazyBuffer.
 UOp, I believe, is only for the variable case.
 But after that, it needs some kind of checking what is a valid UOp you can create a tensor out of.
 
@@ -301,7 +301,7 @@ You shouldn't be importing UOps in user code anyway.
 
 **Chenyu** [00:10:22]
 I would probably want to check.
-For now, we check out of, so in the tensor init function, we convert every types of different types of input into lazy buffer or multi lazy buffer and we check.
+For now, we check out of, so in the tensor init function, we convert every types of different types of input into LazyBuffer or multi LazyBuffer and we check.
 That's the case.
 So we'll probably do the same thing for UOp.
 
@@ -436,7 +436,7 @@ What new style backward is going to be is we're no longer going to have a requir
 We're going to have loss.gradient, and then you pass in a list of tensors.
 And that will compute the gradient of those tensors with respect to the loss.
 I haven't seen exactly this API in any other library.
-Jax and MLX have value and grad, but you don't need this in TinyGrad because it's lazy.
+JAX and MLX have value and grad, but you don't need this in TinyGrad because it's lazy.
 I mean, we could just add it as a helper.
 But I think that like loss.gradient is a cleaner way to express this and it'll work really well with our optimizer abstraction.
 
@@ -936,7 +936,7 @@ I think the big thing, the big refactor of the TensorCores, Swizzle is done.
 But the problem now is that actually the Swizzle won't work for the patterns.
 So the way you see it is that they are two possible pathways.
 One is that there's something wrong in the lowering to index UOp, but I don't believe that.
-So the other thing is that the patterns itself for fixing the things turns of course, shapes are wrong because they are not think to actually swizzle, but to replace the shape tracker.
+So the other thing is that the patterns itself for fixing the things turns of course, shapes are wrong because they are not think to actually swizzle, but to replace the ShapeTracker.
 So I'm now trying to fix the patterns alone to fix the output.
 And that's it.
 
@@ -947,18 +947,18 @@ The swizzle patterns are wrong?
 **Qazalin** [00:51:17]
 I can explain.
 So the swizzling that you're doing isn't actually swizzle, it's replace.
-It's doing a replacement of the shapetracker, which at the end of the day, like I think there might be a way or like every single shape tracker transformation is in addition is a merge view.
+It's doing a replacement of the ShapeTracker, which at the end of the day, like I think there might be a way or like every single ShapeTracker transformation is in addition is a merge view.
 That merge view is happening way too early right now in the kernel or in the fixed SD, whatever function you have.
 And that should happen later in the graph rewrite itself.
-But when you're doing a load and then you're viewing the load, what happens is that the shapetracker should be added.
-Right now, what you're doing is you're replacing that shapetracker, which is like, I want the swizzling to be a generic thing that's shared across both the schedule and the kernel.
+But when you're doing a load and then you're viewing the load, what happens is that the ShapeTracker should be added.
+Right now, what you're doing is you're replacing that ShapeTracker, which is like, I want the swizzling to be a generic thing that's shared across both the schedule and the kernel.
 Right now, you have something that you call swizzle, but it's actually replaced.
 
 **Ignaciosica** [00:52:11]
 No, no.
 I discarded that, and I was talking using the same swizzle that in schedule.
 That's why the thing I wrote.
-I'm trying to fix that without replacing the shapetracker.
+I'm trying to fix that without replacing the ShapeTracker.
 
 **Geohot** [00:52:28]
 Yeah, I get it.
@@ -1006,7 +1006,7 @@ That's Swizzle.
 Yeah, yeah, I get it.
 
 **Qazalin** [00:54:21]
-That addition is happening somewhere in shapetracker right now.
+That addition is happening somewhere in ShapeTracker right now.
 You just got to pull it out of the kernel or whatever it is that's being done.
 
 **Geohot** [00:54:31]
@@ -1015,7 +1015,7 @@ But it can't replace it exactly because it still needs to keep the global dimens
 
 **Qazalin** [00:54:47]
 It's replacing it exactly.
-It's basically referencing that shapetracker in the fixed ST or whatever the function was.
+It's basically referencing that ShapeTracker in the fixed ST or whatever the function was.
 If you were to get the function, it's like it has, I think, two simplifiers in it and it's like doing something weird.
 
 **Geohot** [00:55:06]
@@ -1052,7 +1052,7 @@ No, I actually wait, wait, wait.
 I agree that this isn't right.
 I see what this is doing now.
 Okay, so on line 641, this is like the problem is it's referencing sources I dot ST.
-Like the problem is the reason that the add isn't working is because it's like it's referencing the shapetracker.
+Like the problem is the reason that the add isn't working is because it's like it's referencing the ShapeTracker.
 This is the same function.
 I don't even understand, like, somehow it deleted 14 lines.
 This isn't what the bounty is.

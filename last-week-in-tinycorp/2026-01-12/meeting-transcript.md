@@ -23,7 +23,7 @@
 * **[Type-checking focus: add MyPy failure tests](#geohot-000545)**: Suggests adding tests that explicitly assert MyPy behavior (designed “MyPy failing tests”) to keep typing changes honest.
 * **[Qualcomm perf counters + improved C types](#chrism-000354)**: Chrism is enabling Qualcomm performance counters to debug why `IMAGE=1` is slow, and finishing new C-type annotations to improve editor IntelliSense (with MyPy understanding it better than Pylance so far).
 * **[2D image handling: late rewrite near valid-masking](#geohot-000639)**: Advises implementing 2D image support as a late rewrite at the same stage as current valid-masking, converting indices to 2D and extracting 2D coords only when passing into texture sampling.
-* **[AMD: “noise time copy” merged, decoder speed up](#nimlgen-001100)**: Reports the AMD “noise time copy” is merged; VCN decoder speed is “1580 frames/s” at `beam=1`.
+* **[AMD: “noise time copy” merged, decoder speed up](#nimlgen-001100)**: Reports the AMD “noise time copy” is merged; VCN decoder speed is “1580 frames/s” at `BEAM=1`.
 * **[MI350 all-to-all bandwidth gap + contiguous copy overhead](#nimlgen-001125)**: Says MI350 all-to-all is ~150 GB/s vs. a ~220 GB/s target; suspects extra contiguous-related copies and suggests using views to avoid copies.
 * **[Remote/shim direction: reuse the abstraction layer](#geohot-001722)**: Discusses using the existing memory-access abstraction (used for USB) as the foundation for remote access and a “shim binary,” envisioning racks of GPUs controlled by a simple host.
 * **[Viz upgrade: register dependency highlighting](#qazalin-001912)**: Viz can now highlight all producers/consumers of a selected register (parsing register pairs), making low-level GEMM work easier when register semantics aren’t obvious.
@@ -36,8 +36,8 @@
 * **[Assembly toolchain status: PDF/DSL/SQTT cleaned up](#geohot-004532)**: Reports major cleanup of the PDF auto-generator and the Python DSL for AMD assembly; SQTT compare tests match RocProf TraceDecoder; aims to move PDF/DSL into core tinygrad soon and build a full AMD assembly environment.
 * **[Perf note: cleaned-up matmul gained ~10%](#geohot-004852)**: Mentions taking an AMD matmul (from a blog-post baseline) and getting an additional ~10% speedup, reaching ~50 TFLOPS after cleanup.
 * **[Roadmap: “year of LLVM removal” + SASS/DSP targets](#geohot-004959)**: States a goal to remove LLVM dependency over 2026, add backends like NVIDIA SASS and DSP output, and sets a 2027 horizon for being “ready to write our hardware.”
-* **[FP8 merged; birds training bottlenecks on flash-attn](#chenyu-005127)**: Chenyu merged FP8 (linears use FP8 and are faster), but training birds is now bottlenecked by flash attention, making further GEMM gains harder to see on small models.
-* **[Flash-attn NaNs: likely a real bug, not “bird is small”](#geohot-005202)**: Pushes back on the “bird is too small” explanation; suspects a correctness bug (especially in backward / max handling) as the likely cause of NaNs.
+* **[FP8 merged; BERTs training bottlenecks on flash-attn](#chenyu-005127)**: Chenyu merged FP8 (linears use FP8 and are faster), but training BERTs is now bottlenecked by flash attention, making further GEMM gains harder to see on small models.
+* **[Flash-attn NaNs: likely a real bug, not “BERT is small”](#geohot-005202)**: Pushes back on the “BERT is too small” explanation; suspects a correctness bug (especially in backward / max handling) as the likely cause of NaNs.
 * **[Reproducibility: seed added to BERT data server](#b1tg-005402)**: B1tg added a seed so runs can be compared; confirms identical loss and accuracy with the same seed.
 * **[Clamp behavior: now matches torch, but slower](#b1tg-005530)**: Notes clamp backward behavior now matches Torch but slows a kernel; suggests it could be sped up (e.g., simpler min/max), while maintainers prefer matching numerics for now.
 * **[Bounties: overwhelmed by low-validation AI submissions](#geohot-005737)**: Says bounties became hard because many submissions are “casually” AI-generated; the real value is in validation/review effort, not volume.
@@ -166,10 +166,10 @@ Yeah. Yeah. No. The thing I was thinking was that you would pass.. Because you'r
 It doesn't matter how you do it. Okay. Anything else? I think that's it. Yeah. Okay. That's it. Let's move onto the drivers.
 
 ##### **Nimlgen** [[00:11:00](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=660)]
-So the noise time copy for AMD is merged. So in VD decoder speed is now fully jittered and it's 1580 frames a second with beam
+So the noise time copy for AMD is merged. So in VD decoder speed is now fully jittered and it's 1580 frames a second with BEAM
 
 ##### **Geohot** [[00:11:20](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=680)]
-with beam equals one. So yeah.
+with BEAM equals one. So yeah.
 
 ##### **Nimlgen** [[00:11:25](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=685)]
 Yeah, I also did some, also applied some like macro optimizations for MI350, MI300. So it's a bit faster than my HDMI now. So actually all to all on MI350 is 150 gigabytes. A second. So like the target is 220. But still we have like compute kernels in front of this because of contiguous. So yeah, that's apart from that. That looks good.
@@ -277,7 +277,7 @@ Agreed, yeah, no, I mean, it's awesome. We have a great extraction layer there. 
 you know, all thousand GPUs. Yeah. I have one thing to add for MI350.
 
 ##### **Chenyu** [[00:17:59](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1079)]
-Last week, I trained a bird for eight stuff.
+Last week, I trained a BERT for eight stuff.
 
 ##### **Chenyu** [[00:18:04](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1084)]
 But for some reason, I cannot get AMV to work. So I end up just load AMV GPU and use that.
@@ -402,7 +402,7 @@ i have one question next for LLaMA flash attention
 i saw your multi-device fix i have a test for it just haven't pushed it yet
 
 ##### **Chenyu** [[00:27:34](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1654)]
-so uh i i try that i trend something uh they trend but even with jit equal to zero in nand at i think seven step
+so uh i i try that i trend something uh they trend but even with jit equal to zero in NaN at i think seven step
 
 ##### **Geohot** [[00:27:47](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1667)]
 oh well i assume that's progress i don't know
@@ -414,7 +414,7 @@ because with j equals zero i've had it train past 50 steps and it's been fine
 oh then maybe are you training which LLaMA
 
 ##### **Chenyu** [[00:28:06](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1686)]
-8b oh okay i guess maybe bird is too small i was testing water just because i know the bird output is guaranteed to be correct i see
+8b oh okay i guess maybe BERT is too small i was testing water just because i know the BERT output is guaranteed to be correct i see
 
 ##### **Wozeparrot** [[00:28:17](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1697)]
 but at least with LLaMA 8b i've had it stable without jit
@@ -471,7 +471,7 @@ Why? Because if you do get parameters on args and kw-args, there's things you do
 and that's causing a few with how we used to use models. I can give you an example later.
 
 ##### **Geohot** [[00:32:54](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1974)]
-Jack says these things called pie trees. Yes. And yeah, I mean, it's pretty good. I don't know. Like if you pass the whole model into the JIT, I think it should just capture all those things.
+JAX says these things called pytrees. Yes. And yeah, I mean, it's pretty good. I don't know. Like if you pass the whole model into the JIT, I think it should just capture all those things.
 
 ##### **Geohot** [[00:33:08](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1988)]
 I don't know. Because it also has a lot of parameters. It also looks into like as dict, underscore dict, some weird stuff. Yeah.
@@ -594,7 +594,7 @@ But I know what Cloud is good. Oh, so my.. Another side project is go through al
 Yeah.
 
 ##### **Chenyu** [[00:43:23](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2603)]
-So updating Lowe's. And it's also pretty good writing Annex Ops because it will pull the Ops bags and read the test case and, like, write the thing for it. You just need to supervise it and tell it to write it better or the way you want. But let's look at the issue as no matter how many times I tell Cloud to read the div and make it minimal, it will fail at some point. Then I point out, okay, how about consider writing it that way? Then they can write a good code.
+So updating Lowe's. And it's also pretty good writing ONNX Ops because it will pull the Ops bags and read the test case and, like, write the thing for it. You just need to supervise it and tell it to write it better or the way you want. But let's look at the issue as no matter how many times I tell Cloud to read the div and make it minimal, it will fail at some point. Then I point out, okay, how about consider writing it that way? Then they can write a good code.
 
 ##### **Geohot** [[00:43:56](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2636)]
 Yeah. There's a few times where I just, like, I'll yell at it repeatedly about the same five lines. It'd be like, no, you can write that in three. Like, it's obvious what it is and it just doesn't see it. Yeah. Yeah.
@@ -630,7 +630,7 @@ Yes, I did. I've been going through the files one at a time. And I shoved the AI
 And then we have real zero dependency AMD. Will it be fast? Uh, it should.
 
 ##### **Geohot** [[00:48:52](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2932)]
-Yeah. I mean, check out.. So AMD as a matmall is a copy from the Seb blog post stuff. But yeah, it's very fast. Actually, by just cleaning up his stuff, I've managed to get another 10% of speed on top of his stuff. So I'm getting like.. I didn't get his 50 teraflops. I got like 45, but then I managed to get it up to like 50. So it should. Yeah. I mean, it should. It should. If it's not fast, we'll finally have a way to understand why it's not fast. Like, if you write something in C and it's not fast, like, okay, why is it not fast? Good luck. The GPU execution model is so complex.
+Yeah. I mean, check out.. So AMD as a matmul is a copy from the Seb blog post stuff. But yeah, it's very fast. Actually, by just cleaning up his stuff, I've managed to get another 10% of speed on top of his stuff. So I'm getting like.. I didn't get his 50 teraflops. I got like 45, but then I managed to get it up to like 50. So it should. Yeah. I mean, it should. It should. If it's not fast, we'll finally have a way to understand why it's not fast. Like, if you write something in C and it's not fast, like, okay, why is it not fast? Good luck. The GPU execution model is so complex.
 
 ##### **Chrism** [[00:49:44](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2984)]
 It's not fast. It's not fast.
@@ -660,16 +660,16 @@ So, yeah, we can get the fastest.. The fastest GEMM on CDNA 4. Sounds good. Now,
 Oh, I merged the FP8.
 
 ##### **Chenyu** [[00:51:31](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3091)]
-I mean, I run the script. It seems to be using FP8 for the linears. So, I think it's fast. It's fast? Yeah. It's a bit faster. But now, training birds really is all bottleneck flash attention. So, yes, the GEMM is faster, but it's the flash attention still. Or maybe not all flash attention, but it's more difficult to assess because bird is so small.
+I mean, I run the script. It seems to be using FP8 for the linears. So, I think it's fast. It's fast? Yeah. It's a bit faster. But now, training BERTs really is all bottleneck flash attention. So, yes, the GEMM is faster, but it's the flash attention still. Or maybe not all flash attention, but it's more difficult to assess because BERT is so small.
 
 ##### **Geohot** [[00:52:02](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3122)]
-Yeah. I mean, I don't buy this theory that bird is so small. That's why the flash attention is so small. I mean, I don't think the flash attention is unstable.
+Yeah. I mean, I don't buy this theory that BERT is so small. That's why the flash attention is so small. I mean, I don't think the flash attention is unstable.
 
 ##### **Geohot** [[00:52:11](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3131)]
 It doesn't make sense to me. I think the problem..
 
 ##### **Geohot** [[00:52:17](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3137)]
-The flash attention being unstable because bird is small, that doesn't make sense to me. I bet there's some instability with, like, how the max thing is being done. I bet the max thing is being done wrong. Oh, maybe. Like, there's a lot of ways to subtly do flash attention wrong that's going to get you to the max. But it's not going to get you these kind of nans that doesn't have anything to do with the JIT or doesn't have anything to do with..
+The flash attention being unstable because BERT is small, that doesn't make sense to me. I bet there's some instability with, like, how the max thing is being done. I bet the max thing is being done wrong. Oh, maybe. Like, there's a lot of ways to subtly do flash attention wrong that's going to get you to the max. But it's not going to get you these kind of nans that doesn't have anything to do with the JIT or doesn't have anything to do with..
 
 ##### **Geohot** [[00:52:46](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3166)]
 No, like, what do you mean it's too small? I just don't buy that. Oh, you are talking about the nan issue earlier? Yeah.
@@ -693,7 +693,7 @@ Probably does. Yeah. Probably flash attention backward has a bug. Flash attentio
 Yeah. We'll see. Hopefully we get that.
 
 ##### **Geohot** [[00:53:34](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3214)]
-But yeah, I just don't buy this whole thing that bird is so small. It's a bug. Yeah.
+But yeah, I just don't buy this whole thing that BERT is so small. It's a bug. Yeah.
 
 ##### **Geohot** [[00:53:42](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3222)]
 Yeah. Yeah. I agree. How about you, B1T? Do you have anything to add for float eight? Hello.

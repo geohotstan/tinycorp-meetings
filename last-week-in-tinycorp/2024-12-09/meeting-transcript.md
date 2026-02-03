@@ -72,10 +72,10 @@ I don't know.
 Yeah, I mean, it's not obvious.
 I don't have an obvious solution either.
 I think..
-What we can try now is we can just ref count the tensors to know if a UOP is referenced by a tensor.
-And if a UOP is not referenced by a tensor, at the end of the schedule run, we should free all of the ones that have the buffers.
-The buffers of the UOP with ref count zero.
-So the graph, the UOPs itself, might live forever, but the buffers won't.
+What we can try now is we can just ref count the tensors to know if a UOp is referenced by a tensor.
+And if a UOp is not referenced by a tensor, at the end of the schedule run, we should free all of the ones that have the buffers.
+The buffers of the UOp with ref count zero.
+So the graph, the UOps itself, might live forever, but the buffers won't.
 And it's the buffers that are OOM-ing, not the graph.
 
 **Qazalin** [00:01:36]
@@ -196,11 +196,11 @@ So, yeah, I agree that that thing that it was doing there is weird.
 But also, any small PRs that you can pull out and get merged would be great.
 
 **Qazalin** [00:05:33]
-Yeah, if you look at the diff, it's pretty much like everything that UOP lacked, that Lazy had, like buffer and stuff like that.
+Yeah, if you look at the diff, it's pretty much like everything that UOp lacked, that Lazy had, like buffer and stuff like that.
 It's mostly like filler.
 
 **Geohot** [00:05:42]
-We can start adding those things in with tests, like the features of UOP, into master.
+We can start adding those things in with tests, like the features of UOp, into master.
 
 **Qazalin** [00:05:52]
 Okay, with tests.
@@ -678,7 +678,7 @@ It has some requirements for the inputs, but I'm going to work on that this next
 **Geohot** [00:27:33]
 Great, yeah, no, I would be super happy with, so, like, Flammit did a first pass at this, and I didn't really understand it, and then I refactored it into something that I didn't really understand, but was shorter.
 It would be great to have something that we finally, like, understand, and I think we're getting there.
-Like, I think we're getting there with this idea of, like, swizzles and pushing swizzles, and, like, this is what TensorCores actually are, as expressed in the UOP graph, and you can write, like, the closer we can get to writing what they are instead of what the transformation is, the better.
+Like, I think we're getting there with this idea of, like, swizzles and pushing swizzles, and, like, this is what TensorCores actually are, as expressed in the UOp graph, and you can write, like, the closer we can get to writing what they are instead of what the transformation is, the better.
 You see what I mean by that distinction?
 We want to describe the computation and then TinyGrad figures it out.
 Not we want to write in TinyGrad how to implement the transformation.

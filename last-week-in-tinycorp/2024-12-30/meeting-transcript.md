@@ -27,25 +27,25 @@
 Yeah, holiday meeting, holiday meeting, holiday meeting.  
 So yeah, I guess Chenyu left us a list.  
 So we'll go down to the list.  
-We'll start with no UOP mutability.  
-So right now we have UOP mutability.  
-UOP mutability can't stay.  
+We'll start with no UOp mutability.  
+So right now we have UOp mutability.  
+UOp mutability can't stay.  
 So I have a PR passing test, but unfortunately it uses a weakset of all the tensors.  
 So things like that can't stay.  
-I merged this morning UOP children tracking.  
-So now there's a property on UOPs called children.  
+I merged this morning UOp children tracking.  
+So now there's a property on UOps called children.  
 And it's a weakset.  
-Well, it's a set, but it's effectively a weakset of all the living children of that UOP.  
-And yeah, you can look in there to find children, which will eventually be rewritten instead of UOP mutability.  
-So UOP mutability, it just ruins the beauty of UOPs.  
-And the only thing you ever really need to change for a tensor when you realize a tensor, you don't actually want to change the UOPs themselves.  
+Well, it's a set, but it's effectively a weakset of all the living children of that UOp.  
+And yeah, you can look in there to find children, which will eventually be rewritten instead of UOp mutability.  
+So UOp mutability, it just ruins the beauty of UOps.  
+And the only thing you ever really need to change for a tensor when you realize a tensor, you don't actually want to change the UOps themselves.  
 You want to change where the tensor points.  
 So yeah, what this does will allow us to..  
 The tensor universe thing just doesn't work.  
-The only graph that should exist anywhere in TinyGrad is the UOP graph.  
-So the UOP graph sources are the parent nodes, and those are strong references to the parents because you can't construct a child without the parents, but you can construct.. Children are not strong references because if a child has no other references to it, you don't want to keep it around, otherwise nothing will ever be cleaned up.  
+The only graph that should exist anywhere in TinyGrad is the UOp graph.  
+So the UOp graph sources are the parent nodes, and those are strong references to the parents because you can't construct a child without the parents, but you can construct.. Children are not strong references because if a child has no other references to it, you don't want to keep it around, otherwise nothing will ever be cleaned up.  
 So, yep, that's the rest of today and maybe tomorrow for me.  
-But I hope to have UOP Mutability gone for the new year.  
+But I hope to have UOp Mutability gone for the new year.  
 And then it doesn't look like Gradient's going to get in this year.  
 But I think that's the Cast Before View stuff.  
 And, yeah, if you want to move on to that, Qazalin.  
@@ -57,12 +57,12 @@ Around 30 if you also accumulate for the stuff I added with the tensor spec and 
 So overall just symbolic folding the manual stuff that we had for like checking is const is gone.  
 It just uses the default stuff from ops.  
 I also last night merged your view stuff for merging the views.  
-I am gated by UOP mutability to be gone to merge the buffer having shape of size N because you cannot have one UOP become a new buffer.  
+I am gated by UOp mutability to be gone to merge the buffer having shape of size N because you cannot have one UOp become a new buffer.  
 Then you would have two instances of the buffer and you would lose the underlying, like the device buffer and the dictionary.  
 So that is gated, but hopefully that will solve your merge views.  
 And literally, tensors can have a lazy data of buffer.  
-It's a flat tensor and it doesn't have a shapetracker.  
-The challenge I have come across is that if I give constants a shapetracker at the lower level, what happens is that lower has to also handle views.  
+It's a flat tensor and it doesn't have a ShapeTracker.  
+The challenge I have come across is that if I give constants a ShapeTracker at the lower level, what happens is that lower has to also handle views.  
 You see what I mean?  
 Currently, uop.const on a lowerer has src of nothing.  
 If I give it a src of view, it has to also merge views and do movement ops.  
@@ -71,7 +71,7 @@ It works, but does this break the abstraction of..
 **Geohot** [00:04:12]  
 I'm fine with const not having a shape.  
 I'm fine with const.  
-If you try to call shapetracker on a const that doesn't have a view parent, it can just assert.  
+If you try to call ShapeTracker on a const that doesn't have a view parent, it can just assert.  
 I'm fine with that.  
 
 **Qazalin** [00:04:27]  
@@ -112,12 +112,12 @@ You're talking about the graph rewrite map?
 Yeah, yeah.  
 
 **Geohot** [00:06:10]  
-So I ended up not needing that for UOP mutability.  
-The key thing to realize about UOP mutability is many times, you have to be careful, but many times the rewrite map is equivalent to just linking all your nodes to a sink and then doing the rewrite on that sink and then looking at what ended up on that sink.  
+So I ended up not needing that for UOp mutability.  
+The key thing to realize about UOp mutability is many times, you have to be careful, but many times the rewrite map is equivalent to just linking all your nodes to a sink and then doing the rewrite on that sink and then looking at what ended up on that sink.  
 That's certainly fine for Substitute.  
 there's a lot that are more iffy, and I didn't work through all the cases.  
-I just realized that in order to do UOP mutability, this doesn't matter.  
-So, yeah, let's get no UOP mutability merged first.  
+I just realized that in order to do UOp mutability, this doesn't matter.  
+So, yeah, let's get no UOp mutability merged first.  
 And then, do you know why we're still blocked on the gradient stuff?  
 I haven't looked in a while.  
 
@@ -126,7 +126,7 @@ It does need cast before view, and for cast before view to really actually be a
 functioning thing in the scheduler, I need to get rid of the offer linking to tensor.  
 So I just need some way.  
 It doesn't have to be the tracking thing.  
-Just some way that I can safely rewrite a UOP and still be able to backtrack to the tensor and realize that tensor, whatever it is.  
+Just some way that I can safely rewrite a UOp and still be able to backtrack to the tensor and realize that tensor, whatever it is.  
 
 **Geohot** [00:07:23]  
 I mean, you're welcome to, if you can use it, you're welcome to copy in my graph rewrite math stuff.  
@@ -140,9 +140,9 @@ I can base off of that then.
 **Geohot** [00:07:51]  
 The map is only, the map is only three lines.  
 Just pull it out of 8432, uh, and see if you can make it work for your purpose.  
-Uh, I didn't merge it as a generic thing because yeah, I don't need it for UOP mutability.  
+Uh, I didn't merge it as a generic thing because yeah, I don't need it for UOp mutability.  
 Um, but yeah, if you want to put it in the, uh, in the front of the scheduler, but yeah, I think, I think that's the, uh, the main thing for you to focus on, uh, getting the gradient stuff merged.  
-Uh, so 80, if you can take over getting 8280 merged, uh, so 8280, uh, assert to prepare for grad UOP, I'll [link](https://github.com/tinygrad/tinygrad/pull/8280) it in TinyGrad dev is, uh, this, this needs to go in before, uh, we can merge gradient.  
+Uh, so 80, if you can take over getting 8280 merged, uh, so 8280, uh, assert to prepare for grad UOp, I'll [link](https://github.com/tinygrad/tinygrad/pull/8280) it in TinyGrad dev is, uh, this, this needs to go in before, uh, we can merge gradient.  
 And I think it's all scheduler things.  
 Cool.  
 Yeah.  
@@ -156,8 +156,8 @@ I'm violating a core tenet of software development, which is do not put state in
 State should be in one canonical place.  
 And then if you want, you can build indexes on top of that state in order to quickly access it.  
 But you should never be..  
-Children is basically just an index on top of UOP cache.  
-You could imagine iterating through the entire UOP cache and finding all the UOPs and then reconstructing the children graph each time, but that's really slow.  
+Children is basically just an index on top of UOp cache.  
+You could imagine iterating through the entire UOp cache and finding all the UOps and then reconstructing the children graph each time, but that's really slow.  
 So children is just an index on that.  
 So yeah, indexes are fine, but state needs to live in one canonical place.  
 And if you are going to have an index, you have to make sure it's perfectly in sync.  
@@ -178,7 +178,7 @@ So I think what the right approach is here is for you just to try to write the a
 If you can write a failing test case, you can put that on me and say, I expect graph before map, graph rewrite map to behave like X, it's actually behaving like Y. And then, yeah, I think that's a good way to go about it.  
 But the obvious test cases I came up with, it works fine for.  
 And it was hard for me to come up with without seeing the application.  
-In fact, I went so far with that to realize that for UOP mutability, wait, I don't even need this.  
+In fact, I went so far with that to realize that for UOp mutability, wait, I don't even need this.  
 I can just do it with normal graph rewrite.  
 So, yeah.  
 Like always, always think about the application before you write generic infrastructure.  
@@ -327,9 +327,9 @@ The way I kind of imagine it is, and I'm not sure all of this needs to be done f
 I think the only real requirement for the bounty is it isn't egregiously slower than Clang O0.  
 And I mean the generated code.  
 But the register, so you have register assignment, right?  
-You're mapping each UOP to a register.  
+You're mapping each UOp to a register.  
 And we want that to be a one-to-one mapping.  
-We want each UOP to live in a register, and this is going to move into some stuff that we don't quite have the infrastructure for yet, which is UOPs that are, like, for example, if an assembly language has something that can add three things together, if there's an instruction that can add A, B, and C together all at once,  
+We want each UOp to live in a register, and this is going to move into some stuff that we don't quite have the infrastructure for yet, which is UOps that are, like, for example, if an assembly language has something that can add three things together, if there's an instruction that can add A, B, and C together all at once,  
 we could make a rewrite rule that's kind of called ops.instruction.  
 And then ops.instruction is a rewrite rule where it takes in the two adds and converts it directly to that instruction.  
 Or you can think of things like a lot of load instructions will do indexing in the load instruction.  
@@ -337,13 +337,13 @@ So that's eventually where these things need to go.
 And then we want a register.  
 I think it's called register coloring.  
 Use a graph coloring algorithm.  
-And that graph coloring algorithm should operate on the UOP graph to assign each UOP to a register.  
+And that graph coloring algorithm should operate on the UOp graph to assign each UOp to a register.  
 Let me see how this works now.  
 So yeah, the registers are assigned at..  
 Ideally, you even want the registers to be assigned, I guess you can't do it before linearization.  
 Maybe you can, and maybe that can affect linearization.  
 There's just a lot of complexities here that we haven't fully ironed out exactly where things belong.  
-But certainly we want each UOP to correspond to a single register and not have a designated temporary register.  
+But certainly we want each UOp to correspond to a single register and not have a designated temporary register.  
 But again, I'm not sure it's a prereq for the bounty.  
 We'll just gate that on benchmarks not being worse than Clang O0.  
 Sound good?  
@@ -529,7 +529,7 @@ Early runtime is okay too.
 Like when we have things like the variables that can adjust the length of the loop, that stuff is determined, but it's determined before any of the code runs.  
 And that's the key thing, right?  
 You don't have like, I don't know, you can probably come up with some type theory way to describe this, but hopefully you kind of see what I'm talking about.  
-Maybe the simplest way to talk about it will be UOP graphs.  
+Maybe the simplest way to talk about it will be UOp graphs.  
 
 **Geohot** [00:36:39]  
 Okay, any questions?  
@@ -537,7 +537,7 @@ Okay, any questions?
 **Geohot** [00:36:47]  
 Yeah, the RDNA3, RDNA3, I want to also get to like, I want to have a beautiful, some beautiful code in TinyGrad, and this will go into our 11,000 lines, that actually is the machine code for these systems.  
 So like the thing that we should be outputting is not move R1, R2, but rather the four byte machine code that corresponds to that.  
-And we can go directly from the UOPs to that machine code, concatenate the strings together, shove it in GPU memory.  
+And we can go directly from the UOps to that machine code, concatenate the strings together, shove it in GPU memory.  
 And then, yeah, it's a completely self-contained stack for machine learning.  
 Yeah.  
 You're going to need to do this for your hardware anyway.  

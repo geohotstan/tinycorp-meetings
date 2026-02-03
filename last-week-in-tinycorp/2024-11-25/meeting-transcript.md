@@ -132,12 +132,12 @@ So we can start with Big Graph and Lazy.
 **Qazalin** [00:02:53]
 All right.
 So for Lazy Deletion, I have to diff up
-I'm going to start with the requirement being that LazyBuffer is equal to UOP and everything else exactly stays the same.
+I'm going to start with the requirement being that LazyBuffer is equal to UOp and everything else exactly stays the same.
 The challenges with that is that Lazy has a bunch of instance simplification rules with the const folding stuff and also with the view stuff.
-So I'm wondering if we should move those simplifications to UOP while making everything like instance versus actually pattern measures in the scheduler.
+So I'm wondering if we should move those simplifications to UOp while making everything like instance versus actually pattern measures in the scheduler.
 
 **Geohot** [00:03:30]
-We definitely don't want UOP to be instant.
+We definitely don't want UOp to be instant.
 If you're trying to make them the same, what I would even do maybe is just delete them initially.
 Like you can delete them from the current lazy.
 
@@ -221,7 +221,7 @@ I see that big chunk in the ALU function called const-folding.
 You can just delete that.
 
 **Qazalin** [00:06:34]
-So one thing I'm struggling with is testing infra for this stuff, because lazy buffer isn't process replayable.
+So one thing I'm struggling with is testing infra for this stuff, because LazyBuffer isn't process replayable.
 I mean, you can pickle it.
 It's really flaky if you pickle it.
 How would you want to test this?
@@ -292,8 +292,8 @@ And initially, it might have small regression, as long as the direction is good 
 We can bring the speed back or the feature parity back.
 
 **Qazalin** [00:11:06]
-One minor thing that's just really off with everything being UOP is that UOP const can have a device.
-at the lazy level, like lazy UOP, versus the UOP at the lower codegen level doesn't have a device for the const.
+One minor thing that's just really off with everything being UOp is that UOp const can have a device.
+at the lazy level, like lazy UOp, versus the UOp at the lower codegen level doesn't have a device for the const.
 And function.py calls const like.
 I'm gonna see how I can fix that.
 
@@ -328,7 +328,7 @@ Okay, device.
 
 **Geohot** [00:12:40]
 You definitely don't want to do device const.
-What you might want to do potentially is create a UOP that just like injects device.
+What you might want to do potentially is create a UOp that just like injects device.
 
 **Qazalin** [00:12:53]
 And parent it.
@@ -426,7 +426,7 @@ That there's no longer a linearization step.
 It just uses a set of rewrite rules to group things together in blocks.
 And then another set of rewrite rules to stack the blocks on top of each other in a valid order.
 And it's fairly local, which is nice.
-So yeah, no more, no more linearization, no more tuple-izing the UOPs, no more comparison, no more hacks where we, you know, minus a thousand for low penalty or whatever.
+So yeah, no more, no more linearization, no more tuple-izing the UOps, no more comparison, no more hacks where we, you know, minus a thousand for low penalty or whatever.
 Yeah, none of that stuff makes sense.
 So yeah, this is probably still going to be, this is going to be the rest of my week.
 But it's not, once you start, okay, so the basic thing is that you like, you have block ends, which is like the end of a for loop.
@@ -437,7 +437,7 @@ So.
 
 **Chenyu** [00:16:31]
 I see.
-I see if UOP const something minus 10.
+I see if UOp const something minus 10.
 
 **Geohot** [00:16:37]
 Uh, yeah.
@@ -557,7 +557,7 @@ Yeah, as long as we can enforce that, it's fine.
 As long as we can enforce that.
 
 **Geohot** [00:23:24]
-Because I want to apply the paths to the shape tracker, but then I don't want to apply the upcasts to the unknowns to the shape tracker.
+Because I want to apply the paths to the ShapeTracker, but then I don't want to apply the upcasts to the unknowns to the ShapeTracker.
 
 **Chenyu** [00:23:36]
 Yeah, this is like,
@@ -601,7 +601,7 @@ So kernel.py is basically only going to do two things.
 It's going to collapse all the axes as much as possible, because it's really easy to expand axes in rewrite rules, but it's really hard to collapse axes in rewrite rules, because collapsing requires you to deal with set of children.
 It's expanding.
 So yeah, that can be.
-But pad two needs to be down on the shape tracker, because that's like changing the mask and changing everything.
+But pad two needs to be down on the ShapeTracker, because that's like changing the mask and changing everything.
 Group and pad two are the only things done in kernel, and then everything else basically is done in lower.
 
 **Chenyu** [00:25:47]
@@ -799,7 +799,7 @@ Uh, but yeah, I'm excited about that.
 You see what I mean?
 You can make the device, the buffer addresses can be sint as well.
 Do the shift, do the end, do the cast, do whatever.
-It's all just UOPs.
+It's all just UOps.
 
 **Chenyu** [00:38:38]
 Okay, can we move on?
@@ -1127,8 +1127,8 @@ And I managed to remove that from Intel, CUDA and Metal, but I'm still having a 
 That's, I think, the first step towards the true swizzle.
 Nonetheless, with some things you talked about here, about ops and what I was thinking before, I kind of
 confused to how the truth swizzle will work because all other
-shapetracker transformations that are performed in kernel are performed over the shapetracker.
-But with a swizzled TensorCore, it not only performs a permute over that shape tracker but also adds the last shapetracker, messing the resulting view.
+ShapeTracker transformations that are performed in kernel are performed over the ShapeTracker.
+But with a swizzled TensorCore, it not only performs a permute over that ShapeTracker but also adds the last ShapeTracker, messing the resulting view.
 I kind of explained it in the PR I opened.
 like an hour ago, showing progress.
 But maybe I need to unpack what you talked here about kernel ops and it will be more clear.
@@ -1184,10 +1184,10 @@ Yeah, yeah.
 I'll add that one for you too.
 
 **Ignaciosica** [00:55:15]
-All the other reshapes and permutes are performed over the shape tracker itself.
+All the other reshapes and permutes are performed over the ShapeTracker itself.
 And that's how it's done now.
-It's the tensor core swizzle, it's performed over the shape tracker.
-But with a true swizzle, it's not only performed over that shape tracker, but also adding the previous shape tracker.
+It's the tensor core swizzle, it's performed over the ShapeTracker.
+But with a true swizzle, it's not only performed over that ShapeTracker, but also adding the previous ShapeTracker.
 It's like..
 
 **Geohot** [00:55:49]
@@ -1241,7 +1241,7 @@ I tested it and it worked, but yeah.
 Yeah, I think we're exercising all the paths, but there is a bunch of hacks in UOPgraph to deal with WMMA.
 There's something to deal with vectorized WMMA.
 So there's a chance that it's just working because of that.
-I don't love the vectorized WMMA thing in UOP graph either, but I did fix the multiple reduce access thing that used to not work.
+I don't love the vectorized WMMA thing in UOp graph either, but I did fix the multiple reduce access thing that used to not work.
 I think that's why now that's not going to be deleted, so great.
 If you feel like you're making good progress on it, keep at it.
 If you get frustrated with it and want to make some quick money, get the TensorCore support ones.
@@ -1316,7 +1316,7 @@ And generally, it's probably fine.
 I saw a bunch of cast issues.
 So we have different cast behavior because casting from
 say a float that is very big into integer that is out of bound, it's not defined.
-So NumPy and Jax does a slightly different thing.
+So NumPy and JAX does a slightly different thing.
 I would say if we can match easily, that's good.
 If we cannot, then it's not that big a priority.
 We don't guarantee some of these undefined behavior.

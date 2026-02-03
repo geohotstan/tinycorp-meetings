@@ -332,7 +332,7 @@ Yeah.
 
 ##### **Geohot** [[00:13:51](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=831)]
 There's a distinction between a global.. So we still have the GBarrier instruction.
-The GBarrier UOP is the same as the barrier UOP, except it applies on a global level.
+The GBarrier UOp is the same as the barrier UOp, except it applies on a global level.
 So for the GPU, GBarrier means a new kernel.
 For the CPU, all it means is close all the loops.
 
@@ -353,7 +353,7 @@ There's advantages to kernel splitting because of deduping.
 So right now the deduping still occurs at the kernel level, and it might always occur there.
 Yeah, if you're calling the same layer, right?
 Because imagine rendering a transformer, it's going to render literally every layer as separate code instead of calling into the same thing, so..
-There's advantages to this hierarchical structure, but really what you want to do is you want to put a range UOP in the overgraph to deal with the layers.
+There's advantages to this hierarchical structure, but really what you want to do is you want to put a range UOp in the overgraph to deal with the layers.
 
 ##### **Geohot** [[00:15:14](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=914)]
 If I have an LLM with 10 layers, that should be a range.
@@ -454,7 +454,7 @@ I think I got one round of review from you, George.
 It's in a good spot.
 I tested on a full BERT run and it was pretty responsive.
 I'm thinking we can merge it.
-It's a little more lines than the UOPs viz is because I'm not using any libraries and stuff.
+It's a little more lines than the UOps viz is because I'm not using any libraries and stuff.
 It's just literally.. 
 
 ##### **Geohot** [[00:20:41](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1241)]
@@ -556,7 +556,7 @@ Yeah, great.
 Yeah, let's get this on BERT and ResNet and see if we can see what's left.
 
 ##### **Chenyu** [[00:24:13](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1453)]
-Oh, so the BERT thing you posted was not with beam search, right?
+Oh, so the BERT thing you posted was not with BEAM search, right?
 
 ##### **Qazalin** [[00:24:19](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1459)]
 Yeah, just pure BERT.
@@ -796,7 +796,7 @@ So that right now is only hinted in shared_permute.
 But in process_acc, there is a test in process_acc.
 And it's a propagated pragma.
 For example, there is one case that propagates an if-guard in that case, but it's kind of manual and it's also brittle.
-And I think it's the cause for many linearization, sorry, test failures in beam search.
+And I think it's the cause for many linearization, sorry, test failures in BEAM search.
 And that is only for one case, but for shared memory, for generic LDS, there are many cases of that.
 So that's one issue.
 And I think I have two main concerns.
@@ -839,7 +839,7 @@ But yes.
 Well, some minor thing that I didn't know if it was worth also upstreaming because of this change in the opt-ops is that Upcast, I think it should be reserved for global dims.
 Upcasting a local dim is the same as upcasting a global dim, but with extra steps.
 And it does reduce the search space significantly, but it unfortunately also decreases the speed of some kernels found.
-As upcasting a local dim right now is a way of breaking the locality of the beam search algorithm.
+As upcasting a local dim right now is a way of breaking the locality of the BEAM search algorithm.
 It allows it to
 To perform optimizations earlier.
 
@@ -924,7 +924,7 @@ Like, what's the path taken to search?
 I wrote some tooling around this, but it wasn't very good.
 
 ##### **Chenyu** [[00:46:53](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2813)]
-Yeah, so there was a test somewhere that tried to do the beam search on kernel data sets and found some stuff.
+Yeah, so there was a test somewhere that tried to do the BEAM search on kernel data sets and found some stuff.
 
 ##### **Geohot** [[00:47:10](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2830)]
 This will be fun visualization tools to write.
@@ -1084,7 +1084,7 @@ Yeah, the one in Mesa.
 
 ##### **Geohot** [[00:54:09](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3249)]
 The one in Mesa, yeah.
-Mesa has their own UOPs called NIR.
+Mesa has their own UOps called NIR.
 So there's a bounty for that if anyone's interested.
 If anyone can get that wired up.
 

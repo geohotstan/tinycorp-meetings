@@ -4,7 +4,7 @@
 
 **Time:** 6am Monday San Diego time, 9pm Hong Kong time
 - company update
-- bye bye shapetracker
+- bye bye ShapeTracker
 - usb gpu https://x.com/__tinygrad__/status/1980082660920918045
 - multi output kernel
 - rangeify regressions, openpilot, resnet, bert
@@ -26,14 +26,14 @@
 - **[Bye Bye ShapeTracker](#geohot-000129)**: ShapeTracker has been completely removed. The main remaining issue is the Torch backend, which relied on it heavily, but fixing it is low priority as it was slow and likely unused.
 - **[USB GPU](#geohot-000332)**: A new driver allows using external NVIDIA or AMD GPUs on Mac/Linux via Thunderbolt. Kernel execution speed is identical to native, with data transfer around 3 GB/s, making it a convenient tool for local development.
 - **[Multi-Output Kernels & Flash Attention](#geohot-000576)**: Work is underway to support multi-output kernels, which is crucial for optimizing models like LLaMA 405. This enables recomputing intermediate tensors (like in Flash Attention backward) to save memory, a task dependent on the new linearizer. A new `ops.after` has been introduced to better manage dependencies.
-- **[Rangeify Regressions](#chenyu-001041)**: Significant performance regressions have been observed after the rangeify merge. Openpilot models are much slower, ResNet is 3x slower, and BERT is 2-3x slower on MI300x. Fixes are dependent on the new linearizer and resolving bugs in beam search.
+- **[Rangeify Regressions](#chenyu-001041)**: Significant performance regressions have been observed after the rangeify merge. Openpilot models are much slower, ResNet is 3x slower, and BERT is 2-3x slower on MI300x. Fixes are dependent on the new linearizer and resolving bugs in BEAM search.
 - **[FUSE_OPTIM](#chenyu-001588)**: An optimization from Torch, FUSE_OPTIM merges optimizer parameters into a single tensor. It is now faster in tinygrad but has a bug in `assign` causing silent correctness issues that needs to be fixed before it can be enabled.
 - **[Code Cleanups](#geohot-001849)**: Following the removal of ShapeTracker and other major refactors, there are more opportunities for code cleanup, such as unifying buffer uops and removing unused functions from `ops.py`.
 - **[Visualizer (Viz) Improvements](#geohot-001893)**: The kernel visualizer has become much more readable post-rangeify. It can now hide complex indexing logic, presenting a cleaner and more understandable graph of operations.
 - **[Driver Updates](#nimlgen-002131)**: Nimlgen is working on several driver issues, including a Mac hardware crash when unplugging the USB GPU, the NVIDIA 50-series reset bug (blocked by a new `clang2py`), and a QCOM driver refactor to support textures.
-- **[Tiny Kitten](#wozeparrot-002703)**: The effort to port Thunder Kittens' Flash Attention to tinygrad's UOPs is underway. Progress is currently blocked by NVRTC's lack of C++20 support. The "flat" nature of UOPs makes translation less direct, sparking discussion on better ways to represent tiled algorithms.
+- **[Tiny Kitten](#wozeparrot-002703)**: The effort to port Thunder Kittens' Flash Attention to tinygrad's UOps is underway. Progress is currently blocked by NVRTC's lack of C++20 support. The "flat" nature of UOps makes translation less direct, sparking discussion on better ways to represent tiled algorithms.
 - **[Symbolic IR and Loop Transformations](#sieds_lykles-003206)**: Sieds is working on advanced symbolic transformations like "additive loop splitting" and moving `reduce_collapse` to the higher-level graph. This will enable more generic and powerful optimizations.
-- **[Bounties Update](#chenyu-003635)**: Several bounties are seeing good progress, including float8 support, the Winograd rewrite rule, and a new version of `clang2py`. The new linearizer is close to being merged but first needs a hang and a beam search bug to be fixed.
+- **[Bounties Update](#chenyu-003635)**: Several bounties are seeing good progress, including float8 support, the Winograd rewrite rule, and a new version of `clang2py`. The new linearizer is close to being merged but first needs a hang and a BEAM search bug to be fixed.
 
 ### Transcript
 ##### **Chenyu** [[00:00:00](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=0)]
@@ -103,7 +103,7 @@ I don't know, I mean, there are also other framework doing their thing, right? I
 Yeah. Is there any other known issue from removing
 
 ##### **Chenyu** [[00:03:14](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=194)]
-Shape Tracker?
+ShapeTracker?
 
 ##### **Nimlgen** [[00:03:16](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=196)]
 Oh.
@@ -217,7 +217,7 @@ Well, there's no more sign. Well, what do you mean by fix the sign? So a sign is
 I mean, there are some known issues with the sign. Does this fix that?
 
 ##### **Geohot** [[00:13:02](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=782)]
-I don't. I'm not aware of the known issues. Okay, I will let you know later. Cool. But no, I mean, my goal isn't to fix the sign. My goal is to is to migrate basically to new linearizer. And I found a really interesting bug. I found the bug that's in the new linearizer and beam. It turns out beam will silently skip kernels if your compute estimator is wrong. So that's what was causing that issue with the linearizer.
+I don't. I'm not aware of the known issues. Okay, I will let you know later. Cool. But no, I mean, my goal isn't to fix the sign. My goal is to is to migrate basically to new linearizer. And I found a really interesting bug. I found the bug that's in the new linearizer and BEAM. It turns out BEAM will silently skip kernels if your compute estimator is wrong. So that's what was causing that issue with the linearizer.
 
 ##### **Geohot** [[00:13:36](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=816)]
 But yeah,
@@ -265,7 +265,7 @@ the substitute thing. Cool. Nice. Good line deletion. Hey, no real substitute. Y
 peek and take his range of fight to get stands for partial contiguous. Yeah, it's a it's a development flag, but it's a lot better than flags like fuse a range and fuse calm backwards. Why did we have a flag that mentioned calm? An a range. What are those things? Those things are nothing.
 
 ##### **Geohot** [[00:16:59](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1019)]
-They're just reduces. Pekin takes a real thing. A poorly named real thing, but real. It's fine. Cake. Let's talk about some of the range of fire regression still.
+They're just reduces. Pekin takes a real thing. A poorly named real thing, but real. It's fine. Cake. Let's talk about some of the rangeify regression still.
 
 ##### **Chenyu** [[00:17:21](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1041)]
 The biggest one is open pilot. So Harold and I will merge will update some of the benchmark to be the latest model. So currently comma can update tiny great version because the significant regression in model speed. I should be able to see that in benchmark with putting the new model and I think in one. of the PR head also put the pre-rangedified numbers. And he's basically saying we need to get a number back to that number so they can upgrade. I think one might be, so OpenPy has two models now, two main model. One is the vision and one is a policy. I think the vision model, I tried messing around with the older disable block reorder kind of fix the speed, even make it faster. So I don't know if it works. We should just remove block reorder. It's very hard to work with now.
@@ -328,13 +328,13 @@ My impression is that one probably can be made faster. But that one is also not 
 OK.
 
 ##### **Chenyu** [[00:21:54](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1314)]
-So that's open pilot. Karma really wants to upgrade, keep fresh TinyGrade from deviating too much. So let's prioritize this. The next is ResNet. I think ResNet is 3x slower compared to pre-range. And part of it is because the count backward is slow. And it's probably the same slowness as before. That's probably why use count backward was another thing.
+So that's open pilot. Comma really wants to upgrade, keep fresh TinyGrad from deviating too much. So let's prioritize this. The next is ResNet. I think ResNet is 3x slower compared to pre-range. And part of it is because the count backward is slow. And it's probably the same slowness as before. That's probably why use count backward was another thing.
 
 ##### **Geohot** [[00:22:29](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1349)]
-Is that 3x slower with Beam or without Beam?
+Is that 3x slower with BEAM or without BEAM?
 
 ##### **Chenyu** [[00:22:32](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1352)]
-With Beam, it's very slow.
+With BEAM, it's very slow.
 
 ##### **Chenyu** [[00:22:38](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1358)]
 Bless that. BERT. Interesting. I think BERT on Green Machine is slightly faster than before. That's good. BERT on MI300x is slower. It's 2x, 3x slower. And part of it is because I post this in the BERT MLPF BERT channel. For some reason, the Python time grows with GPU counts. And I don't know what's happening or if you have any guess.
@@ -367,16 +367,16 @@ I'll just leave this here. And I think some other slowness might be due to the s
 Yeah. I mean, the estimate thing is specifically broken by my PR. I don't know. I'm going to fix that and put some better tests on it. But I don't know. The Python time thing, the AQL thing makes total sense to explain that. And I mean, sure, it's worse, but it shouldn't really explain why it's so slow.
 
 ##### **Chenyu** [[00:24:48](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1488)]
-Yeah. So I think the big slowdown is probably just on TensorFlow or some kernel. I'll take a look. I will try to relax everything around Beam.
+Yeah. So I think the big slowdown is probably just on TensorFlow or some kernel. I'll take a look. I will try to relax everything around BEAM.
 
 ##### **Geohot** [[00:25:01](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1501)]
-Well, so more than relaxing things around Beam, it took me like an hour to figure out what was going on, because none of the flags printed anything about that kernel that was being filtered out. Like I said, Beam debug, I said Beam strict. Yeah.
+Well, so more than relaxing things around BEAM, it took me like an hour to figure out what was going on, because none of the flags printed anything about that kernel that was being filtered out. Like I said, BEAM debug, I said BEAM strict. Yeah.
 
 ##### **Chenyu** [[00:25:19](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1519)]
 I don't know. Let's let's let's we can check who put this in first place. No, no, no.
 
 ##### **Geohot** [[00:25:27](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1527)]
-Well, I'm just saying we should spend time adding a little bit of I'll document the UOPS.
+Well, I'm just saying we should spend time adding a little bit of I'll document the UOps.
 
 ##### **Chenyu** [[00:25:35](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1535)]
 Yes. Okay. I understand. Yes.
@@ -385,7 +385,7 @@ Yes. Okay. I understand. Yes.
 That's sweet.
 
 ##### **Chenyu** [[00:25:40](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1540)]
-Yeah. No, I agree. I think we also removed some of the Beam debug flags a while ago when we do a clean up. Now we are back to optimizing for speed. We should add this back and hopefully we'll have a better understanding, maybe in terms of the tools or some kind of stats at the end of the Beam to at least know maybe what's the portion of the kernels that we skipped because of early files. I think that's likely that can help.
+Yeah. No, I agree. I think we also removed some of the BEAM debug flags a while ago when we do a clean up. Now we are back to optimizing for speed. We should add this back and hopefully we'll have a better understanding, maybe in terms of the tools or some kind of stats at the end of the BEAM to at least know maybe what's the portion of the kernels that we skipped because of early files. I think that's likely that can help.
 
 ##### **Geohot** [[00:26:11](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1571)]
 Yeah, I agree.
@@ -724,10 +724,10 @@ Yeah, sure. It's a constraint on types for templates. Sounds good. I know vaguel
 Yeah. Yeah. Interesting. Cool.
 
 ##### **Wozeparrot** [[00:47:11](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2831)]
-I have some comments on my initial porting. It definitely feels more annoying to write in UOPs just because everything is so flat. What do you mean by that? Because essentially you translate, you almost translate all the for loops into ranges. And your code ends up being very flat.
+I have some comments on my initial porting. It definitely feels more annoying to write in UOps just because everything is so flat. What do you mean by that? Because essentially you translate, you almost translate all the for loops into ranges. And your code ends up being very flat.
 
 ##### **Geohot** [[00:47:36](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2856)]
-So another thing that you could do instead of translating the for loops into ranges is you could create a tile D type and then write a lowering step. Like that might be what it ends up looking like. Like UOPs have hierarchy, but the hierarchy is expressed through a hierarchy. So it's not just through lowering, not through scoping.
+So another thing that you could do instead of translating the for loops into ranges is you could create a tile D type and then write a lowering step. Like that might be what it ends up looking like. Like UOps have hierarchy, but the hierarchy is expressed through a hierarchy. So it's not just through lowering, not through scoping.
 
 ##### **Geohot** [[00:48:05](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2885)]
 Yeah. Yeah, no, I'm reading what you got here now.
@@ -775,7 +775,7 @@ That's all written with pre.. It's all written..
 That example that I posted is all pre-after. But the idea is that you basically have, like, four loads in computes, and then you put the.. You, like, change the order to be, like..
 
 ##### **Geohot** [[00:50:35](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3035)]
-But, yeah, so I have that matmall maxed out. At least as much as you can without going to assembly. Yeah, so, like, what I just posted in TinyKittens is what pipelining is.
+But, yeah, so I have that matmul maxed out. At least as much as you can without going to assembly. Yeah, so, like, what I just posted in TinyKittens is what pipelining is.
 
 ##### **Chenyu** [[00:51:19](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3079)]
 And with after, this would be just a chain of after and this, like, specific order you want?
@@ -916,7 +916,7 @@ Are we ready to merge that?
 No.
 
 ##### **Geohot** [[01:01:47](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3707)]
-So there's that Beam bug, which I'll fix tomorrow.
+So there's that BEAM bug, which I'll fix tomorrow.
 
 ##### **Geohot** [[01:01:54](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3714)]
 But yeah, then I think we're getting kind of close. I think there's a few other things on it.

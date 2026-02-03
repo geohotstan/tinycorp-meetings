@@ -23,7 +23,7 @@
 - **[Company Update](#geohot-000022)**: A new product, the Tenubox Green, was launched for users who need a lot of VRAM. One unit has been sold so far.
 - **[AMD Contract is Top Priority](#geohot-000305)**: Geohot declares that the entire company must focus on the AMD contract, stating that if they cannot succeed in training a large LLaMA model on modern hardware, he will shut the company down.
 - **[Debate on Company Direction](#chenyu-000906)**: A lengthy debate occurs about the value and motivation behind the AMD contract. Chenyu questions its strategic importance, while Geohot argues it's a crucial test to prove TinyGrad's performance and advance the framework, which is currently "hopelessly slow."
-- **[Writing Custom Kernels vs. Search](#geohot-002331)**: Geohot justifies the need to hand-code kernels for the contract, arguing that it's necessary for short-term performance and to ensure the UOP language can express state-of-the-art techniques, which will inform future automated search improvements.
+- **[Writing Custom Kernels vs. Search](#geohot-002331)**: Geohot justifies the need to hand-code kernels for the contract, arguing that it's necessary for short-term performance and to ensure the UOp language can express state-of-the-art techniques, which will inform future automated search improvements.
 - **[SQTT Visualization and Tooling](#geohot-002916)**: The team discusses issues with SQTT visualization in VIZ, noting discrepancies with AMD's RGP tool. The current decoder is seen as "unmaintained crap," leading to a plan to compare results with `rockprof` and eventually write a custom SQTT parser.
 - **[TinyKittens Gemm Performance](#geohot-003637)**: Progress on the TinyKittens project is slow; while indexing logic is correct, optimizations like local swizzling are disabled, causing performance hits. Geohot emphasizes the need to achieve state-of-the-art gemm speed.
 - **[AMD FP8 Training Progress](#chenyu-004702)**: Progress has been made on FP8 training by selectively quantizing Q and K tensors, which allows the loss to decrease. Next steps include using faster tensor cores and debugging a multi-GPU OOM error.
@@ -1307,10 +1307,10 @@ Yeah, it doesn't work.
 Yeah, but..
 
 ##### **Chenyu** [[00:12:26](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=746)]
-Similar to TinyGrid doesn't work today.
+Similar to TinyGrad doesn't work today.
 
 ##### **Geohot** [[00:12:28](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=748)]
-No, TinyGrid works better.
+No, TinyGrad works better.
 
 ##### **Geohot** [[00:12:30](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=750)]
 I don't think Jaxx works at all.
@@ -1361,7 +1361,7 @@ Who is going to use something in the middle?
 Every researcher.
 
 ##### **Chenyu** [[00:13:09](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=789)]
-Is Comma going to use TinyGrid to train?
+Is Comma going to use TinyGrad to train?
 
 ##### **Geohot** [[00:13:12](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=792)]
 Not soon.
@@ -1373,7 +1373,7 @@ Because they're on Nvidia.
 But if Comma was forced to use AMD hardware, yeah.
 
 ##### **Geohot** [[00:13:17](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=797)]
-So you think if we do this contract, Comma would be more willing to use TinyGrid for their training?
+So you think if we do this contract, Comma would be more willing to use TinyGrad for their training?
 
 ##### **Geohot** [[00:13:24](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=804)]
 No, I don't think they want AMD hardware.
@@ -1385,7 +1385,7 @@ I think if we..
 Okay, if Comma is not really using..
 
 ##### **Geohot** [[00:13:30](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=810)]
-Who are these users we are talking about that potentially would use TinyGrid for training?
+Who are these users we are talking about that potentially would use TinyGrad for training?
 
 ##### **Geohot** [[00:13:34](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=814)]
 What do you mean?
@@ -1460,7 +1460,7 @@ I think they lose money on each other.
 My point is..
 
 ##### **Geohot** [[00:14:18](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=858)]
-Do we really have users who will be willing to use TinyGrid for training LLaMA or anything
+Do we really have users who will be willing to use TinyGrad for training LLaMA or anything
 
 ##### **Geohot** [[00:14:26](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=866)]
 like that?
@@ -1478,7 +1478,7 @@ Because it's not a crazy task.
 You just can write 10 kernels or people already write it for you on the board.
 
 ##### **Geohot** [[00:14:37](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=877)]
-Yeah, well, let's get those 10 kernels handwritten and show that TinyGrid can get performance
+Yeah, well, let's get those 10 kernels handwritten and show that TinyGrad can get performance
 
 ##### **Geohot** [[00:14:41](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=881)]
 like that.
@@ -1889,13 +1889,13 @@ Porsche definitely doesn't win.
 I think Mojo carves out a non-AI niche.
 
 ##### **Geohot** [[00:22:20](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1340)]
-Or things that just can't be expressed in the tiny grad language.
+Or things that just can't be expressed in the tinygrad language.
 
 ##### **Geohot** [[00:22:24](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1344)]
-I think Jax does well, but I think we're really using a lot of the same ideas as they are.
+I think JAX does well, but I think we're really using a lot of the same ideas as they are.
 
 ##### **Geohot** [[00:22:31](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1351)]
-And I think Jax, again, is mostly an ad for TPUs.
+And I think JAX, again, is mostly an ad for TPUs.
 
 ##### **Geohot** [[00:22:37](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1357)]
 So, yeah.
@@ -1937,7 +1937,7 @@ Like, there's a lot of..
 There's a lot of smart people in this space.
 
 ##### **Chenyu** [[00:23:11](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1391)]
-Jax, TVM, Mojo, PyTorch, they're written by very smart people.
+JAX, TVM, Mojo, PyTorch, they're written by very smart people.
 
 ##### **Geohot** [[00:23:15](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1395)]
 And we got to take the best ideas from them.
@@ -3266,7 +3266,7 @@ There are sometimes different ops that you can use
 at different times, but this is becoming less and less. You can now use movement ops. You can use
 
 ##### **Geohot** [[00:41:40](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2500)]
-movement ops in the UOP kernels and then applying an index to a movement op can actually be done
+movement ops in the UOp kernels and then applying an index to a movement op can actually be done
 
 ##### **Chenyu** [[00:41:47](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2507)]
 as late as you want. So the goal is to eventually unify this entire space so every op can be used
@@ -3635,10 +3635,10 @@ The 6060 and 128 tensor core.
 I already get it works better.
 
 ##### **Geohot** [[00:47:45](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2865)]
-The beam can't search the fastest kernel every time.
+The BEAM can't search the fastest kernel every time.
 
 ##### **Geohot** [[00:47:54](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2874)]
-The beam does find the fastest kernel with the 606032.
+The BEAM does find the fastest kernel with the 606032.
 
 ##### **Geohot** [[00:48:01](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2881)]
 Yeah.
@@ -3647,7 +3647,7 @@ Yeah.
 Cool.
 
 ##### **Chenyu** [[00:48:04](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2884)]
-And since beam can only use the only one tensor core shape
+And since BEAM can only use the only one tensor core shape
 
 ##### **Geohot** [[00:48:17](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2897)]
 or the specified input outer D type every time.
@@ -3659,7 +3659,7 @@ Is that the expected behavior?
 I mean, yeah.
 
 ##### **Geohot** [[00:48:28](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2908)]
-You can add more stuff to the beam search thing.
+You can add more stuff to the BEAM search thing.
 
 ##### **Geohot** [[00:48:31](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2911)]
 But I think the real thing to do is that we just kind of like
@@ -3674,10 +3674,10 @@ Right now, the fact that we have this other language called
 opt-ops to apply optimizations, what you really want to do
 
 ##### **Geohot** [[00:48:46](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2926)]
-is graph rewrites and add something like a choice UOP.
+is graph rewrites and add something like a choice UOp.
 
 ##### **Geohot** [[00:48:49](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2929)]
-Where if there's like three different ways to do the matmall,
+Where if there's like three different ways to do the matmul,
 
 ##### **Geohot** [[00:48:51](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2931)]
 cool.
@@ -3686,7 +3686,7 @@ cool.
 It puts in choice.
 
 ##### **Geohot** [[00:48:52](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2932)]
-It puts in the three matmalls.
+It puts in the three matmuls.
 
 ##### **Geohot** [[00:48:53](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2933)]
 And that's it.
@@ -3800,7 +3800,7 @@ Yeah.
 I mean, it's not, yeah, this isn't like some, right,
 
 ##### **Geohot** [[00:51:00](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3060)]
-this isn't, this doesn't violate the tiny grad, like,
+this isn't, this doesn't violate the tinygrad, like,
 
 ##### **Geohot** [[00:51:05](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3065)]
 one of the goals is to never have abstractions that leak.
@@ -3851,7 +3851,7 @@ Turn it into a product, right?
 For every one of our APIs that we can effectively turn into a
 
 ##### **Geohot** [[00:51:41](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3101)]
-product that's an intermediate and tiny grad, it'll be better.
+product that's an intermediate and tinygrad, it'll be better.
 
 ##### **Geohot** [[00:51:45](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3105)]
 It'll be better because we had to put some polish on it to
@@ -4277,10 +4277,10 @@ You paid between Rs 300,000 and 20,500?
 Close.
 
 ##### **Chenyu** [[00:58:31](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3511)]
-Jax.
+JAX.
 
 ##### **Geohot** [[00:58:32](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3512)]
-Jax.
+JAX.
 
 ##### **Geohot** [[00:58:34](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3514)]
 You think there's a 70% chance
@@ -4313,7 +4313,7 @@ which framework when they have AMD hardware.
 Do you think they are going to choose Tiny?
 
 ##### **Chenyu** [[00:59:01](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3541)]
-Do you think they are going to choose Torch, Jax?
+Do you think they are going to choose Torch, JAX?
 
 ##### **Geohot** [[00:59:04](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3544)]
 That's our problem, right?
@@ -4895,7 +4895,7 @@ I mean, I think Google is actually, I think Google is going to do really well.
 Yeah.
 
 ##### **Geohot** [[01:06:19](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3979)]
-And I think Jack's will support other things really well.
+And I think JAX's will support other things really well.
 
 ##### **Geohot** [[01:06:21](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3981)]
 I don't.
@@ -4907,7 +4907,7 @@ Yeah.
 But that's just the difference.
 
 ##### **Chenyu** [[01:06:24](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3984)]
-Oh, you think Jack's is going to start selling?
+Oh, you think JAX's is going to start selling?
 
 ##### **Geohot** [[01:06:25](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3985)]
 I think he's going to start supporting GPUs really well.
@@ -4922,10 +4922,10 @@ I don't think so.
 I think Google is going to figure out how to externalize their TPUs before they figure
 
 ##### **Geohot** [[01:06:31](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3991)]
-out how to make Jack support GPUs.
+out how to make JAX support GPUs.
 
 ##### **Chenyu** [[01:06:32](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3992)]
-Why does Google want Jack to support GPUs?
+Why does Google want JAX to support GPUs?
 
 ##### **Geohot** [[01:06:35](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3995)]
 Because they want to be like, Tommy, they have no work.
@@ -4955,7 +4955,7 @@ Who's going to work on that?
 Who's going to work on making CUDA work on AMD GPUs?
 
 ##### **Geohot** [[01:06:58](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4018)]
-Making Jack's work on AMD, on NVIDIA GPUs?
+Making JAX's work on AMD, on NVIDIA GPUs?
 
 ##### **Geohot** [[01:07:02](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4022)]
 Do you think Google is going to put a concerted effort into making their framework work on

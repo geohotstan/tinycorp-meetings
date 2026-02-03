@@ -301,7 +301,7 @@ Removing that is bad.
 Well, yeah, but check out the ignore stuff that I have in the quantize stuff.
 I think you can take it out.
 I think you can apply that to all.
-So I have this thing called ignore, which just kind of pushes a shape tracker to if the things are going to be ignored on the store, and that fix all the const things.
+So I have this thing called ignore, which just kind of pushes a ShapeTracker to if the things are going to be ignored on the store, and that fix all the const things.
 
 ##### **Chenyu** [[00:12:08](https://www.youtube.com/watch?v=jn3no5UZLmI&t=728)]
 Do you mean by fix all the consts?
@@ -735,7 +735,7 @@ No, that needs to be cleaned up.
 And yes, it absolutely has to be compatible to also export C code.
 
 ##### **Geohot** [[00:34:21](https://www.youtube.com/watch?v=jn3no5UZLmI&t=2061)]
-Yeah, like I almost look at, again, it's not that like, I think it probably is a good idea to do the C code in the WASM as well, because like, I really don't want to merge into tiny grad something that is just a huge F string of JavaScript.
+Yeah, like I almost look at, again, it's not that like, I think it probably is a good idea to do the C code in the WASM as well, because like, I really don't want to merge into tinygrad something that is just a huge F string of JavaScript.
 We should think about what that actually is, right?
 Because think about like adding a new export.
 To write this code really well, you want to be able to easily add a new export target.

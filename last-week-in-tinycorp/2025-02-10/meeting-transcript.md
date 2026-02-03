@@ -201,7 +201,7 @@ So let's just talk about a gated load.
 So if you want to write a gated load as a where, you're imagining the where being after the load, right?
 
 ##### **Chenyu** [[00:09:46](https://www.youtube.com/watch?v=sMxM41tpijc&t=586)]
-You mean in UOP representation?
+You mean in UOp representation?
 
 ##### **Geohot** [[00:09:54](https://www.youtube.com/watch?v=sMxM41tpijc&t=594)]
 Yeah.
@@ -344,7 +344,7 @@ this is easy for most of the time but it's hard when you have assigns because as
 This hack basically says okay if you have a preload of a buffer, do this first before doing the assign, otherwise do the assign first.
 This limits us in two ways.
 One is that there's extra rewrites in there, there's extra complexity, but the biggest thing is that you can't have multiple assigns scheduled in one kernel, one schedule.
-So, what we have here is like a refactor of exactly what exists in the linearizer for the UOPs, but expressed in the tensor kernel style.
+So, what we have here is like a refactor of exactly what exists in the linearizer for the UOps, but expressed in the tensor kernel style.
 So far, I have gotten to a point where you can have multiple assigns depend on each other and the existing test work as expected.
 Realization happens before breaking it into blocks.
 So it looks up the realizes map to see, OK, does this tensor end up getting realized?
@@ -374,7 +374,7 @@ It's a separate concept.
 
 ##### **Geohot** [[00:20:42](https://www.youtube.com/watch?v=sMxM41tpijc&t=1242)]
 Yeah, the grouper should definitely happen before anything runs.
-So what I'm saying is the scheduler could actually put things back in the tensor, like put UOPs in the tensors that point to kernels.
+So what I'm saying is the scheduler could actually put things back in the tensor, like put UOps in the tensors that point to kernels.
 
 ##### **Qazalin** [[00:21:00](https://www.youtube.com/watch?v=sMxM41tpijc&t=1260)]
 I don't understand.

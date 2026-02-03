@@ -7,7 +7,7 @@
 - new ci machines, new release
 - min rectified flow example
 - amd LLVM changes (with b1tg)
-- mlperf
+- MLPerf
 - symbolic folding, divmod, validation (with S-Lykles)
 - scheduler / DSP
 - usb driver
@@ -686,7 +686,7 @@ Yeah, for Fuse Air Range, I think as long as the CI benchmark won't work, it sho
 I can do it for training after lab pass.
 
 ##### **Geohot** [[00:30:24](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=1824)]
-Oh, while we're talking about CI benchmark, I'd like to get, we should make cron jobs to do the beam search for BERT and stuff.
+Oh, while we're talking about CI benchmark, I'd like to get, we should make cron jobs to do the BEAM search for BERT and stuff.
 Yeah, I remember we discussed this probably exactly one year ago.
 Well, now it's more serious.
 It looks easy in GitHub Actions.

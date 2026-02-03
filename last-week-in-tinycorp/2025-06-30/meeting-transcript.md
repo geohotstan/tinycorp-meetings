@@ -6,7 +6,7 @@
 - company update
 - scheduler kernel ops stuff
 - tests with uop and kernel dataset
-- mlperf LLaMA 405b
+- MLPerf LLaMA 405b
 - viz tooling
 - drivers
 - cloud, tinyfs
@@ -24,7 +24,7 @@
 
 - **[Company Update](#geohot-000000)**: TinyBox v2s are shipping and will be caught up this week, the AMD contract is signed, and the company successfully debunked the AI startup "etched".
 - **[Scheduler Kernel Ops Stuff](#geohot-000409)**: After studying Halide, Geohot plans to simplify the optimization space by removing concepts like `keep_dims` and `full_shape`, and fixing fusion by generating new ranges for each reduce.
-- **[Tests with UOP and Kernel Dataset](#chenyu-001246)**: The team agreed to delete brittle tests with hardcoded UOPs and plans to put the generation of the kernel dataset into CI for easier access.
+- **[Tests with UOp and Kernel Dataset](#chenyu-001246)**: The team agreed to delete brittle tests with hardcoded UOps and plans to put the generation of the kernel dataset into CI for easier access.
 - **[MLPerf LLaMA 405b](#chenyu-001416)**: The 8B model is hitting a memory bottleneck with a long context length; the next steps are to improve memory visualization and implement sharding to get it working on multiple GPUs.
 - **[Viz Tooling](#qazalin-002123)**: A memory graph tool has been merged to visualize memory allocation, which will be enhanced to trace buffers back to the kernel graph to help debug high memory usage.
 - **[Drivers](#nimlgen-002646)**: The driver for the NVIDIA 4090 is merged and working, with ongoing work to improve performance by implementing huge pages; future work will focus on optimizing performance for the MI300X.
@@ -345,7 +345,7 @@ Yeah, so the use case I have in mind is I'm training a model and for example, I 
 Okay.
 
 ##### **Geohot** [[00:25:39](https://www.youtube.com/watch?v=U-UYchhy_dY&t=1539)]
-Yeah, I think I think we can get to a bunch of like rewrite rules here that are aware of the length of that edge. There's all sorts of things I'm sure we're saving more than we have to and again, more on that. This is the trade off between recomputation and locality and tiny grad is definitely opposed to recomputation. But this is costing us locality and that's what costing us that's what's all the RAM. Usage I think so I think once we have a good way to visualize it will be able to see what the rules we need are and then add them.
+Yeah, I think I think we can get to a bunch of like rewrite rules here that are aware of the length of that edge. There's all sorts of things I'm sure we're saving more than we have to and again, more on that. This is the trade off between recomputation and locality and tinygrad is definitely opposed to recomputation. But this is costing us locality and that's what costing us that's what's all the RAM. Usage I think so I think once we have a good way to visualize it will be able to see what the rules we need are and then add them.
 
 ##### **Geohot** [[00:26:21](https://www.youtube.com/watch?v=U-UYchhy_dY&t=1581)]
 Yeah, I think we first need to tell certain behaviors happening before we can decide what to do is let's be a great yeah. Okay, let's move on to drivers. Yes, so.
@@ -504,7 +504,7 @@ How much slower is bit vector versus the like int symbolic hours of stuff?
 Well, so the problem with the bit like the inspector stuff is that it's scale very boiling with the size of your variable. So like one of your links in your expression is going to be some kind of like the fine bar or whatever. And that the fine bar is quite small. Then I get only a few bits basically. Then it's very fast or it's almost equally as fast. But. If you get something else, it gets exponentially slower with. The side of your define bar so if you have you want to put in 32 bits. I get quite slow with the individual stuff that the skill thing you want to do. The individual stuff skills with. Your mom of.
 
 ##### **Geohot** [[00:39:27](https://www.youtube.com/watch?v=U-UYchhy_dY&t=2367)]
-That makes sense. I mean, my dream is eventually to like move this away from an SMT. And then we solve our like Z3 and to like a sat solver like pico sat and do the lowering in tiny grad.
+That makes sense. I mean, my dream is eventually to like move this away from an SMT. And then we solve our like Z3 and to like a sat solver like pico sat and do the lowering in tinygrad.
 
 ##### **Sied Lykles** [[00:39:45](https://www.youtube.com/watch?v=U-UYchhy_dY&t=2385)]
 Yeah, we would have did like a stop.
@@ -699,7 +699,7 @@ No, yeah, I agree. I agree that it's ridiculous, but I look at like things in yo
 Instead of that, I only add them in order to not have to change the test and the heuristics in this PR. I agree. Like only to keep the changes in kernel that I this are going to.
 
 ##### **Geohot** [[00:54:19](https://www.youtube.com/watch?v=U-UYchhy_dY&t=3259)]
-Yeah, yeah, where I would go with this is like eventually what's going to happen with kernel.pi. Like don't add new code to kernel.pi. Like adding a new thing called an order deck does not what we want to do. You kernel.pi is eventually going to basically become kernel info. Like there's going to be some function that transforms your opt-ops into a kernel info. And that function can the function can be a beam search that function can be a heuristic that function can be anything. That function could just be a straight up parser of a bunch of opt-ops. But yeah, like the closer we can get kernel.pi the more logic we can basically copy from kernel.pi into kernel info, the better.
+Yeah, yeah, where I would go with this is like eventually what's going to happen with kernel.py. Like don't add new code to kernel.py. Like adding a new thing called an order deck does not what we want to do. You kernel.py is eventually going to basically become kernel info. Like there's going to be some function that transforms your opt-ops into a kernel info. And that function can the function can be a BEAM search that function can be a heuristic that function can be anything. That function could just be a straight up parser of a bunch of opt-ops. But yeah, like the closer we can get kernel.py the more logic we can basically copy from kernel.py into kernel info, the better.
 
 ##### **Geohot** [[00:55:00](https://www.youtube.com/watch?v=U-UYchhy_dY&t=3300)]
 Okay.

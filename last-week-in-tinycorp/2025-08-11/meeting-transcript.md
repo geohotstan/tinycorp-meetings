@@ -5,7 +5,7 @@
 **Time:** 9am Monday San Diego time
 - company updates
 - rangeify
-- mlperf LLaMA (dataloader / eval / MP / grad_acc mem)
+- MLPerf LLaMA (dataloader / eval / MP / grad_acc mem)
 - viz tool
 - drivers
 - cloud
@@ -21,13 +21,13 @@
 
 - **[Company Update](#geohot-000014)**: TinyBox shipping is slightly behind schedule, but the three pending orders will be shipped this week. Delays are due to rigorous quality testing to ensure the PCIe comes up at 16x.
 - **[rangeify](#geohot-000143)**: Significant progress is being made, including a `RewriteNotReady` exception to handle bottom-up rewrites for fusions like FlashAttention. It might be merged this week, after which optimizations like tensor cores will be re-integrated.
-- **[mlperf LLaMA / eval](#chenyu-000530)**: Training loss is decreasing, but the team needs a reliable evaluation script to confirm they are meeting the 5.6 eval loss target. Wozeparrot will focus on building the correct eval script this week.
-- **[mlperf LLaMA / Model Parallel](#chenyu-000746)**: Model parallel code has been implemented and works for the 8B model but is hitting a compiler error on the MI300X for the 70B model, which is now under investigation.
-- **[mlperf LLaMA / Gradient Accumulation](#chenyu-000849)**: The gradient accumulation implementation is causing memory usage to increase with more accumulation steps, contrary to expectations. Geohot suggests JITing a single mini-batch loop instead of the entire accumulation sequence to manage memory and scheduling.
+- **[MLPerf LLaMA / eval](#chenyu-000530)**: Training loss is decreasing, but the team needs a reliable evaluation script to confirm they are meeting the 5.6 eval loss target. Wozeparrot will focus on building the correct eval script this week.
+- **[MLPerf LLaMA / Model Parallel](#chenyu-000746)**: Model parallel code has been implemented and works for the 8B model but is hitting a compiler error on the MI300X for the 70B model, which is now under investigation.
+- **[MLPerf LLaMA / Gradient Accumulation](#chenyu-000849)**: The gradient accumulation implementation is causing memory usage to increase with more accumulation steps, contrary to expectations. Geohot suggests JITing a single mini-batch loop instead of the entire accumulation sequence to manage memory and scheduling.
 - **[viz tool](#qazalin-001834)**: A performance-improving PR for the timeline view is ready, which will make CPU traces faster and fix zooming issues. A new feature to add vertical markers from Python to the timeline was also requested for easier debugging and will be implemented.
 - **[drivers](#nimlgen-003141)**: The CPU has become a bottleneck for data loading in LLaMA. The proposed solution is to implement multithreading for CPU kernels to improve performance.
 - **[cloud](#wozeparrot-003750)**: The multi-machine setup will be tested this week to validate the associated bounty and prepare the scripts for MLPerf multi-machine submissions.
-- **[symbolic](#sieds-lykles-003823)**: A bug in the Z3 renderer has been fixed, and progress is being made on constant folding. An investigation is ongoing for a hang that occurs during parallel beam search.
+- **[symbolic](#sieds-lykles-003823)**: A bug in the Z3 renderer has been fixed, and progress is being made on constant folding. An investigation is ongoing for a hang that occurs during parallel BEAM search.
 - **[symbolic / Deleting View](#geohot-004503)**: A new project is to enhance the symbolic engine to handle all logic currently in the `view` module (e.g., merging reshapes), which will allow `view` to be removed in preparation for rangeify.
 - **[onnx](#chenyu-004856)**: Cubic support has been merged, while `if` op support is pending a refactor. A persistent segfault, possibly related to Python's `contextvars`, is under investigation.
 - **[Other Bounties / MoE](#chenyu-005352)**: The Mixture-of-Experts (MoE) bounty could see significant progress by optimizing the `top_k` function, which is currently very slow. Geohot will investigate fusing it with rangeify.
@@ -703,7 +703,7 @@ So, I can hear him.
 A little bit of background noise, but yeah, I can hear.
 
 ##### **Sieds Lykles** [[00:38:29](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2309)]
-Okay. So I fixed a bug in the Z3 render where it's like if you're doing floating point load, costing that to int and using that in the index, that was giving problems. So that fixed part of the hang that you posted an issue about. I'm going to go ahead and start. Z3 is still hanging somewhere else in the beam search. And this time it's not an exception that it's throwing. And it's only hanging if you do parallel equals greater than zero. So, I'm still trying to get to the bottom of that. It's.. Sorry.
+Okay. So I fixed a bug in the Z3 render where it's like if you're doing floating point load, costing that to int and using that in the index, that was giving problems. So that fixed part of the hang that you posted an issue about. I'm going to go ahead and start. Z3 is still hanging somewhere else in the BEAM search. And this time it's not an exception that it's throwing. And it's only hanging if you do parallel equals greater than zero. So, I'm still trying to get to the bottom of that. It's.. Sorry.
 
 ##### **Geohot** [[00:39:24](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2364)]
 Parallel should be multi-processed. It should be..
@@ -757,7 +757,7 @@ No, you're good. The other project is.. So right now we have logic in reshape, i
 Oh, yeah. Oh, yeah. Can I connect? Can I? Yeah.
 
 ##### **Geohot** [[00:45:38](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2738)]
-Can I connect? I think this is.. We got to upgrade symbolic to pass all these tests. Because range of fire is going to delete view.
+Can I connect? I think this is.. We got to upgrade symbolic to pass all these tests. Because rangeify is going to delete view.
 
 ##### **Sieds Lykles** [[00:45:48](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2748)]
 Yeah. Yeah, I mean, I know a couple of rules that are missing.
@@ -814,7 +814,7 @@ Next.
 On next, I think.. Yeah, we are waiting for.. Oh, yeah. Okay.
 
 ##### **Chenyu** [[00:48:56](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2936)]
-So, we have a branch for Comma people to test their new OpenPython model with the, like, if op support and cubic support. I just merged the cubic implementation in TinyGrid proper, and we will do the refactor first before we merge the if support, because if support, otherwise, is a little bit hacky, and we don't want that.
+So, we have a branch for Comma people to test their new OpenPython model with the, like, if op support and cubic support. I just merged the cubic implementation in TinyGrad proper, and we will do the refactor first before we merge the if support, because if support, otherwise, is a little bit hacky, and we don't want that.
 
 ##### **Sieds Lykles** [[00:49:21](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2961)]
 Okay.

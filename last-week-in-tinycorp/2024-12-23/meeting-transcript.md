@@ -21,7 +21,7 @@
   Green boxes and TinyBox Pros are selling well; Comma's integration with TinyGrad is progressing.
 
 - **00:02:19 Scheduler Cleanup**  
-  Focus on reducing fragility in scheduling, handling UOP tracking, and improving rewrite rules.
+  Focus on reducing fragility in scheduling, handling UOp tracking, and improving rewrite rules.
 
 - **00:09:07 AM and USB GPU**  
   Stability improvements for AMD GPUs and USB GPU optimizations; discussions on DMA and libUSB rewrites.
@@ -120,47 +120,47 @@ That's my plan.
 
 **Geohot** [00:03:25]
 I think a lot of the instability comes from whenever you're assuming things about the structure.
-You want UOPs to be as absolutely local as possible.
-Whenever you're assuming what its parents are or what its children's going to be, or when the meaning of a UOP comes from its children, this is why we have the fragility.
-The meaning of the UOP should only ever come from the UOP itself and its parents.
+You want UOps to be as absolutely local as possible.
+Whenever you're assuming what its parents are or what its children's going to be, or when the meaning of a UOp comes from its children, this is why we have the fragility.
+The meaning of the UOp should only ever come from the UOp itself and its parents.
 And ideally, its parents as close as possible.
-Like the UOP, like, for example, copy not having a device is a problem because the copy UOP is no longer defining the copy.
+Like the UOp, like, for example, copy not having a device is a problem because the copy UOp is no longer defining the copy.
 It's only with the context of the buffer, which even worse as a child, that it gets the full context.
 So, yeah, and, like, the other thing is, like, to even explicitly think about it shouldn't just be one construction that works.
-Like, UOP should just have a meaning.
+Like, UOp should just have a meaning.
 In the same way, like, words have a meaning.
 And you can put words together in all sorts of orders.
-You should be able to put UOPs together in all sorts of orders.
+You should be able to put UOps together in all sorts of orders.
 And, like, they should all have a meaning.
-You can't have, like, a UOP that's like, well, if you put that UOP next, it's invalid.
+You can't have, like, a UOp that's like, well, if you put that UOp next, it's invalid.
 Like, that should really never be true.
 
 **Qazalin** [00:04:44]
-I think one thing I'm having challenges with right now is the question of how do you keep track of these UOPs when you're const folding.
-So even after all these things are getting done, there's still this problem of every single UOP having a buffer early on just because
+I think one thing I'm having challenges with right now is the question of how do you keep track of these UOps when you're const folding.
+So even after all these things are getting done, there's still this problem of every single UOp having a buffer early on just because
 we need a way to get back to the tensor.
 I think you had a proposal for the tracking.
 
 **Geohot** [00:05:19]
 You have a proposal for the.. Okay, so the tracking is not obvious.
 It's not.. It's going to require some new sort of innovation.
-The concept of tracking a UOP through rewrite rules
+The concept of tracking a UOp through rewrite rules
 is not something we've really fully explored yet.
-So yeah, I mean, you want something that basically will maintain a dictionary if the UOPs change.
-Maintain maybe a dictionary that maps the pre-rewritten UOPs to the rewritten UOPs or the other way around.
-Yeah, you want to map the rewritten UOPs to the pre-written UOPs.
+So yeah, I mean, you want something that basically will maintain a dictionary if the UOps change.
+Maintain maybe a dictionary that maps the pre-rewritten UOps to the rewritten UOps or the other way around.
+Yeah, you want to map the rewritten UOps to the pre-written UOps.
 So I think this is going to involve messing with the rewrite itself.
 But I'll emphasize that the fragility I was experiencing has really nothing to do with this, the fact that it's buffers.
 I'm not that upset about buffers.
 I'm upset about when I delete some view folding rule that should be an optimization, the whole thing breaks, and it breaks in incomprehensible ways.
-It breaks with errors that are.. I had one where I deleted the first pass at that other one where I did the UOP fusion.
+It breaks with errors that are.. I had one where I deleted the first pass at that other one where I did the UOp fusion.
 The word through was appearing in rendered things.
 And that only happens when you're taking args of sources that you have not type checked.
 So I'm glad to see that stuff moving in the right direction.
 But yeah, then there's two other problems to solve that are kind of..
 orthogonal to the instability.
-One is a tracking rewrite, and the other is UOP mutability.
-And I think tracking rewrite is a prerequisite for UOP mutability.
+One is a tracking rewrite, and the other is UOp mutability.
+And I think tracking rewrite is a prerequisite for UOp mutability.
 And yeah, maybe when you feel that things are very, very stable, start thinking about tracking rewrite, and I think you need that for const folding.
 But no, it's good to see things becoming more stable, and I want all the cast before view.
 Anything that requires an instant rule in Ops.py should not be there.
@@ -169,13 +169,13 @@ Cool.
 I think things are moving in the right direction.
 And yeah, the buffer thing was just, like, make sure that it's documented.
 I totally understand why it's there.
-You need to figure out which tensor is mapped to which UOPs, and right now, buffer UOPs need done to do that.
+You need to figure out which tensor is mapped to which UOps, and right now, buffer UOps need done to do that.
 And it's not the worst solution, and it might even end up being some variant of what we end up with, so.
-You can also imagine a rewrite that happens before scheduling that does things like constant folding and then reapplies those UOPs to the tensors.
+You can also imagine a rewrite that happens before scheduling that does things like constant folding and then reapplies those UOps to the tensors.
 That's an option.
 Like it doesn't do any realization.
-It just does simplification and then sets the tensors to the simplified UOPs.
-But that's like a UOP tracking rewrite that you can then scatter them to all the tensors.
+It just does simplification and then sets the tensors to the simplified UOps.
+But that's like a UOp tracking rewrite that you can then scatter them to all the tensors.
 And I think I talked about this a little bit.
 You also have to think about children on the graph too.
 So you'll have to explore the whole graph, run the simplification rule, track them, put them back in the tensors.
@@ -465,25 +465,25 @@ Hmmmmmmmmm..
 
 **Qazalin** [00:25:06]
 Like, I think a lot of these stuff, Ignaciosica, do you remember the PR that you had for True Swizzle?
-It was one line and the shape tracker from shape.
+It was one line and the ShapeTracker from shape.
 
 **Ignaciosica** [00:25:17]
 Yes.
 
 **Qazalin** [00:25:18]
 These stuff tend to be much more simpler.
-The shape tracker is a very stable API.
+The ShapeTracker is a very stable API.
 If you need to do stuff to hack around it, there's something wrong upstream of this.
 
 **Geohot** [00:25:32]
-I don't think this is the shape tracker.
+I don't think this is the ShapeTracker.
 I think this is specifically saying we push per mutes if the shape is the same.
 It's a scheduler decision.
 I'm not exactly sure why you need it.
 I'll have to sit down for an hour and really spend time with this to understand.
 
 **Ignaciosica** [00:25:51]
-Yes, the thing is that it didn't push the permutative because it created a shape tracker from a shape that it's contiguous.
+Yes, the thing is that it didn't push the permutative because it created a ShapeTracker from a shape that it's contiguous.
 So it doesn't swizzle right if this change isn't added.
 So that's why it's the only way I found to push the view, the swizzle right.
 But yes, as I said, it's the controversial thing.
@@ -524,7 +524,7 @@ We definitely don't want to just convert every default index to int64 because th
 I think the question was around, OK, if you start with int64 and some intermediate variables or ALUs can be int32, do we want to downcast it or not?
 And first, I don't think that's a very common use case because at least the two int64 kernels that we encounter
 Doesn't have that.
-So I think it's probably fine to start saying, OK, at your index to UOP upstage, check if they can be more than int64.
+So I think it's probably fine to start saying, OK, at your index to UOp upstage, check if they can be more than int64.
 And if so, change or its source or any relevant parts to int64.
 So at least that makes TinyGrad correct if that can be the case.
 Then internally, for least like intermediate, do we want to do a smaller Dtype or not can be a separate optimization step.

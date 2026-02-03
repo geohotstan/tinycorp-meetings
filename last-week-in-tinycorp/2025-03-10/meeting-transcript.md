@@ -219,7 +219,7 @@ Is that one dispatch of the whole command, no matter how big the command is?
 So for the BERT one, it might legitimately hit 30 seconds.
 
 ##### **Nimlgen** [[00:08:33](https://www.youtube.com/watch?v=swYfv-dheuc&t=513)]
-yes so actually in beam so like that i tested like three days ago just easily hit found some kernels that are just 30 seconds long and yeah but but like answering your question yeah it's just from the point you just submit it to the gpu and you just
+yes so actually in BEAM so like that i tested like three days ago just easily hit found some kernels that are just 30 seconds long and yeah but but like answering your question yeah it's just from the point you just submit it to the gpu and you just
 So yeah, it's for several kernels and for several commands.
 
 ##### **Chenyu** [[00:08:59](https://www.youtube.com/watch?v=swYfv-dheuc&t=539)]
@@ -238,7 +238,7 @@ And the first round, depends on the setup, might take a lot more than 30 seconds
 Because we have Arange, that default is not the most efficient one.
 And if we do fuse Arange,
 other stuff, the hand coded optimization might be very slow.
-But the subsequent beam search one should be good.
+But the subsequent BEAM search one should be good.
 For now, I'm just pass that flag and say, like, 10 minutes or something like that.
 
 ##### **Nimlgen** [[00:10:08](https://www.youtube.com/watch?v=swYfv-dheuc&t=608)]

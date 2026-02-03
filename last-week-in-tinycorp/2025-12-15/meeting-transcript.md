@@ -118,7 +118,7 @@ I merged that jit, foot gone thing. I mean, that's all the ones Claude found. Th
 Yeah, so yeah, yeah. So I think it would be nice to have some asserts saying, I don't know what's the best way to do this, because I don't know what's the definition for obvious things that needs to be updated but not updating or not tracked correctly.
 
 ##### **Geohot** [[00:07:09](https://www.youtube.com/watch?v=_mJIF112c5k&t=429)]
-Yeah, I mean, I can at least, yeah, what I can do is I can add some stuff to check all the inputs to the jit and make sure their format is correct. Because right now, we're only checking some of them. And this default one kind of broke with the shape tracker. I can definitely work on that this week, which will help you. Basically, it's like if you did something for weight, say you multiplied a weight by two on one of your jits,
+Yeah, I mean, I can at least, yeah, what I can do is I can add some stuff to check all the inputs to the jit and make sure their format is correct. Because right now, we're only checking some of them. And this default one kind of broke with the ShapeTracker. I can definitely work on that this week, which will help you. Basically, it's like if you did something for weight, say you multiplied a weight by two on one of your jits,
 
 ##### **Nimlgen** [[00:07:29](https://www.youtube.com/watch?v=_mJIF112c5k&t=449)]
 we can detect that and be like, no, no, no, you messed it up. So the inputs we explicitly read, we're going to have to do this.
@@ -133,7 +133,7 @@ Yeah, I think something like that would definitely be helpful. I think having ji
 Yeah, OK, I can work on a lot of that. I can also another like kind of what I should really add to the jit is just make sure that it runs, like, Like, two runs have the same schedule cast before we JIT them? Things without the JIT should be a lot faster now that we have schedule cast.
 
 ##### **Chenyu** [[00:08:17](https://www.youtube.com/watch?v=_mJIF112c5k&t=497)]
-It's just tricky if you want to do the bird training. I tried that without JIT, and it's, I don't know, it's very slow. It's still really slow. So, I let it run overnight so that I at least have something to compare with. But no, it's just too slow.
+It's just tricky if you want to do the BERT training. I tried that without JIT, and it's, I don't know, it's very slow. It's still really slow. So, I let it run overnight so that I at least have something to compare with. But no, it's just too slow.
 
 ##### **Nimlgen** [[00:08:36](https://www.youtube.com/watch?v=_mJIF112c5k&t=516)]
 Okay.
@@ -295,7 +295,7 @@ Yeah, so merged MI-300 support. Still several things to do, including the annoyi
 Yeah.
 
 ##### **Geohot** [[00:18:05](https://www.youtube.com/watch?v=_mJIF112c5k&t=1085)]
-Yeah, I tested it, it worked. I think the warm reset thing obviously has to be fixed. We can't have to reset it between every boot of tiny grad. And then MI-300 and MI-350 are almost the same.
+Yeah, I tested it, it worked. I think the warm reset thing obviously has to be fixed. We can't have to reset it between every boot of tinygrad. And then MI-300 and MI-350 are almost the same.
 
 ##### **Nimlgen** [[00:18:26](https://www.youtube.com/watch?v=_mJIF112c5k&t=1106)]
 Yeah, it should be pretty easy to port these. I mean, GFX, all major models are the same.
@@ -583,7 +583,7 @@ Wait, which one is it?
 I didn't see this either.
 
 ##### **Chenyu** [[00:35:33](https://www.youtube.com/watch?v=_mJIF112c5k&t=2133)]
-The one in bird channel.
+The one in BERT channel.
 
 ##### **B1tg** [[00:35:36](https://www.youtube.com/watch?v=_mJIF112c5k&t=2136)]
 And they are perfect. But as,
@@ -646,7 +646,7 @@ I don't know how the GPU multi-user works. So..
 If I comment out the iOctal and I run this two times, is that gonna cause a problem?
 
 ##### **B1tg** [[00:39:00](https://www.youtube.com/watch?v=_mJIF112c5k&t=2340)]
-No. If you run the train on a multi-tpu and.. Then in another terminal, you develop a tiny grad, run some test, it can trigger the bug.
+No. If you run the train on a multi-tpu and.. Then in another terminal, you develop a tinygrad, run some test, it can trigger the bug.
 
 ##### **Nimlgen** [[00:39:21](https://www.youtube.com/watch?v=_mJIF112c5k&t=2361)]
 It is okay on the.. Which machine?
@@ -1039,7 +1039,7 @@ I can check this next time. Yeah. We could do this.
 Yeah, daemon. Daemon is the flag I'm thinking of.
 
 ##### **Nimlgen** [[01:04:44](https://www.youtube.com/watch?v=_mJIF112c5k&t=3884)]
-I think most of these pits are from the beam search. Like when we. We call multi processing. But actually, I try to. I don't know why. I just try to fix this with some flags for GitHub runners. Like to kill the whole group. But. I mean, yeah.
+I think most of these pits are from the BEAM search. Like when we. We call multi processing. But actually, I try to. I don't know why. I just try to fix this with some flags for GitHub runners. Like to kill the whole group. But. I mean, yeah.
 
 ##### **Geohot** [[01:05:12](https://www.youtube.com/watch?v=_mJIF112c5k&t=3912)]
 But this is a bug, obviously. Like whenever we talk about action investigations and Swift teeth, right? Like first off, Python shouldn't be leaving cell processes around. Second off, GitHub should be killing them. And third off, we should have some script that detects this when it starts the runner and kills everything. I think we can fix this with like mitigations all across the stack. I think maybe the best thing to do now would be to just write a script that runs at the beginning of the GitHub actions run that does that else off and then kills all the Python or just kills all the Python.
@@ -1075,7 +1075,7 @@ Oh, okay. So it is then a GitHub related issue. I mean, it's just not killing it
 Yeah.
 
 ##### **Geohot** [[01:06:48](https://www.youtube.com/watch?v=_mJIF112c5k&t=4008)]
-I'll look into how the action center is killing it if it's the beam thing.
+I'll look into how the action center is killing it if it's the BEAM thing.
 
 ##### **Nimlgen** [[01:06:56](https://www.youtube.com/watch?v=_mJIF112c5k&t=4016)]
 But either way, short term, let's just move that kill script from red and I'll put it on that. Okay. Anything else worth mentioning? We cover everything. Oh, you want to talk about your app? Is it ready? Oh, the LLM app? Yeah. Yeah.

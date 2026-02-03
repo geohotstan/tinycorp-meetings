@@ -98,8 +98,8 @@ That's the company update.
 Let's move on to Torch as a frontend.
 I think it's a
 We have new, I don't know, for the new people here, this is a project that, uh, you can write torch code and with I think two lines.
-You can use tiny grid for its device or for its backend.
-And, uh, your torch code will run on tiny grid, which run on the devices that tiny support.
+You can use tinygrad for its device or for its backend.
+And, uh, your torch code will run on tinygrad, which run on the devices that tiny support.
 So.
 Definitely not in nanaGPT.
 I think MNIST works now?
@@ -248,9 +248,9 @@ What happens if a Torch project uses Triton or CUDA binding?
 ##### **Geohot** [[00:10:05](https://www.youtube.com/watch?v=hIWzGyEX2do&t=605)]
 Well, so it doesn't use, that's not going to work.
 Yeah, it doesn't use triton or CUDA.
-It's tiny grad, it's totally separate.
+It's tinygrad, it's totally separate.
 Like if you're using triton or CUDA, you're using the CUDA backend, you're not using the tiny backend.
-Tiny grad is like a new device.
+tinygrad is like a new device.
 You do like.tiny, device = tiny, all that stuff.
 So if you want raw CUDA, you're going to have to do it using like tinygrad's abstractions,.torch's abstractions.
 But yeah, for now, that stuff's not going to be supported.
@@ -297,7 +297,7 @@ Yeah, stream this weekend with fast gemm.
 The quantized devec is something that I've been working on for the DSP, but I'm finally just doing it right.
 So this is something that's been wrong the entire time.
 Basically, to do load store grouping, I was doing the load store grouping on loads and stores.
-but now we have this index UOP, so I've moved it to the index UOP.
+but now we have this index UOp, so I've moved it to the index UOp.
 It's faster.
 We get about a 5% speed up to everything by doing it this way.
 And then we also don't have to de-vectorize.
@@ -325,7 +325,7 @@ So that's good.
 
 ##### **Chenyu** [[00:14:29](https://www.youtube.com/watch?v=hIWzGyEX2do&t=869)]
 Great.
-Speaking of image, do you see comma, like, a bit cleanup because TinyGrid?
+Speaking of image, do you see comma, like, a bit cleanup because TinyGrad?
 
 ##### **Geohot** [[00:14:42](https://www.youtube.com/watch?v=hIWzGyEX2do&t=869)]
 Oh, are they using TinyGrad in CI for CPU?
@@ -375,9 +375,9 @@ The main trick that we're not doing in TinyGrad is we're not using shared memory
 We're not using.. It's called like shared in CUDA, but it's like the local memory.
 We're not first copying the stuff into SRAM.
 Uh, so I want to finish the quantized stuff and then I want to add that as a search.
-I want to add that to beam.
-Uh, I mean, I was like messing around with like trying to do it by hand, but I'm like, no, I just need to like write this correctly, add it to beam 
-beam will find it.
+I want to add that to BEAM.
+Uh, I mean, I was like messing around with like trying to do it by hand, but I'm like, no, I just need to like write this correctly, add it to BEAM 
+BEAM will find it.
 Then there's that optimization.
 Then there's the double buffering optimization.
 And then our jit should be 40 giga flops.
@@ -593,7 +593,7 @@ FUSE ARAND sometimes in other places has other issues.
 I don't know.
 But it should work with RAND.
 Yeah, but after that, I don't have other.
-The birds looks.
+The BERTs looks.
 pretty lean right now.
 It's just things are not fast.
 Even the forward is not fast.
@@ -874,7 +874,7 @@ It just needs the offset.
 But the offset's what you need to function for.
 
 ##### **Qazalin** [[00:42:01](https://www.youtube.com/watch?v=hIWzGyEX2do&t=2521)]
-Yeah, but you need the offset if your shape tracker is an offset, right?
+Yeah, but you need the offset if your ShapeTracker is an offset, right?
 
 ##### **Geohot** [[00:42:05](https://www.youtube.com/watch?v=hIWzGyEX2do&t=2525)]
 No, you can always put that offset in the kernel, right?
@@ -1088,7 +1088,7 @@ I think few separate things.
 CI should ideally be future proof.
 So we don't want any dynamic things that determine the size or the model you're running for CI, because that will break someday.
 In principle, having a script that runs a fixed set of models and making sure it works.
-Making sure all the onyx ops are supported, I think, is good enough for less specific bounty.
+Making sure all the ONNX ops are supported, I think, is good enough for less specific bounty.
 I think we should be close to getting a merge.
 And for now, if the only left issue is something is not supported, I see like zeroing it off some of the list.
 We, we don't have a good way to support anyway.
@@ -1139,8 +1139,8 @@ But I'm not sure about the refactor you specified, George, where you talked abou
 
 ##### **Geohot** [[00:53:23](https://www.youtube.com/watch?v=hIWzGyEX2do&t=3203)]
 Well, no, but you load from the regs.
-The UOP is load, right?
-The same way the UOP is load from Define Global?
+The UOp is load, right?
+The same way the UOp is load from Define Global?
 
 ##### **Ignaciosica** [[00:53:34](https://www.youtube.com/watch?v=hIWzGyEX2do&t=3214)]
 Yes.
@@ -1236,7 +1236,7 @@ I'm pretty confident with the metric itself, reaching towards that.
 So I think it's just really the timing and speed.
 
 ##### **Chenyu** [[00:57:02](https://www.youtube.com/watch?v=hIWzGyEX2do&t=3422)]
-So I think one first thing I would try is, first, I see you have many beam parameters.
+So I think one first thing I would try is, first, I see you have many BEAM parameters.
 Just remove those all out.
 I think those are smaller than default.
 And you want to see the potential of this.
@@ -1437,12 +1437,12 @@ Let us know.
 Uh, yeah, let me, let me try to explain this in like, in like really simple terms for people here.
 So you know how like torch has different devices, right?
 You know how you can do like in torch, you could do like dot CUDA or dot CPU or dot MPS on Apple.
-So what the tiny grad backend is, is you copy and paste these three magical lines, which patches a new device into pytorch called tiny.
+So what the tinygrad backend is, is you copy and paste these three magical lines, which patches a new device into pytorch called tiny.
 And then you can do dot tiny in the same way you do dot CUDA.
-But the thing about dot tiny is it uses tiny grad.
+But the thing about dot tiny is it uses tinygrad.
 So if you have like a GPU that only has OpenCL support, for example, if you have a GPU that's like just OpenCL, there used to be no way at all to use that with PyTorch.
-But now you can use the tiny grad backend.
-The tiny grad backend will take the PyTorch and compile it into OpenCL code, which will run through the tiny grad OpenCL backend on the GPU.
+But now you can use the tinygrad backend.
+The tinygrad backend will take the PyTorch and compile it into OpenCL code, which will run through the tinygrad OpenCL backend on the GPU.
 and then pass that back to Torch, you'll be able to run PyTorch programs with the TinyGrad backend everywhere TinyGrad supported, which includes some crazy targets like Qualcomm GPUs, Qualcomm DSPs, all these things.
 But yeah, so hopefully everyone understands what it means when it's like actually go and try a PyTorch program with the TinyGrad backend.
 The three lines are a little annoying.

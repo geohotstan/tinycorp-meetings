@@ -1288,10 +1288,10 @@ Got it. Yeah. No, I'm just saying like, we kind of need to like abstract these t
 like into something, right? Like, like copy is this thing that like uses the copy engine.
 
 ##### **Geohot** [[00:23:29](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1409)]
-I think we almost want like, like a UOP for that.
+I think we almost want like, like a UOp for that.
 
 ##### **Geohot** [[00:23:32](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1412)]
-Like an engine UOP that says this is a, this doesn't use the normal, I don't know. I don't
+Like an engine UOp that says this is a, this doesn't use the normal, I don't know. I don't
 
 ##### **Geohot** [[00:23:38](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1418)]
 know exactly what the abstraction is going to be like, but not that worried about that. Cool.
@@ -1726,7 +1726,7 @@ So the right thing to do here is to get a get it running in.
 In benchmark, but you're welcome to merge the PR beforehand.
 
 ##### **Geohot** [[00:32:34](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1954)]
-Yeah, the thing that I'm worried about running it in benchmark is that stupid race condition in the onyx loader or whatever it is.
+Yeah, the thing that I'm worried about running it in benchmark is that stupid race condition in the ONNX loader or whatever it is.
 
 ##### **Geohot** [[00:32:42](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1962)]
 I don't know if it's race condition or memory corruption or what.
@@ -1756,7 +1756,7 @@ Yeah.
 It doesn't.
 
 ##### **Geohot** [[00:33:01](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1981)]
-Make any sense to me because like the error is in like NN onyx.
+Make any sense to me because like the error is in like nn.onnx.
 
 ##### **Nimlgen** [[00:33:05](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1985)]
 I'm pretty sure
@@ -2038,13 +2038,13 @@ I think that seems about like every week you work on it, you can get another two
 So that seems about right.
 
 ##### **Geohot** [[00:37:01](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2221)]
-What were you saying about the onyx thing?
+What were you saying about the ONNX thing?
 
 ##### **Geohot** [[00:37:03](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2223)]
 Do you have an idea?
 
 ##### **Geohot** [[00:37:05](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2225)]
-It might be back in the letter because I think onyx, if it does any conversions from disk, it will go through the back end.
+It might be back in the letter because I think ONNX, if it does any conversions from disk, it will go through the back end.
 
 ##### **Geohot** [[00:37:13](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2233)]
 Oh.
@@ -2122,7 +2122,7 @@ But yeah, I mean.
 Yeah.
 
 ##### **Geohot** [[00:37:59](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2279)]
-Run with debug equals four and see if Onyx is actually like creating kernels.
+Run with debug equals four and see if ONNX is actually like creating kernels.
 
 ##### **Geohot** [[00:38:03](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2283)]
 Yeah.
@@ -2170,7 +2170,7 @@ I mean, I can see what the errors are, but if it's like.
 No, I think we should figure out what the we should figure out what the errors are and not force it to CPU.
 
 ##### **Geohot** [[00:38:50](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2330)]
-I think we should figure out who's ever working on Onyx should figure out how to force CPU more generally.
+I think we should figure out who's ever working on ONNX should figure out how to force CPU more generally.
 
 ##### **Geohot** [[00:38:55](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2335)]
 This is just a.
@@ -2323,7 +2323,7 @@ It's just called having fun with Python as MDSL.
 So, yeah, as we move to.
 
 ##### **Geohot** [[00:41:18](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2478)]
-We're going to want to start putting assemblers into tiny grad.
+We're going to want to start putting assemblers into tinygrad.
 
 ##### **Nimlgen** [[00:41:23](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2483)]
 And this is just stuff with making like all the bit fields really nice.
@@ -2629,7 +2629,7 @@ It's just a question of accuracy.
 It's just a question of accuracy.
 
 ##### **Geohot** [[00:46:18](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2778)]
-And so, yeah, I think that by the end of next year, we're going to have some serious non LLVM backends, some completely full tiny grad all the way to GPU assembly.
+And so, yeah, I think that by the end of next year, we're going to have some serious non LLVM backends, some completely full tinygrad all the way to GPU assembly.
 
 ##### **Geohot** [[00:46:33](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2793)]
 And I think GPUs are the place to do it, especially when you look at the MI350 and you see that LLVM is not that good.
@@ -3193,7 +3193,7 @@ I'll think more about that later.
 But like once we have that merged, I want to merge like a 100 line web UI.
 
 ##### **Geohot** [[00:55:36](https://www.youtube.com/watch?v=22O5E5aAnJU&t=3336)]
-And I want like tiny grad apps LLVM to like reuse the infrastructure from Viz to make
+And I want like tinygrad apps LLVM to like reuse the infrastructure from Viz to make
 
 ##### **Geohot** [[00:55:41](https://www.youtube.com/watch?v=22O5E5aAnJU&t=3341)]
 it, but no one should work on this.
@@ -3208,10 +3208,10 @@ Yeah.
 I don't know what to think about.
 
 ##### **Nimlgen** [[00:55:45](https://www.youtube.com/watch?v=22O5E5aAnJU&t=3345)]
-Like the tiny grad should be pip install tiny grad.
+Like the tinygrad should be pip install tinygrad.
 
 ##### **Nimlgen** [[00:55:48](https://www.youtube.com/watch?v=22O5E5aAnJU&t=3348)]
-You got Python dash M tiny grad apps LLM and it opens this web interface that has zero
+You got Python dash M tinygrad apps LLM and it opens this web interface that has zero
 
 ##### **Geohot** [[00:55:54](https://www.youtube.com/watch?v=22O5E5aAnJU&t=3354)]
 dependencies that runs in LLM.

@@ -5,7 +5,7 @@
 **Time:** 7am Monday San Diego time (10pm HK time)
 - company update
 - chip!, fast python
-- bert, mlperf
+- bert, MLPerf
 - scheduler
 - driver
 - WebGPU
@@ -332,7 +332,7 @@ So I really need to check if it's hanging.
 That's one thing.
 I added a check to crash if the loss becomes NaN.
 Then I report I got a bunch of NaNs from amdriver that
-I'm not sure if it's AM only, but previously I was running using AM for Beam Search and Setup and using AMD to run, and that seems fine.
+I'm not sure if it's AM only, but previously I was running using AM for BEAM Search and Setup and using AMD to run, and that seems fine.
 But again, each full run took six hours, and I don't even know if it's like some machine is bad or something.
 I think for me, I'd like to.
 So I use the MLPerf logging checkers to make sure for the MI300x and the green that I have 10 runs.
@@ -509,10 +509,10 @@ I mean, time is reproducible in AM, reproducible in AMD.
 But yeah, they're different, some faster, some slower.
 
 ##### **Geohot** [[00:22:55](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=1375)]
-So that might have to do with the beam search.
+So that might have to do with the BEAM search.
 
 ##### **Nimlgen** [[00:22:59](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=1379)]
-no no i use the same one that oh it's not the beam okay yeah that might be the memory layout yeah uh this week i'll try to just get this kernel and try to compare them one by one and see so maybe memory layout is worse in AM um yeah um so yeah for nance i can try to so the only thing
+no no i use the same one that oh it's not the BEAM okay yeah that might be the memory layout yeah uh this week i'll try to just get this kernel and try to compare them one by one and see so maybe memory layout is worse in AM um yeah um so yeah for nance i can try to so the only thing
 I think, I don't know, maybe that's synchronization, but it's just basically the same like for AMD and AM.
 Or maybe it's also different memory layout.
 We have some page files or memory accesses.
@@ -700,7 +700,7 @@ Otherwise, I might not.
 I might just close it.
 But yeah, just these things are useful for me to learn about the code base and are helping me understand.
 For example, I think for WebGPU, we might define, or for exporting models,
-might be a more useful way to define the buffers we want to export, just in terms of them being referenced by UOP and not being an input or output.
+might be a more useful way to define the buffers we want to export, just in terms of them being referenced by UOp and not being an input or output.
 That might be a simpler definition than what we have now.
 So yeah, that's all I've got to say.
 
@@ -716,12 +716,12 @@ Right now, I think what Chenyu said on the Retinanet channel just mainly focused
 It was going, but..
 But I think we just need to make sure that it actually converges as well.
 So I'm going to put up smaller PRs, just kind of add some sort of debugging flags to the main training script so that it's easier to figure out some of the issues there.
-And I think when Chenyu ran the eval beam, I think on the last run that converged, it worked for him.
+And I think when Chenyu ran the eval BEAM, I think on the last run that converged, it worked for him.
 So I'll just make sure that it actually is consistent for my end as well.
 And yeah, keep going on that.
 
 ##### **Chenyu** [[00:35:23](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=2123)]
-Yeah, I don't think eval beam was doing anything.
+Yeah, I don't think eval BEAM was doing anything.
 If you check the graph in my second round compared to my first round, I don't think the eval time changed at all.
 
 ##### **Flata** [[00:35:35](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=2135)]
@@ -814,25 +814,25 @@ I still figure out why it happened.
 
 ##### **Geohot** [[00:41:28](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=2488)]
 Yeah, I see where you added the splits to the hand-coded optimization stuff.
-I mean, I'm really interested in why things are slower after Beam.
+I mean, I'm really interested in why things are slower after BEAM.
 
 ##### **B1TG** [[00:41:42](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=2502)]
 And after add 6 to the split option, the AMD backend also gets speed up.
 
 ##### **Geohot** [[00:41:54](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=2514)]
 Yeah, but again, so this is like all the hand-coded optimization stuff is not what happens when things are beaming.
-The thing that I'm most interested about is beam equals two speed.
+The thing that I'm most interested about is BEAM equals two speed.
 Hand-coded optimizations are just kind of luck whether they're good or not.
 
 ##### **B1TG** [[00:42:10](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=2530)]
-I'm not tested with a beam.
+I'm not tested with a BEAM.
 
 ##### **Geohot** [[00:42:13](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=2533)]
-Yeah, see, the beam thing is the fundamental thing I care about.
+Yeah, see, the BEAM thing is the fundamental thing I care about.
 Yeah, you should be able to just, I think this script approach is a good idea.
 It's the same one we have for the PTX and CUDA.
-Yeah, so just throw beam equals 2 on there and see how things are going.
-And if you find ones that beam to something slower, then figure out what's missing.
+Yeah, so just throw BEAM equals 2 on there and see how things are going.
+And if you find ones that BEAM to something slower, then figure out what's missing.
 
 ##### **Chenyu** [[00:42:34](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=2554)]
 Sounds good.

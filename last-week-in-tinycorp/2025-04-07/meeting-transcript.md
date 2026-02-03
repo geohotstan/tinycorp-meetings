@@ -5,7 +5,7 @@
 **Time:** 7am Monday San Diego time (10pm HK time)
 - company update
 - fast python, softmax
-- bert, mlperf
+- bert, MLPerf
 - scheduler
 - driver
 - tensor core / local
@@ -100,7 +100,7 @@ Because right now it's doing, yeah, like, Python function calls when it should j
 But then the clauses can all be made explicit.
 You can look at the branching of the UPats.
 We could have like a UPat optimizer.
-I was even thinking if you really want to go crazy with this, you could write a UPAT in UOPs and then optimize the UOPs to be the matcher.
+I was even thinking if you really want to go crazy with this, you could write a UPat in UOps and then optimize the UOps to be the matcher.
 You know, reuse all our match logic for that.
 But yeah.
 So I'm hoping someone picks that one up this week and I can work on Softmax.
@@ -160,10 +160,10 @@ So the greatest change I made today is I have this realization that
 for setup, because setup time is separate.
 And for the setup, we really need to only do a vert layer equals to 2.
 We don't need to do 24, because kernels are the same.
-We only need to beam them once.
+We only need to BEAM them once.
 So we can save five minutes setup time, and we can potentially search a lot more.
 So I was pretty happy about that.
-So we know if we search beam equals to 32,
+So we know if we search BEAM equals to 32,
 It's 5% faster, so the potential is there.
 But that takes about two hours to search.
 We only have 30 minutes.
@@ -592,7 +592,7 @@ So I think I need to, because if you want to use this generally, there needs to 
 And I still haven't written the tests.
 Anyways, that's for the ONNX thing.
 Next for OLMOE, I found that the indexing part is actually pretty efficient after the kernel has been BEAMed.
-Sometimes before the beam search, the first kernel that comes out, there's a lot of redundancy in how it's done.
+Sometimes before the BEAM search, the first kernel that comes out, there's a lot of redundancy in how it's done.
 But after BEAM, it's already pretty good.
 I don't think I can improve that anymore.
 So the other thing is the topK implementation.
@@ -686,7 +686,7 @@ I'm just trying one more run with a higher batch size.
 And I'll try to reset the.. Or not resetting the JIT cache, but it's actually not working.
 Like, it's still running out of memory, so I just kind of foregone on that for now.
 But I think I should have a command for you, Chen Yu, this week to..
-uh repro it and i think i'll probably put one more pr i think just kind of moving some helpers uh that's uh that was in the mask rcnn and uh repo but i'll just kind of or a model file and just moving it into the helpers on under ml perf and then i think that should be it
+uh repro it and i think i'll probably put one more pr i think just kind of moving some helpers uh that's uh that was in the mask rcnn and uh repo but i'll just kind of or a model file and just moving it into the helpers on under MLPerf and then i think that should be it
 
 ##### **Chenyu** [[00:36:25](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=2185)]
 oh sounds good
@@ -940,7 +940,7 @@ Because I also don't know if using the LLVM compiler is slower.
 Oh, you mean to run it.
 No, that's actually going to be faster.
 That should definitely be faster.
-You mean to do the beam search.
+You mean to do the BEAM search.
 
 ##### **Chenyu** [[00:49:46](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=2986)]
 I don't know.

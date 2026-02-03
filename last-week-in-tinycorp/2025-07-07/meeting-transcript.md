@@ -6,7 +6,7 @@
 - company updates
 - can tinygrad win?
 - app ollama
-- mlperf LLaMA 405b
+- MLPerf LLaMA 405b
 - viz tool
 - drivers
 - cloud
@@ -665,7 +665,7 @@ I think it's more like how to notice that SteelBiff is incorrect for uOPS. Like,
 I mean, what we really want, and I think what a lot of your project is going to be, is going to be just thinking about all these cases and just fixing them. Like, we need to support arbitrary symbolic. What I want to do for the LLM app is I want the T, like the number of tokens, I want that to also be a variable.
 
 ##### **Sieds Lykles** [[01:05:28](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3928)]
-Yeah. Yeah, I don't think there's a further for the shape tracker. But I don't think it works with variables.
+Yeah. Yeah, I don't think there's a further for the ShapeTracker. But I don't think it works with variables.
 
 ##### **Geohot** [[01:05:39](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3939)]
 Yeah, I don't think it does. I don't think it does at all. I mean, in theory, what we should be able to do is just like anything should be able to become a variable and it should still work.

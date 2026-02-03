@@ -6,7 +6,7 @@
 
 **Time:** 9am Monday San Diego time
 - company update
-- mlperf, benchmark ci jobs
+- MLPerf, benchmark ci jobs
 - more about ci stability
 - scheduler, qcom?
 - drivers
@@ -223,7 +223,7 @@ I'll do this, this week.
 Actually, Woze you said that you've seen some problems around ResNet on 5090s.
 I don't know.
 I just tried to repro this on the single 5090.
-Like with Beam and just, it was fine.
+Like with BEAM and just, it was fine.
 So if you have any details, it would be good to know.
 
 ##### **Chenyu** [[00:14:50](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=890)]
@@ -240,7 +240,7 @@ If I ever reproduce it on another one, I can send you logs.
 
 ##### **Nimlgen** [[00:15:23](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=923)]
 Yeah, it would be great.
-Actually, I mean, there should be some problematic kernel like we hit during Beam.
+Actually, I mean, there should be some problematic kernel like we hit during BEAM.
 
 ##### **Wozeparrot & Chenyu** [[00:15:32](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=932)]
 Yeah, I'm assuming it's that.
@@ -479,7 +479,7 @@ So I have a new PR open that's ready for review on refactored JIT capture.
 And there's a short write up in there and how it works.
 But basically, after the meeting last week where we discussed some of the edge cases involving explicit and implicit inputs and outputs,
 I realized that what I had been doing a week ago is just not sufficient, so I took a new approach where we ban all realizes within the function we're capturing or within the JIT function we're capturing unconditionally.
-Last week, there was this thing there about certain UOPs, but that's gone.
+Last week, there was this thing there about certain UOps, but that's gone.
 It's very simple, just no realizes.
 So just one single line added to tensor.py.
 And so the new strategy is we're able to

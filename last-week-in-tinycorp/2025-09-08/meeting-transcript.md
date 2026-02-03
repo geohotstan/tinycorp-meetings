@@ -6,7 +6,7 @@
 - company updates (new meeting time?)
 - make rangeify default, speed regression/bug
 - ci speed
-- mlperf LLaMA
+- MLPerf LLaMA
 - viz tool
 - cpu thread
 - symbolic
@@ -92,7 +92,7 @@ Compute, storage, and locality. These things are like three points on a triangle
 Gradient accumulation? Gradient checkpointing.
 
 ##### **Geohot** [[00:04:45](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=285)]
-Gradient checkpointing. Yeah, yeah, yeah. Yeah, gradient checkpointing. So gradient checkpointing is a form of this trade-off about locality. So, and then this locality trade-off also persists at.. The really nice thing about this stuff and getting it right is it's identical at every layer. So everything that we want to do at the global layer also applies at the local layer, also applies at the register layer. So yeah, hopefully when we get the formulation of this stuff correct, it will all kind of fall into place. I read the Triton paper this weekend. About their.. It's interesting. They don't like.. Nothing I've read seems as good as Rangeify. Like, the Triton paper is talking about how they're representing their shapes in this. Kind of like what we do with TensorCore. They divide everything up into.. They make every axis a two. And then you can flip all your twos around, right? And then this is a linear transformation. To move your twos around. And then all these things can be expressed as linear transformations. Like a reshape and a permute. Yeah, so.. But it's still like.. They still have this concept of reshape and permute. I feel like that should be dealt with at an earlier level. Instead of doing the reshape and the permutes on your layout, which is what the Shape Tracker was doing. You can do this on.. I mean, I guess it's still your layout, but it's at the bufferize. It's only the layout in the.. In memory. That you're optimizing. It's not this like nebulous idea of a layout. There should be no.. Like, if you have something that's like.. Plus one. If you have something that's like buffer, plus one. Permute, plus one. This is ridiculous, right? There's no reason at all you should store that middle one. Because you can just load from it permuted. So the old way we used to think about this was pushing the permute. But forget pushing the permute. Just think about what the actual.. What the actual ranges are of these things. And realize that the two plus ones are element-wise ops on the exact same ranges. So. Yeah. I think it's.. I think it's good. I've now read all the.. The Halide and the TVM. And see how they do this kind of stuff. I mean, it is.. They have a very like range-ified view of things. TVM has really nice syntax too. Like TVM lets you.. Most things in TVM.. And I guess Halide too. Are.. Are.. Are.. Are.. Are.. Are.. Like you can like.. You want to permute. You can say.. B sub i comma j equals a sub j comma i. And I feel like that's like a really nice syntax. So.. I'm going to work on that syntax. I'm going to work on the range-ified cost function. And then.. A bunch of cleanup still around post-opt. Fixing this pad too. If there's speed regressions. And if there's..
+Gradient checkpointing. Yeah, yeah, yeah. Yeah, gradient checkpointing. So gradient checkpointing is a form of this trade-off about locality. So, and then this locality trade-off also persists at.. The really nice thing about this stuff and getting it right is it's identical at every layer. So everything that we want to do at the global layer also applies at the local layer, also applies at the register layer. So yeah, hopefully when we get the formulation of this stuff correct, it will all kind of fall into place. I read the Triton paper this weekend. About their.. It's interesting. They don't like.. Nothing I've read seems as good as Rangeify. Like, the Triton paper is talking about how they're representing their shapes in this. Kind of like what we do with TensorCore. They divide everything up into.. They make every axis a two. And then you can flip all your twos around, right? And then this is a linear transformation. To move your twos around. And then all these things can be expressed as linear transformations. Like a reshape and a permute. Yeah, so.. But it's still like.. They still have this concept of reshape and permute. I feel like that should be dealt with at an earlier level. Instead of doing the reshape and the permutes on your layout, which is what the ShapeTracker was doing. You can do this on.. I mean, I guess it's still your layout, but it's at the bufferize. It's only the layout in the.. In memory. That you're optimizing. It's not this like nebulous idea of a layout. There should be no.. Like, if you have something that's like.. Plus one. If you have something that's like buffer, plus one. Permute, plus one. This is ridiculous, right? There's no reason at all you should store that middle one. Because you can just load from it permuted. So the old way we used to think about this was pushing the permute. But forget pushing the permute. Just think about what the actual.. What the actual ranges are of these things. And realize that the two plus ones are element-wise ops on the exact same ranges. So. Yeah. I think it's.. I think it's good. I've now read all the.. The Halide and the TVM. And see how they do this kind of stuff. I mean, it is.. They have a very like range-ified view of things. TVM has really nice syntax too. Like TVM lets you.. Most things in TVM.. And I guess Halide too. Are.. Are.. Are.. Are.. Are.. Are.. Like you can like.. You want to permute. You can say.. B sub i comma j equals a sub j comma i. And I feel like that's like a really nice syntax. So.. I'm going to work on that syntax. I'm going to work on the range-ified cost function. And then.. A bunch of cleanup still around post-opt. Fixing this pad too. If there's speed regressions. And if there's..
 
 ##### **Geohot** [[00:07:50](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=470)]
 Bugs. Yeah. Yeah.
@@ -407,7 +407,7 @@ Yeah, you'd want to like tie..
 Basically backtrack from the buffer objects to the kernel to exactly the back to the original bitrate.
 
 ##### **Geohot** [[00:26:09](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1569)]
-Yeah, like maybe if I click on it, and maybe you can make this only work on range of five. It's easier. Like when I click on it, it should go to.. Well, so I like now that we have this concept of lighting up a UOP. So like imagine when I click on the memory, it takes me to.. Well, I guess it could be in multiple schedules. Like imagine it takes me.. It takes me to the schedule, and it's lit up as the buffer object.
+Yeah, like maybe if I click on it, and maybe you can make this only work on range of five. It's easier. Like when I click on it, it should go to.. Well, so I like now that we have this concept of lighting up a UOp. So like imagine when I click on the memory, it takes me to.. Well, I guess it could be in multiple schedules. Like imagine it takes me.. It takes me to the schedule, and it's lit up as the buffer object.
 
 ##### **Qazalin** [[00:26:37](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1597)]
 You could like navigate through different uses of that buffer, like the read and the write.
@@ -419,7 +419,7 @@ Yeah. I mean, it would also.. In a schedule, it will only show up once as an obj
 Multiple reads. That's a buffer interface. That's a buffer.
 
 ##### **Geohot** [[00:27:00](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1620)]
-Well, yeah, but that should just be like.. Again, that should just be the object. That should be like that UOP in the schedule lit up, right? Multiple reads are just multiple outgoing arrows. But yeah, like when I view tensor graph in the schedule, there's something called buffer. And yeah, like that's what I want to be able to get to from the profiler. Yeah. When I click on it, it takes me to the schedule with the buffer lit up. But it may be in two schedules, so we need some way to navigate between schedules.
+Well, yeah, but that should just be like.. Again, that should just be the object. That should be like that UOp in the schedule lit up, right? Multiple reads are just multiple outgoing arrows. But yeah, like when I view tensor graph in the schedule, there's something called buffer. And yeah, like that's what I want to be able to get to from the profiler. Yeah. When I click on it, it takes me to the schedule with the buffer lit up. But it may be in two schedules, so we need some way to navigate between schedules.
 
 ##### **Qazalin** [[00:27:42](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1662)]
 And then you'll have the complication of something is memory planned and in the JIT. So there's like no way to actually know what's going on. There's this big blob in the beautiful endless graph.
@@ -437,7 +437,7 @@ The bug. The glitchiness. Just click around. Click around. And if you could some
 Yeah. There's.. I fixed the resizing bug this week. Hopefully. The bugs will be fixed.
 
 ##### **Geohot** [[00:28:51](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1731)]
-Cool. Yeah. A lot of compliments on Twitter for Viz. People are like, wow, TinyGrid really has a.. Yeah. Best visualizer for this stuff I've seen.
+Cool. Yeah. A lot of compliments on Twitter for Viz. People are like, wow, TinyGrad really has a.. Yeah. Best visualizer for this stuff I've seen.
 
 ##### **Qazalin** [[00:29:02](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1742)]
 I tried using NVIDIA's tools. It's very good. It's just so hard. I have to set up so much stuff. Yeah.
@@ -752,7 +752,7 @@ It's not super cold.
 It's not super cold because we isolated the computers. Yeah, we used to be burning. It was costing us like $2,000 a month to just build a room. Just running the overrunning the HVAC to Google computers. But now we're just putting a fan.
 
 ##### **Chenyu** [[00:46:20](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=2780)]
-Is it fine if we run all the bird training on all the TinyBox in that room? Is it OK? Should be.
+Is it fine if we run all the BERT training on all the TinyBox in that room? Is it OK? Should be.
 
 ##### **Geohot** [[00:46:28](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=2788)]
 Should be. Yeah, yeah. Actually, if you want to stress this, now's a good time. No, I don't know.
@@ -815,13 +815,13 @@ OK.
 How's the status of merge, assign, and store you up?
 
 ##### **Geohot** [[00:49:19](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=2959)]
-Yeah. I'm happy to pay out that bounty. It's kind of, I don't want to mess with this until after Rangify is merged. But yeah, it was $200. I should pay Cordis out the bounty. But I'm not sure if I'm going to merge that. I'm going to pay Cordis out right now.
+Yeah. I'm happy to pay out that bounty. It's kind of, I don't want to mess with this until after rangeify is merged. But yeah, it was $200. I should pay Cordis out the bounty. But I'm not sure if I'm going to merge that. I'm going to pay Cordis out right now.
 
 ##### **Hooved** [[00:49:39](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=2979)]
 OK.
 
 ##### **Geohot** [[00:49:40](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=2980)]
-We merged part of it. We merged the less controversial parts of it. The part that's still left, there's not anything really wrong with it. It's just like, I don't know how it plays with Rangify. So.
+We merged part of it. We merged the less controversial parts of it. The part that's still left, there's not anything really wrong with it. It's just like, I don't know how it plays with rangeify. So.
 
 ##### **Geohot** [[00:49:54](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=2994)]
 But yeah, I'll pay that bounty out.
@@ -851,13 +851,13 @@ It should be doable, like after the Rangification. So like after the lower. If y
 Well, there's another thing that I'm going to do. But I tried a few times. So I think now our conf has two implementation. And it should be one. And ideally, the backend should simplify all those.
 
 ##### **Geohot** [[00:50:54](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=3054)]
-Oh, wait. Do you mean the thing in pool where it has that if statement? Where I say if the shape tracker is better? Yes.
+Oh, wait. Do you mean the thing in pool where it has that if statement? Where I say if the ShapeTracker is better? Yes.
 
 ##### **Chenyu** [[00:51:02](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=3062)]
-So now we are deleting shape tracker.
+So now we are deleting ShapeTracker.
 
 ##### **Geohot** [[00:51:06](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=3066)]
-Oh, yeah. So to do. Once the shape tracker can optimize well, remove this alternative implementation. Yeah. On rangeify, that's going to be the same, I'm sure. Yeah.
+Oh, yeah. So to do. Once the ShapeTracker can optimize well, remove this alternative implementation. Yeah. On rangeify, that's going to be the same, I'm sure. Yeah.
 
 ##### **Geohot** [[00:51:16](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=3076)]
 So that's something I'm excited about.
@@ -875,13 +875,13 @@ That's the one that has pad. I don't know. But either way, yeah, let's get after
 Yeah, I think if you try to do it now, there are some issues with the multi-view and generating some garbage kernel.
 
 ##### **Geohot** [[00:52:20](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=3140)]
-Yeah, I believe that. Shape tracker. I wrote that thing up on Twitter. Hopefully it's like, shape tracker is just wrong because if imagine three views on a shape tracker, you want to slice them vertically. Yeah. Shape trackers didn't have good stuff for this.
+Yeah, I believe that. ShapeTracker. I wrote that thing up on Twitter. Hopefully it's like, ShapeTracker is just wrong because if imagine three views on a ShapeTracker, you want to slice them vertically. Yeah. Shape trackers didn't have good stuff for this.
 
 ##### **Geohot** [[00:52:39](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=3159)]
 You see what I mean by slice them vertically? Real stride.
 
 ##### **Geohot** [[00:52:45](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=3165)]
-Well, not even real stride, but like, if you have like a seven dimension tensor and all you're doing is permuting the last two dimensions, like the other five are just staying still. And shape tracker doesn't express this through multi-view at all. Like you want to slice this thing vertically.
+Well, not even real stride, but like, if you have like a seven dimension tensor and all you're doing is permuting the last two dimensions, like the other five are just staying still. And ShapeTracker doesn't express this through multi-view at all. Like you want to slice this thing vertically.
 
 ##### **Chenyu** [[00:53:02](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=3182)]
 It's real stride and you will have the same number for your real stride.
@@ -902,7 +902,7 @@ Great.
 Anyway, now the stride part is factored into range-file. Everything should be good. And we can remove a lot of weird, who knows if there are bug merge logics.
 
 ##### **Geohot** [[00:53:35](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=3215)]
-Yeah. Yeah. Deleting that merge view logic. That was code in tiny grad I could not read. That was the only thing in tiny grad I couldn't read.
+Yeah. Yeah. Deleting that merge view logic. That was code in tinygrad I could not read. That was the only thing in tinygrad I couldn't read.
 
 ##### **Geohot** [[00:53:43](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=3223)]
 I still can't read it. I think the logic is quite straightforward. The problem is we know it's limited. What? Reshape mask? Yeah. You can read this? Oh, sure. Why not? Yeah.

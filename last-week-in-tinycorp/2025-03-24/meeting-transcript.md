@@ -231,7 +231,7 @@ Yeah, any kind of either split kernel or not, fused Arange or not, partially fus
 ##### **Geohot** [[00:09:11](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=551)]
 Yeah, I agree.
 And then I think where this is how we get ahead of LLVM.
-If we were to write something that goes straight to assembly using UOP rewrite rules, we're the same as LLVM.
+If we were to write something that goes straight to assembly using UOp rewrite rules, we're the same as LLVM.
 But LLVM wishes they could do constraint solving.
 
 ##### **Chenyu** [[00:09:31](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=571)]
@@ -815,7 +815,7 @@ I think the way that we're going to evaluate this project is on 4090 and 7900 XT
 how fast can we get the four matmuls in BERT to be?
 
 ##### **Geohot** [[00:34:36](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2076)]
-Because that's super useful, and it will help us get better ML perf time.
+Because that's super useful, and it will help us get better MLPerf time.
 
 ##### **Ignaciosica** [[00:34:41](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2081)]
 Great.

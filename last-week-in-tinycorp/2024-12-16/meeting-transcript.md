@@ -37,7 +37,7 @@ But the point of code is to be readable and understandable and make the idea mor
   Discussion on QCOM driver timeout issues
 
 - **00:10:38 Big Graph Cleanups**  
-  Deletion of Lazy buffer is complete! Next steps focus on buffer scope, mutability, and documentation clarity.
+  Deletion of LazyBuffer is complete! Next steps focus on buffer scope, mutability, and documentation clarity.
 
 - **00:16:50 Tinygrad Improvement Plans (TIP)**  
   Establishing TIPs for improvements. Emphasis on documentation before implementation.
@@ -304,14 +304,14 @@ Yeah, that's a good thing to know.
 I've just noticed that one kernel, which is, like, reproducible slower, is just using tensor cores, so maybe it's, yeah.
 
 **Geohot** [00:10:20]
-Yeah, I mean, there's also, like, so much there of the speed also comes down to, like, if your beam isn't hitting the.. Oh, I guess, no, you cache the beam.
-Do you cache the beam on.. 
+Yeah, I mean, there's also, like, so much there of the speed also comes down to, like, if your BEAM isn't hitting the.. Oh, I guess, no, you cache the BEAM.
+Do you cache the BEAM on.. 
 
 **Nimlgen** [00:10:27]
-Yeah, yeah, so it's running the same beam.
+Yeah, yeah, so it's running the same BEAM.
 
 **Geohot** [00:10:31]
-It's running the same beam, yeah.
+It's running the same BEAM, yeah.
 
 **Chenyu** [00:10:34]
 Sounds like a good progress.
@@ -461,8 +461,8 @@ Yeah, so maybe the other thing, why does view sometimes have two sources and som
 **Qazalin** [00:19:39]
 That carries from the lazy days.
 Before delete lazy, the scheduler didn't control the actual buffer.
-So I need a way to give every single operation a buffer, a UOP buffer.
-So every parent has a buffer because lazy buffer has a buffer on it.
+So I need a way to give every single operation a buffer, a UOp buffer.
+So every parent has a buffer because LazyBuffer has a buffer on it.
 It created on init.
 
 **Chenyu** [00:20:07]
@@ -481,7 +481,7 @@ Maybe with your, maybe if this is..
 document the problem if it's documented maybe we come up with a more explicit way to say okay this is how we want to represent this state but with all these it's kind of hard and i believe you have a good reason to do it like that but maybe it can be done differently and documented better 
 
 **Geohot** [00:21:00]
-yeah no i totally understand what you're saying about why there's a buffer on each one because there was a buffer on each one at lazy buffer it's definitely true uh but yeah no like like
+yeah no i totally understand what you're saying about why there's a buffer on each one because there was a buffer on each one at LazyBuffer it's definitely true uh but yeah no like like
 Maybe another way to think about this is if you can fix problems at the abstraction layer of documentation, you move so much faster than actually implementing all this stuff, getting it to pass all the tests, and then being like, wait a second, we don't even need to write that.
 
 **Qazalin** [00:21:18]
@@ -490,8 +490,8 @@ Yeah.
 
 **Geohot** [00:21:21]
 Yeah, I mean, my rough proposal is something kind of like a.. Because you're right.
-A fundamental problem when you're doing graph rewrites is saying, how do I know which UOP belongs to which tensor?
-And I mean, something that seems like one way to do this is to just create tensor UOPs, is to put tensor UOPs in the graph, and then you have rules about how..
+A fundamental problem when you're doing graph rewrites is saying, how do I know which UOp belongs to which tensor?
+And I mean, something that seems like one way to do this is to just create tensor UOps, is to put tensor UOps in the graph, and then you have rules about how..
 This solves the two tensors are actually the same buffer problem.
 This solves the.. It doesn't actually create the buffers yet.
 You can create the buffers later, but you can keep around the place.
@@ -531,7 +531,7 @@ So we have, like, examples, right?
 **Geohot** [00:23:57]
 Yeah, yeah, yeah.
 This is something that exactly, like, this is why it should be discussed in the doc layer, because I'm..
-60% sure that doesn't work, and that you need something that's actually in the graph that looks more like a tensor UOP.
+60% sure that doesn't work, and that you need something that's actually in the graph that looks more like a tensor UOp.
 But I might be wrong.
 60%.
 So yeah, let's discuss this at the doc layer, and then we can, at the doc level, so we can, you know, before we go and write that code, because it works.
@@ -721,9 +721,9 @@ I think the next one we already discussed, we are going to continue working on t
 
 **Geohot** [00:33:00]
 Yeah.
-Oh, Tensor is UOP.
+Oh, Tensor is UOp.
 Yeah, I'll write some more in [abstractions4](https://github.com/tinygrad/tinygrad/pull/8272/files) about this.
-Ideally, you want Tensor to be the place where UOP is connected to Buffer instead of in some random dictionary.
+Ideally, you want Tensor to be the place where UOp is connected to Buffer instead of in some random dictionary.
 So, yeah, we'll see if that's possible.
 
 **Chenyu** [00:33:16]

@@ -6,7 +6,7 @@
 - company updates
 - release!
 - rangeify
-- mlperf LLaMA (eval / MP / grad_acc mem, fp8)
+- MLPerf LLaMA (eval / MP / grad_acc mem, fp8)
 - viz tool
 - drivers
 - cloud
@@ -25,7 +25,7 @@
 
 - **[Release](#geohot-000022)**: A new release, version 0.11, is planned for after the meeting. The main feature is the integration of ONNX, removing the need for extra imports. A key focus is ensuring the wheel file size is around 1MB.
 
-- **[Rangeify](#geohot-000234)**: Geohot is hoping to merge Rangeify this week. This major refactor will replace the grouper, kernelize, shape tracker, and lower, with the goal of improving kernel splitting and view handling. It will initially be available via an environment variable flag.
+- **[Rangeify](#geohot-000234)**: Geohot is hoping to merge Rangeify this week. This major refactor will replace the grouper, kernelize, ShapeTracker, and lower, with the goal of improving kernel splitting and view handling. It will initially be available via an environment variable flag.
 
 - **[MLPerf LLaMA](#chenyu-000923)**: Work on model parallel is waiting on evaluation correctness and resolving compiler errors on LLVM and HIP. For the 8B model, the new dataset was just uploaded, and they plan to start trying it, though it may require more drive space. Work is also being done on supporting smaller data types like BFLOAT16 and FP8.
 
@@ -33,9 +33,9 @@
 
 - **[Drivers](#nimlgen-003325)**: There's a draft PR for AQL support which should provide a "free speed up" for kernel time. Progress is also being made on MI400 support.
 
-- **[Cloud](#wozeparrot-004007)**: The multi-host training bounty requires beam to be working. Currently, it's not functioning correctly because runtime errors are not being propagated from the cloud node.
+- **[Cloud](#wozeparrot-004007)**: The multi-host training bounty requires BEAM to be working. Currently, it's not functioning correctly because runtime errors are not being propagated from the cloud node.
 
-- **[Symbolic](#sieds-lykles-004248)**: Work is underway to ensure that symbolic simplification rules are robust enough to handle the patterns that will be generated after the shape tracker is removed by Rangeify.
+- **[Symbolic](#sieds-lykles-004248)**: Work is underway to ensure that symbolic simplification rules are robust enough to handle the patterns that will be generated after the ShapeTracker is removed by Rangeify.
 
 - **[ONNX](#chenyu-004723)**: The immediate priority is to get the new release out. Following that, there are plans to improve ONNX support, including tools to debug differences between TinyGrad's implementation and ONNX runtime.
 
@@ -52,7 +52,7 @@ Uh, not in particular. Shipped a bunch more Tinyboxes, we finally have them in s
 More of the project for Comma. Mostly that. Great. Okay. So next is release. So let's do a release this week or after this meeting. I don't know.
 
 ##### **Chenyu** [[00:00:46](https://www.youtube.com/watch?v=6EDbdI_m73o&t=46)]
-So I think the big thing we want to include in release is Onyx. So you don't need to import from extra to use Onyx. That's pretty nice. I think we can do a release. Maybe just after this meeting. I said I want to include some fix for Comma's new model, but we can do that after. We can do a minor release once that is figured out. Comma hasn't released that model anyway.
+So I think the big thing we want to include in release is ONNX. So you don't need to import from extra to use ONNX. That's pretty nice. I think we can do a release. Maybe just after this meeting. I said I want to include some fix for Comma's new model, but we can do that after. We can do a minor release once that is figured out. Comma hasn't released that model anyway.
 
 ##### **Geohot** [[00:01:19](https://www.youtube.com/watch?v=6EDbdI_m73o&t=79)]
 The other thing I want to make sure about the release, I want to check the size of the wheel file.
@@ -76,13 +76,13 @@ Yeah. Cool.
 Yeah, we shouldn't have anything else.
 
 ##### **Chenyu** [[00:01:57](https://www.youtube.com/watch?v=6EDbdI_m73o&t=117)]
-Yeah, let's just do one release and we can do a subsequent one. There are like some other Onyx toolings I want to include. We can discuss later.
+Yeah, let's just do one release and we can do a subsequent one. There are like some other ONNX toolings I want to include. We can discuss later.
 
 ##### **Chenyu** [[00:02:07](https://www.youtube.com/watch?v=6EDbdI_m73o&t=127)]
 Should this be 0.11?
 
 ##### **Geohot** [[00:02:11](https://www.youtube.com/watch?v=6EDbdI_m73o&t=131)]
-That's right. Yeah, we include Onyx.
+That's right. Yeah, we include ONNX.
 
 ##### **Hooved** [[00:02:13](https://www.youtube.com/watch?v=6EDbdI_m73o&t=133)]
 Great.
@@ -100,7 +100,7 @@ Great.
 Okay. So let's release. Let's move on to Rangeify.
 
 ##### **Geohot** [[00:02:34](https://www.youtube.com/watch?v=6EDbdI_m73o&t=154)]
-Yeah, so, you know, progress is slow, but it's there. I'm hoping this week to merge it and have it training Beautiful MNest. So first for anyone, an update on what Rangeify is. So, Rangeify replaces like four different things right now. So we have the grouper, which determines where kernels are split. This is what's currently there. We have kernelize, which actually does that splitting. We have the shape tracker, which builds these view UOPs. And we have the lower, which is what currently adds ranges to stuff. And Rangeify is going to replace all four of those things with hopefully a much better version. So right now we have this separate logic called the grouper that makes decisions beforehand about which tensors are going to be realized. But this is not that easy. And it relies on a bunch of heuristics, which are not always true and I think are actually causing some major issues. I think that's what's causing like these long strings of contiguouses. Like we do that thing and it like has all the kernels. And it's because the current grouper is always making the decision to redo element wise operations. And you kind of need this to lower kernel counts, but this should not be the right. You shouldn't say arbitrarily redo element wise operations. You have to have a cost function here. So what Rangeify does is, oh, it also replaces all of the logic for view left and view right. So we have a big thing. I forget what it's in, but it's in code gen.
+Yeah, so, you know, progress is slow, but it's there. I'm hoping this week to merge it and have it training Beautiful MNest. So first for anyone, an update on what Rangeify is. So, Rangeify replaces like four different things right now. So we have the grouper, which determines where kernels are split. This is what's currently there. We have kernelize, which actually does that splitting. We have the ShapeTracker, which builds these view UOps. And we have the lower, which is what currently adds ranges to stuff. And Rangeify is going to replace all four of those things with hopefully a much better version. So right now we have this separate logic called the grouper that makes decisions beforehand about which tensors are going to be realized. But this is not that easy. And it relies on a bunch of heuristics, which are not always true and I think are actually causing some major issues. I think that's what's causing like these long strings of contiguouses. Like we do that thing and it like has all the kernels. And it's because the current grouper is always making the decision to redo element wise operations. And you kind of need this to lower kernel counts, but this should not be the right. You shouldn't say arbitrarily redo element wise operations. You have to have a cost function here. So what Rangeify does is, oh, it also replaces all of the logic for view left and view right. So we have a big thing. I forget what it's in, but it's in code gen.
 
 ##### **Geohot** [[00:04:27](https://www.youtube.com/watch?v=6EDbdI_m73o&t=267)]
 There's a big thing in code gen. Where did I put this? Did I put it in uopt?
@@ -112,7 +112,7 @@ View left and view right. So what view left and view right do is they push these
 That makes sense. Otherwise, we also need other optimization.
 
 ##### **Geohot** [[00:05:58](https://www.youtube.com/watch?v=6EDbdI_m73o&t=358)]
-Yeah. Yeah. So the main thing that I'm not going to get done this week is I hope everything's correct in Rangeify. And I want to get all of the functionality tests working. But I'm not going to get tensor cores or optimizations. These are these are hard. Not that hard. But these require like it's kind of a separate project. We could be doing a lot of this stuff now. So currently we do run kernel dot pi before the lower, which adds the ranges right now. But we have to move to something that looks like kernel dot pi after the lower. This is advantageous for a whole bunch of reasons, too, because I think we can make Beam search a lot faster. Right now, we are basically redoing the we're at the kernel dot pi level when you redo Beam search. But you shouldn't have to. You should just be able to make a quick change. Rerender. That's Rangeify. But I've been working on for almost two months now.
+Yeah. Yeah. So the main thing that I'm not going to get done this week is I hope everything's correct in Rangeify. And I want to get all of the functionality tests working. But I'm not going to get tensor cores or optimizations. These are these are hard. Not that hard. But these require like it's kind of a separate project. We could be doing a lot of this stuff now. So currently we do run kernel dot pi before the lower, which adds the ranges right now. But we have to move to something that looks like kernel dot pi after the lower. This is advantageous for a whole bunch of reasons, too, because I think we can make BEAM search a lot faster. Right now, we are basically redoing the we're at the kernel dot pi level when you redo BEAM search. But you shouldn't have to. You should just be able to make a quick change. Rerender. That's Rangeify. But I've been working on for almost two months now.
 
 ##### **Geohot** [[00:06:56](https://www.youtube.com/watch?v=6EDbdI_m73o&t=416)]
 But it does work. And it almost trains MNIST. It does train MNIST. It's just slow. Okay.
@@ -637,16 +637,16 @@ Which bounty? The host time within a multi-host one. It should, right? I don't k
 This training, well, we dropped Resonance. So training on three GPUs across two machines, getting 80% of the same machine speed.
 
 ##### **Geohot** [[00:40:45](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2445)]
-Yeah, of course you have to do that with Beam.
+Yeah, of course you have to do that with BEAM.
 
 ##### **Wozeparrot** [[00:40:47](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2447)]
-OK. So it doesn't work with Beam because we don't propagate runtime errors from Cloud node. UUVN says he's trying to reproduce it. So that's fine.
+OK. So it doesn't work with BEAM because we don't propagate runtime errors from Cloud node. UUVN says he's trying to reproduce it. So that's fine.
 
 ##### **Geohot** [[00:40:59](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2459)]
 Yeah, I mean, it has to be our best speed, right? You can't say, oh, it's the unbeamed speed. Yeah.
 
 ##### **Chenyu** [[00:41:07](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2467)]
-Because only when you beam, you would see other things. Because now the ratio between kernel launch time and other stuff versus kernel runtime can be that close.
+Because only when you BEAM, you would see other things. Because now the ratio between kernel launch time and other stuff versus kernel runtime can be that close.
 
 ##### **Qazalin** [[00:41:20](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2480)]
 Yeah.
@@ -670,7 +670,7 @@ I'm sorry.
 I was totally trying to figure out how to act if saying that the kernel of R is properly issued. So we're now going to look at that. I couldn't remember it being a code thing.
 
 ##### **Nimlgen** [[00:41:57](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2517)]
-I've done a propagation from the, yeah. I know it's strange it doesn't work for Beam.
+I've done a propagation from the, yeah. I know it's strange it doesn't work for BEAM.
 
 ##### **Wozeparrot** [[00:42:06](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2526)]
 Yeah, I don't know. I was testing it, and it still failed on the remote.
@@ -679,10 +679,10 @@ Yeah, I don't know. I was testing it, and it still failed on the remote.
 OK. Anyway, so that's the definition of LabBounty. Anything else? That's mostly all. OK. Symbolic. Yeah, all right. Symbolic.
 
 ##### **Sieds Lykles** [[00:42:48](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2568)]
-So most of what I've been working on is, like, last week, you talked about the shape tracker tests and making sure that those simplify well. So I've just been, I mean, I guess basically what you want is to index uops, like the function in the lower,
+So most of what I've been working on is, like, last week, you talked about the ShapeTracker tests and making sure that those simplify well. So I've just been, I mean, I guess basically what you want is to index uops, like the function in the lower,
 
 ##### **Geohot** [[00:43:12](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2592)]
-that that generates nice, nice expressions without having simplified the shape tracker.
+that that generates nice, nice expressions without having simplified the ShapeTracker.
 
 ##### **Sieds Lykles** [[00:43:25](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2605)]
 So I'm just trying to see what rules are missing for, yeah, some of the symbolic simplification so that that gets done,
@@ -691,19 +691,19 @@ So I'm just trying to see what rules are missing for, yeah, some of the symbolic
 so that symbolic can find those simplifications.
 
 ##### **Chenyu** [[00:43:43](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2623)]
-So in general, I think it's good to make sure that you make the simplification rules more complete. But also, I heard shape tracker is going to be removed soon.
+So in general, I think it's good to make sure that you make the simplification rules more complete. But also, I heard ShapeTracker is going to be removed soon.
 
 ##### **Geohot** [[00:43:54](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2634)]
-No, but I requested this. So the task is not to improve shape tracker. The task is to make sure that, so when we remove shape tracker, you're basically going to get the same patterns, and symbolic's going to have to do them, because we're not going to have merge views anymore. Yeah, that's fine. Yeah, and that's the project key. Yeah, I think you captured it correctly.
+No, but I requested this. So the task is not to improve ShapeTracker. The task is to make sure that, so when we remove ShapeTracker, you're basically going to get the same patterns, and symbolic's going to have to do them, because we're not going to have merge views anymore. Yeah, that's fine. Yeah, and that's the project key. Yeah, I think you captured it correctly.
 
 ##### **Sieds Lykles** [[00:44:18](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2658)]
-Yeah. So I mean, what I'm doing now is just one shape tracker that's simplified and the other one that's not. And then when you do, when you generate the indexing from the unsimplified one, you want to make sure that it simplifies with symbolic. This is right.
+Yeah. So I mean, what I'm doing now is just one ShapeTracker that's simplified and the other one that's not. And then when you do, when you generate the indexing from the unsimplified one, you want to make sure that it simplifies with symbolic. This is right.
 
 ##### **Geohot** [[00:44:39](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2679)]
-And it's good to do this before shape tracker goes away. So that we've, yeah.
+And it's good to do this before ShapeTracker goes away. So that we've, yeah.
 
 ##### **Chenyu** [[00:44:43](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2683)]
-So my experience. Doing the first version of this, when we initially remove symbolic and use the rewriting rules for symbolic, is to make sure you have a script that generates the diff between the one you two just mentioned, the width and the old method with shape tracker math, and the new method with only symbolic rules, and have a matrix to track. Having an easier way to see what's left not done, help you to figure out what was missing a lot easier. Yeah. I remember there was some like.
+So my experience. Doing the first version of this, when we initially remove symbolic and use the rewriting rules for symbolic, is to make sure you have a script that generates the diff between the one you two just mentioned, the width and the old method with ShapeTracker math, and the new method with only symbolic rules, and have a matrix to track. Having an easier way to see what's left not done, help you to figure out what was missing a lot easier. Yeah. I remember there was some like.
 
 ##### **Sieds Lykles** [[00:45:24](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2724)]
 I mean, I think the hardest part is going to be the valid actually. But I think there's not that much missing to get the sort of diffs
@@ -745,10 +745,10 @@ So I won't worry too much about this for now. Let's make a release first. We can
 And yeah, I'm definitely interested in those shape.
 
 ##### **Chenyu** [[00:47:44](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2864)]
-Not being cached properly. And basically, at this point, you are the Onyx expert. So you know much more about what's not done. And we definitely want to support those. The ones I can think of is the symbolic shape. And the if op to support the commas new big model. So I think you are on the progress now. So let's make a release. And we will have a follow up once we fix more issue. And speaking of Onyx specifically, so when I was in San Diego, I was promoting TinyGrid to commas new people to have them try. We use TinyGrid more. And I also ask them to open issues. So the ones I tag you into is one of the issue that they start to use Onyx. Then see there is a difference between. Any grass implementation and Onyx runtime. In terms of output. So I think having a workflow. Or a tool slash like and like show where. Any greatest making. Is generating different output be very useful. Now we want more people to use our Onyx. I would. I can probably sponsor a bounty. If you get the tools in and we can use. That tools to fix less specific. Issue that running an Onyx model on CUDA. Like produce different results than GPU.
+Not being cached properly. And basically, at this point, you are the ONNX expert. So you know much more about what's not done. And we definitely want to support those. The ones I can think of is the symbolic shape. And the if op to support the commas new big model. So I think you are on the progress now. So let's make a release. And we will have a follow up once we fix more issue. And speaking of ONNX specifically, so when I was in San Diego, I was promoting TinyGrad to commas new people to have them try. We use TinyGrad more. And I also ask them to open issues. So the ones I tag you into is one of the issue that they start to use ONNX. Then see there is a difference between. Any grass implementation and ONNX runtime. In terms of output. So I think having a workflow. Or a tool slash like and like show where. Any greatest making. Is generating different output be very useful. Now we want more people to use our ONNX. I would. I can probably sponsor a bounty. If you get the tools in and we can use. That tools to fix less specific. Issue that running an ONNX model on CUDA. Like produce different results than GPU.
 
 ##### **Geohot** [[00:49:23](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2963)]
-I think that would be a nice tool and workflow to have. Otherwise good job on Onyx. Yeah. I will post more in the Onyx channel after the meeting.
+I think that would be a nice tool and workflow to have. Otherwise good job on ONNX. Yeah. I will post more in the ONNX channel after the meeting.
 
 ##### **Chenyu** [[00:49:48](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2988)]
 With that said. Move on to other bounties. I see who you want to say something about. Training stable diffusion.
@@ -757,7 +757,7 @@ With that said. Move on to other bounties. I see who you want to say something a
 Hey sir. So I mean I wrote up.
 
 ##### **Hooved** [[00:50:07](https://www.youtube.com/watch?v=6EDbdI_m73o&t=3007)]
-Most of the recent progress. And one of the other discord channels. I'm setting up on tiny MD one to do training there. Scanning batch sizes right now to see what will fit in memory. Seems like at least. 248. Which is it's like, it's going to be a lot faster. This is really good. So. Once I'm done setting this up, I'd expect to be able to train within. You know, less than half a day, hopefully. Including eval fingers crossed. If everything. Speeds up with beam, et cetera. So. I'm going to be able to do training. In the next couple of weeks. I'll post updates in that channel. But yeah, the main issue was it's basically the same issue. We discussed a couple of weeks ago, which is. I think, you know, the learning rate was really mismatched with the batch size. And, you know, we didn't want to do gradient accumulation because that's a little bit different than the official. Per reference. So we're trying not to do gradient accumulation.
+Most of the recent progress. And one of the other discord channels. I'm setting up on tiny MD one to do training there. Scanning batch sizes right now to see what will fit in memory. Seems like at least. 248. Which is it's like, it's going to be a lot faster. This is really good. So. Once I'm done setting this up, I'd expect to be able to train within. You know, less than half a day, hopefully. Including eval fingers crossed. If everything. Speeds up with BEAM, et cetera. So. I'm going to be able to do training. In the next couple of weeks. I'll post updates in that channel. But yeah, the main issue was it's basically the same issue. We discussed a couple of weeks ago, which is. I think, you know, the learning rate was really mismatched with the batch size. And, you know, we didn't want to do gradient accumulation because that's a little bit different than the official. Per reference. So we're trying not to do gradient accumulation.
 
 ##### **Geohot** [[00:51:12](https://www.youtube.com/watch?v=6EDbdI_m73o&t=3072)]
 And we're trying to do it in a more. I mean,

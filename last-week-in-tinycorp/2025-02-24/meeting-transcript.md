@@ -215,7 +215,7 @@ Yeah, yeah, exactly.
 So you just shouldn't be doing that.
 And the old thing was a hack.
 So I have to get the new one to work and work correctly.
-And, like, now I'm dealing with all sorts of stuff where it's like, so I added some stuff to add in an ignore UOP, which can push through the stores, which can, it fixes all the const things.
+And, like, now I'm dealing with all sorts of stuff where it's like, so I added some stuff to add in an ignore UOp, which can push through the stores, which can, it fixes all the const things.
 So I have all the const things fixed.
 But now, in order to really make the conv fast, you have to upcast it on both the horizontal and the vertical.
 And then when you upcast it on the vertical, you get holes in the store.
@@ -274,7 +274,7 @@ We actually go back to not beating everybody if we use the from blob stuff, beca
 So then we lose to Triton again.
 But it's, yeah, at least the code is very clean now with the from blob for CUDA.
 So yeah, we can try writing the other ones.
-And that's just like with Beam 2.
+And that's just like with BEAM 2.
 It was very simple to write.
 So yeah, we have the fastest kernel for gray scale.
 
@@ -345,7 +345,7 @@ Even if it's like six months from now, but yeah.
 No, sounds good.
 OK, moving on to my part.
 For POW, a mistake.
-Also, people are getting NAND from very simple stuff.
+Also, people are getting NaN from very simple stuff.
 So I reverted part of that back.
 And I think in the implementation in Transcendental, these like goals also commented saying that in addition to zero we have problems, info also have problems, and I imagine an AM will have problems, the usual suspect in Transcendental.
 But I need that.
@@ -692,7 +692,7 @@ That looks nice.
 Yeah.
 That's the only reason it exists.
 I don't know what sub-buffer looks like.
-Is it a buffer view op that has a src zero buffer and then an arg shape tracker?
+Is it a buffer view op that has a src zero buffer and then an arg ShapeTracker?
 
 ##### **Geohot** [[00:33:11](https://www.youtube.com/watch?v=Dm83mY6ONks&t=1991)]
 Buffer view is just a buffer with an offset.
@@ -737,7 +737,7 @@ Only if there's a setitem.
 ##### **Qazalin** [[00:34:23](https://www.youtube.com/watch?v=Dm83mY6ONks&t=2063)]
 And then all the shapes, all the extra shapes are local.
 Like if you have a kernel that's outputting a 32 by 32,
-the shapetracker of that one becomes something in the local kernel AST.
+the ShapeTracker of that one becomes something in the local kernel AST.
 It's like the kernel graph will only know of sizes.
 
 ##### **Geohot** [[00:34:42](https://www.youtube.com/watch?v=Dm83mY6ONks&t=2082)]
@@ -1257,7 +1257,7 @@ The equality constraint can be handled as a completely separate thing.
 That is what I'm doing.
 The bindings are not part of the state.
 In fact, they can't be part of the state.
-What we would like is to be able to.. The reason why there's such a potential for speed is that the vast majority of UOPs match sets of patterns that already sort of match
+What we would like is to be able to.. The reason why there's such a potential for speed is that the vast majority of UOps match sets of patterns that already sort of match
 Essentially, we're reusing a lot of the computation, but we're already doing that.
 
 ##### **Geohot** [[01:02:02](https://www.youtube.com/watch?v=Dm83mY6ONks&t=3722)]

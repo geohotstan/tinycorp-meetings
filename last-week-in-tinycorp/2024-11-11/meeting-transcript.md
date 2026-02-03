@@ -5,8 +5,8 @@
 **Time:** 8 PM Hong Kong Time
 - Company update
 - LLVM, block, cloud
-- Real_strides, hcopt, beam slower than torch MPS
-- Big graph and lazybuffer
+- Real_strides, hcopt, BEAM slower than torch MPS
+- Big graph and LazyBuffer
 - AM drivers, QCOM issues
 - Active bounties (WebGPU, FSDP?, tensor cores, match speed)
 
@@ -28,7 +28,7 @@
 
 - **00:16:29 Release Plans and Python 3.10 Update** Timeline for the upcoming release, QCOM fixes, and Python 3.10 migration.
 
-- **00:17:48 Big Graph and Lazy.py Replacement** Progress on Big Graph and plans to remove Lazy.py for gradient function rewrites.
+- **00:17:48 Big Graph and lazy.py Replacement** Progress on Big Graph and plans to remove lazy.py for gradient function rewrites.
 
 - **00:24:51 Driver Issues for AMD and QCOM** Updates on AMD and QCOM driver challenges, including memory and compute queue handling.
 
@@ -136,7 +136,7 @@ Then the problem with the Azure AWS stuff is, okay, I got to see another machine
 Everything just takes a long time, your environment's not really portable.
 So if you have an API key set on your computer, you'll be able to seamlessly train from your MacBook, like you have a big GPU.
 from be that a 4090 or whatever.
-And then also, one of our value ads as a company is going to be to have done all the beam searches on the back end for you.
+And then also, one of our value ads as a company is going to be to have done all the BEAM searches on the back end for you.
 So if we develop algorithms to run things faster, it's just like our cloud is very, very fast, and there's this nice orchestration layer.
 So yeah, that's cloud.
 That's LLVM, and that's block.
@@ -227,23 +227,23 @@ At what level?
 It's probably not cache at all.
 
 **Geohot** [00:11:47]
-Well, we could cache the Uops for the shape tracker.
+Well, we could cache the UOps for the ShapeTracker.
 
 **Chenyu** [00:11:49]
 No.
 I mean, cache at what function?
 
 **Geohot** [00:12:02]
-Like the shape tracker to Uops function.
+Like the ShapeTracker to UOps function.
 
 **Chenyu** [00:12:06]
 Oh, yeah.
-So that's why I mean, if we move less simplification to let to a to Uop,
+So that's why I mean, if we move less simplification to let to a to UOp,
 a method that maybe everything would be faster in there.
 
 **Geohot** [00:12:18]
 Yeah.
-If we even just make a two index you opt cache property on the shape tracker, that might be fine.
+If we even just make a two index you opt cache property on the ShapeTracker, that might be fine.
 We could try that.
 
 **Chenyu** [00:12:34]
@@ -266,13 +266,13 @@ Oh, how do you define terrible?
 Even wins like 20% of the time.
 
 **Geohot** [00:13:23]
-Over beam?
+Over BEAM?
 
 **Chenyu** [00:13:27]
 Yeah.
 Oh, I mean, granted, loads are maybe small kernels.
 And it might as well.
-So that's why I started looking into the beam timing thing, because I was maybe that's why.
+So that's why I started looking into the BEAM timing thing, because I was maybe that's why.
 But indeed, there's a difference in that.
 When I started to test BEAM, then I realized BEAM on metal, on both M1 Max and I got a new M4 Max are both slower than Torch MPS.
 That was my last point that I was going to investigate this week.
@@ -319,7 +319,7 @@ That might be faster.
 Yeah.
 Um, you understand why I moved that.
 I'm sick of the conda people complaining.
-That's like one of the biggest like first, first issues with tiny grad.
+That's like one of the biggest like first, first issues with tinygrad.
 
 **Chenyu** [00:15:50]
 Yeah.
@@ -398,7 +398,7 @@ Do you think deleting lazy.py is more important than moving all of this to patte
 Yeah, because until we delete lazy.py, I can't rewrite the gradient thing.
 where I want to change the backwards API to no longer have dot backwards and requires grad.
 I want it to be like a lost dot gradient list of tensors.
-But until we have Uops, I can't do that.
+But until we have UOps, I can't do that.
 So I do think, yeah, deleting lazy.py is the highest priority, higher than making everything a pattern matcher.
 
 **Qazalin** [00:20:00]
@@ -410,7 +410,7 @@ I think it's possible to do it beforehand.
 Cool.
 Yeah, I mean, if it's extra work, we shouldn't do it.
 But if it's just kind of a choice for which one to do.
-Yeah, I think the UOP thing is higher priority.
+Yeah, I think the UOp thing is higher priority.
 That also gets us a lot of lines.
 
 **Qazalin** [00:20:22]
@@ -422,17 +422,17 @@ But I think tinygrad has some base work for it that we can translate to tinygrad
 Yeah.
 
 **Geohot** [00:20:35]
-So I think the way you want to do buffers is just make a global dictionary that maps Uops, a weak key dictionary that maps Uops to buffers.
+So I think the way you want to do buffers is just make a global dictionary that maps UOps, a weak key dictionary that maps UOps to buffers.
 I think that's all you need for that.
 And then I think you can support even the same method that's on lazy.py.
 I have all that toonygrad stuff, which can all the methods that are on there and stuff.
 All those to shape and device methods and stuff.
 
 **Qazalin** [00:21:12]
-So yeah, I'm starting to add the movement ops to UOP, which is pretty interesting.
-At this point, I say it's possible because lazy buffer is basically like a graph container, at least how the scheduler view does to print down.
-And it's going to be very easy to, I think, very easy to move all of those to UOP.
-Rewriting all of those patterns to UPAT is harder, but I'll figure that.
+So yeah, I'm starting to add the movement ops to UOp, which is pretty interesting.
+At this point, I say it's possible because LazyBuffer is basically like a graph container, at least how the scheduler view does to print down.
+And it's going to be very easy to, I think, very easy to move all of those to UOp.
+Rewriting all of those patterns to UPat is harder, but I'll figure that.
 I think we're getting to a point where it's like, you have this very large graph of a bunch of swizzles and you push through whatever you can.
 The moments it can't be pushed through, you just make that the store and realize that that's like the big idea.
 
@@ -441,23 +441,23 @@ I don't mean to interrupt your process.
 If you think you're making good progress here, then by all means keep it this.
 But I'd be really happy if by the end of by next Monday, we could have lazy.py gone and then I could rewrite the gradient function.
 The problem with rewriting the gradient function now is when buffers are realized, their parents are deleted.
-The parents are deleted, a lazy buffer.
+The parents are deleted, a LazyBuffer.
 And then there's no way to compute the gradient if you don't have the parents anymore.
-But in UOP, it stays around forever.
+But in UOp, it stays around forever.
 I mean, that's a whole nother challenge.
 
 **Qazalin** [00:22:12]
 Oh, you want to keep the scoreshift?
 
 **Geohot** [00:22:16]
-Well, nothing is going to be deleted on UOP.
-UOP is immutable.
-but you don't keep the UOP around.
+Well, nothing is going to be deleted on UOp.
+UOp is immutable.
+but you don't keep the UOp around.
 Only as long as the tensor's around.
-Once the tensor goes away, the UOP goes away.
+Once the tensor goes away, the UOp goes away.
 But if it's still apparent, it'll still be around.
-But I think that you will delete the UOP from tensor once it's realized, and then it'll just be the buffer.
-So there's a slight distinction here where it's like, if you realize the tensor, the UOP will still exist if there's an unrealized child that goes through that tensor, but the tensor itself no longer has a pointer to the UOP.
+But I think that you will delete the UOp from tensor once it's realized, and then it'll just be the buffer.
+So there's a slight distinction here where it's like, if you realize the tensor, the UOp will still exist if there's an unrealized child that goes through that tensor, but the tensor itself no longer has a pointer to the UOp.
 I don't know.
 Maybe we should split this up.
 Maybe you keep working on this and I'll take a look at the lazy deletion.
@@ -1069,7 +1069,7 @@ Maybe we'll put four GPUs in it.
 Would you be happy with that?
 Would four GPUers be happy with four GPUs in the TinyBox town?
 All right.
-Any other tiny grad related questions?
+Any other tinygrad related questions?
 If you want to just buy a normal, buy a normal, buy a normal computer.
 We also do not know anything about the signal integrity of PCIe5.
 Getting signal integrity to work for PCIe4 required PCIe5 stuff.
@@ -1144,7 +1144,7 @@ It's in preview.
 Supposedly you can use cloud to access those.
 
 **Geohot** [01:00:03]
-Someday we should work on adding TPU support to tiny grad.
+Someday we should work on adding TPU support to tinygrad.
 That will be.
 I can output that up with the TPU instructions.
 Alright, back to GPU should talk again, but you know it will for Wednesday.
@@ -1299,7 +1299,7 @@ Wait, yeah, you're right.
 As long as, yeah, this should be totally dealt with at a different abstraction layer.
 We just need to be able to, yeah, like, like, mmap the USB.
 We looked a bit into those NVMe chips and they were kind of annoying, but there's some FPGA solutions for this too.
-I love the idea of being able to plug an AMD GPU in over USB to anything and then having tiny grad run on that.
+I love the idea of being able to plug an AMD GPU in over USB to anything and then having tinygrad run on that.
 Wow.
 This is actually doable now.
 That's exciting.
@@ -1351,7 +1351,7 @@ Um, you can just like just SSH channel a port that'll actually work right now wi
 You watch me do it.
 You watch me do it.
 I just did it live on stream.
-Um, so if you just on your TinyBox, if you run, uh, the Python tiny grad runtime ops cloud, uh, and then you forward port 6667 to your computer, just run with cloud=1 in middle work.
+Um, so if you just on your TinyBox, if you run, uh, the Python tinygrad runtime ops cloud, uh, and then you forward port 6667 to your computer, just run with cloud=1 in middle work.
 Um, see it can hit your TinyBox.
 Will there ever be a tiny book?
 No.
@@ -1386,12 +1386,12 @@ Well, TinyGrad solves for a bit more interesting to read than that, I'm sure.
 Pretty good weights for a bottle is the only way to copyright.
 uh yeah yeah the tiny grand book tiny book who would buy that let's let's get it on amazon let's get a publisher wait i think we have to fix there's a few lines that are still longer than 150 characters we'll have to figure out how much uh we could like is 150 character width reasonable for like a book page i want like beautiful syntax highlighting in our book too i want it to be a beautiful book
 All right, we're in.
-We have real questions about tiny grad.
+We have real questions about tinygrad.
 What do we have left?
 The weak value dictionary is slower than a normal dict.
 Yeah, I'm aware.
 But if it's not weak value, then how do you ever free uops?
-I'm not even sure Uops are being freed.
+I'm not even sure UOps are being freed.
 There needs to be a lot more testing around that.
 Also, weak value dictionary is just particularly slow.
 We used to have a custom version of it that was rewritten to be faster.
@@ -1466,7 +1466,7 @@ So Intel is so, so sad.
 Well, just the lead left doesn't mean, I mean, maybe that's widely left.
 You know, what the tiny cloud might end up using.
 There's a MI350x.
-There's a world in which we end up using the big, if we manage to successfully build AMD driver stuff and fix all the jankiness of AMD, there's a world in which the tiny grad cloud is actually the enterprise accelerators from AMD.
+There's a world in which we end up using the big, if we manage to successfully build AMD driver stuff and fix all the jankiness of AMD, there's a world in which the tinygrad cloud is actually the enterprise accelerators from AMD.
 We'll drag them across the finish line, whether they want to be dragged or not.
 Oh, man.
 Running our driver with the USB is really exciting.

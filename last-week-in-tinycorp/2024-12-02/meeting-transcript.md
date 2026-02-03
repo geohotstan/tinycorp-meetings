@@ -795,7 +795,7 @@ Cool.
 
 **Ignaciosica** [00:36:20]
 I think this is still a minor cleanup pending in rewriting
-the fixed shapetracker function.
+the fixed ShapeTracker function.
 I think that was the feedback from Qazalin.
 But I think that it comes after what I was going to say now, that I think that for complex thread patterns from the WGMMA, we are going to need to swizzle the output.
 And I'm working on that, on a clean swizzle of the output.

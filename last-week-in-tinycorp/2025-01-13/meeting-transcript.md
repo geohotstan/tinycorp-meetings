@@ -5,7 +5,7 @@
 **Time:** 9:30 AM San Diego time (PST)
 - company update, CES
 - dsp contract, python speed, multi
-- mlperf bert, multi uneven
+- MLPerf bert, multi uneven
 - scheduler
 - driver
 - onnx
@@ -21,7 +21,7 @@
 - We have one TinyBox Pro ready to ship today if you buy it.
 - [DSP briefing](#dsp-briefing) explainer for DSP being a wide vector machine
 - [AM briefing](#am-project-briefing) targeting USB and CLOUD
-- [MLPERF briefing](#mlperf-briefing) doubling bounty payout if submission gets on MLPERF and best way to get hired
+- [MLPERF briefing](#MLPerf-briefing) doubling bounty payout if submission gets on MLPERF and best way to get hired
 - Geohot: "We've got a lot of reds. So also TinyBox reds. Great choice. Someone bought one yesterday. I take it back. You made an excellent choice, sir. You have great taste."
 
 ### Transcript
@@ -53,7 +53,7 @@ I was happy that Horace mentioned TinyGrad as a modern deep learning framework i
 This idea of you define the graph lazily, but you never have to deal with the graph.  
 Like JAX is the same way.  
 MLX is the same way.  
-Like he said, like Jax, MLX, and TinyGrad are like examples of modern deep learning frameworks.  
+Like he said, like JAX, MLX, and TinyGrad are like examples of modern deep learning frameworks.  
 Which like TensorFlow and PyTorch are older.  
 
 **Chenyu** [[00:01:26](https://www.youtube.com/watch?v=Ha4yFviaLps&t=86)]  
@@ -176,7 +176,7 @@ So GPUs deal with this through TensorCores, or you can deal with this through MA
 And what these things do is make loads be the square root, because it's a square.  
 For the DSP, you have to do shift.  
 You can do these shifts in these registers.  
-And yeah, I'm not really sure how we're going to express that yet in UOPs and stuff.  
+And yeah, I'm not really sure how we're going to express that yet in UOps and stuff.  
 So that's part two.  
 Well, I guess part two is hope the compiler can do it, and then part three is do it ourselves.  
 Yeah, so that's that.  
@@ -191,9 +191,9 @@ And then for multi, so I actually, the more I look at multi, I realize that I wa
 Stunning MNIST is simpler to think about because it's sequential.  
 So multi and stunning MNIST are basically the same thing.  
 But what multi lets you do is it will schedule things in parallel that will be serial in stunning MNIST.  
-So it's the idea of putting a range UOP into a shape.  
-And what a range UOP and a shape means is run all of these.  
-And then how exactly we, whether that range UOP corresponds to time or device is something we can determine later on.  
+So it's the idea of putting a range UOp into a shape.  
+And what a range UOp and a shape means is run all of these.  
+And then how exactly we, whether that range UOp corresponds to time or device is something we can determine later on.  
 But you can imagine it's basically the same thing.  
 
 **Chenyu** [[00:07:37](https://www.youtube.com/watch?v=Ha4yFviaLps&t=457)]  
@@ -227,7 +227,7 @@ So I fixed the ring all reduce thing, and now it's better tested.
 The step time is similar to our previous submission.  
 Aside from figuring out the way to make Python fast, we also want to see if we can save more memories.  
 So George put in the free, some intermediate buffer can be freed.  
-There are also the test buffer we generated for beam search and some LRU thingy that needs to manage this memory vector.  
+There are also the test buffer we generated for BEAM search and some LRU thingy that needs to manage this memory vector.  
 We don't have a counter.  
 Counter just means how many we are tracking, but not how many there in LRU.  
 
@@ -343,9 +343,9 @@ I don't think I can come back at any shape.
 I could start by constraining the way that it's currently written to actually write things correctly.  
 So we haven't hacked for assign to do the toposort correctly.  
 I'm going to try to see how to do assign.  
-Because what assign actually means is that a view of a buffer UOP can mean different things at different parts of the schedule before or after the assign.  
+Because what assign actually means is that a view of a buffer UOp can mean different things at different parts of the schedule before or after the assign.  
 And there has to be a way to tag that view buffer.  
-Right now we have preload, but it's not actually a good UOP because it's not local and you can't actually graph rewrite that.  
+Right now we have preload, but it's not actually a good UOp because it's not local and you can't actually graph rewrite that.  
 
 **Geohot** [[00:16:22](https://www.youtube.com/watch?v=Ha4yFviaLps&t=982)]  
 Yeah, so I see what you're saying.  
@@ -456,7 +456,7 @@ I thought that only happened on basically the buffer.
 **Qazalin** [[00:20:57](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1257)]  
 That does not happen on the buffer right now.  
 That happens..  
-Like, exactly when you have a UOP base, like, any UOP base, like, multiply even, even if you don't realize it, that becomes float.  
+Like, exactly when you have a UOp base, like, any UOp base, like, multiply even, even if you don't realize it, that becomes float.  
 
 **Geohot** [[00:21:12](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1272)]  
 Yeah, I don't know.  
@@ -491,7 +491,7 @@ I'll think if the image thing can be dealt with in a different layer.
 
 **Qazalin** [[00:22:08](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1328)]  
 And yeah, I have a fix for contiguous while contiguous.  
-I asked the question in TinyGrad dev if there's a way I can assert that a shape tracker has originated from movement ops on a contiguous size 10, for example.  
+I asked the question in TinyGrad dev if there's a way I can assert that a ShapeTracker has originated from movement ops on a contiguous size 10, for example.  
 I think I can write the spec for contiguous and then merge it.  
 That's like deleting force realized completely.  
 So basically what I want is like a way to, if I look at the tracker.  
@@ -499,10 +499,10 @@ So basically what I want is like a way to, if I look at the tracker.
 **Geohot** [[00:22:40](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1360)]  
 You should never be checking has originated from, right?  
 Like has originated from is going to be a source for bugs, right?  
-What properties do you want the shape tracker to have independent of where it came from?  
+What properties do you want the ShapeTracker to have independent of where it came from?  
 
 **Qazalin** [[00:22:58](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1378)]  
-It's a valid shape tracker on a piece of memory of size 10.  
+It's a valid ShapeTracker on a piece of memory of size 10.  
 
 **Geohot** [[00:23:05](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1385)]  
 You want to check the underlying size of the memory?  
@@ -526,7 +526,7 @@ Yeah, I think it's the pointer.
 Yeah, yeah, yeah.  
 The pointer has a size now.  
 So that's valid.  
-And if you want to know if the shape tracker is valid on that size, you can check real size of the shape tracker and see if it equals the pointer.  
+And if you want to know if the ShapeTracker is valid on that size, you can check real size of the ShapeTracker and see if it equals the pointer.  
 or if it's less than the pointer?  
 
 **Qazalin** [[00:23:38](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1418)]  
@@ -557,8 +557,8 @@ I don't fully understand that, but it sounds like you got that one.
 I'll look into once and for all solving that stupid image problem, even if it involves atomics.  
 And I'll look into block schedule as well.  
 cool uh you know i'm really excited to have to have gradient unblocked there's a ton of refactors we can do once gradient is in because we can start to do things like you know like the the difference between math trait and simple math trait has to do with function and has to do with what can be having gradients taken of it but like there's no problem anymore uh like you can just put like shift in there you put everything in there so  
-I think I'm so happy that we finally have a very clear understanding of what a tensor is and what a UOP is.  
-The key difference between a tensor and a UOP is that a UOP is immutable and a tensor can be realized.  
+I think I'm so happy that we finally have a very clear understanding of what a tensor is and what a UOp is.  
+The key difference between a tensor and a UOp is that a UOp is immutable and a tensor can be realized.  
 And that's like a fundamental deep difference that's never going to go away.  
 And there's nothing less, like it's minimal.  
 It's like, you know, proof from the book.  
@@ -568,7 +568,7 @@ I'm here to help with that.
 
 **Qazalin** [[00:25:28](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1528)]  
 I think once the hacks in the scheduler are gone, the gradient is forcing the scheduler to be more natural.  
-It deleted a bunch of stuff and tensor UOP.  
+It deleted a bunch of stuff and tensor UOp.  
 And yeah.  
 
 **Geohot** [[00:25:43](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1543)]  
@@ -1030,10 +1030,10 @@ What I like is how short your PR is.
 So one thing about the.. Because I'm sort of..  
 And I'm not sure if I should do a bottom-up automata or a top-down.  
 And there's a couple of reasons, which is if it's a bottom-up, it only applies to the graph rewrite.  
-So every time you want to just rewrite a UOP, so for example, for the renderer, you couldn't use a bottom-up rewrite.  
+So every time you want to just rewrite a UOp, so for example, for the renderer, you couldn't use a bottom-up rewrite.  
 And if you do a top-down, there's one, I guess, cool trick, which is every time you have a variable, that's actually a useless check.  
 For example, if you have an add,  
-We have two upat.vars that just assign a name, don't have a dtype associated.  
+We have two UPat.vars that just assign a name, don't have a dtype associated.  
 Then currently, we have three checks.  
 That's really just one check because the sources will always check, will always pass because they're just nones, basically.  
 So you could cut down on a lot of the complexity of the patterns if you do top down.  
@@ -1052,7 +1052,7 @@ But match function does not have to loop through all the things.
 Like we have that thing which does the early rejection and like there should be a match function that just returns, oh, here's the list or here's an iterator.  
 So, yeah, the names mean two different things.  
 The names mean, first off, return this one, which is, again, something that can be dealt with totally after the match.  
-Or, if you have two things that have the same name, it's a constraint that they have to be the same UOP.  
+Or, if you have two things that have the same name, it's a constraint that they have to be the same UOp.  
 But that should just be expressed as a constraint, not as a name.  
 
 **Tomsa** [[00:53:14](https://www.youtube.com/watch?v=Ha4yFviaLps&t=3194)]  
@@ -1145,7 +1145,7 @@ But I'd rather it fail with an assert than fail silently with the math being wro
 So it currently fails with the renderer, because when it checks for the mapping between a Dtype and a device-specific Dtype string, it would raise a  
 value error because I couldn't find for the WebGPU.  
 That's how it fails right now.  
-And my PR is you make a fail earlier when the function decides to upcast the UOP.  
+And my PR is you make a fail earlier when the function decides to upcast the UOp.  
 
 **Geohot** [[00:58:21](https://www.youtube.com/watch?v=Ha4yFviaLps&t=3501)]  
 I'm fine with it failing the renderer.  

@@ -7,7 +7,7 @@
 - quantize DSP contract
 - AM, HW interface
 - scheduler cleanups, VIZ
-- llm.c and mlperf bert
+- llm.c and MLPerf bert
 - bounties: onnx, tinygrad whisper, int64, tensor cores, graph rewrite 2.0
 
 ## Audio
@@ -120,9 +120,9 @@ Sorry, is my voice okay?
 Yes.  
 Okay.  
 So I am doing a refactor of the scheduler based on the tracking graph rewrite that we now have.  
-So the problem and the reason why I love this flexibility in the scheduler is because it's very annoying to keep track of the UOPs while also doing rewrites on them.  
+So the problem and the reason why I love this flexibility in the scheduler is because it's very annoying to keep track of the UOps while also doing rewrites on them.  
 So you can imagine if I do a tensor plus 0, and then I simplify that to the same tensor,  
-If I do that, I lose the previous representation of that UOP that existed on the tensor.  
+If I do that, I lose the previous representation of that UOp that existed on the tensor.  
 So then I can't actually backtrack to the tensor, and I can't free the buffer.  
 So yeah, that's the main challenge with this diff.  
 I have it in, let's see, it's in the 8495 pull request, still working on it.  
@@ -134,7 +134,7 @@ So I was debugging BERT yesterday for a while.
 BERT somehow used more memory in the past two weeks.  
 Uh, so we previously can fit batch size 72.  
 Now we can only do 66 and there's like, I don't know, more than 10% slower.  
-Uh, I made a PR to clean up something, the UOP.st.  
+Uh, I made a PR to clean up something, the UOp.st.  
 I hope I think that's correct, but I was trying to read scheduler and a lot of functions or it's just, as you said, it's like a lot of interconnect and not really separated.  
 I think a lot, I think maybe some of it is because we copy the old, we copy things from linearizer.  
 We copy things from old lazy.  
@@ -143,8 +143,8 @@ So, uh, I think it can be cooling up further.
 **Qazalin** [[00:07:48](https://www.youtube.com/watch?v=_zNqg1U1vdI&t=468)]  
 Agree.  
 Yeah.  
-I was thinking about adding like a, so that shapetracker thing, yeah, the PR is correct, honestly, but it's like that shape tracker thing kind of acts like a spec too, because I have the PR and I don't know how to fix this 8499.  
-I'm trying to delete the entire shape tracker stuff being asserts and move all that to pattern matchers.  
+I was thinking about adding like a, so that ShapeTracker thing, yeah, the PR is correct, honestly, but it's like that ShapeTracker thing kind of acts like a spec too, because I have the PR and I don't know how to fix this 8499.  
+I'm trying to delete the entire ShapeTracker stuff being asserts and move all that to pattern matchers.  
 For some reason, optimizations break.  
 If you look at the process replay diff, the kernels that are generated are different.  
 And it's indexing it.  
@@ -167,7 +167,7 @@ If we can get this merged, that would be awesome.
 So I really want to get rid of.  
 We're wasting lines doing that.  
 And I also want to have a shared spec.  
-So right now, we have Tensor UOP spec.  
+So right now, we have Tensor UOp spec.  
 I want to add shape spec and shares with kernel, schedule, everything.  
 Yeah, and I think some functions in scheduler are currently doing multiple stuff.  
 And we probably want to separate them, if possible, or rethink about some fundamentals.  
@@ -324,7 +324,7 @@ Yes.
 
 **Tomsa** [[00:19:58](https://www.youtube.com/watch?v=_zNqg1U1vdI&t=1198)]  
 OK, so I think that's the right way to do the graph rewrite.  
-Because Graph Rewrite wants to, Graph Rewrite rewrites the sources before it rewrites itself for each UOP.  
+Because Graph Rewrite wants to, Graph Rewrite rewrites the sources before it rewrites itself for each UOp.  
 You want the matching to, I guess, follow the same flow.  
 So if you do from leaf node, from leafs to root, then you can reuse all the computation.  
 

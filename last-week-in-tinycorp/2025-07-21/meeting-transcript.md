@@ -6,7 +6,7 @@
 - company updates
 - mi fast gemm
 - upcast before reduce
-- mlperf
+- MLPerf
 - viz tool
 - drivers
 - cloud
@@ -67,7 +67,7 @@ Great. Sounds good. Sounds good. Hey. Oh, you really pose on Twitter or somethin
 It's Monday morning here. Okay. Anyway, let's move on to a cool, tiny, great stuff. I don't know what you were up to, but you want to talk about your fast jamming, like some other abstraction.
 
 ##### **Geohot** [[00:04:38](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=278)]
-Yeah, so mainly what I did this week was I built like I built TVM, I built tile, I went through it just saw what all of these existing abstractions were. And it's pretty clear, I think. It's what I described. I just need to implement that this week. Like instead of putting a load in the store with the defined local, you can really just say contiguous define local and this works. Because we have the axes labeled like like like so when you think of what contiguous is contiguous is just like creative to create a buffer and DRAM. But there's no reason that contiguous can't also be create a buffer in locals or create a buffer registers. Tile Lang has these abstractions pretty good. I posted, I posted Tile Lang and I actually like played with it a whole bunch. It's just yeah, like the front example basically explains how to write a fast GEMM. We just need to support that in in tiny grad.
+Yeah, so mainly what I did this week was I built like I built TVM, I built tile, I went through it just saw what all of these existing abstractions were. And it's pretty clear, I think. It's what I described. I just need to implement that this week. Like instead of putting a load in the store with the defined local, you can really just say contiguous define local and this works. Because we have the axes labeled like like like so when you think of what contiguous is contiguous is just like creative to create a buffer and DRAM. But there's no reason that contiguous can't also be create a buffer in locals or create a buffer registers. Tile Lang has these abstractions pretty good. I posted, I posted Tile Lang and I actually like played with it a whole bunch. It's just yeah, like the front example basically explains how to write a fast GEMM. We just need to support that in in tinygrad.
 
 ##### **Chenyu** [[00:05:49](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=349)]
 I also just post the new cutlass and their new tree in I think I'm via channel.
@@ -85,7 +85,7 @@ Well, yeah, I mean, so all of this stuff that I'm thinking about isn't going to 
 I just want to follow YouTube. They just realized they can represent stuff much simpler.
 
 ##### **Geohot** [[00:06:36](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=396)]
-Interesting. Okay, I should spend some time reading this. But yeah, I mean, Tile Lang is a Tile Lang clearly represents a Tile Lang also is built on top of TVM. So it just compiles to a set of TVM transformations. So like I see how to like write that layer in in tiny grad by saying basically like yeah, contiguous local is the operator. And then you can also put after any contiguous you can put a view. So if you want to like if you want to swizzle the store, you can put a permute before they can take you as if you want to swizzle load, you can put a permute after they can take you as. Okay. But then it's only two shape trackers is not three right because we used to have the load store the load and that was three shape trackers and it was unclear exactly like what you could change to keep the thing correct. But with the contiguous you can put any shape trackers and it's always days correct. This also gets into the block reorder thing. So block reorder primarily exists to group all the loads and stores together. But there's another way to group the loads and the stores together, which is to talk about it being a copy to registers. So like right now we have this idea of like load and then what are we loading to loads to this implicit register, but we could also just like say I want to do this load to a defined reg.
+Interesting. Okay, I should spend some time reading this. But yeah, I mean, Tile Lang is a Tile Lang clearly represents a Tile Lang also is built on top of TVM. So it just compiles to a set of TVM transformations. So like I see how to like write that layer in in tinygrad by saying basically like yeah, contiguous local is the operator. And then you can also put after any contiguous you can put a view. So if you want to like if you want to swizzle the store, you can put a permute before they can take you as if you want to swizzle load, you can put a permute after they can take you as. Okay. But then it's only two shape trackers is not three right because we used to have the load store the load and that was three shape trackers and it was unclear exactly like what you could change to keep the thing correct. But with the contiguous you can put any shape trackers and it's always days correct. This also gets into the block reorder thing. So block reorder primarily exists to group all the loads and stores together. But there's another way to group the loads and the stores together, which is to talk about it being a copy to registers. So like right now we have this idea of like load and then what are we loading to loads to this implicit register, but we could also just like say I want to do this load to a defined reg.
 
 ##### **Geohot** [[00:08:12](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=492)]
 And if yeah, and then that would then we could remove block reorder basically.
@@ -229,7 +229,7 @@ I create a LLaMA for a vibe data loader with was parrots. I will work on his a c
 Yeah, I found that.
 
 ##### **Hooved** [[00:21:00](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=1260)]
-Okay, so it would just help to know like the value even if I just do stable diffusion. And it doesn't get on ML Perth. Like it's just is the value just having another example of training in tiny grad. Just so I understand like the motivation.
+Okay, so it would just help to know like the value even if I just do stable diffusion. And it doesn't get on ML Perth. Like it's just is the value just having another example of training in tinygrad. Just so I understand like the motivation.
 
 ##### **Chenyu** [[00:21:17](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=1277)]
 I mean, I would imagine whatever you put in changing to flux. It's fairly straightforward. So it's more of a first example to train a diffusion model. And given given that ML Perth is the best. We have in terms of the rule and like the vigorous of the like how fast you can train. I think that's reasonable.
@@ -418,7 +418,7 @@ Not yet. I mean, yeah, I also thought about that. I mean, I've posted that basic
 Threading thing, but I mean, currently like we can do this. I mean, the.
 
 ##### **Nimlgen** [[00:36:22](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2182)]
-So yeah, I mean, the ideal way is to write like the pollers in and see like I mean in tiny grad and just compile them to see because overweist. I mean, we have like 64 CPUs and I think it will be pretty slow to. Dispatch all of them from Python. Because of the. I mean, we can do that as the first step. Yeah, I can do that.
+So yeah, I mean, the ideal way is to write like the pollers in and see like I mean in tinygrad and just compile them to see because overweist. I mean, we have like 64 CPUs and I think it will be pretty slow to. Dispatch all of them from Python. Because of the. I mean, we can do that as the first step. Yeah, I can do that.
 
 ##### **Geohot** [[00:36:51](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2211)]
 I mean, I don't think we want the Python to create like we need we need these threads to be long running. We want basically 64 long running threads that sit and wait on a queue. And then they all pull on the queue or some some some non busy way on the queue. And then as soon as a kernel comes in, they all launch the kernel.
@@ -460,7 +460,7 @@ It seems like a progress.
 Yeah, I mean, I think the thing to the thing to just write as soon as you feel you're ready is to just write the optimizer and get the optimizer running offloaded with overlapped copying compute.
 
 ##### **Wozeparrot** [[00:39:43](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2383)]
-Just something quickly. I wrote the initial port to MI 350, but I think beam is still broken. If you want to look into that.
+Just something quickly. I wrote the initial port to MI 350, but I think BEAM is still broken. If you want to look into that.
 
 ##### **Nimlgen** [[00:39:55](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2395)]
 Yeah, sure.
@@ -472,7 +472,7 @@ Yeah, I'll take a quick. You mean, you mean it finds bad kernels to find scourgl
 No, it's the same thing. I don't know if it's finding bad kernels and crashing. It might be something with the driver.
 
 ##### **Geohot** [[00:40:07](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2407)]
-Got it. I mean, the question is like, is beam crashing because like it just beams like doing a lot? Or is beam crashing because it occasionally finds a kernel that uses the locals wrong?
+Got it. I mean, the question is like, is BEAM crashing because like it just beams like doing a lot? Or is BEAM crashing because it occasionally finds a kernel that uses the locals wrong?
 
 ##### **Wozeparrot** [[00:40:16](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2416)]
 Yeah, it's hard to tell.
@@ -487,10 +487,10 @@ Oh, I have a kernel that repeated the crash.
 You have one kernel.
 
 ##### **Wozeparrot** [[00:40:26](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2426)]
-Well, I just beam, but..
+Well, I just BEAM, but..
 
 ##### **Geohot** [[00:40:28](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2428)]
-Yeah, but what I'm saying is get the generated code, get the generated code from beam, and then make a.. I would do this, I think it's worth your time. Make a minimum reproduction that's just like when I run this kernel like crashes, right? Cause that's what you got kind of got to do. It's likely to do like some like local configuration thing.
+Yeah, but what I'm saying is get the generated code, get the generated code from BEAM, and then make a.. I would do this, I think it's worth your time. Make a minimum reproduction that's just like when I run this kernel like crashes, right? Cause that's what you got kind of got to do. It's likely to do like some like local configuration thing.
 
 ##### **Geohot** [[00:40:45](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2445)]
 Probably. Yeah.
@@ -604,7 +604,7 @@ Okay. What else do we have? Oh, we have the assembly back end for some progress 
 That's guys the speed there. I don't know if the search here. Have some point he mentioned something. Damn, that's a lot of lines.
 
 ##### **Geohot** [[00:47:12](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2832)]
-Yeah, no, I mean, if this is still 802A, this PR needs to be broken up into a lot of things. Like I see this change to symbolic and some of these changes to ops. Need to be their own. Need to be their own PR. I'm fine with things like comp GT. We should just really add all these. And we should separate the ones that can exist in the early graph. Versus the ones that are only existing to rewrite. But yeah, I mean, there's a ton of stuff in this PR that needs to be separated. Before we can merge anything. But then first, I also want to see some benchmarks showing that it's as fast as a one. But I see you, VNs, working on assembly stuff too. For the RDNA. We're getting there. We're getting to the point where you start to see what these things are and how register allocation and memory assignments and stuff are all the same problem. Oh, I also play with this thing called a model that does uses grobe for. For for for it makes it clear how at least. Like determining schedule order and determining memory layouts are intergeneral near programming. So if there's any dependencies that we should be adding to tiny grad, there are things like sat solvers and I don't piece all this.
+Yeah, no, I mean, if this is still 802A, this PR needs to be broken up into a lot of things. Like I see this change to symbolic and some of these changes to ops. Need to be their own. Need to be their own PR. I'm fine with things like comp GT. We should just really add all these. And we should separate the ones that can exist in the early graph. Versus the ones that are only existing to rewrite. But yeah, I mean, there's a ton of stuff in this PR that needs to be separated. Before we can merge anything. But then first, I also want to see some benchmarks showing that it's as fast as a one. But I see you, VNs, working on assembly stuff too. For the RDNA. We're getting there. We're getting to the point where you start to see what these things are and how register allocation and memory assignments and stuff are all the same problem. Oh, I also play with this thing called a model that does uses grobe for. For for for it makes it clear how at least. Like determining schedule order and determining memory layouts are intergeneral near programming. So if there's any dependencies that we should be adding to tinygrad, there are things like sat solvers and I don't piece all this.
 
 ##### **Chenyu** [[00:48:47](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2927)]
 Great. You also have 16 PR open apparently. I know. I know. I can do your parts. I know.
@@ -664,7 +664,7 @@ So comma intern. Is the bid cast thing fixed for that? Yeah, it's my passion.
 They don't know flags, what flags are they now?
 
 ##### **Wozeparrot** [[00:52:57](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=3177)]
-They said it's slow and then I tell them, oh, did you try this flag? Which flag? Yeah, which flag they said about? They say beam takes too long. Well, yeah. You tell them the beam optimization flags you can do, like beam min progress.
+They said it's slow and then I tell them, oh, did you try this flag? Which flag? Yeah, which flag they said about? They say BEAM takes too long. Well, yeah. You tell them the BEAM optimization flags you can do, like BEAM min progress.
 
 ##### **Geohot** [[00:53:14](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=3194)]
 Wait, you might just not work because you're not a speaker.

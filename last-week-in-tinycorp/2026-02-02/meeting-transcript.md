@@ -20,13 +20,13 @@
 
 - **[USB eGPU board plan](#geohot-000009)**: Received a Common Events box with two USB GPUs; custom firmware is progressing for USB 3/USB 4; plan is to sell the board (an eGPU) for ~$150–$200.
 - **[TinyBox + JIT asserts](#geohot-000042)**: FTDI breakout for easy access; TinyBox sales unexpectedly strong; JIT asserts considered finished.
-- **[Move Tensor methods into mix-ins/UOPs](#geohot-000157)**: Discussed reducing Tensor surface area by moving methods to UOPs/mix-ins; idea to have Tensor intercept/unwrap UOPs and call UOP functions directly.
+- **[Move Tensor methods into mix-ins/UOps](#geohot-000157)**: Discussed reducing Tensor surface area by moving methods to UOps/mix-ins; idea to have Tensor intercept/unwrap UOps and call UOp functions directly.
 - **[Typing status + lambda-heavy rewrites](#chenyu-000359)**: MyPy report suggests ~half the code isn’t fully typed; lots of lambda-based rewrite rules aren’t being type-checked well.
 - **[Assign is “super broken”](#chenyu-000556)**: Assign refactor is blocked by incorrect dependency/order tracking and confusing “disk” device semantics (device can’t compute + buffer contiguity assumptions).
-- **[Dtype spec + “range of fire” simplification](#geohot-001005)**: Proposed dtype should be “buffer dtype + number of elements” before range-of-fire; after range-of-fire it becomes plain dtype; goal is to unify concepts like index/jit.
+- **[Dtype spec + “rangeify” simplification](#geohot-001005)**: Proposed dtype should be “buffer dtype + number of elements” before rangeify; after rangeify it becomes plain dtype; goal is to unify concepts like index/jit.
 - **[Flash-attention kernel priority](#geohot-001157)**: After merging “1.4 payoffs” using LLaMA, top priority is finding a good flash-attention kernel; plan to email “Jim” about open-sourcing; pursue multiple approaches in parallel.
 - **[ASMGEM memory issue at long seq](#geohot-001300)**: ASMGEM hits OOM at larger sequence lengths; suspected extra copies/contiguous conversions; suggested using this as a path to replace custom kernel with `call`.
-- **[Replace custom kernel with `call`](#geohot-001412)**: `call` enables removing graph function from custom curves; `define_global` becomes an alias for `param`; kernel/custom-kernel refactor should move UOPs out of args into source0.
+- **[Replace custom kernel with `call`](#geohot-001412)**: `call` enables removing graph function from custom curves; `define_global` becomes an alias for `param`; kernel/custom-kernel refactor should move UOps out of args into source0.
 - **[AMD fault recovery without reboot](#nimlgen-001915)**: Driver can now handle/print all issues; on non-MI machines can recover from faults without rebooting GPU; AQL reset has an XCC sync issue; current recovery path relies on polling.
 - **[Polling delay tuning](#geohot-002045)**: Noted a 2-second polling delay; suggestion to reduce (e.g., ~100ms) and avoid tight-loop polling (sleep-based polling acceptable).
 - **[Qualcomm box coherency issue](#nimlgen-002420)**: Investigating CPU/GPU cache/coherency behavior as a likely root cause; marked as priority #1.
@@ -43,7 +43,7 @@
 - **[Metal compiler LLVM conflict workaround](#chrism-004039)**: Mac issue traced to metal compiler loading its own LLVM; fix is currently to skip the problematic tests rather than resolve the loader conflict.
 - **[Benchmarks should never fail](#geohot-004153)**: Emphasis on getting through compiler work to “image = 1”; added benchmark tests and wants Strix Halo benchmarks; any benchmark failure should lead to CI coverage that would have caught it.
 - **[Move tests to NULL device](#geohot-004331)**: Plan to systematically shift tests that don’t need real hardware onto the null device and ensure runners exercise that path.
-- **[Assembly emulator via AMD PDF pseudocode](#geohot-004411)**: Swapped to a Python-based emulator with minimal regression; instructions represented as UOPs; pipeline parses AMD PDFs for pseudocode; RDNA4 support merged; RDNA3 backend work planned.
+- **[Assembly emulator via AMD PDF pseudocode](#geohot-004411)**: Swapped to a Python-based emulator with minimal regression; instructions represented as UOps; pipeline parses AMD PDFs for pseudocode; RDNA4 support merged; RDNA3 backend work planned.
 - **[x86 backend direction](#geohot-004635)**: Critique of doing instruction selection post-linearization; prefer instruction selection pre-linearization and register-pressure-aware linearization for better codegen.
 - **[USB firmware sprint](#geohot-004829)**: Firmware reflashing workflow is smooth; USB enumeration is close; next is getting PCIe working—goal is fast USB 3 once both USB+PCIe are solid.
 - **[Call chains + autodiff + reduce→scan](#geohot-005053)**: Envisions chains of `call` enabling GPU command buffers (and cleaner WebGPU export); also wants `call` to work with derivatives and to replace `reduce` with a more general `scan`.
@@ -62,13 +62,13 @@ Welcome everyone to this meeting. So let's start with company update.
 Yeah, I got my box from Common Events. We have two USB GPUs. I think that's the most exciting thing. Progress is being made on our custom firmware for them. We should be able to make it work really well over both USB 3 and USB 4. Our plan is to sell a board. The company is just going to be the board that's in the Common GPU. It's an eGPU for sale for everybody. It'll be like 150, 200 bucks or something.
 
 ##### **Geohot** [[00:00:42](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=42)]
-Broken out FTDI so you can access the chat. That's the main thing. TinyBox sales won't quit this week. I don't know why. You gotta get Kimi running on something. I don't want Kimi. Next is my stuff. So I think I finished the JIT asserts.
+Broken out FTDI so you can access the UART. That's the main thing. TinyBox sales won't quit this week. I don't know why. You gotta get Kimi running on something. I don't want Kimi. Next is my stuff. So I think I finished the JIT asserts.
 
 ##### **Chenyu** [[00:01:22](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=82)]
 Or maybe I actually finished it last week already, but I don't plan to add more asserts now. I think obviously I'm happy with.
 
 ##### **Chenyu** [[00:01:32](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=92)]
-For my Pi, we discussed this last week. I fixed all the self-type stuff in mixing.
+For my PR, we discussed this last week. I fixed all the self-type stuff in mixins.
 
 ##### **Chenyu** [[00:01:40](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=100)]
 And also the boundary between Tensor and UOp is clean up. There were like some something that was just using the UOp directly instead of like wrapping in a Tensor first, then do the ALU.
@@ -125,7 +125,7 @@ I just gotta kind of read down. I don't know if you want to take on moving more 
 Yeah, no, I'm just saying, I think I'm going to be, I'm going to be, I'm going to be I think there are also a bunch of hacks in Tensor. Maybe it's a good, like, motivation to remove those. I would talk about this more in the assign, but I think MyPy, I added like one line stats for the, for the MyPy reports. I think half of our lines are not typed, not like fully typed. And yeah, part of it is the runtime. I don't know if we can do better there because a lot of the runtime types are like auto-gen, which is kind of a good thing. But I think we can ignore. So I don't know how, how improved we can make on that front. Then the other half is the Lambda in general, because we use tons of Lambdas in the rewrite and we have a lot of past to kind of make sure it's that type, but it's not really type checked.
 
 ##### **Geohot** [[00:04:51](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=291)]
-Well, I mean, if they're Lambdas, can't we type the, the list that we pass into pattern matcher? Have a callable that accepts UOPS and returns a UOPS.
+Well, I mean, if they're Lambdas, can't we type the, the list that we pass into pattern matcher? Have a callable that accepts UOps and returns a UOps.
 
 ##### **Geohot** [[00:05:06](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=306)]
 I can try that, but I don't know how good MyPy is tracking this because you are basically
@@ -137,16 +137,16 @@ asking MyPy to really wrong the rules to know what the return type is. Right. I 
 I don't think it's less than more.
 
 ##### **Geohot** [[00:05:33](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=333)]
-No. Well, I'm saying you could at least like, if you make the list type callable that returns with UOPS, at least it could know that the rules return UOPS. It wouldn't help with the input type and it's annoying with context too.
+No. Well, I'm saying you could at least like, if you make the list type callable that returns with UOps, at least it could know that the rules return UOps. It wouldn't help with the input type and it's annoying with context too.
 
 ##### **Chenyu** [[00:05:45](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=345)]
-And it's annoying if your output is not UOPS.
+And it's annoying if your output is not UOps.
 
 ##### **Geohot** [[00:05:52](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=352)]
 Yeah, that kind of shouldn't exist. Yeah.
 
 ##### **Chenyu** [[00:05:56](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=356)]
-That's kind of the, unless we have a really big bench on that. I don't think MyPy can do any better. And the rest is probably some like minor thing. Like there are like some of the helpers that obviously returns like bullying. We can have a pass or can have a pass to add all the output types to those. So that's like less important. Then the final thing that I was most excited about was assign. Because assign is super broken. And by, so this started first when I tried to do the make this assign, make this assign lazy. And the thing is, if you ask Cloud to do it, Cloud will happily go hitting the wall and make 10 different changes in different places until the test pass. And when I read it, it doesn't make sense at all. Then you're, and then you will start to realize so many things are hacked around assign and this. So I'm making progress on that. I probably keep working on this for this week, unless I find something I can help with low LLaMA training. But overall, I find this workflow of using Cloud to go through Git history and to find a context around certain items very useful. I think that shows the. Importance of writing good PR and make it small. But my previous biggest issue working on the scheduler part was I just don't quite understand what certain UOP is supposed to be because it can be very different from the actual implementation. Having like this, you can certainly read Git history and context a lot better than how I would do this, like with the git blame and stuff like that. So you can see my change. I isolated bunch of like arrows and bugs and fix some of it. I think the clear are two major issues for assign. One is the odor is not actually right. So that's, that's the main reason intentionally level. We need to do a lot of realize in places as kind of we manually making sure the dependency is tracked correctly. And then. Which is not right now. Another is like desk. So desk, we used to have a check for desk in the tensor level to say this device is desk. Let's logic is not complete. What we mean by desk is actually a device that cannot do compute. And we kind of always guarantee the underlying buffer is contiguous. So that's the, that's the actual thing we need to. Make our like in different layers. And I think there's a better way to do it because there's not really difference between like a desk memory to your CPU buffer. If it's like a one big memory. If you can do big cast on desk, you should be able to do that on your contiguous memory as well. Things like that. So, yeah, I think there's a huge potential. I think, I think we're in jafi indexing is too long. So I don't know how it will be able to like be cleaner.
+That's kind of the, unless we have a really big bench on that. I don't think MyPy can do any better. And the rest is probably some like minor thing. Like there are like some of the helpers that obviously returns like bullying. We can have a pass or can have a pass to add all the output types to those. So that's like less important. Then the final thing that I was most excited about was assign. Because assign is super broken. And by, so this started first when I tried to do the make this assign, make this assign lazy. And the thing is, if you ask Cloud to do it, Cloud will happily go hitting the wall and make 10 different changes in different places until the test pass. And when I read it, it doesn't make sense at all. Then you're, and then you will start to realize so many things are hacked around assign and this. So I'm making progress on that. I probably keep working on this for this week, unless I find something I can help with low LLaMA training. But overall, I find this workflow of using Cloud to go through Git history and to find a context around certain items very useful. I think that shows the. Importance of writing good PR and make it small. But my previous biggest issue working on the scheduler part was I just don't quite understand what certain UOp is supposed to be because it can be very different from the actual implementation. Having like this, you can certainly read Git history and context a lot better than how I would do this, like with the git blame and stuff like that. So you can see my change. I isolated bunch of like arrows and bugs and fix some of it. I think the clear are two major issues for assign. One is the odor is not actually right. So that's, that's the main reason intentionally level. We need to do a lot of realize in places as kind of we manually making sure the dependency is tracked correctly. And then. Which is not right now. Another is like desk. So desk, we used to have a check for desk in the tensor level to say this device is desk. Let's logic is not complete. What we mean by desk is actually a device that cannot do compute. And we kind of always guarantee the underlying buffer is contiguous. So that's the, that's the actual thing we need to. Make our like in different layers. And I think there's a better way to do it because there's not really difference between like a desk memory to your CPU buffer. If it's like a one big memory. If you can do big cast on desk, you should be able to do that on your contiguous memory as well. Things like that. So, yeah, I think there's a huge potential. I think, I think we're in jafi indexing is too long. So I don't know how it will be able to like be cleaner.
 
 ##### **Geohot** [[00:09:31](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=571)]
 You ready to file should be able to be cleaner. I agree. Yeah.
@@ -158,7 +158,7 @@ Yeah.
 I also find that with my bunch of rules that is just like no longer needed or because the way we write spec and the way we write allow any length is kind of if you, if you just add it blindly or things were still passed, but it's not necessarily needed. So if I see it, I would just remove it. Something like that.
 
 ##### **Geohot** [[00:10:05](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=605)]
-Yeah. I've been working on a D type spec. The other thing that I think would help make range of fire a lot shorter is I think tensors have the wrong D type. I think that the D type should actually be D type of back. D type float back and the number of elements. And then after range of fire, it's just D type.
+Yeah. I've been working on a D type spec. The other thing that I think would help make rangeify a lot shorter is I think tensors have the wrong D type. I think that the D type should actually be D type of back. D type float back and the number of elements. And then after rangeify, it's just D type.
 
 ##### **Chenyu** [[00:10:29](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=629)]
 What do you mean by number of elements? In the tensor.
@@ -170,10 +170,10 @@ Yeah. The size.
 So also let's just a product of shape.
 
 ##### **Geohot** [[00:10:42](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=642)]
-Yes. It's product. It's product. You match shape because it can't be symbolic. Okay. So it's a product. So if you if you look at the range of fire, it's a product.
+Yes. It's product. It's product. You match shape because it can't be symbolic. Okay. So it's a product. So if you if you look at the rangeify, it's a product.
 
 ##### **Geohot** [[00:11:02](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=662)]
-And then it's the range of fire. After range of fire runs, it rewrites the UOPS to be like D type float. That's what it is inside of the range.
+And then it's the rangeify. After rangeify runs, it rewrites the UOps to be like D type float. That's what it is inside of the range.
 
 ##### **Geohot** [[00:11:12](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=672)]
 And then index and jet become the same thing. Okay. So we currently have jet and R, but it doesn't have to be an R.
@@ -251,10 +251,10 @@ So, that allows me to just remove some of the grid data that was we had to repla
 Yeah, I see. I saw you made define global also a param. It's just an alias now.
 
 ##### **Geohot** [[00:14:52](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=892)]
-Yes, define global is just an alias for param now. We only made one new uup, but I think we can unify. So the problem with kernel right now is it has uups in the arg.
+Yes, define global is just an alias for param now. We only made one new UOp, but I think we can unify. So the problem with kernel right now is it has UOps in the arg.
 
 ##### **Geohot** [[00:15:05](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=905)]
-Those uups should actually just be in source 0. Yeah, uups in args are 0.
+Those UOps should actually just be in source 0. Yeah, UOps in args are 0.
 
 ##### **Geohot** [[00:15:15](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=915)]
 Oh yeah, I don't know if you're interested in that. This project is great. But I think priority one is looking for flash attention kernel. And priority two is refactoring kernel and custom kernel to actually just be call.
@@ -443,7 +443,7 @@ So, I think that's it.
 So, we have a 4096 sequence length model trained at BS16. I would expect a BS8 8192 sequence length to train about the same just because the token
 
 ##### **Geohot** [[00:28:06](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1686)]
-counts per step match. 8192 doesn't fit because of SMGEM. I do wonder if there's value in finding a fused Swigloo kernel. That does like all the.. Yeah, it does the full FFN in one kernel and it doesn't.. Yeah. How fast do you think you can get our flash attention to it? I'm at 330 TFLOPs right now. Okay. And then do you know what percentage of the TFLOPs that are at 3,000?
+counts per step match. 8192 doesn't fit because of SMGEM. I do wonder if there's value in finding a fused SwiGLU kernel. That does like all the.. Yeah, it does the full FFN in one kernel and it doesn't.. Yeah. How fast do you think you can get our flash attention to it? I'm at 330 TFLOPs right now. Okay. And then do you know what percentage of the TFLOPs that are at 3,000?
 
 ##### **Wozeparrot** [[00:28:55](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1735)]
 It's quite small. 8192 is very small context length. I think like 70% is GEMM.
@@ -701,13 +701,13 @@ Yeah, I'm doing pretty carefully. Okay, that's good. Cool.
 Okay, if that's it, next assembly.
 
 ##### **Geohot** [[00:44:11](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2651)]
-Yeah, some good progress. I mean, last sprint I got, the big thing I did was I switched out Remio. So now the emulator being used is the Python and with almost no speed regression. It's compiling the instructions. The instructions are all in Uops. So it's actually a little bit more complicated. It's actually just there. It's generating tiny grad programs to run instructions. And the key to making it fast was not to compile each instruction, but instead to compile it with the registers being dynamically read. So it uses PC. It has basically a decode stage that reads the registers and then it reads what the register should be and then actually reads from those registers. And then that, yeah, that's it. It's a little bit like beta 10x faster. It's pretty similar in speed to Remio. So that's it. I merged RDNA 4 support today. We'll have emulators for RDNA 3, RDNA 4. CDNA has a lot of weird stuff. The RDNA 4 one still has some bugs too. But it's done in a very nice way where I didn't just tell an LLM to write an emulator. It's parsing all of the P code from AMD's PDFs. It's pulling all of the pseudo code for each instruction out of AMD's PDF. So we have a pretty nice environment for all of AMD's assembly. I still haven't moved it into tiny grad proper. There's still a few rough LLM edges. But if you guys look at the code, hopefully you'll see it's not too terrible. I've aggressively drawn it and equating things up manually. So that's it. I think it's not my highest priority to sprint. My highest priority to sprint is to figure out the D type stuff. Some of the other call stuff that's not the kernel stuff. Basically to try to finally get LLM to be fast.
+Yeah, some good progress. I mean, last sprint I got, the big thing I did was I switched out Remio. So now the emulator being used is the Python and with almost no speed regression. It's compiling the instructions. The instructions are all in UOps. So it's actually a little bit more complicated. It's actually just there. It's generating tinygrad programs to run instructions. And the key to making it fast was not to compile each instruction, but instead to compile it with the registers being dynamically read. So it uses PC. It has basically a decode stage that reads the registers and then it reads what the register should be and then actually reads from those registers. And then that, yeah, that's it. It's a little bit like beta 10x faster. It's pretty similar in speed to Remio. So that's it. I merged RDNA 4 support today. We'll have emulators for RDNA 3, RDNA 4. CDNA has a lot of weird stuff. The RDNA 4 one still has some bugs too. But it's done in a very nice way where I didn't just tell an LLM to write an emulator. It's parsing all of the P code from AMD's PDFs. It's pulling all of the pseudo code for each instruction out of AMD's PDF. So we have a pretty nice environment for all of AMD's assembly. I still haven't moved it into tinygrad proper. There's still a few rough LLM edges. But if you guys look at the code, hopefully you'll see it's not too terrible. I've aggressively drawn it and equating things up manually. So that's it. I think it's not my highest priority to sprint. My highest priority to sprint is to figure out the D type stuff. Some of the other call stuff that's not the kernel stuff. Basically to try to finally get LLM to be fast.
 
 ##### **Geohot** [[00:46:22](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2782)]
 The startup time of LLM is way too slow. But basically I'll work on that. Any quick comments on the x86?
 
 ##### **Geohot** [[00:46:35](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2795)]
-This new one's a lot better. My big complaint about the first one is that it was doing instruction selection after linearization. And at that point you're just rewriting LLVM. But the really interesting thing that we can do in tiny grad is do instruction selection before linearization. And then we can intelligently keep up. And then we can do it in a way that's linearized based on register pressure. So yeah, I think there's something there. I guess maybe this week I'll also start on the RDNA3 assembly backend. LLVM is very good at compiling x86 code. It's terrible at RDNA3. The things that I did with AMD UOP MatMall are totally doable with tiny grad transfer. And that code is almost 2x faster than the AMD UOP MatMall, which uses LLVM. It's very possible to get real speed out of these things because of how GPUs are. They're a lot simpler. They're just very different. The scheduling is very different between CPUs and GPUs. And then if I also.. If I also do warp specialization, I think that actually the scheduling.. I think everything just becomes a lot easier if you can warp specialize. Because you can independently optimize your GMEM to SMEM and then your SMEM to ALU kernels.
+This new one's a lot better. My big complaint about the first one is that it was doing instruction selection after linearization. And at that point you're just rewriting LLVM. But the really interesting thing that we can do in tinygrad is do instruction selection before linearization. And then we can intelligently keep up. And then we can do it in a way that's linearized based on register pressure. So yeah, I think there's something there. I guess maybe this week I'll also start on the RDNA3 assembly backend. LLVM is very good at compiling x86 code. It's terrible at RDNA3. The things that I did with AMD UOp matmul are totally doable with tinygrad transfer. And that code is almost 2x faster than the AMD UOp matmul, which uses LLVM. It's very possible to get real speed out of these things because of how GPUs are. They're a lot simpler. They're just very different. The scheduling is very different between CPUs and GPUs. And then if I also.. If I also do warp specialization, I think that actually the scheduling.. I think everything just becomes a lot easier if you can warp specialize. Because you can independently optimize your GMEM to SMEM and then your SMEM to ALU kernels.
 
 ##### **Chrism** [[00:48:19](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2899)]
 You can optimize those warps and then one of them is going to be your limiting factor. But you can work on them independently.
@@ -740,7 +740,7 @@ And every shape. Oh, by the way. I changed your expand outer loop to unroll oute
 When you generate the outer, sorry, outer range. You unroll outer range. That's that was called expand. I was so confused.
 
 ##### **Geohot** [[00:50:53](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=3053)]
-Oh, yeah. I mean, the outer range stuff is super broken. We have to basically get call to work. So there's two aspects of call. There's the call replaces kernel and custom kernel. And then eventually we're going to be left with chains of calls. And these chains of calls can use tiny graph rewrite rules to create GPU command buffers. This also gets to like the, have the correct way to web GPU export and stuff. But here's the other side of call, which is another thing I want to work on this sprint. To get call to work with derivatives. And to get like basically to replace reduce with scan. Because we have reduced right now and reduce has this UOP add. But you should be able to do a reduce with any arbitrary function.
+Oh, yeah. I mean, the outer range stuff is super broken. We have to basically get call to work. So there's two aspects of call. There's the call replaces kernel and custom kernel. And then eventually we're going to be left with chains of calls. And these chains of calls can use tiny graph rewrite rules to create GPU command buffers. This also gets to like the, have the correct way to web GPU export and stuff. But here's the other side of call, which is another thing I want to work on this sprint. To get call to work with derivatives. And to get like basically to replace reduce with scan. Because we have reduced right now and reduce has this UOp add. But you should be able to do a reduce with any arbitrary function.
 
 ##### **Geohot** [[00:51:46](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=3106)]
 So yeah, replace reduce with a scan. Yeah. Yeah.

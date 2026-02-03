@@ -453,7 +453,7 @@ Or understanding what's happening in TinyGrad.
 ##### **Geohot** [[00:19:50](https://www.youtube.com/watch?v=m7zQq40dr2M&t=1190)]
 Oh, I finally made debug equals 3 usable, too.
 Debug equals 3 will show you the buffers for each kernel.
-It doesn't print tons of UOP spam.
+It doesn't print tons of UOp spam.
 It's just the buffers.
 So that should be useful for us.
 
@@ -465,7 +465,7 @@ Everything that prints in three prints in five or higher.
 
 ##### **Chenyu** [[00:20:12](https://www.youtube.com/watch?v=m7zQq40dr2M&t=1212)]
 No no no.
-I mean, but you remove the ones that prints the modify UOP, right?
+I mean, but you remove the ones that prints the modify UOp, right?
 And we don't currently print that anywhere else.
 
 ##### **Geohot** [[00:20:20](https://www.youtube.com/watch?v=m7zQq40dr2M&t=1220)]
@@ -477,7 +477,7 @@ If you want it back, just throw it in, but not three.
 No.
 Yeah, so I added a row at AST.
 I find that useful in writing tests.
-But my issue with the big UOP was it can get very big, very long, very easily.
+But my issue with the big UOp was it can get very big, very long, very easily.
 DEBUG equals to 4 code, it's kind of always short.
 And at least it's compact.
 And it doesn't break my indentation on my screen.
@@ -1157,11 +1157,11 @@ No, it's just that, I guess I'm thinking about this, but any creates a pattern t
 It skips the check for itself and only checks its sources.
 So if you look at the code, the way it checks for permutation, it just has an any, right?
 And then inside of the any is the all.
-But then you couldn't do that with upat.any, right?
+But then you couldn't do that with UPat.any, right?
 
 ##### **Geohot** [[00:57:39](https://www.youtube.com/watch?v=m7zQq40dr2M&t=3459)]
 You could reimplement that however you want.
-upat.any is just a way that I wrote it to make the old matcher work.
+UPat.any is just a way that I wrote it to make the old matcher work.
 You can totally change that logic that's in any.
 to actually construct all the permutations of the pattern.
 If you want to construct all the permutations of the pattern at any time, I'm totally fine with that.

@@ -30,7 +30,7 @@
 - **[Refactoring Symbolic Rules](#chenyu-003056)**: Proposal to categorize rewrite rules (strict removal, constant return, reassembly) to better manage complexity and avoid breaking specific backend requirements like FP8 casting.
 - **[Assembler & RDNA3 Project](#geohot-003533)**: Announcing a long-term project to remove LLVM dependence by moving to assembly, starting with RDNA3, including building a cycle-accurate emulator to handle ALU stalls.
 - **[MI300/350 Device Hangs](#b1tg-003849)**: Identified a reproduction script for device hangs and MMU faults on MI300X/MI350 when using multiple GPUs; marked as a top priority fix.
-- **[UOP Generated Kernels](#geohot-004519)**: A draft of UOP-generated MaxGemm kernels is working and passing tests, proving the concept of handling complex swizzling within the UOP structure despite being currently slower than hand-coded versions.
+- **[UOp Generated Kernels](#geohot-004519)**: A draft of UOp-generated MaxGemm kernels is working and passing tests, proving the concept of handling complex swizzling within the UOp structure despite being currently slower than hand-coded versions.
 
 ### Transcript
 ##### **Geohot** [[00:00:00](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=0)]
@@ -424,7 +424,7 @@ But yeah, it would be easy if all you had to do was throw in an HVAC and get Seg
 It would be easier if TinyGrad handled all the GPU stuff, so then we don't have to have, like, four libraries to keep stuff on the GPU.
 
 ##### **Geohot** [[00:20:10](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1210)]
-Yeah, do you have your latest Segnet Onyx somewhere?
+Yeah, do you have your latest Segnet ONNX somewhere?
 
 ##### **Chenyu** [[00:20:13](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1213)]
 I'll post it. Cool. Yeah, the only thing I wanted to show for, if you guys are open to this, is the.. If we can get the zero-copy Qualcomm stuff working, we can merge the calibration stuff in OpenPilot, if you guys have any interest in that. So you want zero-copy from NumPy. NimbleGen, any reason that's hard? From Qualcomm. I have an issue for it, if someone wants to look at it. It's one of the latest TinyGrad issues. That's the last block on merging all that stuff.
@@ -475,7 +475,7 @@ Next.
 I think Python speed, we talked lots of things. I still remember you mentioned something about moving more stuff to the Python backend. And stuff like that.
 
 ##### **Geohot** [[00:26:29](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1589)]
-Oh, I mean, when I was talking about moving stuff to the Python backend, I was just saying for things like zlib decode, we could put that in the Python backend so then it would be lazy. These things are, like, they're not important, really. Um, but most of the Python speed stuff, the most egregious things have been dealt with now. Uh, the rangeify is now pretty much back on par with what the old stuff was by adding a bunch of caches. There's the reshape cache and stuff now. I mean, rangeify used to be brutally slow because the reshape would, like, every reshape would be a separate thing. But I just wrote the substitute thing and it works. So, yeah, you're hitting a reshape cache now. You're hitting a divmod cache. So there's a whole bunch of speedups there. I sped up the tensor map thing in tensor.py. The tensor map thing was n squared. I rewrote it to not be n squared. And between basically adding caches that match the old shape tracker view caches and fixing this n squared thing, the Python speed is, like, within the realm of reasonable now.
+Oh, I mean, when I was talking about moving stuff to the Python backend, I was just saying for things like zlib decode, we could put that in the Python backend so then it would be lazy. These things are, like, they're not important, really. Um, but most of the Python speed stuff, the most egregious things have been dealt with now. Uh, the rangeify is now pretty much back on par with what the old stuff was by adding a bunch of caches. There's the reshape cache and stuff now. I mean, rangeify used to be brutally slow because the reshape would, like, every reshape would be a separate thing. But I just wrote the substitute thing and it works. So, yeah, you're hitting a reshape cache now. You're hitting a divmod cache. So there's a whole bunch of speedups there. I sped up the tensor map thing in tensor.py. The tensor map thing was n squared. I rewrote it to not be n squared. And between basically adding caches that match the old ShapeTracker view caches and fixing this n squared thing, the Python speed is, like, within the realm of reasonable now.
 
 ##### **Qazalin** [[00:27:43](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1663)]
 Cool.
@@ -499,7 +499,7 @@ Well, so for LLaMA no JIT, it.. uh.. Oh, I guess no JIT, if you're not using var
 Yeah, I understand. Yeah. Um.. I don't know.
 
 ##### **Geohot** [[00:29:07](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1747)]
-I mean, that's one of my, like.. There's a whole bunch of refactors that can be done here. Like, I want to move more stuff to mixins.. Um.. And, like, really make that code good. There's definitely a path now. It's nice how, like, everything is uops. Uops are pure. I think that, like, the old scheduler, you couldn't touch it. The new scheduler, you can touch it. It all kind of behaves how you think it should. It's been a long time since I've hit something where I'm just, like.. I literally have no idea how to do this refactor. There's so many weird broken things. I think we're mostly past that now. And pretty much every time I'm like, oh, I want to refactor, like, you know, the pad op to not pad both sides. Okay, cool. That's going to take me an hour. Like, that's not even.. All that stuff kind of works now. So, that's pretty good. Um, but yeah. So I think that a lot of polish can be done by moving stuff to, like, mixins. And then once that's done, we can look at tensor.py and be like, oh yeah, now the schedule cache is, like, really easy to write. It's just, like, one little thing in there. Um.. And then also refactoring the JIT. The JIT right now, uh, confuses two concerns. It confuses this concern of capturing a function with applying the graph. So we have these graph things on GPUs, which are more like cached command buffers, but that really has nothing to do with the JIT. Uh, so we should separate out all the cached command buffer code. This gets into, like, the HCQ refactors. There's a lot of stuff that can be done there, too. Um, I think that a common feature that we get a lot of requests for is being able to really nicely export those things and play them back later. Kind of what commas compile 3 is doing. Um.. J. Suarez was asking for it. Like, just this idea that you can just export a JIT really nicely, not some weird pickle format. So, yeah. We can get there. It's on the priority list. But, uh, yeah. We can decide where it is on the priority list.
+I mean, that's one of my, like.. There's a whole bunch of refactors that can be done here. Like, I want to move more stuff to mixins.. Um.. And, like, really make that code good. There's definitely a path now. It's nice how, like, everything is uops. UOps are pure. I think that, like, the old scheduler, you couldn't touch it. The new scheduler, you can touch it. It all kind of behaves how you think it should. It's been a long time since I've hit something where I'm just, like.. I literally have no idea how to do this refactor. There's so many weird broken things. I think we're mostly past that now. And pretty much every time I'm like, oh, I want to refactor, like, you know, the pad op to not pad both sides. Okay, cool. That's going to take me an hour. Like, that's not even.. All that stuff kind of works now. So, that's pretty good. Um, but yeah. So I think that a lot of polish can be done by moving stuff to, like, mixins. And then once that's done, we can look at tensor.py and be like, oh yeah, now the schedule cache is, like, really easy to write. It's just, like, one little thing in there. Um.. And then also refactoring the JIT. The JIT right now, uh, confuses two concerns. It confuses this concern of capturing a function with applying the graph. So we have these graph things on GPUs, which are more like cached command buffers, but that really has nothing to do with the JIT. Uh, so we should separate out all the cached command buffer code. This gets into, like, the HCQ refactors. There's a lot of stuff that can be done there, too. Um, I think that a common feature that we get a lot of requests for is being able to really nicely export those things and play them back later. Kind of what commas compile 3 is doing. Um.. J. Suarez was asking for it. Like, just this idea that you can just export a JIT really nicely, not some weird pickle format. So, yeah. We can get there. It's on the priority list. But, uh, yeah. We can decide where it is on the priority list.
 
 ##### **Chenyu** [[00:30:56](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1856)]
 Oh, yeah. So another small thing to add is I was trying to simplify all the symbolic stuff, or I guess in general, a lot of the rewrites. Uh, it's.. There are hidden complexity about the older ones. There are a lot of things. And sometimes you need to add symbolic to a device renderer extra matter. Sometimes you really don't because sometimes you explicitly want something to not be rewrit. An example is, for example, for FP8 in AMD, uh, if you do an FP8 cast, we really want it to be cast to float first then to your whatever, BFloat 16 or something like that. So.. I think there are a lot of uh.. I tried, like, whopping the older or changed some rules here and there and something would just subtly break and that really is, like, impossible to maintain. Yeah, sometimes I hope I can.. Basically two things here. One is I root-caused the issue with the conf that's not compatible with the very last uh, VADDIHACK image thing. So hopefully I will have some solutions soon. Then another is I think we can better categorize these rules as, uh, some rules that strictly remove certain uops and return you something that's from its source. There are some rules that gives you uh, maybe gives you a const at the end and nothing else. And there are rules just reassemble stuff. I think instead of saying this is simple, this is symbolic, and this is sim, uh, having some understanding for, like, how to categorize this will help. And eventually we can decide, like, in what stages you use which one and, uh, it's like, some of these should always be safe to attach if you choose so. And some of these should be explicitly set, say for example your extra metric in the render. Uh, if you want to add some other symbolic rules you specify there and not in the main code gen loop. Something like that. For now people just, like, add another thing very, uh, freely and we can make like, your vector list pretty hard.
@@ -613,7 +613,7 @@ Yeah, I think to start with as a custom and we can think about what the API shou
 Okay.
 
 ##### **B1tg** [[00:42:41](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2561)]
-Also the client function client function's backward behavior not the same as touch. Client function Client function when a client function was become max of in tiny grad. So when it hits the edge value, the mean of the max value, it gives the gradient 0.5. 0.5.
+Also the client function client function's backward behavior not the same as touch. Client function Client function when a client function was become max of in tinygrad. So when it hits the edge value, the mean of the max value, it gives the gradient 0.5. 0.5.
 
 ##### **SPEAKER_02** [[00:43:23](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2603)]
 0.5. 0.5.
@@ -646,7 +646,7 @@ Yeah, I was just going to bring that up. I had to use a speaker. But you have to
 enter if you want to talk. Okay. Can you hear me? Yes.
 
 ##### **Geohot** [[00:45:19](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2719)]
-So there's a draft version of UOP generated max GEMM kernels. They're a little slower than the hand-coded ones. And obviously the C style changes can't stay there. But surprisingly,
+So there's a draft version of UOp generated max GEMM kernels. They're a little slower than the hand-coded ones. And obviously the C style changes can't stay there. But surprisingly,
 
 ##### **Geohot** [[00:45:39](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2739)]
 it's correct and it works. So it's a good thing. Yeah, I'm looking at your C style changes.
@@ -661,16 +661,16 @@ Yeah, it doesn't need to use that, obviously. But it doesn't need to use any cod
 Cool. Yeah. I mean, the speeds on that look great. The testing the the testing the testing the the the the the the the the the
 
 ##### **Geohot** [[00:46:41](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2801)]
-You basically move a lot of that complexity just into generating the right UOP structure, the swizzling, but it renders properly. So that's a start.
+You basically move a lot of that complexity just into generating the right UOp structure, the swizzling, but it renders properly. So that's a start.
 
 ##### **Geohot** [[00:46:54](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2814)]
-Great. How have you found the UOP programming language?
+Great. How have you found the UOp programming language?
 
 ##### **Geohot** [[00:47:02](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2822)]
 The agents have helped more. So I'm only starting to understand what's going on.
 
 ##### **Geohot** [[00:47:09](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2829)]
-I mean, you're doing a lot of stuff. I see, I see. I mean, when you write something like that, you don't have to write that. That's equivalent to just saying, all of the beauty of TinyGrad should work in UOPs.
+I mean, you're doing a lot of stuff. I see, I see. I mean, when you write something like that, you don't have to write that. That's equivalent to just saying, all of the beauty of TinyGrad should work in UOps.
 
 ##### **Geohot** [[00:47:24](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2844)]
 You can just do that.
@@ -817,7 +817,7 @@ Whoever wants to take one of them. I could take the TF32 one. I know what to do 
 See? Yeah.
 
 ##### **Geohot** [[00:55:40](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=3340)]
-Sounds good. I think that's it for this meeting. Great. December already. Yeah. Adventical. Let's train LLMA. Let's train LLMA. End of the year.
+Sounds good. I think that's it for this meeting. Great. December already. Yeah. Adventical. Let's train LLaMA. Let's train LLaMA. End of the year.
 
 ##### **Geohot** [[00:55:54](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=3354)]
 We're going to have state of the art flash attention on LA350, as promised.

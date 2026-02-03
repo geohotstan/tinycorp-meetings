@@ -116,22 +116,22 @@ Yeah, so two main things
 for the meeting. One is about
 
 ##### **Qazalin** [[00:01:33](https://www.youtube.com/watch?v=cLnu8McQRlw&t=93)]
-Karma, one is about the
+Comma, one is about the
 
 ##### **Chenyu** [[00:01:35](https://www.youtube.com/watch?v=cLnu8McQRlw&t=95)]
-Karma
+Comma
 
 ##### **Nimlgen** [[00:01:37](https://www.youtube.com/watch?v=cLnu8McQRlw&t=97)]
 MLperf thing.
 
 ##### **Qazalin** [[00:01:39](https://www.youtube.com/watch?v=cLnu8McQRlw&t=99)]
-We can quickly go through the Karma stuff
+We can quickly go through the Comma stuff
 
 ##### **Geohot** [[00:01:41](https://www.youtube.com/watch?v=cLnu8McQRlw&t=101)]
 first.
 
 ##### **Geohot** [[00:01:45](https://www.youtube.com/watch?v=cLnu8McQRlw&t=105)]
-Karma after
+Comma after
 
 ##### **Geohot** [[00:01:46](https://www.youtube.com/watch?v=cLnu8McQRlw&t=106)]
 the
@@ -698,7 +698,7 @@ Klausulin has this cute thing where you can actually..
 You can use custom kernels if you want to just write arbitrary like hip code
 
 ##### **Geohot** [[00:10:27](https://www.youtube.com/watch?v=cLnu8McQRlw&t=627)]
-by using the custom UOP,
+by using the custom UOp,
 
 ##### **Geohot** [[00:10:29](https://www.youtube.com/watch?v=cLnu8McQRlw&t=629)]
 which again I think is totally fine for just getting some sort of flash attention in there
@@ -728,7 +728,7 @@ Second.
 And then there is the outer world stuff.
 
 ##### **Chenyu** [[00:10:53](https://www.youtube.com/watch?v=cLnu8McQRlw&t=653)]
-So I spent a couple hours reading how Jax does scan and 4i.
+So I spent a couple hours reading how JAX does scan and 4i.
 
 ##### **Nimlgen** [[00:11:00](https://www.youtube.com/watch?v=cLnu8McQRlw&t=660)]
 They're both differentiable.
@@ -737,7 +737,7 @@ They're both differentiable.
 So it depends actually.
 
 ##### **Geohot** [[00:11:05](https://www.youtube.com/watch?v=cLnu8McQRlw&t=665)]
-Jax has a whole lot of code paths to deal with this.
+JAX has a whole lot of code paths to deal with this.
 
 ##### **Geohot** [[00:11:08](https://www.youtube.com/watch?v=cLnu8McQRlw&t=668)]
 In the simple code path,
@@ -965,7 +965,7 @@ I mean, things that I definitely want by the end of the year.
 I want like custom flash attention and GEMM working that are decently fast.
 
 ##### **Qazalin** [[00:14:57](https://www.youtube.com/watch?v=cLnu8McQRlw&t=897)]
-I want 8B training and hitting the ML perf target.
+I want 8B training and hitting the MLPerf target.
 
 ##### **Geohot** [[00:15:00](https://www.youtube.com/watch?v=cLnu8McQRlw&t=900)]
 And I want four or five B having a Python time of like under 20 seconds
@@ -1478,13 +1478,13 @@ Good progress.
 Hopefully we can start using this to debug and make our kernels faster.
 
 ##### **Geohot** [[00:23:39](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1419)]
-Oh, the one that I really want you to test this stuff on is AMD UOP MatMall.
+Oh, the one that I really want you to test this stuff on is AMD UOp matmul.
 
 ##### **Qazalin** [[00:23:44](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1424)]
-It should be, like, decently fast and usable with AMD UOP MatMall.
+It should be, like, decently fast and usable with AMD UOp matmul.
 
 ##### **Chenyu** [[00:23:49](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1429)]
-You don't have to run the MatMall 10 times.
+You don't have to run the matmul 10 times.
 
 ##### **Nimlgen** [[00:23:56](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1436)]
 Good.
@@ -1502,7 +1502,7 @@ That's the scale we need to be targeting.
 I mean, it's not crazy big.
 
 ##### **Qazalin** [[00:24:04](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1444)]
-It's a much smaller MatMall than any of the LLaMA ones.
+It's a much smaller matmul than any of the LLaMA ones.
 
 ##### **Chenyu** [[00:24:10](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1450)]
 Yeah, so we get every hit of the instruction.
@@ -1589,7 +1589,7 @@ Yeah.
 Yeah.
 
 ##### **Chenyu** [[00:25:15](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1515)]
-I want it to be usable and decently fast on AMD MatMall.
+I want it to be usable and decently fast on AMD matmul.
 
 ##### **Nimlgen** [[00:25:18](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1518)]
 Like if I was using this to iterate on that.
@@ -2078,7 +2078,7 @@ I mean, hopefully we're kind of in a place where it's..
 I don't know.
 
 ##### **Qazalin** [[00:32:54](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1974)]
-I just feel that the deletion of Shape Tracker and the deletion of kernel.py puts us in a
+I just feel that the deletion of ShapeTracker and the deletion of kernel.py puts us in a
 
 ##### **Geohot** [[00:32:59](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1979)]
 place where there's not much more to delete, so we can start actually fixing issues.
@@ -2960,7 +2960,7 @@ Yeah.
 We're going to have a lot of 45B that starts up fast.
 
 ##### **Qazalin** [[00:47:24](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2844)]
-And we're going to have decent GEMM and flash retention kernels written in UOPs running
+And we're going to have decent GEMM and flash retention kernels written in UOps running
 
 ##### **Geohot** [[00:47:30](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2850)]
 for the LLaMA 8B.

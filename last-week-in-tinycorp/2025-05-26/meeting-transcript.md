@@ -5,7 +5,7 @@
 **Time:** 9am Monday San Diego time
 - company update
 - tenstorrent
-- mlperf ci, sdxl search speed
+- MLPerf ci, sdxl search speed
 - scheduler
 - driver
 - wozeparrot stuff
@@ -169,7 +169,7 @@ I think I misled.
 So..
 
 ##### **Qazalin** [[00:07:11](https://www.youtube.com/watch?v=bktO9YRV8pc&t=431)]
-The barrier is basically a global memory barrier between two UOPs.
+The barrier is basically a global memory barrier between two UOps.
 So it's the opposite of like fusion.
 It's a wall saying that everything before this is a load and you treat it as a buffer.
 And this was hard before to express.
@@ -184,7 +184,7 @@ Yeah, it just encodes that.
 Instead of encoding that in a dictionary, it's now encoded explicitly in the kernel.
 And the main thing that, oh, this is something I should have talked about.
 The main thing that makes this possible is tags.
-So I added one more property to the UOP called tag.
+So I added one more property to the UOp called tag.
 And there's many algorithms that are just very easy to express as like two walks across the graph.
 You do one walk on the graph and then you tag
 Yeah, it's really hard to express things like rewriting x to x.gbarrier to put a gbarrier after the x.
@@ -294,7 +294,7 @@ What's MSELECT, MSTACK?
 ##### **Geohot** [[00:12:49](https://www.youtube.com/watch?v=bktO9YRV8pc&t=769)]
 So it's just
 So multi is now all of one.
-So instead of having four times as many UOPs for four GPUs, we just have one UOP that applies to all the devices.
+So instead of having four times as many UOps for four GPUs, we just have one UOp that applies to all the devices.
 So like if you have two buffers,
 A buffer can now, instead of just being on one GPU, a buffer can be on four GPUs, and then you have two buffers on four GPUs, and you can add them together.
 And that will dispatch the add kernel on all four GPUs.
@@ -558,7 +558,7 @@ There are times when the tensors and the global scope no longer just point to th
 I think that's the case.
 
 ##### **Geohot** [[00:29:28](https://www.youtube.com/watch?v=bktO9YRV8pc&t=1768)]
-Realization of tensors that depend on these UOPs.
+Realization of tensors that depend on these UOps.
 That's another thing.
 
 ##### **Hooved** [[00:29:36](https://www.youtube.com/watch?v=bktO9YRV8pc&t=1776)]
@@ -566,7 +566,7 @@ That'll go away if we figure out the entire fact.
 I'd like to make that go away.
 
 ##### **Geohot** [[00:29:44](https://www.youtube.com/watch?v=bktO9YRV8pc&t=1784)]
-I'm okay with something that bands realize inside of a JIT, but a global piece of state called no-realize-UOPs.
+I'm okay with something that bands realize inside of a JIT, but a global piece of state called no-realize-UOps.
 Let me see how you use this.
 
 ##### **Hooved** [[00:29:55](https://www.youtube.com/watch?v=bktO9YRV8pc&t=1795)]
@@ -716,19 +716,19 @@ No, no, this is hard for me to understand.
 
 ##### **Geohot** [[00:36:30](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2190)]
 Okay, he said he will have some other poc working this week.
-Yeah, I mean, the main thing to think about here is you want your locals to be the size of, like, take every.. What you want to do is you want to run every index through the global shape tracker, and then you're going to get an output set, and then the size of that set is the size of your locals.
+Yeah, I mean, the main thing to think about here is you want your locals to be the size of, like, take every.. What you want to do is you want to run every index through the global ShapeTracker, and then you're going to get an output set, and then the size of that set is the size of your locals.
 Because every local should only be stored once.
 It shouldn't have to do with the product of the shape, because I can just trivially alias things or expand things or..
 
 ##### **Chenyu** [[00:37:15](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2235)]
-Next, we have Onyx.
+Next, we have ONNX.
 Let's start with the protocol parser.
 Red PR, that seems to pass everything.
 Is that good to merge?
 
 ##### **B1tg** [[00:37:28](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2248)]
 Hi, I was working on the parser last week.
-Now we have Onyx parser basically works and pass all the tests.
+Now we have ONNX parser basically works and pass all the tests.
 Now the issue with math here is that it's low.
 The ONNX file is protobuf encoded and not organized like GGUF and SafeSensor.
 Those formats put metadata including offset type at the beginning of the file.
@@ -803,8 +803,8 @@ Yep.
 
 ##### **Chenyu** [[00:42:29](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2549)]
 Yeah, I think, yeah, just yeah.
-OK, how about moving Annex to push?
-Annex runner correct file input type and true.
+OK, how about moving ONNX to push?
+ONNX runner correct file input type and true.
 So the blocker for Flow 16 is the tolerance of error.
 
 ##### **Geohot** [[00:43:16](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2596)]
@@ -825,7 +825,7 @@ I don't think so.
 I think right now, ONNX is still taking in an ONNX object.
 Okay, PR and draft.
 I mean, you can do it with the old, it doesn't matter if it's the old parser or the new parser.
-Yeah, like right now, Onyx Runner is being constructed with a model proto.
+Yeah, like right now, ONNX Runner is being constructed with a model proto.
 
 ##### **Chenyu** [[00:44:29](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2669)]
 It has to be constructed with a tensor or file name.
@@ -1099,7 +1099,7 @@ And then there's a function to reduce across the 32.
 And that is something that's like hard to express.
 It's the way that we express tensor cores is is not really good right now.
 Because
-Like, the tensor cores depend on these shape tracker things being randomly correct.
+Like, the tensor cores depend on these ShapeTracker things being randomly correct.
 So we'd have to move to stuff being upcasted to the warp size.
 We can totally do this.
 Yeah, I think that's fine.

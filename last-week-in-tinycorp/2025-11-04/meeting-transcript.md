@@ -867,7 +867,7 @@ It's not like slow.
 Okay.
 
 ##### **Chenyu** [[00:18:26](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1106)]
-It's just not mixing out the GPU fast.
+It's just not maxing out the GPU fast.
 
 ##### **Chenyu** [[00:18:31](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1111)]
 Cool.
@@ -1035,10 +1035,10 @@ maybe a smaller drama or we should start with like trend bigger LLMs
 Let's list item, the next is open on pilot regressions
 
 ##### **Sieds Lykles** [[00:22:53](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1373)]
-I posted on Onyx channel earlier, I think the parsing issue is really not a parsing issue
+I posted on ONNX channel earlier, I think the parsing issue is really not a parsing issue
 
 ##### **Chenyu** [[00:23:00](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1380)]
-I think maybe Karma just changed the way they upload LFS file
+I think maybe Comma just changed the way they upload LFS file
 
 ##### **Chenyu** [[00:23:04](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1384)]
 now it's not part of the release
@@ -1068,7 +1068,7 @@ so maybe we can do better for error
 error propagation, but in this case if you compare
 
 ##### **Chenyu** [[00:23:38](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1418)]
-if you download the same thing and try to parse it with Onyx
+if you download the same thing and try to parse it with ONNX
 
 ##### **Sieds Lykles** [[00:23:43](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1423)]
 or parser, you get similar errors
@@ -1695,7 +1695,7 @@ fp8 tends to cost speed issue
 and now I'm start doing
 
 ##### **Chenyu** [[00:32:28](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1948)]
-bird train
+BERT train
 
 ##### **Chenyu** [[00:32:30](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1950)]
 replace few layers
@@ -1746,7 +1746,7 @@ you say you have
 training script
 
 ##### **Chenyu** [[00:33:02](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1982)]
-that use fpa to train bird
+that use fpa to train BERT
 
 ##### **Chenyu** [[00:33:07](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1987)]
 yeah
@@ -2007,10 +2007,10 @@ Great.
 Oh.
 
 ##### **Sieds Lykles** [[00:38:40](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2320)]
-Onyx.
+ONNX.
 
 ##### **Chenyu** [[00:38:43](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2323)]
-Other bounty.. so I think all the flash attention ones is kind of on the main TinyGrid team.
+Other bounty.. so I think all the flash attention ones is kind of on the main TinyGrad team.
 
 ##### **Chenyu** [[00:38:53](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2333)]
 I see several attempts for remove tensor.pool alternative, and pretty much everyone is doing the same thing that's not working.

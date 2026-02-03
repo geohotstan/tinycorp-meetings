@@ -18,12 +18,12 @@
 - **[Company Update: Team in Hong Kong](#chenyu-000000)**: Most of the core team is working together from a new, large office in Hong Kong and invites contributors to visit.
 - **[Company Update: TinyBox Sales](#geohot-000113)**: TinyBox Pros with eight 5090s will be sold for $50,000 as "rack mountable workstations," and a TinyBox Red V2 is also planned.
 - **[Rangeify: Top Priority](#chenyu-000304)**: The company's top priority is upgrading the infrastructure with Rangeify to support more advanced features, which involves fixing numerous regressions and bugs.
-- **[Rangeify: SPEC=1](#chenyu-000457)**: A new `SPEC=1` check has been added to enforce that every created UOP follows a strict specification, which will help simplify the IR after the old stack is deleted.
+- **[Rangeify: SPEC=1](#chenyu-000457)**: A new `SPEC=1` check has been added to enforce that every created UOp follows a strict specification, which will help simplify the IR after the old stack is deleted.
 - **[Rangeify: Bug Fixes](#chenyu-000646)**: The team has fixed several bugs exposed by Rangeify, including `rand` in JIT affecting MNIST accuracy and a silent transpose error in GPT-2 weights.
 - **[Rangeify: Multi Assign](#qazalin-000905)**: Reordering `multi` has fixed sharding bugs. A remaining issue with cyclic dependencies will be solved by making a copy rather than asserting.
 - **[Rangeify: Openpilot Stack Performance](#geohot-001214)**: Geohot advises against the current approach for the "big rewrite stack," suggesting a separate stack for rewrites to avoid potential quadratic performance issues.
 - **[Rangeify: Memory Usage](#geohot-001617)**: CIFAR and other models are allocating excessively large buffers. The proposed fix is to re-implement the `remove_dead_axes` function to optimize memory usage.
-- **[Rangeify: Post-Merge Cleanup](#geohot-001803)**: After Rangeify is merged, the plan is to delete a significant amount of old code, including the `ShapeTracker`, `view` ops, and other UOPs, to clean up the codebase.
+- **[Rangeify: Post-Merge Cleanup](#geohot-001803)**: After Rangeify is merged, the plan is to delete a significant amount of old code, including the `ShapeTracker`, `view` ops, and other UOps, to clean up the codebase.
 - **[Rangeify: User-Facing API](#geohot-002309)**: There is user interest in an "outer world rangeify" (user-facing API). The team discussed its potential for use cases like data loading and plans to explore it after the current refactor is complete.
 - **[Other Bounties: NIR Backend](#geohot-002740)**: Progress is being made on an NIR backend, which will enable running on NVIDIA hardware without CUDA by leveraging Mesa.
 - **[Hardware: AMD Machines & eGPUs](#geohot-002846)**: Comma plans to sell its own external GPU enclosures. Issues with the AMD MI300/350 machines are being addressed.
@@ -88,10 +88,10 @@ I think that falls into the tuning for default part. We can quickly go through t
 Yeah, it sounds good.
 
 ##### **Chenyu** [[00:04:57](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=297)]
-So spec equals to one is.. So previously.. So tiny grid is pretty much all UOP. And it's very important to limit the spec for every UOP. UOP has like source and arguments for different ops. And previously we have kind of a step check. And then we have a little bit of a step check. Tiny grid has multiple passes and lower things from tensor to the intermediate ones, then lower to the linearized ones, then finally render into streams. And we have a step check to making sure when you pass this stage, what's the possible set of the UOP. But we didn't really check all the intermediate ones. We didn't have a spec for that. So George just added a spec. So we can see that the spec equals to one today. So that is kind of checking every created UOP needs to follow these specs.
+So spec equals to one is.. So previously.. So tinygrad is pretty much all UOp. And it's very important to limit the spec for every UOp. UOp has like source and arguments for different ops. And previously we have kind of a step check. And then we have a little bit of a step check. tinygrad has multiple passes and lower things from tensor to the intermediate ones, then lower to the linearized ones, then finally render into streams. And we have a step check to making sure when you pass this stage, what's the possible set of the UOp. But we didn't really check all the intermediate ones. We didn't have a spec for that. So George just added a spec. So we can see that the spec equals to one today. So that is kind of checking every created UOp needs to follow these specs.
 
 ##### **Geohot** [[00:06:02](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=362)]
-Yeah, I think especially once we switch only to Ranger 5, we can delete a whole bunch of UOPs. We can delete a whole bunch of op types. We can delete view and stop. And then we should have a relatively small spec. We can also get rid of.. We can merge assign and store. Yeah, then I think the spec overall will be pretty small. And we can check every UOP on creation. So it's important that every intermediate state preserve the spec. I fixed a few things in the de-vectorizer that didn't. Maybe there's a few things in the index stuff that don't also.
+Yeah, I think especially once we switch only to Ranger 5, we can delete a whole bunch of UOps. We can delete a whole bunch of op types. We can delete view and stop. And then we should have a relatively small spec. We can also get rid of.. We can merge assign and store. Yeah, then I think the spec overall will be pretty small. And we can check every UOp on creation. So it's important that every intermediate state preserve the spec. I fixed a few things in the de-vectorizer that didn't. Maybe there's a few things in the index stuff that don't also.
 
 ##### **Chenyu** [[00:06:41](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=401)]
 Great. Okay.
@@ -184,7 +184,7 @@ So that's hashing.
 It's not hat Linear algebra you R and SVD, I think it's related to a sign, but I can it's really cool. double check. And that tells me how the looks like. I think we've done all the IQs and system dentist sites so far. I think it's related to a sign. But I don't know if it's just that and not clear how to fix it yet. This I will look later. Next is the thing is kind of an optimization, but kind of important is the buff limits for metal and for web GPU. I saw Nimmo, do you have a temp on that? I don't know if you have update on that.
 
 ##### **Nimlgen** [[00:14:59](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=899)]
-Yeah. I fixed metal on non-Rangify because it was broken and didn't account for variables. And we have tests now. And because of that, actually, I used to implement buffer limit before Rangify, so it was as simple as realize. But because we need variables, it should be after Rangify because they happen at this stage.
+Yeah. I fixed metal on non-rangeify because it was broken and didn't account for variables. And we have tests now. And because of that, actually, I used to implement buffer limit before rangeify, so it was as simple as realize. But because we need variables, it should be after rangeify because they happen at this stage.
 
 ##### **Chenyu** [[00:15:29](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=929)]
 So yeah. And you like to take the variables from the Thank you. I wouldn't do that. I would do it at the last minute. After the first bufferize pass. Yeah.
@@ -237,7 +237,7 @@ But uh, yeah, how have you been finding reading range of five? Um, It's fine. I 
 But yeah, it's readable. Cool.
 
 ##### **Geohot** [[00:18:03](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1083)]
-Yeah, no, I mean, there's a lot of there's a lot of polished work to do. And when you get here, and like, I think that'll be most of this month will be two basic things just getting range of five merged deletion of tons of stuff, we're going to delete the st method. We're going to delete. Well, the shape tracker entirely every reference to the shape tracker, a whole list of you ops, a whole list of ops, like opt out view. All that can go any reference to view can go. And then yeah, so those cleanups, and then better abstracting where the decisions are. So there's a bunch of decisions made in range of five. Right now, there's like range of five, one and range of five to range of five, two, and two is more aggressive about like partial buffer fusion. But yeah, we're gonna have to like expand the notion of the memory planner to see what we can fit in locals and what we can fit in globals and stuff.
+Yeah, no, I mean, there's a lot of there's a lot of polished work to do. And when you get here, and like, I think that'll be most of this month will be two basic things just getting range of five merged deletion of tons of stuff, we're going to delete the st method. We're going to delete. Well, the ShapeTracker entirely every reference to the ShapeTracker, a whole list of you ops, a whole list of ops, like opt out view. All that can go any reference to view can go. And then yeah, so those cleanups, and then better abstracting where the decisions are. So there's a bunch of decisions made in range of five. Right now, there's like range of five, one and range of five to range of five, two, and two is more aggressive about like partial buffer fusion. But yeah, we're gonna have to like expand the notion of the memory planner to see what we can fit in locals and what we can fit in globals and stuff.
 
 ##### **Chenyu** [[00:19:10](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1150)]
 That's good. Leading stuff is nice. I also just pushed into my library.
@@ -252,7 +252,7 @@ I see. OK.
 Yeah, that has to be the remove data access thing. They cannot allocate 76 petabytes or something.
 
 ##### **Chenyu** [[00:20:19](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1219)]
-And they didn't really check, but maybe stable diffusion and birds. We have a smaller version of that in test reward. So probably also shows there.
+And they didn't really check, but maybe stable diffusion and BERTs. We have a smaller version of that in test reward. So probably also shows there.
 
 ##### **Chenyu** [[00:20:32](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1232)]
 Yeah, some slight regression to comma speed. Yeah. Yeah, we don't want to regress that. Yeah, I think that's part of the tuning.
@@ -324,10 +324,10 @@ And?
 I think that's a reason why it's not a priority now, but we will think it later when we are done with the current rangeify. Yeah, there is interest. And another similar thing is the rewrite of multi. I think now if we change the order of multi, it works now. So that's great. But we definitely will want to make multi just part
 
 ##### **Chenyu** [[00:25:38](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1538)]
-of the rangeify as well. Yeah. So finally, finally the right abstraction for this stuff. PyTorch is still on multi-lazy buffer.
+of the rangeify as well. Yeah. So finally, finally the right abstraction for this stuff. PyTorch is still on multi-LazyBuffer.
 
 ##### **Geohot** [[00:25:56](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1556)]
-We used to have a class called multi-lazy buffer, and I thought it was clever. It was like, oh, look, it can make a list of lazy buffers. You don't want anything like this. So PyTorch has a class called detensor, which is basically this.
+We used to have a class called multi-LazyBuffer, and I thought it was clever. It was like, oh, look, it can make a list of lazy buffers. You don't want anything like this. So PyTorch has a class called detensor, which is basically this.
 
 ##### **Chenyu** [[00:26:09](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1569)]
 Yeah. And later we can use the range. Rangeify multi should naturally give us like multi-short, multi-tensor, or whatever that is. Because now you just have to.
@@ -339,7 +339,7 @@ Yeah, and I think with our driver, we can do something pretty incredible where w
 Great. OK. So let's rangeify. And with that, we can move on to other boundaries.
 
 ##### **Geohot** [[00:26:52](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1612)]
-There's a bunch available if people are interested. $800 if someone can figure out how to make Winograd a generic rewrite world. Should be doable. $300 for the metal compiler actually going in the Beam process. I think UVM's got that locked, and he's going to get it for free once the next version of Mac OS
+There's a bunch available if people are interested. $800 if someone can figure out how to make Winograd a generic rewrite world. Should be doable. $300 for the metal compiler actually going in the BEAM process. I think UVM's got that locked, and he's going to get it for free once the next version of Mac OS
 
 ##### **Chenyu** [[00:27:21](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1641)]
 comes out, just for updating the API. If somebody can get GPT-OSS to run fast.

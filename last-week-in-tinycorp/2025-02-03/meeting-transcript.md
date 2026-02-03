@@ -6,7 +6,7 @@
 - company updates
 - new LLVM, dsp
 - scheduler
-- mlperf resnet, bert
+- MLPerf resnet, bert
 - Ops.POW, rand_like
 - drivers
 - tensor cores
@@ -21,7 +21,7 @@
 
 - [TinyBox Reds](#geohot-000005) We have 6 TinyBox reds in stock, please buy reds. (5090 boxes soon)
 - [Need for Speed](#geohot-000323) Geohot is interested in paying out bounties that improve SPEED!
-- Everything else is moving along, DSP, scheduler, mlperf, tensorcores, etc.
+- Everything else is moving along, DSP, scheduler, MLPerf, tensorcores, etc.
 - [Graph rewirte](#geohot-004638) Geohot: "if no one does it by March, I'll start taking it seriously."
 - [Closing remarks](#geohot-005136) From Chenyu and Geohot on how great projects take time
 
@@ -469,22 +469,22 @@ We just need to move that logic into ops and have it just recursively compute it
 Oh, so like device.  
 
 ##### **Geohot** [[00:24:04](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=1444)]  
-Yeah, you definitely don't want to, like device, yeah, you definitely don't want to start adding, like, pow is fine, but adding UOPs is bad.  
-Like, we need to delete a lot of UOPs.  
+Yeah, you definitely don't want to, like device, yeah, you definitely don't want to start adding, like, pow is fine, but adding UOps is bad.  
+Like, we need to delete a lot of UOps.  
 
 ##### **Chenyu** [[00:24:17](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=1457)]  
 Okay.  
 
 ##### **Geohot** [[00:24:18](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=1458)]  
-Right, because you could imagine a world where someone eventually is like, well, why don't we just have a conv UOP?  
+Right, because you could imagine a world where someone eventually is like, well, why don't we just have a conv UOp?  
 
 ##### **Chenyu** [[00:24:24](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=1464)]  
 Yes.  
-Let's have an Arange UOP.  
-I want an Arange UOP.  
+Let's have an Arange UOp.  
+I want an Arange UOp.  
 
 ##### **Geohot** [[00:24:28](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=1468)]  
-An Arange UOP, yeah.  
+An Arange UOp, yeah.  
 
 ##### **Chenyu** [[00:24:32](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=1472)]  
 Yeah, OK.  
@@ -658,9 +658,9 @@ And we are going to move on to TensorCores.
 
 ##### **Ignaciosica** [[00:31:46](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=1906)]  
 Hi, hello.  
-Search over a tensor core shape in each initial benchmarking gives hints that it is lower for smaller beam, as it tends to find local minimum with smaller shapes.  
+Search over a tensor core shape in each initial benchmarking gives hints that it is lower for smaller BEAM, as it tends to find local minimum with smaller shapes.  
 Though this might be a problem on the search algorithm rather than on the searching over the shape itself.  
-I think we might want to add this, but under a disabled flag, at least until the search algo gives better results, or only enable it if the beam count is high enough to overpass this local minimum.  
+I think we might want to add this, but under a disabled flag, at least until the search algo gives better results, or only enable it if the BEAM count is high enough to overpass this local minimum.  
 
 ##### **Chenyu** [[00:32:32](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=1952)]  
 I see.  
@@ -675,7 +675,7 @@ So don't worry too much on that.
 ##### **Ignaciosica** [[00:33:21](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2001)]  
 Yes, I would flag it under a BEAM count.  
 or flag directly because it gives a smaller worst performance.  
-Consider it was worst performance for some shapes if the beam is free or edge or something like that.  
+Consider it was worst performance for some shapes if the BEAM is free or edge or something like that.  
 
 ##### **Chenyu** [[00:33:42](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2022)]  
 OK, sure.  
@@ -886,7 +886,7 @@ Thanks.
 
 ##### **Chenyu** [[00:44:06](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2652)]  
 OK, let's move on to other bounties.  
-Onyx, comment on the PR to merge ONNX files, I think is fine.  
+ONNX, comment on the PR to merge ONNX files, I think is fine.  
 But please do that in separate PRs, just one for simple copy and the subsequent ones for real change.  
 That's a lot easier to review.  
 RetinaNet.  
@@ -952,7 +952,7 @@ So there's a bunch of ways you can parallelize, right?
 Now we're just kind of making a big queue for them.  
 But you can parallelize for free just where you do the matches.  
 Like call all five match things at once.  
-This is the beauty of UOPs being immutable.  
+This is the beauty of UOps being immutable.  
 Okay, fine.  
 It turns out that only two of them return when the first one was needed, right?  
 So it's speculative.  

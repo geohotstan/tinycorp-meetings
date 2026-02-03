@@ -5,7 +5,7 @@
 **Time:** 7am Monday San Diego time (10pm HK time)
 - company update
 - new arange reduce fuser
-- bert, mlperf, retinanet
+- bert, MLPerf, retinanet
 - scheduler
 - driver
 - tensor cores
@@ -452,17 +452,17 @@ Yeah.
 ##### **Chenyu** [[00:22:02](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=1321)]
 Yeah.
 I think this is also tied to a speedup default or something something project.
-Eventually, we want to run the Beam version of this CI benchmark.
+Eventually, we want to run the BEAM version of this CI benchmark.
 
 ##### **Geohot** [[00:22:17](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=1337)]
 Yeah.
 Yeah.
-No, we definitely don't have any Beam CI.
-We have Beam CIs for LLMs.
-We don't have any Beam CIs for any conv-y stuff.
+No, we definitely don't have any BEAM CI.
+We have BEAM CIs for LLMs.
+We don't have any BEAM CIs for any conv-y stuff.
 
 ##### **Chenyu** [[00:22:25](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=1345)]
-We have one conv let's being beam.
+We have one conv let's being BEAM.
 
 ##### **Geohot** [[00:22:28](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=1348)]
 Well, yeah, the one conf in the conv speed test..

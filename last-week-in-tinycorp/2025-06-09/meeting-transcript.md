@@ -152,7 +152,7 @@ If George, you want to talk about what we discussed?
 Yeah, so yeah, it's it's the current viz stops basically at the kernel level and says almost nothing about a bunch of really important things.
 So like we don't know which kernels run when and we don't know how memory is assigned.
 So we have stuff like Memory Planner, but Memory Planner is not in the new architecture yet.
-Memory Planner operates on these schedule item things, and these schedule item things are not UOPs.
+Memory Planner operates on these schedule item things, and these schedule item things are not UOps.
 We have almost no insight into them.
 We're lucky that that thing doesn't seem to have too many bugs, but I think if we have an understanding of how..
 We're basically missing an entire part of how kernels, like, okay, great, you have this graph, and then we run this graph on the GPU.

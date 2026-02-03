@@ -5,7 +5,7 @@
 **Time:** 9am Monday San Diego time
 - company update
 - testgrad / scheduler
-- mlperf LLaMA 405b, bert grad accumulation, LLaMA 405b inference, bf16 adam
+- MLPerf LLaMA 405b, bert grad accumulation, LLaMA 405b inference, bf16 adam
 - viz tooling
 - drivers
 - cloud, hash, tinyfs
@@ -27,7 +27,7 @@
 - **[Gradient Accumulation for BERT](#geohot-or-chenyu-000756)**: Successfully implemented basic gradient accumulation; minor JIT input handling issues identified and to be fixed.
 - **[LLaMA 405B Inference](#geohot-or-chenyu-001032)**: Model loads slowly but runs correctly on MI300X hardware; FP16 Adam optimizer tested and considered suitable.
 - **[Fused Optimizer Memory Issue](#geohot-or-chenyu-001424)**: Memory overflow detected in the fused optimizer implementation; visualization tooling proposed to help diagnose buffer usage.
-- **[Visualization Tooling](#qazalin-001545)**: Merged `TimeVis` tool for non-blocking UOP tracking. Memory allocation and kernel execution profiling being enhanced to debug memory issues effectively.
+- **[Visualization Tooling](#qazalin-001545)**: Merged `TimeVis` tool for non-blocking UOp tracking. Memory allocation and kernel execution profiling being enhanced to debug memory issues effectively.
 - **[Drivers Stability Issue](#nimlgen-002933)**: Red machine GPU reset instability traced potentially to `AMSMI` GPU probing service; plan to disable probing temporarily for stability tests.
 - **[GPU Memory Transfer Optimization](#geohot-or-chenyu-003818)**: Priority set for optimizing CPU-GPU memory transfers, especially critical for LLaMA 405B due to optimizer states stored on CPU.
 - **[Disk to GPU Direct Transfer](#nimlgen-003958)**: Exploring direct disk-to-GPU data transfer solutions using NVMe or DMA buffer mechanisms.
@@ -112,7 +112,7 @@ But if you look at that new docs I linked, that layout MD,
 I've isolated all of kernel.py to be in one folder called opt.
 We don't use kernel as an abstraction anywhere.
 All kernel does is transforms the AST into an optimized AST, which is an AST that basically just the shapes are swizzled and there's tensor cores, and that's it.
-But it's still just a UOP to UOP transformation.
+But it's still just a UOp to UOp transformation.
 It fits in the normal paradigm.
 And all of that legacy code is shoved into a directory.
 And we can replace it, not replace it.
@@ -266,7 +266,7 @@ Yeah, then last thing.
 So I test Adam flow 16, beef flow 16.
 You should see that in the LAMA 4 or 5B channel.
 Beef flow seems fine.
-I mean, fine for birds.
+I mean, fine for BERTs.
 I don't know, 4 or 5B would require as much
 I don't know if it's much bigger, but different kinds of range probably should also work.
 O16, I'm pretty sure if we find a way to scale that number to the correct range, it might be also possible to work.
@@ -321,8 +321,8 @@ I have this tooling.
 ##### **Qazalin** [[00:15:45](https://www.youtube.com/watch?v=nNXwJ320Dww&t=945)]
 Yeah, this tooling.
 I merged TimeVis.
-And I have a diff I posted to this channel for non-blocking UOP tracking.
-The basic idea is to track the actual fields of the UOP data class and then reconstruct the UOP graph.
+And I have a diff I posted to this channel for non-blocking UOp tracking.
+The basic idea is to track the actual fields of the UOp data class and then reconstruct the UOp graph.
 And that's going to solve Mickey.
 I saw a bunch of the diffs where the bounties were like weak refs and stuff.
 You need none of that.
@@ -368,7 +368,7 @@ It's layers that's different?
 
 ##### **Geohot or Chenyu** [[00:17:34](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1054)]
 So definitely, layer is a problem.
-That's why bird-sized layer 2 is a lot faster than 24.
+That's why BERT-sized layer 2 is a lot faster than 24.
 Let me check.
 Yeah.
 I think it's 192, maybe.
@@ -478,7 +478,7 @@ Open the buffer class and then process it.
 
 ##### **Geohot or Chenyu** [[00:23:21](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1401)]
 Yeah, the problem with doing it in global counters is kind of like, OK, now we have some dictionary in global counters of the device names and of the.
-One concrete issue I had was I was testing training birds on a red box, and the total mem was 148 gig.
+One concrete issue I had was I was testing training BERTs on a red box, and the total mem was 148 gig.
 
 ##### **Geohot or Chenyu** [[00:23:42](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1422)]
 And I was not sure what's happening.
@@ -590,11 +590,11 @@ There's your solution.
 Does that work?
 Because it's the same problem.
 If you know when they're stale, you can delete them when they're stale.
-So you're going to be able to see the Beam stuff.
+So you're going to be able to see the BEAM stuff.
 Yeah, that would be cool.
 
 ##### **Geohot or Chenyu** [[00:28:38](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1718)]
-Yeah, I mean, it'd be good also as we eventually, I mean, I want to eventually expand that infrastructure and not just be for Beam.
+Yeah, I mean, it'd be good also as we eventually, I mean, I want to eventually expand that infrastructure and not just be for BEAM.
 
 ##### **Geohot or Chenyu** [[00:28:47](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1727)]
 And I want to be able to do kernel rendering in parallel.
@@ -1019,7 +1019,7 @@ Or anything else Slycos want to say?
 Yeah.
 We should be able to talk.
 Or if you cannot talk, you can just type.
-And then next would be Annex.
+And then next would be ONNX.
 Working on bit vector ranger.
 I saw the PR.
 
@@ -1067,7 +1067,7 @@ Anyway, that.
 And I think there are other things that's blocking was the dtype fallback.
 Because for now, our parsing would convert some dtype to the incorrect dtype.
 And I think that's what's blocking some other refactors.
-Anyway, there are many things that we want for Annex.
+Anyway, there are many things that we want for ONNX.
 
 ##### **Geohot or Chenyu** [[00:49:49](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2989)]
 What else do we have?
@@ -1081,9 +1081,9 @@ And one thing I did was I also tested something with locals.
 This is after locals.
 Basic locals is merged.
 But before, the only way I had for setting up the thread
-The local memory layout was by permuting the shape tracker after it was initialized.
+The local memory layout was by permuting the ShapeTracker after it was initialized.
 And that had some constraints because of the axis, the size of the axis that had to be the same and so on so it doesn't break.
-But I realized that if you initialize the shape tracker, for example, you initialize it column wise, column major, it will affect the
+But I realized that if you initialize the ShapeTracker, for example, you initialize it column wise, column major, it will affect the
 Local memory layout, and you don't need any permutation.
 So that is a way forward for the next step.
 And well, that's it for locals.
@@ -1104,7 +1104,7 @@ Your examples don't show it be any slower with Upcast Globals or not Upcast Glob
 The second one is really slower.
 
 ##### **Geohot or Chenyu** [[00:52:10](https://www.youtube.com/watch?v=nNXwJ320Dww&t=3130)]
-Oh, the simple Matmall one?
+Oh, the simple matmul one?
 Yeah.
 Oh, I see.
 
@@ -1154,7 +1154,7 @@ And that is the entire challenge of locals.
 If you have aliasing dimensions and you're making too many copies in locals, then that ruins everything.
 
 ##### **Ignaciosica** [[00:54:00](https://www.youtube.com/watch?v=nNXwJ320Dww&t=3240)]
-Don't I get the real size of locals if I ask for the real size in the shape tracker?
+Don't I get the real size of locals if I ask for the real size in the ShapeTracker?
 
 ##### **Geohot or Chenyu** [[00:54:08](https://www.youtube.com/watch?v=nNXwJ320Dww&t=3248)]
 Well, but I don't know how well real size works, right?

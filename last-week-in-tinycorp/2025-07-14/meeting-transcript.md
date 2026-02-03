@@ -5,7 +5,7 @@
 **Time:** 9am Monday San Diego time
 - company updates
 - kernel refactors
-- hcopt refactors, mlperf LLaMA 405b
+- hcopt refactors, MLPerf LLaMA 405b
 - viz tool
 - drivers
 - cloud
@@ -34,7 +34,7 @@
 - **[ONNX](#chenyu-003122)**: The `load_onnx` implementation is blocked by a failing test in openpilot involving a constant-folded, shape-changing bitcast. A workaround is needed to unblock merging the new ONNX support.
 - **[ONNX](#chenyu-003502)**: A correctness bug in an ONNX up/down-sampling operation was exposed by recent `hcopt` refactors. The issue, previously thought to be device-specific, needs a proper fix to ensure correct behavior on all platforms.
 - **[Other Bounties](#b1tg-003626)**: A flaky bug causing a core dump has been reliably reproduced in a Docker environment after several hours of testing. A GitHub issue will be created to track the investigation and fix.
-- **[Kernel Refactors](#ignaciosica-004143)**: It was suggested to define the local memory layout during initial shape tracker creation rather than using later permutations, which would ensure the layout is always valid.
+- **[Kernel Refactors](#ignaciosica-004143)**: It was suggested to define the local memory layout during initial ShapeTracker creation rather than using later permutations, which would ensure the layout is always valid.
 - **[Other Topics](#geohot-004709)**: A brief analysis of the Luminal project was shared, noting its strong foundation in e-graphs for algebraic pattern matching and its clean representation of loops.
 
 ### Transcript
@@ -288,7 +288,7 @@ I mean, basically we can already allocate like the Pint memory and we just put p
 So the limit equals the. Call the CPU to CPU code. May we can just get rid of this type. I think we should get the full bandwidth.
 
 ##### **Chenyu** [[00:25:31](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=1531)]
-So I think what we can ask maybe the easiest way to test something like this is we can take birds then move birds. Optimizer state to CPU before training and we start training like that and see how much of copy overhead we are getting our M 300 X. That would be very similar in terms of what we want for LLaMA 405 B because 45 is so big that the off-matter state need to be state in system rate. Anyway, making sure like copy is fast from the initial weight loading from disk to GPU is fast then GPU state is GPU tensor to CPU and back is fast.
+So I think what we can ask maybe the easiest way to test something like this is we can take BERTs then move BERTs. Optimizer state to CPU before training and we start training like that and see how much of copy overhead we are getting our M 300 X. That would be very similar in terms of what we want for LLaMA 405 B because 45 is so big that the off-matter state need to be state in system rate. Anyway, making sure like copy is fast from the initial weight loading from disk to GPU is fast then GPU state is GPU tensor to CPU and back is fast.
 
 ##### **Geohot** [[00:26:27](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=1587)]
 I think that's why you. Yeah, okay, sounds good. Anything else? I don't know. To cloud. I've been going through UV and PRs. Mostly okay.
@@ -300,7 +300,7 @@ I think you might want to split the failing test. Just into a separate PR.
 I don't know if it needs the other stuff in the cross-host graph PR. Okay, I see. I see. File system is hosted somewhere now.
 
 ##### **Wozeparrot** [[00:27:36](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=1656)]
-Work this week. It's just on the one year eight, the one node. I really have reserved for cloud. It's pretty slow right now. I need to merge hashing in main tiny grid. Get it fast. For some reason, the hashing tests, the cac tests are broken.
+Work this week. It's just on the one year eight, the one node. I really have reserved for cloud. It's pretty slow right now. I need to merge hashing in main tinygrad. Get it fast. For some reason, the hashing tests, the cac tests are broken.
 
 ##### **Geohot** [[00:28:14](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=1694)]
 And on your branch over. And on master.
@@ -489,7 +489,7 @@ Great. I once I once think I wanted to mention that I saw in your metal you up o
 Don't really follow that so you can purview there's three shape trackers involved. There's the load from global memory, the store to local memory and the store from local memory. And you can permute all three of those and they all kind of like mean different things. There are invalid permutations of them and we might want to make it more restrictive to not allow those invalid permutations. But like another way to think about the initial load and stores that that's a copy. And then you can actually do those things in any order you want. So you can you can like arbitrarily permute as long as you permute those two shape trackers together. And then for the store and the. The read the store to local and the load from local you can permute those two and those will determine the actual layout in the local memory.
 
 ##### **Ignaciosica** [[00:43:28](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=2608)]
-Yes, but I think if you later permute like the store and load from local memory there you're there are going to. And counter some invalid permutations that you don't encounter if you like order the access from the beginning. Like right now if you initialize the shape tracker from shape, I think it will initial in it like column major. But you can like define that local layout in that stage not recurring a permutation later and that is always valid.
+Yes, but I think if you later permute like the store and load from local memory there you're there are going to. And counter some invalid permutations that you don't encounter if you like order the access from the beginning. Like right now if you initialize the ShapeTracker from shape, I think it will initial in it like column major. But you can like define that local layout in that stage not recurring a permutation later and that is always valid.
 
 ##### **Geohot** [[00:44:06](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=2646)]
 And I see what you're saying. Yeah, I'll think about that. Okay, so you're saying basically to bind the layout to the to the to the memory and not to the not to the load store.

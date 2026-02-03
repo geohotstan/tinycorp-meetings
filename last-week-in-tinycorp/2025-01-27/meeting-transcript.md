@@ -42,13 +42,13 @@ want to talk about new multi and new gradient
 **Geohot** [[00:00:51](https://www.youtube.com/watch?v=IEel2egz8pc&t=51)]
 Sure
 Had a pretty good week this week.
-Finally got multi and Gradient merge that depend on UOPs and not on anything else.
-So we had a separate class called multi-lazybuffer.
-Multi-lazybuffer doesn't exist anymore.
+Finally got multi and Gradient merge that depend on UOps and not on anything else.
+So we had a separate class called multi-LazyBuffer.
+Multi-LazyBuffer doesn't exist anymore.
 It's constructed at schedule time now by pushing this ops multi down through the graph.
 So it's pretty much the same logic, but instead of being a class, it's a graph rewrite.
 And then once multi was done, I could finally merge gradient.
-The problem with gradient with multi lazy buffer is you'd have to apply the gradient on the multi lazy buffer.
+The problem with gradient with multi LazyBuffer is you'd have to apply the gradient on the multi LazyBuffer.
 So you have to apply the gradient basically before you apply the multi.
 But yeah, this is no problem now because the multi stuff is applied at schedule time and the gradient happens before schedule time.
 So we got a big, we got like a 200 line reduction for that.
@@ -57,7 +57,7 @@ Function.py, the function class is gone.
 And I think there's still quite a bit of cleanup left to do.
 Just random stuff left around from old Gradient that could just go.
 So yeah, I'm very happy with them.
-And it seems like the UOP project that we started in October is finally coming to a close and it works.
+And it seems like the UOp project that we started in October is finally coming to a close and it works.
 
 **Chenyu** [[00:02:26](https://www.youtube.com/watch?v=IEel2egz8pc&t=146)]
 Cool.
@@ -487,7 +487,7 @@ I mean, sure, but like this week I merged your add merge views to the ops foldin
 And it's like, I upstream it and it works just, it's green and I merge it.
 And it's like, because tensor map exists, right?
 So I think like there's this step that we could take of just removing bufferization and going right away to the,
-like style of doing the fusion stuff with graph rewrites and grabbing all the UOPs and gathering them?
+like style of doing the fusion stuff with graph rewrites and grabbing all the UOps and gathering them?
 That would just make this problem not exist.
 Is that an option, or do we need to go this half step, dealing with the
 

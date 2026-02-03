@@ -6,7 +6,7 @@
 - company updates
 - rangeify opt
 - bfloat16 alu stuff
-- mlperf LLaMA
+- MLPerf LLaMA
 - viz tool
 - drivers
 - symbolic
@@ -108,13 +108,13 @@ No, by the bottom up, right? It's never wrong. Is it wrong?
 Oh, I thought you were.. Before you mentioned it. I thought you were saying that because it's bottom up, now some caches can be wrong.
 
 ##### **Geohot** [[00:04:57](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=297)]
-I fixed that. So, yeah, I fixed that. I finally got the children thing working properly. You just need.. So it adds two UOPs. It adds one called children and two called child. And then you just have to wait to pass through children until you've seen both child.
+I fixed that. So, yeah, I fixed that. I finally got the children thing working properly. You just need.. So it adds two UOps. It adds one called children and two called child. And then you just have to wait to pass through children until you've seen both child.
 
 ##### **Geohot** [[00:05:17](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=317)]
 It should never be wrong.
 
 ##### **Geohot** [[00:05:20](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=320)]
-But the other thing that I'm really excited about.. Is the Vmap stuff. So it's really easy, like in the Rangeify world, to create ranges on the overworld. And then they just pretty much work as you'd expect. And this should be a ton more flexible. So it copies Jack's Vmap exactly. But it should be a ton more flexible. Because every tensor can have a different.. Like, most of the differences between a lot of the tiny grid stuff.. And the Jack stuff is.. Jack's operates on a function. Like, when you compute a gradient in Jack's, you don't give it a tensor. You give it a function. So Jack's Vmap is the same thing. You don't give it a tensor. You don't say, like, where the tensor is Vmapped. You just say, here's a function. And then you have to give it a map of axes. But then you can't chain Vmap things. Like, in tiny grid, you should be able to.. It should be, like.. It should be really easy to do all the layers of an LLM with a couple things. You just need to slice into your weights with your layer index. And then you can just call whatever you want. Call scale.. Call attention. Call GEMM. So.. Yeah, I think that that's.. When that's subsidized to work, it's going to be great. Yeah. So my plan is, first, post-opt. Which should work with all the existing stuff. So, like, the problem with.. You can't do optimizations at the kernel.py layer with rangeify. Because you have ranges. So you have to do optimizations after ranges. But we could do all the normal optimizations after ranges. So that's step one. And then, yeah.
+But the other thing that I'm really excited about.. Is the Vmap stuff. So it's really easy, like in the Rangeify world, to create ranges on the overworld. And then they just pretty much work as you'd expect. And this should be a ton more flexible. So it copies JAX's Vmap exactly. But it should be a ton more flexible. Because every tensor can have a different.. Like, most of the differences between a lot of the tinygrad stuff.. And the JAX stuff is.. JAX's operates on a function. Like, when you compute a gradient in JAX's, you don't give it a tensor. You give it a function. So JAX's Vmap is the same thing. You don't give it a tensor. You don't say, like, where the tensor is Vmapped. You just say, here's a function. And then you have to give it a map of axes. But then you can't chain Vmap things. Like, in tinygrad, you should be able to.. It should be, like.. It should be really easy to do all the layers of an LLM with a couple things. You just need to slice into your weights with your layer index. And then you can just call whatever you want. Call scale.. Call attention. Call GEMM. So.. Yeah, I think that that's.. When that's subsidized to work, it's going to be great. Yeah. So my plan is, first, post-opt. Which should work with all the existing stuff. So, like, the problem with.. You can't do optimizations at the kernel.py layer with rangeify. Because you have ranges. So you have to do optimizations after ranges. But we could do all the normal optimizations after ranges. So that's step one. And then, yeah.
 
 ##### **Geohot** [[00:07:07](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=427)]
 Then ranges have optimizations. Great. I like it.
@@ -327,7 +327,7 @@ But it might be a broken kernel. I think it's that because it's AMD driver, not 
 Got it. So you think the kernel is actually accessing memory out of bounds? I think, yeah.
 
 ##### **Nimlgen** [[00:20:17](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1217)]
-Because actually, Hooved got a DRAM beam. So I think in his case, it's definitely the bad kernel.
+Because actually, Hooved got a DRAM BEAM. So I think in his case, it's definitely the bad kernel.
 
 ##### **Geohot** [[00:20:28](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1228)]
 We got to detect that and save the kernel. And then run SuperZ3 on that.
@@ -588,7 +588,7 @@ Uh.. Okay. How would you change this? What would it be instead?
 It would be exactly the same. I just don't want it out of memory when that happens.
 
 ##### **Geohot** [[00:32:31](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1951)]
-Oh, I see what you're saying. Okay, you're saying that, like, you're spending a lot of memory on rewrite rules. Um.. Yeah. I understand. Uh.. Yeah, no, I wouldn't.. I wouldn't.. I wouldn't.. I've never seen a problem with this. Like, we should really be focused on.. on an exact use case and an exact problem. I think one of the things to revisit that I've always wanted with Viz is a better visualization of what the rewrite rule is doing. So, like, right now we have.. in that, uh, rightmost panel, we have the, like, the red and the green on the UOP. I've never seen that be useful.
+Oh, I see what you're saying. Okay, you're saying that, like, you're spending a lot of memory on rewrite rules. Um.. Yeah. I understand. Uh.. Yeah, no, I wouldn't.. I wouldn't.. I wouldn't.. I've never seen a problem with this. Like, we should really be focused on.. on an exact use case and an exact problem. I think one of the things to revisit that I've always wanted with Viz is a better visualization of what the rewrite rule is doing. So, like, right now we have.. in that, uh, rightmost panel, we have the, like, the red and the green on the UOp. I've never seen that be useful.
 
 ##### **Geohot** [[00:33:15](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1995)]
 Like this. What do you mean? What's very useful? Oh, you've used this? I read this.
@@ -603,10 +603,10 @@ I don't know. So, I think the less useful part is the code because the code neve
 Code is good. I like the code. Yeah, but it never changed. Oh, the code never changes. Yeah. Um.. I mean, we have this, like..
 
 ##### **Chenyu** [[00:33:50](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2030)]
-I mean, I read this. Maybe it's just because lack of better tools for this kind of stuff. Because usually, for my use case, I want to see how one op might disappear from the big UOP.
+I mean, I read this. Maybe it's just because lack of better tools for this kind of stuff. Because usually, for my use case, I want to see how one op might disappear from the big UOp.
 
 ##### **Geohot** [[00:34:08](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2048)]
-The other thing that I'd really like is if I click on a UOP, could it add.. labels to each edge to say which input it's going to?
+The other thing that I'd really like is if I click on a UOp, could it add.. labels to each edge to say which input it's going to?
 
 ##### **Geohot** [[00:34:28](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2068)]
 Like the paths?
@@ -618,7 +618,7 @@ I like the..
 Well, so, like, I have a problem. Some annotation to the edge, especially when your edge becomes very big, some of it might intersect or go, like, under another block or another rectangle.
 
 ##### **Geohot** [[00:34:47](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2087)]
-I'm just talking about, you know, you could have that. I mean, that'd be cool too if it lit up the parents. But I more mean, like a lot of times, like, especially for, like, a UOP, like, where. It's very important to know which argument is the.. which is the third, which is the second and which is the third.
+I'm just talking about, you know, you could have that. I mean, that'd be cool too if it lit up the parents. But I more mean, like a lot of times, like, especially for, like, a UOp, like, where. It's very important to know which argument is the.. which is the third, which is the second and which is the third.
 
 ##### **Geohot** [[00:35:04](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2104)]
 It's, like, hard to know that from the graph. I mean, let's continue.
@@ -705,7 +705,7 @@ Well, those CPUs are extremely fast. Yeah. I want to start moving more and more 
 Yeah.
 
 ##### **Geohot** [[00:40:54](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2454)]
-Like, we should move away from Python. We should basically use a tiny grad function to do the update, and then JIT that tiny grad function.
+Like, we should move away from Python. We should basically use a tinygrad function to do the update, and then JIT that tinygrad function.
 
 ##### **Geohot** [[00:41:03](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2463)]
 Then that should be really fast. Yeah, that's probably a solution.
@@ -765,7 +765,7 @@ Yeah. I'll add some to-do's, some examples.
 I mean, it's pretty nice that you are cleaning up these like divs and mods stuff. Yeah.
 
 ##### **Sieds Lykles** [[00:45:10](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2710)]
-I think I have an overview now of all the rules that are missing. Like I had some branch where I was doing the, I don't know, I was just printing a lot of UOPs that should simplify to the same thing. You can see the difference. And then like.. I was getting pretty close to them always being the same.
+I think I have an overview now of all the rules that are missing. Like I had some branch where I was doing the, I don't know, I was just printing a lot of UOps that should simplify to the same thing. You can see the difference. And then like.. I was getting pretty close to them always being the same.
 
 ##### **Geohot** [[00:45:42](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2742)]
 Yeah.
@@ -828,13 +828,13 @@ Supposedly it's a lot faster with the kernel driver because of some NUMA node be
 Yeah, that's starting by having a script. Yeah, I'm starting with a script. So that we can reproduce the multi-machine trend and see what the next should be.
 
 ##### **Geohot** [[00:48:41](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2921)]
-It's also the NAND thing. I mean, I don't want to harp on the NAND thing if this turns out to be just like.. Didn't we used to just have this problem in AMD in general? Yes.
+It's also the NaN thing. I mean, I don't want to harp on the NaN thing if this turns out to be just like.. Didn't we used to just have this problem in AMD in general? Yes.
 
 ##### **Chenyu** [[00:48:53](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2933)]
 And I think that was caused by some driver issue. At least it was fixed by some driver change. Huh. So, I mean, I mean. If we can successfully train BERT on one machine, say for a few times, then it failed on the two machine setup, then more likely there's some problem with the two machine setup.
 
 ##### **Geohot** [[00:49:20](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2960)]
-That seems reasonable. Yeah. Let's run BERT on one machine. That'll give us both the timing and the NAND issue. And if it works a bunch of times on one machine and doesn't work on two machines, then it's a multi-issue. If it's flaky on one machine, then it's a multi-issue. If it's flaky on two machines, and it's also flaky on two machines, but it sometimes works, then good enough.
+That seems reasonable. Yeah. Let's run BERT on one machine. That'll give us both the timing and the NaN issue. And if it works a bunch of times on one machine and doesn't work on two machines, then it's a multi-issue. If it's flaky on one machine, then it's a multi-issue. If it's flaky on two machines, and it's also flaky on two machines, but it sometimes works, then good enough.
 
 ##### **Qazalin** [[00:49:39](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2979)]
 Okay.
@@ -852,7 +852,7 @@ so
 I think optimize you might be able to always do prune has a bunch of foot guns
 
 ##### **Geohot** [[00:50:26](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3026)]
-yeah so I would think the onX
+yeah so I would think the ONNX
 
 ##### **Chenyu** [[00:50:36](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3036)]
 cleanup follows so few things one is if you can simplify or rewrite the implementation itself so that it's it's faster if you use like a lot less ops or things like that that's definitely good then for the model speed this is slightly tricky because none of the open pilot model use bin because bin is very slow on device so it really is the speed of the default heuristic optimization so there I would say if the change is in principle like simpler and we expect that to be faster then that's probably good otherwise you really need to look into one specific script and say okay condition on this setting is a faster or not and to that we really only care about the open pilot models
@@ -879,7 +879,7 @@ because your output has different shape and it follows different paths does diff
 your output has a different shape that's allowed
 
 ##### **Chenyu** [[00:52:26](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3146)]
-yes so in onyx the if op is running a different subgraph
+yes so in ONNX the if op is running a different subgraph
 
 ##### **Geohot** [[00:52:33](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3153)]
 no I'm aware that it's real control flow but I'm still shocked that a different shape is allowed a different shape is allowed that's right yeah that's what that
@@ -942,7 +942,7 @@ Yeah, no, yeah, I see. I see a whole bunch of changes like that where like this 
 That's true. First, it's got to pass the tests. Anything else?
 
 ##### **Geohot** [[00:57:40](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3460)]
-Oh, oh, oh, oh, I think for the reduce access to be keep dims, B1TG, I think we're not going to merge that. But you did the work. I'll pay you out the bounty for that. Because in range of file, it kind of doesn't matter. In range of file, it's just kind of free. There was some like deep bug and beam. But instead of tracking this down, you've been doing a lot of work on the area of stuff. So I'll just pay you out. I'll pay you out the reduce bounty 250.
+Oh, oh, oh, oh, I think for the reduce access to be keep dims, B1TG, I think we're not going to merge that. But you did the work. I'll pay you out the bounty for that. Because in rangeify, it kind of doesn't matter. In rangeify, it's just kind of free. There was some like deep bug and BEAM. But instead of tracking this down, you've been doing a lot of work on the area of stuff. So I'll just pay you out. I'll pay you out the reduce bounty 250.
 
 ##### **Sieds Lykles** [[00:58:19](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3499)]
 OK.

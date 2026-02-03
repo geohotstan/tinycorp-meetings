@@ -21,7 +21,7 @@ Here are the highlights from the meeting transcript:
 
 - **[Memory Improvements](#geohot-000525)**: Rangeify uses about a third less memory and 30% fewer kernels compared to the old scheduler, though currently runs slower due to unfused backward kernels.
 
-- **[Technical Architecture](#geohot-001222)**: Rangeify replaces the shape tracker system by applying movement operations directly to ranges/indexes. Key improvements include better handling of padding operations and eliminating many previous hacks.
+- **[Technical Architecture](#geohot-001222)**: Rangeify replaces the ShapeTracker system by applying movement operations directly to ranges/indexes. Key improvements include better handling of padding operations and eliminating many previous hacks.
 
 - **[Buffer Strategy](#geohot-001439)**: The current strategy overuses buffers early in the graph for easier optimization later. Buffers can always be removed (causing recomputation) but never break correctness.
 
@@ -58,7 +58,7 @@ So we're going to start with the
 And I worry about I've written a whole bunch of these abstractions.
 
 ##### **Geohot** [[00:01:12](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=72)]
-I wrote linearizer. Now range of I wrote the shape tracker. Like I worry that if these abstractions aren't understandable by other people, then I'm not doing a good job, then they're not good abstractions. Because the goal of code is not to be written or to be interpreted by machines to be read. So if people can't read the code and understand what's going on, then they're not going to be able to understand what's going on. Something's wrong. And there's stuff that we have to change everyone here. At least everyone who works at the company should be able to work on every piece of tiny grab. At least to some extent, there shouldn't be any pieces that are like, oh, we can't touch that piece. And that's how I felt the scheduler. That's still how I feel the scheduler is. I don't know how to touch the code and grouper. Like the coding grouper that like, max one reduce option. But it's very useful to do point by point ordering. So that's a good point to play with. I'm going to be going devotionally larger be, some sort ofkn Everyone who works here and all the new people who are here right now can get Ranger Phi merged without me, and I think that's a super important test. Because if that can't happen, then this is a bad abstraction and we have to go back to the drawing board.
+I wrote linearizer. Now range of I wrote the ShapeTracker. Like I worry that if these abstractions aren't understandable by other people, then I'm not doing a good job, then they're not good abstractions. Because the goal of code is not to be written or to be interpreted by machines to be read. So if people can't read the code and understand what's going on, then they're not going to be able to understand what's going on. Something's wrong. And there's stuff that we have to change everyone here. At least everyone who works at the company should be able to work on every piece of tiny grab. At least to some extent, there shouldn't be any pieces that are like, oh, we can't touch that piece. And that's how I felt the scheduler. That's still how I feel the scheduler is. I don't know how to touch the code and grouper. Like the coding grouper that like, max one reduce option. But it's very useful to do point by point ordering. So that's a good point to play with. I'm going to be going devotionally larger be, some sort ofkn Everyone who works here and all the new people who are here right now can get Ranger Phi merged without me, and I think that's a super important test. Because if that can't happen, then this is a bad abstraction and we have to go back to the drawing board.
 
 ##### **Geohot** [[00:03:14](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=194)]
 I don't know, I think Ranger Phi is easy to understand, but the implementation is hard to understand.
@@ -157,7 +157,7 @@ A child is a child of children. A child is a child of children, yes. You kind of
 So that's just us children extraction.
 
 ##### **Geohot** [[00:10:26](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=626)]
-That one's easy to see what it does in Viz. Okay. 3a. Not many hacks in 3a. 3a is the replacement for the shape tracker. So this in a lot of ways is the definition. Of what all of the movement ops are. With a few more little cleanups there, there might be some subtle issues in that reshape function around symbolic. Whereas like symbolic has the stride of the max. But the shape of the thing. So yeah, there might be some subtle things in reshape with that. I think pad has been fixed up nicely to now use all the valid stuff. Hopefully it has. Yeah, I see ups invalid here. So that all should be pretty good. Spanned is pretty straightforward. Tracks these ending ranges that can maybe be deleted.
+That one's easy to see what it does in Viz. Okay. 3a. Not many hacks in 3a. 3a is the replacement for the ShapeTracker. So this in a lot of ways is the definition. Of what all of the movement ops are. With a few more little cleanups there, there might be some subtle issues in that reshape function around symbolic. Whereas like symbolic has the stride of the max. But the shape of the thing. So yeah, there might be some subtle things in reshape with that. I think pad has been fixed up nicely to now use all the valid stuff. Hopefully it has. Yeah, I see ups invalid here. So that all should be pretty good. Spanned is pretty straightforward. Tracks these ending ranges that can maybe be deleted.
 
 ##### **Geohot** [[00:11:30](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=690)]
 And then shrink permute and flip are so simple that. They can be written in line. So these are like the definition of the movement ops now.
@@ -214,7 +214,7 @@ Yep. So part four, put in buffers for bufferize. It converts the bufferize uop i
 This also converts the buffers into defined globals. Yeah. So I'm going to do a little bit of a test here. And then I'm going to do a little bit of a test here. And then the big function at the bottom, get range if I map.
 
 ##### **Geohot** [[00:18:09](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=1089)]
-So the old kernelize used to use this function called graph rewrite map. Graph rewrite map was a pain to understand. When things would break, you couldn't see it in viz. There wasn't really a way to debug it. So I wrote it in a different style here. The first pass just goes through the kernel. The second pass just goes through the tensor graph and assigns each UOP a number. And then you preserve these numbers all the way through. And then that way we know we have a way to correspond the UOPs in the big graph to the final buffers that are assigned to them. So you can see the logic on line 575 looks for all the buffers that are being created and says, OK, what numbers are the buffers being created on? Those are the ones that I'm going to put back in the big graph. Those are the ones that I'm going to like. Like those are the ones that I've actually realized and can safely put back in the big graph so that they're like the users and have to recompute tons and tons of stuff.
+So the old kernelize used to use this function called graph rewrite map. Graph rewrite map was a pain to understand. When things would break, you couldn't see it in viz. There wasn't really a way to debug it. So I wrote it in a different style here. The first pass just goes through the kernel. The second pass just goes through the tensor graph and assigns each UOp a number. And then you preserve these numbers all the way through. And then that way we know we have a way to correspond the UOps in the big graph to the final buffers that are assigned to them. So you can see the logic on line 575 looks for all the buffers that are being created and says, OK, what numbers are the buffers being created on? Those are the ones that I'm going to put back in the big graph. Those are the ones that I'm going to like. Like those are the ones that I've actually realized and can safely put back in the big graph so that they're like the users and have to recompute tons and tons of stuff.
 
 ##### **Chenyu** [[00:19:12](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=1152)]
 In line 571, it says ranges with length one horizontal handle, right?
@@ -259,7 +259,7 @@ Great. I'll put that in the metadata. Yeah. When you computerize the data, does 
 Shrink, similarly simple.
 
 ##### **Geohot** [[00:25:25](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=1525)]
-You just need to offset it. If there's an offset, that's really it. Otherwise, it doesn't matter. Flip, take the max subtract it. Reshape is probably the most complicated. Reshape relies heavily on symbolic. It just basically creates the, the sum of all of them times the times the stride. So it creates like a, like a real, just single UOP with all the indices. And then it unpacks that using div and mod. And then hopefully symbolic resolves all of that to something nice, which it usually does. Yeah. So 3A is the, is the, you can see that each one of the things in PM mops on line 182, you can see that each one of the things in PM mops on line 182, has a movement op followed by, that's what the dot F is an index. So there's an index on a movement op, and we're trying to return something that's just the index with the movement op applied to it. And it removes all the movement ops on the graph.
+You just need to offset it. If there's an offset, that's really it. Otherwise, it doesn't matter. Flip, take the max subtract it. Reshape is probably the most complicated. Reshape relies heavily on symbolic. It just basically creates the, the sum of all of them times the times the stride. So it creates like a, like a real, just single UOp with all the indices. And then it unpacks that using div and mod. And then hopefully symbolic resolves all of that to something nice, which it usually does. Yeah. So 3A is the, is the, you can see that each one of the things in PM mops on line 182, you can see that each one of the things in PM mops on line 182, has a movement op followed by, that's what the dot F is an index. So there's an index on a movement op, and we're trying to return something that's just the index with the movement op applied to it. And it removes all the movement ops on the graph.
 
 ##### **Geohot** [[00:26:32](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=1592)]
 That make sense?
@@ -355,7 +355,7 @@ it's not shiny at all. creating the, when you're looking at the indexes of the c
 So something's probably gone wrong. It's kind of like infinite loop. Yeah.
 
 ##### **Geohot** [[00:33:53](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2033)]
-So the comment says, wait here until we have seen all the children. But sometimes for some reason, like, so if you have two children, you need to wait for them to both get an index. But sometimes one child doesn't get an index for some reason, like a UOP gets stuck somewhere or something gets rewritten and then it never gets an index.
+So the comment says, wait here until we have seen all the children. But sometimes for some reason, like, so if you have two children, you need to wait for them to both get an index. But sometimes one child doesn't get an index for some reason, like a UOp gets stuck somewhere or something gets rewritten and then it never gets an index.
 
 ##### **Geohot** [[00:34:12](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2052)]
 And that's when it raises children not making progress. So that's a little bit of a Yeah, we can actually probably make that logic a lot better.
@@ -391,7 +391,7 @@ So is it correct to say range of five overall is slower? Because it has a lot of
 I would think that the kernel time dwarfs everything else there. I bet there's some just dumb patterns that we haven't taken out yet. Some dumb, like, it's like making extra copies or something. I don't think that actually running range of eye,
 
 ##### **Geohot** [[00:36:56](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2216)]
-running range of eye should be faster than the shape tracker. The graph rewrites themselves should be faster. And I think a lot of chronos are faster.
+running range of eye should be faster than the ShapeTracker. The graph rewrites themselves should be faster. And I think a lot of chronos are faster.
 
 ##### **Chenyu** [[00:37:11](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2231)]
 I mean, with range of eye, it's faster.
@@ -456,7 +456,7 @@ i say uh you know yeah no i think that the i think that in order to fix images u
 store needs to be updated um so also the jet
 
 ##### **Geohot** [[00:41:00](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2460)]
-so the jet right now uh there's definitely bugs in the jet interacting with range of eye the jet right now is using shape trackers and that's going to have to be fixed like the jet right now is going to be so the jet has this expected stvrsd type device that's checking to make sure the input shape tracker is matching
+so the jet right now uh there's definitely bugs in the jet interacting with range of eye the jet right now is using shape trackers and that's going to have to be fixed like the jet right now is going to be so the jet has this expected stvrsd type device that's checking to make sure the input ShapeTracker is matching
 
 ##### **Geohot** [[00:41:20](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2480)]
 and i think that's what's not working okay okay i'm entirely sure
@@ -534,10 +534,10 @@ And then also with an eye to the JIT being more unified with htqgraph. Yeah. We 
 The thing that I eventually imagine is that you're going to have kernels in the big graph and it's literally just going to be a bunch of rewrite rules to transform those kernels into the bytes that get shoved into the MAC on the GPU.
 
 ##### **Geohot** [[00:45:06](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2706)]
-This is like putting the drivers in TinyGrid kind of project. But you know, I think you wrote the memory planner.
+This is like putting the drivers in TinyGrad kind of project. But you know, I think you wrote the memory planner.
 
 ##### **Geohot** [[00:45:17](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2717)]
-I think the JIT is kind of similar stuff, figuring out how we could not use shape tracker
+I think the JIT is kind of similar stuff, figuring out how we could not use ShapeTracker
 
 ##### **Geohot** [[00:45:24](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2724)]
 in there. Yeah. So the three-file ULONG, it's no longer web GPU complaining about a lot of the ULONG stuff? Oh, is that good or bad?
@@ -657,7 +657,7 @@ i remember problems we still we still don't know how to do it but we're still i 
 Double buffering for Gen. Oh, no, no, do double offering. Double buffering is easy. Yeah, I'm not sure, but we don't have it yet.
 
 ##### **Geohot** [[00:54:48](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=3288)]
-No, we don't have it. But the double buffering, the double buffering, I see very clearly what the transformation is using the stuff here. I wrote some demos of it in the AMD UAP MatMall stuff. That one I see. The online softmax, I don't understand enough yet to say. So you're right, we don't have that yet. But we can have a small flash attention that fits in the SMAM without the online. I didn't even know about that.
+No, we don't have it. But the double buffering, the double buffering, I see very clearly what the transformation is using the stuff here. I wrote some demos of it in the AMD UAP matmul stuff. That one I see. The online softmax, I don't understand enough yet to say. So you're right, we don't have that yet. But we can have a small flash attention that fits in the SMEM without the online. I didn't even know about that.
 
 ##### **Geohot** [[00:55:20](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=3320)]
 The example I was reading, they had a simple flash attention that didn't have that. All right. I don't know. I still think it's doable by the end of the year. Yeah. I mean, even if we don't totally have that,

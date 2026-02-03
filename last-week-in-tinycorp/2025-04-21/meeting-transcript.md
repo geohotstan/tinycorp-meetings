@@ -5,7 +5,7 @@
 **Time:** 7am Monday San Diego time (10pm HK time)
 - company update
 - new linearizer
-- bert, mlperf, hcopt
+- bert, MLPerf, hcopt
 - scheduler kernalize
 - driver
 - WebGPU
@@ -25,7 +25,7 @@
 
 - **[Company Update](#geohot-000006)**: 100 RTX 5090s arriving; TinyBox Green 2 will honor original price for those with wire transfers; a 15% price hike ("Liberation Day tax") expected for late orders.
 
-- **[New Linearizer](#geohot-000107)**: Vastly improved; eliminates while-loop and now supports O(1) graph rewrites; focus shifting to micro-benchmarking UOP creation and toposort performance.
+- **[New Linearizer](#geohot-000107)**: Vastly improved; eliminates while-loop and now supports O(1) graph rewrites; focus shifting to micro-benchmarking UOp creation and toposort performance.
 
 - **[Multi-scheduling Improvements](#geohot-000216)**: Plan to rewrite multi-scheduling to be O(1); aim to support Tenstorrent-style 2D sharding with each core acting like a small GPU.
 
@@ -83,7 +83,7 @@ So that's pretty nice.
 It's a bit faster.
 And none of the slowness is in the linearizer itself.
 The thing I'm going to work on this week is..
-I'm going to write a whole set of micro benchmarks for things like UOP creation and tuplize and toposort and like the UOP children stuff.
+I'm going to write a whole set of micro benchmarks for things like UOp creation and tuplize and toposort and like the UOp children stuff.
 I think if I could get speed up there, that's like the biggest place that all the time is being spent now.
 But yeah, overall, I'm pretty happy with the Python speed.
 
@@ -150,7 +150,7 @@ Oh, yeah.
 And that's, I think, fundamentally what it will be.
 I think we can we can totally do that.
 And like, that's just a question of how to express it.
-But fundamentally, it's just the shape tracker, right?
+But fundamentally, it's just the ShapeTracker, right?
 And like, you want to kind of keep the view as expanded as possible.
 But
 
@@ -319,7 +319,7 @@ You need to print the AST then do..
 I mean, I can schedule it and then hand create the kernel object and then optimize it.
 So I think we should add a pass in between kernelize and schedule called kernel optimize.
 And kernel optimize will add to each kernel in the tensor graph the optimizations.
-And it'll either get them from a hand-coded policy or from a beam policy.
+And it'll either get them from a hand-coded policy or from a BEAM policy.
 
 ##### **Chenyu** [[00:17:59](https://www.youtube.com/watch?v=-ayeO_SKx70&t=1079)]
 I see, OK.
@@ -335,10 +335,10 @@ That's my stuff.
 I mean, Flata if you want to speak, if you can speak now, you can speak now.
 
 ##### **Flata** [[00:18:37](https://www.youtube.com/watch?v=-ayeO_SKx70&t=1117)]
-or hi oh hey uh yeah so for retinanet i think uh for the most part i've just been uh i actually started working on the post processing and um i kind of spent some time on the beam stuff so but i'm switching gears onto that but i think the beaming uh
+or hi oh hey uh yeah so for retinanet i think uh for the most part i've just been uh i actually started working on the post processing and um i kind of spent some time on the BEAM stuff so but i'm switching gears onto that but i think the beaming uh
 The AMD driver, there's still some hanging issues.
 I extended the flag that Chenyu suggested to be larger, but that didn't end up working, so it's still hanging.
-For the AMD driver, I thought initially I was successful with both non-beam and beam benchmark runs, but at some point there will be a case where the loss is just NAN, and it's pretty difficult to reproduce on my end.
+For the AMD driver, I thought initially I was successful with both non-BEAM and BEAM benchmark runs, but at some point there will be a case where the loss is just NAN, and it's pretty difficult to reproduce on my end.
 So I guess I know, Chenyu, you mentioned about helping out on the retinanet.
 So maybe if you can help me out on that, and if there's anything you want me to add, like flags or anything like that, to help you assist with debugging it further, I can definitely do that.
 
@@ -356,15 +356,15 @@ We need, I think, five?
 
 ##### **Flata** [[00:20:30](https://www.youtube.com/watch?v=-ayeO_SKx70&t=1230)]
 Yeah.
-Also, I was going to say the non-beam runs for both AM and AMD, if I remember correctly, they are stable.
-So obviously not going to be as fast as we wanted it to be, but we at least know the baseline of the non-beam runs are fine.
+Also, I was going to say the non-BEAM runs for both AM and AMD, if I remember correctly, they are stable.
+So obviously not going to be as fast as we wanted it to be, but we at least know the baseline of the non-BEAM runs are fine.
 
 ##### **Chenyu** [[00:20:51](https://www.youtube.com/watch?v=-ayeO_SKx70&t=1251)]
 Yeah, I mean, even if I said whatever time, we still want to give a representable, good enough time.
 So I think what you can do is I'll check post-processing, but you probably know more than me at this point.
 See what error can be run on device instead of NumPy and stuff.
 And also, we need to start preparing the logging.
-I have a comment on your init mlperf thing.
+I have a comment on your init MLPerf thing.
 But other than that, we also need to do some logging, because you only know the logging are correct after you have a full run.
 And we need logging to be correct.
 That's also important for us to make a run.
@@ -526,7 +526,7 @@ I think I agree with that.
 
 ##### **Geohot** [[00:33:05](https://www.youtube.com/watch?v=-ayeO_SKx70&t=1985)]
 Yeah.
-You can look at just the shape tracker and the output will tell you if something's going to be completely overwritten or not.
+You can look at just the ShapeTracker and the output will tell you if something's going to be completely overwritten or not.
 If it's a mask store, it won't be.
 But that's like one line check.
 It's not a..
@@ -565,7 +565,7 @@ You want to design such that the bug is impossible.
 ##### **Hooved** [[00:35:08](https://www.youtube.com/watch?v=-ayeO_SKx70&t=2108)]
 I agree.
 And so just if we're talking about the Viz stuff,
-It's just based on wanting to keep UOPs around, but having the problem that the buffers can't go away if the UOPs are around.
+It's just based on wanting to keep UOps around, but having the problem that the buffers can't go away if the UOps are around.
 So we would have to fix that.
 Sorry, did you say that made sense?
 
@@ -662,7 +662,7 @@ I understand sort use a lot of that, and making cat faster is a thing.
 So let's add the Fuse Arange thing to the example.
 And maybe even better if we can add this as a maybe find a smaller version of this and add it as a test, Arange test.
 what file would be suitable for this.
-Basically, we want to understand the behavior, what part it saves, what kind of UOP it's saving and stuff.
+Basically, we want to understand the behavior, what part it saves, what kind of UOp it's saving and stuff.
 So that it's not only on this example, but it's on this pattern, and we have a way to maintain this pattern moving forward.
 At some point, we will make fuse Arange behavior, like a default.
 And at that point, having all these examples and tests would help.
@@ -719,7 +719,7 @@ So I exchange the gradients between two machines, average them.
 ##### **Geohot** [[00:43:22](https://www.youtube.com/watch?v=-ayeO_SKx70&t=2602)]
 Oh, wait, wait, wait, wait.
 Hang on.
-There should be no distinction from a tiny grad perspective if the GPUs are on the same physical machine or on two different physical machines, right?
+There should be no distinction from a tinygrad perspective if the GPUs are on the same physical machine or on two different physical machines, right?
 Like the algorithm should be exactly the same.
 I expect this to be byte for byte identical.
 

@@ -483,7 +483,7 @@ We should write a regression test, too.
 
 ##### **Qazalin** [[00:24:54](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=1494)]
 Yeah, I think we talked about this today.
-Probably something in test_gc to test it explicitly, count the number of alive UOPs.
+Probably something in test_gc to test it explicitly, count the number of alive UOps.
 
 ##### **Geohot** [[00:25:03](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=1503)]
 I mean, almost if we can just take commas thing exactly.
@@ -597,8 +597,8 @@ Cool.
 One of the things I was thinking about with the GPU stuff is potentially what we could do is take the warp and make it an unroll.
 We could unroll the warp, and then the tensorcore pattern would be a lot simpler to express if you actually have access to all the multiplies.
 So if the thing's unrolled, the tensorcore gets put in there with permutes, and then those permutes are basically GEPs, and then you push those GEPs back to the load, and that's how it has to do the load differently.
-So we don't actually have to do it at the shape tracker level then.
-We could do it one level lower than the shapetracker.
+So we don't actually have to do it at the ShapeTracker level then.
+We could do it one level lower than the ShapeTracker.
 But it's probably basically the same stuff.
 It's just a question of whether we want to do it in kernel.py, in the lower, in the expander.
 The LDS stuff is very exciting, and I'm excited to have that merge.
@@ -925,8 +925,8 @@ You're spending half your time on eval.
 ##### **Chenyu** [[00:52:48](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=3168)]
 Yes.
 Eval is very slow.
-Uh, so for the beam stuff, usually how this works is if you can distill it down to like a single kernel and say, okay, this action on this kernel has issue, then, uh, we can take a look.
-Otherwise it's very hard to say, okay, this eval script can not be beam and some, something will go wrong.
+Uh, so for the BEAM stuff, usually how this works is if you can distill it down to like a single kernel and say, okay, this action on this kernel has issue, then, uh, we can take a look.
+Otherwise it's very hard to say, okay, this eval script can not be BEAM and some, something will go wrong.
 That's very hard to help.
 
 ##### **Flata** [[00:53:15](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=3195)]
@@ -935,7 +935,7 @@ Sounds good.
 I'll definitely filter that down.
 
 ##### **Chenyu** [[00:53:18](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=3198)]
-Now there's also some beam debug-related flags that you can try.
+Now there's also some BEAM debug-related flags that you can try.
 
 ##### **Flata** [[00:53:25](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=3205)]
 OK, sounds good.
