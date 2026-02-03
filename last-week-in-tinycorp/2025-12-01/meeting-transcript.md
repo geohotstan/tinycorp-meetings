@@ -4,7 +4,7 @@
 
 **Time:** 9am Monday San Diego time
 - company update, AMD contract,
-- training loop, llama 8B,
+- training loop, LLaMA 8B,
 - flash attention,
 - VIZ/Profiling,
 - nvidia HEVC decode,
@@ -18,9 +18,9 @@
 
 ### Highlights
 
-- **[Company Updates](#geohot-000000)**: Tinybox raids are selling and shipping today after resolving power instability issues; two Blackwell orders are also preparing to ship.
+- **[Company Updates](#geohot-000000)**: TinyBox raids are selling and shipping today after resolving power instability issues; two Blackwell orders are also preparing to ship.
 - **[Training Loop & MMU Faults](#chenyu-000114)**: Chenyu reports hitting MMU faults on the MI350 during training; Geohot notes a fix was deployed, but intermediate number overflows remain an issue.
-- **[Fuse Optimization Strategy](#geohot-000245)**: Plans to separate microsteps into their own JIT and fuse gradient clipping into a single tensor update to drastically reduce kernel count in the Llama trainer.
+- **[Fuse Optimization Strategy](#geohot-000245)**: Plans to separate microsteps into their own JIT and fuse gradient clipping into a single tensor update to drastically reduce kernel count in the LLaMA trainer.
 - **[Python Speed Improvements](#geohot-000411)**: Python speed is approximately 3x faster due to fixes in n-squared behavior (specifically in tensor assignment), making 8B model startup fast and 405B reasonable.
 - **[Flash Attention Status](#wozeparrot-000559)**: Flash attention PR works for evaluation but encounters MMU faults; the plan is to integrate it into `tensor.py` via `fa=1` and test using Stable Diffusion on MI350x.
 - **[SQTT & Visualization](#qazalin-000936)**: Merged software SQTT fixes; running with `viz=2` now correctly displays the timeline of waves and instructions, though aggregate views are currently too slow.
@@ -34,7 +34,7 @@
 
 ### Transcript
 ##### **Geohot** [[00:00:00](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=0)]
-Any company updates? Tinybox raids are selling. We sold like four of them. We haven't actually shipped any yet. We got to make sure they ship today. Yeah, we got to make sure they ship today. We were hitting some... There's a little bit instability and we... It's stable now. What was it?
+Any company updates? TinyBox raids are selling. We sold like four of them. We haven't actually shipped any yet. We got to make sure they ship today. Yeah, we got to make sure they ship today. We were hitting some.. There's a little bit instability and we.. It's stable now. What was it?
 
 ##### **Wozeparrot** [[00:00:19](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=19)]
 I think it was just power.
@@ -52,13 +52,13 @@ I see.
 It seems to be some variance between boxes.
 
 ##### **Geohot** [[00:00:34](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=34)]
-Yeah, yeah. The AMD GPUs might have really high transients. We just might need to clip the transients on them. But... I mean, yeah, I have one here. Again, these things are like... We test them in really extreme cases. So they definitely do work. So yeah, raids are going to ship soon. We got two orders for Blackwells. Those are also going to ship soon. We did our first testing with that. I mean, those boxes have two power supplies. So you got plenty of headroom there.
+Yeah, yeah. The AMD GPUs might have really high transients. We just might need to clip the transients on them. But.. I mean, yeah, I have one here. Again, these things are like.. We test them in really extreme cases. So they definitely do work. So yeah, raids are going to ship soon. We got two orders for Blackwells. Those are also going to ship soon. We did our first testing with that. I mean, those boxes have two power supplies. So you got plenty of headroom there.
 
 ##### **Geohot** [[00:01:04](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=64)]
 Yeah. Okay.
 
 ##### **Chenyu** [[00:01:14](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=74)]
-Moving on to the training loop. I think I will focus on this for this week. What's the current status on this? So when I tried to trans... When I tried to trans... When I tried to trans training stuff, I hit the default. My 350, I think other people also hit that.
+Moving on to the training loop. I think I will focus on this for this week. What's the current status on this? So when I tried to trans.. When I tried to trans.. When I tried to trans training stuff, I hit the default. My 350, I think other people also hit that.
 
 ##### **Qazalin** [[00:01:38](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=98)]
 My 350, I think other people also hit that.
@@ -67,16 +67,16 @@ My 350, I think other people also hit that.
 The MMU fault, you mean? The MMU fault, you mean? I think a fix went in this morning. I'm not sure that that's everything. Oh, okay. Nimozen, you have more to say about that?
 
 ##### **Nimlgen** [[00:01:55](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=115)]
-Actually, no, yeah. I mean, we heard some... bug in our code base. I'm not sure that's related to the MMU fault. I haven't reproduced it since that. I haven't reproduced it since that. Got it.
+Actually, no, yeah. I mean, we heard some.. bug in our code base. I'm not sure that's related to the MMU fault. I haven't reproduced it since that. I haven't reproduced it since that. Got it.
 
 ##### **Chenyu** [[00:02:09](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=129)]
-Yeah, so... What I was doing this morning was I was training around a big ring or reduce. Then I hit the other thing that we'll discuss in the AMD channel. Some of the intermediate number overflow. Some of the intermediate number overflow. That we also probably want to fix. Because our thing would be pretty much
+Yeah, so.. What I was doing this morning was I was training around a big ring or reduce. Then I hit the other thing that we'll discuss in the AMD channel. Some of the intermediate number overflow. Some of the intermediate number overflow. That we also probably want to fix. Because our thing would be pretty much
 
 ##### **Geohot** [[00:02:30](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=150)]
 hitting all the limits on the machine. George, you mentioned another thing that's slow.
 
 ##### **Geohot** [[00:02:45](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=165)]
-So, yeah, I mean, if you think it would be helpful, I could work on this this week. So, basically what you want to do, it's the same way that we're going to split out the microsteps into their own JIT. So, you really want to step out, you really want to separate out, like, everything should be like really fuse-optim. So you're doing the gradients, you're doing the gradient clipping in a way that's really slow and generates tons of kernels in the Lama Trainer. So what you want to do is you want to basically concatenate all the gradients into one tensor, and then that single tensor can do the update. If it would help, I could write this, but I don't really know how I'd test it, is the problem.
+So, yeah, I mean, if you think it would be helpful, I could work on this this week. So, basically what you want to do, it's the same way that we're going to split out the microsteps into their own JIT. So, you really want to step out, you really want to separate out, like, everything should be like really fuse-optim. So you're doing the gradients, you're doing the gradient clipping in a way that's really slow and generates tons of kernels in the LLaMA Trainer. So what you want to do is you want to basically concatenate all the gradients into one tensor, and then that single tensor can do the update. If it would help, I could write this, but I don't really know how I'd test it, is the problem.
 
 ##### **Geohot** [[00:03:31](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=211)]
 I mean, if you think you can write it reasonably fast, I can
@@ -109,7 +109,7 @@ I would test all these, see where we are, and probably need to retrain something
 Cool.
 
 ##### **Geohot** [[00:05:34](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=334)]
-Yeah, I'll work on that training loop with a built-in FuseOptim. But yeah, I don't really know how to test it. I'll just put it in a different file too. I'll make a llama-train.py.
+Yeah, I'll work on that training loop with a built-in FuseOptim. But yeah, I don't really know how to test it. I'll just put it in a different file too. I'll make a LLaMA-train.py.
 
 ##### **Chenyu** [[00:05:46](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=346)]
 Oh, okay, sounds good.
@@ -127,13 +127,13 @@ Yeah, no problem.
 Cool. Anything for Flash attention?
 
 ##### **Wozeparrot** [[00:05:59](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=359)]
-Yeah, if you run the... On my PR, eval should work with Flash attention. I couldn't actually get it to run because I hit the mmUFold too.
+Yeah, if you run the.. On my PR, eval should work with Flash attention. I couldn't actually get it to run because I hit the mmUFold too.
 
 ##### **Chenyu** [[00:06:09](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=369)]
-Is there any reason... Is that... Can you use the same Flash attention on smaller, I don't know, llama-train.py or stable-based fusion? Does that work?
+Is there any reason.. Is that.. Can you use the same Flash attention on smaller, I don't know, LLaMA-train.py or stable-based fusion? Does that work?
 
 ##### **Wozeparrot** [[00:06:21](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=381)]
-Yeah, it should work in stable-based fusion too. I mean, yeah. It should work in llama-train because that's variable shape.
+Yeah, it should work in stable-based fusion too. I mean, yeah. It should work in LLaMA-train because that's variable shape.
 
 ##### **Geohot** [[00:06:29](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=389)]
 Can you put it in tensor.py?
@@ -151,7 +151,7 @@ It also imports from extra.
 Yeah, I think all these things are fine.
 
 ##### **Geohot** [[00:06:48](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=408)]
-If you get it with an mvera and just... It's just like the Flash attention. Just make it like fa equals one. Yeah, fa equals one will use the fastscale.product attention. I wanted to know if you could do this.
+If you get it with an mvera and just.. It's just like the Flash attention. Just make it like fa equals one. Yeah, fa equals one will use the fastscale.product attention. I wanted to know if you could do this.
 
 ##### **Geohot** [[00:06:59](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=419)]
 How long is this? How long is what? How big is this? Code? Oh, I mean it'll just import it. Yeah, that's fine, right? It's just a few lines. Yeah, it's just a few lines
@@ -172,16 +172,16 @@ Yeah, I can show you how to do that. So, you have two outputs from a kernel or o
 One kernel has one output, one kernel has two outputs.
 
 ##### **Geohot** [[00:07:51](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=471)]
-Two outputs is... That's tricky. As long as you only have one output, you're fine. But even if you want to just save it, yeah, you just probably want to add
+Two outputs is.. That's tricky. As long as you only have one output, you're fine. But even if you want to just save it, yeah, you just probably want to add
 
 ##### **Geohot** [[00:08:04](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=484)]
 a context and just create a tensor empty that it writes to and then put that in the context for the backwards pass. It'll be very explicit, but it should just work.
 
 ##### **Wozeparrot** [[00:08:13](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=493)]
-Because backwards is... There's a pre-kernel for backwards and at least the way we're doing it, there's two kernels that actually compute the gradient.
+Because backwards is.. There's a pre-kernel for backwards and at least the way we're doing it, there's two kernels that actually compute the gradient.
 
 ##### **Geohot** [[00:08:19](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=499)]
-Two kernels is no problem. It's just on the forward, when you have a kernel that has two outputs, it's difficult for us to compute the gradient because think of how... It's closed from two places. So you want to avoid that.
+Two kernels is no problem. It's just on the forward, when you have a kernel that has two outputs, it's difficult for us to compute the gradient because think of how.. It's closed from two places. So you want to avoid that.
 
 ##### **Qazalin** [[00:08:32](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=512)]
 Okay.
@@ -199,7 +199,7 @@ Yeah, that's not hard.
 Yeah.
 
 ##### **Geohot** [[00:09:13](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=553)]
-The after end is easy, thanks, but do the... The first thing I would do is get it working in tensor.py and let's get stable diffusion running on the MI350x with flashdash check, because stable diffusion is a great test.
+The after end is easy, thanks, but do the.. The first thing I would do is get it working in tensor.py and let's get stable diffusion running on the MI350x with flashdash check, because stable diffusion is a great test.
 
 ##### **Geohot** [[00:09:24](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=564)]
 Yeah.
@@ -208,10 +208,10 @@ Yeah.
 Okay.
 
 ##### **Geohot** [[00:09:30](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=570)]
-Sounds good. Uh... Want to do this?
+Sounds good. Uh.. Want to do this?
 
 ##### **Qazalin** [[00:09:36](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=576)]
-I did merge some software, sqtt, and that was fast. Last week it was very slow. That should be fixed with a split up per-sie graph. So if you run with viz equals two, you can see the timeline of the waves and the instructions. Hopefully that's good. Yeah, that's nice.
+I did merge some software, SQTT, and that was fast. Last week it was very slow. That should be fixed with a split up per-sie graph. So if you run with viz equals two, you can see the timeline of the waves and the instructions. Hopefully that's good. Yeah, that's nice.
 
 ##### **Geohot** [[00:10:00](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=600)]
 You know, I think there's been great improvements. It's getting kind of usable. We still got to do the aggregate view. I think the aggregate view should just be on the click and it should aggregate everything across all the waves.
@@ -220,7 +220,7 @@ You know, I think there's been great improvements. It's getting kind of usable. 
 I did that. It's slow.
 
 ##### **Geohot** [[00:10:18](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=618)]
-RGP limits to 60 waves. Interesting. Uh... Wait, why is it slow?
+RGP limits to 60 waves. Interesting. Uh.. Wait, why is it slow?
 
 ##### **Qazalin** [[00:10:29](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=629)]
 It's slow to decode. Like it takes Oh, because you're only decoding. to decode all the instructions.
@@ -232,7 +232,7 @@ I see, because you're only decoding when you click on a wave. Okay, never mind. 
 I know. Yeah. It's in the branch. I didn't merge it.
 
 ##### **Geohot** [[00:10:45](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=645)]
-Yeah, I'm half tempted to rewrite sqtt, trace decoder, and rust. Just get something insanely fast on there. It just like parses these things. I don't know. We shouldn't actually do it. But I think we have enough of it figured out now that we could switch to the non-AMD one. But we don't have it. It works for RDNA4, but it doesn't work for cDNA. My reverse stuff.
+Yeah, I'm half tempted to rewrite SQTT, trace decoder, and rust. Just get something insanely fast on there. It just like parses these things. I don't know. We shouldn't actually do it. But I think we have enough of it figured out now that we could switch to the non-AMD one. But we don't have it. It works for RDNA4, but it doesn't work for CDNA. My reverse stuff.
 
 ##### **Qazalin** [[00:11:08](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=668)]
 Mm-hmm. I also get errors for RDNA4.
@@ -256,7 +256,7 @@ Yeah. Oh, post the way to reproduce that. I'll take a look at that. It's probabl
 we could do them with viz equals one. Should be, yeah.
 
 ##### **Qazalin** [[00:11:49](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=709)]
-I mean, all of them have some overhead of flushing the buffer at the end of every kernel. But other than that, it's...
+I mean, all of them have some overhead of flushing the buffer at the end of every kernel. But other than that, it's..
 
 ##### **Geohot** [[00:11:57](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=717)]
 What do you mean flushing the buffer? Tracing overhead.
@@ -277,13 +277,13 @@ As long as we don't have to do anything like
 3DL2 or anything. Yeah, like reading 20 counters is going to be free, basically.
 
 ##### **Nimlgen** [[00:12:24](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=744)]
-It's not 20. I mean...
+It's not 20. I mean..
 
 ##### **Geohot** [[00:12:27](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=747)]
 How many is it?
 
 ##### **Nimlgen** [[00:12:28](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=748)]
-Some of them are... Depending on the counter, but some of them are like... Tracked per seamed.
+Some of them are.. Depending on the counter, but some of them are like.. Tracked per seamed.
 
 ##### **Geohot** [[00:12:37](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=757)]
 So, a bunch of them. Some of them are what? Tracked per seamed.
@@ -292,7 +292,7 @@ So, a bunch of them. Some of them are what? Tracked per seamed.
 Like per CU. I mean, like each CU has its own counter.
 
 ##### **Geohot** [[00:12:48](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=768)]
-Yeah, I mean, I guess we could also do... Yeah, that again, that's not that many. I don't know. But I would like some performance counters to work with viz equals one. It'd be great if we could just show basic memory overheads with viz equals one as reported by the GPU. Kind of like what our bandwidths are to each L2 bandwidth, L1 bandwidth, and the
+Yeah, I mean, I guess we could also do.. Yeah, that again, that's not that many. I don't know. But I would like some performance counters to work with viz equals one. It'd be great if we could just show basic memory overheads with viz equals one as reported by the GPU. Kind of like what our bandwidths are to each L2 bandwidth, L1 bandwidth, and the
 
 ##### **Geohot** [[00:13:13](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=793)]
 DRAM bandwidth. Cool. I will find out.
@@ -301,19 +301,19 @@ DRAM bandwidth. Cool. I will find out.
 Cool. Okay.
 
 ##### **Geohot** [[00:13:28](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=808)]
-I'll HVC decode. Yeah, so I merged...
+I'll HVC decode. Yeah, so I merged..
 
 ##### **Nimlgen** [[00:13:43](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=823)]
-So, I merged the minimal HVC decoder for NV. So, it's pretty slow without... Because it's not jitted. Right now. So, the whole time is in scheduling right now.
+So, I merged the minimal HVC decoder for NV. So, it's pretty slow without.. Because it's not jitted. Right now. So, the whole time is in scheduling right now.
 
 ##### **Geohot** [[00:14:00](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=840)]
-What is... Why is it... I mean, we kind of need like a framework to deal with these kind of things. It's the same as the copy engine, right?
+What is.. Why is it.. I mean, we kind of need like a framework to deal with these kind of things. It's the same as the copy engine, right?
 
 ##### **Geohot** [[00:14:09](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=849)]
-Kind of, yeah. I mean...
+Kind of, yeah. I mean..
 
 ##### **Nimlgen** [[00:14:20](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=860)]
-Yeah, it's not that hard to make the jit. The only problem is that actually, we need to clone after each jit right now. So, that's also kind of slow. Or one wasteful copy. And it'll... And, like, it has variable-sized inputs to the jit. Because the jit is a variable-sized input. In buffer, different sizes. Like, a chunk is different sized.
+Yeah, it's not that hard to make the jit. The only problem is that actually, we need to clone after each jit right now. So, that's also kind of slow. Or one wasteful copy. And it'll.. And, like, it has variable-sized inputs to the jit. Because the jit is a variable-sized input. In buffer, different sizes. Like, a chunk is different sized.
 
 ##### **Geohot** [[00:14:51](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=891)]
 Yeah. So, the way that I would deal with that is I would just pass the entire video into the jit and then put the offset and size in a variable.
@@ -397,7 +397,7 @@ Ah, but we didn't specify if it was C2 or C3.
 Um, okay. It wasn't a bug. It was just the wrong video. It's just the wrong video.
 
 ##### **Nimlgen** [[00:18:59](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1139)]
-No, I think I posted the second one, which is...
+No, I think I posted the second one, which is..
 
 ##### **Geohot** [[00:19:02](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1142)]
 Yeah, yeah. Harold and I have a $50 bet about whether we're going to get over 2,000 frames per second.
@@ -409,7 +409,7 @@ Which was optimistic. You could double NVIDIA's, uh, performance.
 All I said was that I don't think there was a bug, but I think it was actually correct. And it was.
 
 ##### **Chenyu** [[00:19:22](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1162)]
-Yeah, I mean, that's impr... It's still, uh, quite a... I mean, it's faster than what we use, so it actually would be an improvement. But we actually don't get NVIDIA's posted numbers.
+Yeah, I mean, that's impr.. It's still, uh, quite a.. I mean, it's faster than what we use, so it actually would be an improvement. But we actually don't get NVIDIA's posted numbers.
 
 ##### **Geohot** [[00:19:33](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1173)]
 I mean, you should also be able to pretty easily, like, the idea here is that you'd want to move your Segnet into TinyGrad2, and that the decode and Segnet would be together very fast.
@@ -427,10 +427,10 @@ It would be easier if TinyGrad handled all the GPU stuff, so then we don't have 
 Yeah, do you have your latest Segnet Onyx somewhere?
 
 ##### **Chenyu** [[00:20:13](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1213)]
-I'll post it. Cool. Yeah, the only thing I wanted to show for, if you guys are open to this, is the... If we can get the zero-copy Qualcomm stuff working, we can merge the calibration stuff in OpenPilot, if you guys have any interest in that. So you want zero-copy from NumPy. NimbleGen, any reason that's hard? From Qualcomm. I have an issue for it, if someone wants to look at it. It's one of the latest TinyGrad issues. That's the last block on merging all that stuff.
+I'll post it. Cool. Yeah, the only thing I wanted to show for, if you guys are open to this, is the.. If we can get the zero-copy Qualcomm stuff working, we can merge the calibration stuff in OpenPilot, if you guys have any interest in that. So you want zero-copy from NumPy. NimbleGen, any reason that's hard? From Qualcomm. I have an issue for it, if someone wants to look at it. It's one of the latest TinyGrad issues. That's the last block on merging all that stuff.
 
 ##### **Nimlgen** [[00:20:53](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1253)]
-Yeah, can you hear me? So yeah, probably that's easy. The only problem... I know. I'll try to do that to map NumPy memory for QCOM. I think that should be possible,
+Yeah, can you hear me? So yeah, probably that's easy. The only problem.. I know. I'll try to do that to map NumPy memory for QCOM. I think that should be possible,
 
 ##### **Chenyu** [[00:21:06](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1266)]
 yeah. It should be possible with zero-copy, right? Because it worked with the OpenCL stuff, so I assume it should work. Yeah, if you need anything else from me on that issue,
@@ -442,19 +442,19 @@ let me know. Yeah, so it looks like it's just making FromBlob work on the QCOM b
 the Mesa backend.
 
 ##### **Geohot** [[00:21:59](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1319)]
-So yeah, Chris is... He can listen, but he can't talk in the meeting. So I can kind of fill in for that. Yeah, I mean the Mesa backend looks good. I think we'll get it merged probably this week. Um... Yeah, I mean it's exciting that we'll have an open source uh... QACOM backend. It's speed competitive uh... with the with the QACOM closed source one. Um... and I think maybe we can do a few small tweaks to it to get it to be better. But I think long term, the project here also is removing index... removing image from Dtypes. Image should not be a Dtype. The only difference on... the only difference between image and buffer is the instruction that is used to do the load. Um... so there's no difference uh... even really on stores. Uh... there's no difference on anything except loads. Because if you use the image instruction to do the load, there is a texture cache. And that texture cache is twice as fast as any other memory-ish looking thing on the QACOM GPU. Um... so that's why we have to use it. But it's really just a... It's really just... instead of having a load4 instruction, you use the texture sample for. Um... and texture sample also gives you this added benefit of doing... it's two-dimensional, so it does this added benefit of doing this... doing the... the indexing math for two dimensions, and it also deals with overflows for you. But again, these are all optimizations that can be applied right at the end. These are not optimizations that have anything to do with what you have in the I think the potential blocker might be...
+So yeah, Chris is.. He can listen, but he can't talk in the meeting. So I can kind of fill in for that. Yeah, I mean the Mesa backend looks good. I think we'll get it merged probably this week. Um.. Yeah, I mean it's exciting that we'll have an open source uh.. QACOM backend. It's speed competitive uh.. with the with the QACOM closed source one. Um.. and I think maybe we can do a few small tweaks to it to get it to be better. But I think long term, the project here also is removing index.. removing image from Dtypes. Image should not be a Dtype. The only difference on.. the only difference between image and buffer is the instruction that is used to do the load. Um.. so there's no difference uh.. even really on stores. Uh.. there's no difference on anything except loads. Because if you use the image instruction to do the load, there is a texture cache. And that texture cache is twice as fast as any other memory-ish looking thing on the QACOM GPU. Um.. so that's why we have to use it. But it's really just a.. It's really just.. instead of having a load4 instruction, you use the texture sample for. Um.. and texture sample also gives you this added benefit of doing.. it's two-dimensional, so it does this added benefit of doing this.. doing the.. the indexing math for two dimensions, and it also deals with overflows for you. But again, these are all optimizations that can be applied right at the end. These are not optimizations that have anything to do with what you have in the I think the potential blocker might be..
 
 ##### **Chenyu** [[00:24:08](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1448)]
 We have many places that try to maintain the image as a solid image, otherwise some other optimization would break it, without where there's a more later optimization that can make it fast.
 
 ##### **Geohot** [[00:24:22](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1462)]
-Yeah, so we probably have to do it before things like simplify-valid and those kind of things. Um... but regardless of, like, where we do it, at least it doesn't have to be in tensor.py. Even if we do it as, like, a pretty early rewrite. Like, even if we do it... I mean, probably the right place to do it is, like, post-range. Like, when you do the upcast, call it, like, image-upcast or something.
+Yeah, so we probably have to do it before things like simplify-valid and those kind of things. Um.. but regardless of, like, where we do it, at least it doesn't have to be in tensor.py. Even if we do it as, like, a pretty early rewrite. Like, even if we do it.. I mean, probably the right place to do it is, like, post-range. Like, when you do the upcast, call it, like, image-upcast or something.
 
 ##### **Chenyu** [[00:24:43](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1483)]
 Oh, you mean those pad2, 4, then do a image-conf thing should be removed?
 
 ##### **Geohot** [[00:24:50](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1490)]
-Uh, so all the pad2s will stay, just the dtype will go away. Like, the image-conf function in tensor will stay, because the image-conf function in tensor is actually doing two things. And the other thing is an optimization we should work on as well, but it's doing the image dtype. It's also swizzling the data. So, this was the biggest improvement on all the DSP stuff. The whole trick to the DSP is basically putting the data in a format that the DSP can read very quickly. So, like, imagine any time you have, like, a global store and a global load. As long as you permute both sides of that, it's equivalent. So, that's what the image-conf and image-gem code in tensor.py is doing. So, we would leave it for that purpose. But all the places that we use dtypes. .image
+Uh, so all the pad2s will stay, just the dtype will go away. Like, the image-conf function in tensor will stay, because the image-conf function in tensor is actually doing two things. And the other thing is an optimization we should work on as well, but it's doing the image dtype. It's also swizzling the data. So, this was the biggest improvement on all the DSP stuff. The whole trick to the DSP is basically putting the data in a format that the DSP can read very quickly. So, like, imagine any time you have, like, a global store and a global load. As long as you permute both sides of that, it's equivalent. So, that's what the image-conf and image-GEMM code in tensor.py is doing. So, we would leave it for that purpose. But all the places that we use dtypes. image
 
 ##### **Chenyu** [[00:25:42](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1542)]
 we can change basically make image equals to one.
@@ -490,19 +490,19 @@ with more work, we can get it down to 10. Yeah, I did, like, a little, like,
 micro-optimization in the graph rewrite that adds, like, another 2% yesterday. I tried some bit field stuff. It wasn't faster. I think now we're getting into the most of the realm of diminishing returns, unless we find big bugs. But really, the way to improve Python speed is just to make the rewrites themselves. Like, just do less rewrites. What do we not need to do?
 
 ##### **Chenyu** [[00:28:24](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1704)]
-Oh, yes. On that topic. Uh... Oh, how come... Oh, sorry. Before more... less rewrite, I don't see a huge change to Lama no JIT. Is it because we are doing too many rewrites?
+Oh, yes. On that topic. Uh.. Oh, how come.. Oh, sorry. Before more.. less rewrite, I don't see a huge change to LLaMA no JIT. Is it because we are doing too many rewrites?
 
 ##### **Geohot** [[00:28:40](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1720)]
-Well, so for Lama no JIT, it... uh... Oh, I guess no JIT, if you're not using variables, it's gonna be slow no matter what. But, like, I do want to write this schedule cache. So the schedule cache should be able to cache entire schedules, and uh... that will give you, like, half of the JIT behavior for free.
+Well, so for LLaMA no JIT, it.. uh.. Oh, I guess no JIT, if you're not using variables, it's gonna be slow no matter what. But, like, I do want to write this schedule cache. So the schedule cache should be able to cache entire schedules, and uh.. that will give you, like, half of the JIT behavior for free.
 
 ##### **Geohot** [[00:29:03](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1743)]
-Yeah, I understand. Yeah. Um... I don't know.
+Yeah, I understand. Yeah. Um.. I don't know.
 
 ##### **Geohot** [[00:29:07](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1747)]
-I mean, that's one of my, like... There's a whole bunch of refactors that can be done here. Like, I want to move more stuff to mixins... Um... And, like, really make that code good. There's definitely a path now. It's nice how, like, everything is uops. Uops are pure. I think that, like, the old scheduler, you couldn't touch it. The new scheduler, you can touch it. It all kind of behaves how you think it should. It's been a long time since I've hit something where I'm just, like... I literally have no idea how to do this refactor. There's so many weird broken things. I think we're mostly past that now. And pretty much every time I'm like, oh, I want to refactor, like, you know, the pad op to not pad both sides. Okay, cool. That's going to take me an hour. Like, that's not even... All that stuff kind of works now. So, that's pretty good. Um, but yeah. So I think that a lot of polish can be done by moving stuff to, like, mixins. And then once that's done, we can look at tensor.py and be like, oh yeah, now the schedule cache is, like, really easy to write. It's just, like, one little thing in there. Um... And then also refactoring the JIT. The JIT right now, uh, confuses two concerns. It confuses this concern of capturing a function with applying the graph. So we have these graph things on GPUs, which are more like cached command buffers, but that really has nothing to do with the JIT. Uh, so we should separate out all the cached command buffer code. This gets into, like, the HCQ refactors. There's a lot of stuff that can be done there, too. Um, I think that a common feature that we get a lot of requests for is being able to really nicely export those things and play them back later. Kind of what commas compile 3 is doing. Um... J. Suarez was asking for it. Like, just this idea that you can just export a JIT really nicely, not some weird pickle format. So, yeah. We can get there. It's on the priority list. But, uh, yeah. We can decide where it is on the priority list.
+I mean, that's one of my, like.. There's a whole bunch of refactors that can be done here. Like, I want to move more stuff to mixins.. Um.. And, like, really make that code good. There's definitely a path now. It's nice how, like, everything is uops. Uops are pure. I think that, like, the old scheduler, you couldn't touch it. The new scheduler, you can touch it. It all kind of behaves how you think it should. It's been a long time since I've hit something where I'm just, like.. I literally have no idea how to do this refactor. There's so many weird broken things. I think we're mostly past that now. And pretty much every time I'm like, oh, I want to refactor, like, you know, the pad op to not pad both sides. Okay, cool. That's going to take me an hour. Like, that's not even.. All that stuff kind of works now. So, that's pretty good. Um, but yeah. So I think that a lot of polish can be done by moving stuff to, like, mixins. And then once that's done, we can look at tensor.py and be like, oh yeah, now the schedule cache is, like, really easy to write. It's just, like, one little thing in there. Um.. And then also refactoring the JIT. The JIT right now, uh, confuses two concerns. It confuses this concern of capturing a function with applying the graph. So we have these graph things on GPUs, which are more like cached command buffers, but that really has nothing to do with the JIT. Uh, so we should separate out all the cached command buffer code. This gets into, like, the HCQ refactors. There's a lot of stuff that can be done there, too. Um, I think that a common feature that we get a lot of requests for is being able to really nicely export those things and play them back later. Kind of what commas compile 3 is doing. Um.. J. Suarez was asking for it. Like, just this idea that you can just export a JIT really nicely, not some weird pickle format. So, yeah. We can get there. It's on the priority list. But, uh, yeah. We can decide where it is on the priority list.
 
 ##### **Chenyu** [[00:30:56](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=1856)]
-Oh, yeah. So another small thing to add is I was trying to simplify all the symbolic stuff, or I guess in general, a lot of the rewrites. Uh, it's... There are hidden complexity about the older ones. There are a lot of things. And sometimes you need to add symbolic to a device renderer extra matter. Sometimes you really don't because sometimes you explicitly want something to not be rewrit. An example is, for example, for FP8 in AMD, uh, if you do an FP8 cast, we really want it to be cast to float first then to your whatever, BFloat 16 or something like that. So... I think there are a lot of uh... I tried, like, whopping the older or changed some rules here and there and something would just subtly break and that really is, like, impossible to maintain. Yeah, sometimes I hope I can... Basically two things here. One is I root-caused the issue with the conf that's not compatible with the very last uh, VADDIHACK image thing. So hopefully I will have some solutions soon. Then another is I think we can better categorize these rules as, uh, some rules that strictly remove certain uops and return you something that's from its source. There are some rules that gives you uh, maybe gives you a const at the end and nothing else. And there are rules just reassemble stuff. I think instead of saying this is simple, this is symbolic, and this is sim, uh, having some understanding for, like, how to categorize this will help. And eventually we can decide, like, in what stages you use which one and, uh, it's like, some of these should always be safe to attach if you choose so. And some of these should be explicitly set, say for example your extra metric in the render. Uh, if you want to add some other symbolic rules you specify there and not in the main code gen loop. Something like that. For now people just, like, add another thing very, uh, freely and we can make like, your vector list pretty hard.
+Oh, yeah. So another small thing to add is I was trying to simplify all the symbolic stuff, or I guess in general, a lot of the rewrites. Uh, it's.. There are hidden complexity about the older ones. There are a lot of things. And sometimes you need to add symbolic to a device renderer extra matter. Sometimes you really don't because sometimes you explicitly want something to not be rewrit. An example is, for example, for FP8 in AMD, uh, if you do an FP8 cast, we really want it to be cast to float first then to your whatever, BFloat 16 or something like that. So.. I think there are a lot of uh.. I tried, like, whopping the older or changed some rules here and there and something would just subtly break and that really is, like, impossible to maintain. Yeah, sometimes I hope I can.. Basically two things here. One is I root-caused the issue with the conf that's not compatible with the very last uh, VADDIHACK image thing. So hopefully I will have some solutions soon. Then another is I think we can better categorize these rules as, uh, some rules that strictly remove certain uops and return you something that's from its source. There are some rules that gives you uh, maybe gives you a const at the end and nothing else. And there are rules just reassemble stuff. I think instead of saying this is simple, this is symbolic, and this is sim, uh, having some understanding for, like, how to categorize this will help. And eventually we can decide, like, in what stages you use which one and, uh, it's like, some of these should always be safe to attach if you choose so. And some of these should be explicitly set, say for example your extra metric in the render. Uh, if you want to add some other symbolic rules you specify there and not in the main code gen loop. Something like that. For now people just, like, add another thing very, uh, freely and we can make like, your vector list pretty hard.
 
 ##### **Geohot** [[00:33:22](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2002)]
 Yeah, I really like that idea. I think that our names are total nonsense. Symbolic, simple, symbolic. I know you could finally get rid of symbolic, flat, and then sim. Yeah, these names, yeah, these need to be named things like, like, there's probably, ChatsGPT will probably come up with great names for, like,
@@ -532,7 +532,7 @@ Next.
 Some ideas for assembler?
 
 ##### **Geohot** [[00:35:33](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2133)]
-Yeah, yeah, so you know, it's going to be a slow project. I posted that thing in announcements. I think it's like with this SQTT stuff, we're now working on the like the bottom and the top and then there's this LVM in the middle, which kind of can ruin everything you did. Like it can make all these changes. So we do have to move to assembly. We have to remove LVM. I think RDNA3 is the place to do it. We need to be able to tie each UI swap to what runs on the GPU. So yeah, you know, it's going to be a slow process. I'm going to work on it maybe a day a week, two days a week for the next three months and then we'll have some nice baseline assembler, disassembler and then I also want it to be a cycle accurate emulator. So for each instruction, I don't just want to have a like how to transform this into a string and back to something else. I want to say what this actually does. So how it updates the VGPRs and stuff, but also how many cycles it takes and what GPU resources it uses and we can validate all this with SQGT. So SQGT will show us when the instruction got dispatched and when the instruction actually ran and these things are mostly pretty simple. I think it should be pretty easy to make like a little model of a GPU. Modeling the memory system is probably more difficult, but modeling the ALU should be pretty easy. And then we can like, yeah, no for this chunk ALUs okay, are there going to be stalls here or not? None. And LLVM seems pretty unaware of a lot of this stuff. You can look at the code outputted by LLVM and there's ALU stalls and they're just nonsense. Like just simple reorderings would fix it. So I think the best thing to do though is to not try to fix it. It's just to never emit code that does this. Like the this gets into like what the de-vectorizer is, right? Like the de-vectorizer the order of the de-vectorizer and how the de-vectorized stuff is emitted to assembly matters a ton for avoiding ALU stalls.
+Yeah, yeah, so you know, it's going to be a slow project. I posted that thing in announcements. I think it's like with this SQTT stuff, we're now working on the like the bottom and the top and then there's this LLVM in the middle, which kind of can ruin everything you did. Like it can make all these changes. So we do have to move to assembly. We have to remove LLVM. I think RDNA3 is the place to do it. We need to be able to tie each UI swap to what runs on the GPU. So yeah, you know, it's going to be a slow process. I'm going to work on it maybe a day a week, two days a week for the next three months and then we'll have some nice baseline assembler, disassembler and then I also want it to be a cycle accurate emulator. So for each instruction, I don't just want to have a like how to transform this into a string and back to something else. I want to say what this actually does. So how it updates the VGPRs and stuff, but also how many cycles it takes and what GPU resources it uses and we can validate all this with SQTT. So SQTT will show us when the instruction got dispatched and when the instruction actually ran and these things are mostly pretty simple. I think it should be pretty easy to make like a little model of a GPU. Modeling the memory system is probably more difficult, but modeling the ALU should be pretty easy. And then we can like, yeah, no for this chunk ALUs okay, are there going to be stalls here or not? None. And LLVM seems pretty unaware of a lot of this stuff. You can look at the code outputted by LLVM and there's ALU stalls and they're just nonsense. Like just simple reorderings would fix it. So I think the best thing to do though is to not try to fix it. It's just to never emit code that does this. Like the this gets into like what the de-vectorizer is, right? Like the de-vectorizer the order of the de-vectorizer and how the de-vectorized stuff is emitted to assembly matters a ton for avoiding ALU stalls.
 
 ##### **Geohot** [[00:38:08](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2288)]
 So, yeah. The slow process of assembly,
@@ -646,7 +646,7 @@ Yeah, I was just going to bring that up. I had to use a speaker. But you have to
 enter if you want to talk. Okay. Can you hear me? Yes.
 
 ##### **Geohot** [[00:45:19](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2719)]
-So there's a draft version of UOP generated max gem kernels. They're a little slower than the hand-coded ones. And obviously the C style changes can't stay there. But surprisingly,
+So there's a draft version of UOP generated max GEMM kernels. They're a little slower than the hand-coded ones. And obviously the C style changes can't stay there. But surprisingly,
 
 ##### **Geohot** [[00:45:39](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2739)]
 it's correct and it works. So it's a good thing. Yeah, I'm looking at your C style changes.
@@ -685,16 +685,16 @@ Yeah. No, and it's great that we can show that the, like, the linearizer and all
 Yeah. I mean, it obviously doesn't use the linearizer, right? Wait.
 
 ##### **Geohot** [[00:48:07](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2887)]
-Oh, it doesn't use the linearizer. Oh, you're just concatting. You're just... Yeah. Yeah.
+Oh, it doesn't use the linearizer. Oh, you're just concatting. You're just.. Yeah. Yeah.
 
 ##### **Geohot** [[00:48:13](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2893)]
 Any reason you can't use the linearizer?
 
 ##### **Geohot** [[00:48:20](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2900)]
-Well, that's... I'm not sure. Again, I don't know how the copy... I don't know how the async stuff with the pipe commits and the weights would get pushed up that far on all the pipelining. I just don't know.
+Well, that's.. I'm not sure. Again, I don't know how the copy.. I don't know how the async stuff with the pipe commits and the weights would get pushed up that far on all the pipelining. I just don't know.
 
 ##### **Geohot** [[00:48:39](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2919)]
-It should... It should mostly work. I think you'd be surprised how good the linearizer is, especially when we fix after end. Yeah, there's just... Basically, there's a function called after, and you have to use that. So after will... Will, like... Like, if you want a buffer after a store happened, you just do, like, buff.after the store. And that promises you that the store happened before that buffer.
+It should.. It should mostly work. I think you'd be surprised how good the linearizer is, especially when we fix after end. Yeah, there's just.. Basically, there's a function called after, and you have to use that. So after will.. Will, like.. Like, if you want a buffer after a store happened, you just do, like, buff.after the store. And that promises you that the store happened before that buffer.
 
 ##### **Geohot** [[00:49:10](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=2950)]
 Is returned to you.
@@ -724,7 +724,7 @@ Not particularly. I mean, he's complaining about the state of the documentation.
 Yes.
 
 ##### **Geohot** [[00:50:02](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=3002)]
-Yeah, and the state of the error messages. I mean, those things aren't good. It's not 1.0 yet. He says a bunch of the current... The kernels are faster, which is good. He wants aggregation in the profiler. Kwaslin, I don't know what, like, other profilers have for this. If there's some, like, obvious features that, like, every profiler has that we don't, we should add them.
+Yeah, and the state of the error messages. I mean, those things aren't good. It's not 1.0 yet. He says a bunch of the current.. The kernels are faster, which is good. He wants aggregation in the profiler. Kwaslin, I don't know what, like, other profilers have for this. If there's some, like, obvious features that, like, every profiler has that we don't, we should add them.
 
 ##### **Chenyu** [[00:50:26](https://www.youtube.com/watch?v=S7w_cqqW8BM&t=3026)]
 One thing is for a profiler, I never understand, when does the profiling stop? It gives me a very long timeline that I can scroll.

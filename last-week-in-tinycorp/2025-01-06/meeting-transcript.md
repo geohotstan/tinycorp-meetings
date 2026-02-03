@@ -13,7 +13,7 @@
 ## Audio
 
 [Youtube](https://www.youtube.com/watch?v=_zNqg1U1vdI)  
-_there is an auto-generated transcript on youtube, but obviously our's here is superior in every way :)_  
+_there is an auto-generated transcript on youtube, but obviously our's here is superior in every way:)_  
 _also chapters will be in the youtube description_
 
 ## Transcript
@@ -24,7 +24,7 @@ We don't have George today.
 George said he's on the flight to CES.  
 Uh, I will also be flying later today.  
 So we are going to see as I have post the [tweet](https://x.com/__tinygrad__/status/1875204954295881868) for which, so we, we, uh, we are going with comma and so we use commas both.  
-Uh, we have one tiny box repair there for people to, um, take a look.  
+Uh, we have one TinyBox repair there for people to, um, take a look.  
 
 **Chenyu** [[00:00:41](https://www.youtube.com/watch?v=_zNqg1U1vdI&t=41)]  
 Okay.  
@@ -76,7 +76,7 @@ Oh, by the way, are you using Tiny13?
 Yeah, yeah.  
 
 **Chenyu** [[00:03:24](https://www.youtube.com/watch?v=_zNqg1U1vdI&t=204)]  
-OK, I just want to make sure, because some... 
+OK, I just want to make sure, because some.. 
 
 **Nimlgen** [[00:03:22](https://www.youtube.com/watch?v=_zNqg1U1vdI&t=202)]  
 So I think, yeah, just because I think BERT dataset is broken on Tiny10.  
@@ -153,11 +153,11 @@ I don't know if this is a bug.
 **Chenyu & Qazalin** [[00:08:32](https://www.youtube.com/watch?v=_zNqg1U1vdI&t=518)]  
 Is this correct?  
 I'm reading the process replay diff.  
-It seems to do... I mean, the output is correct.  
-It's just... It's just indexing it different.  
+It seems to do.. I mean, the output is correct.  
+It's just.. It's just indexing it different.  
 Like something is permuted or something.  
 Like something is swapped or permuted.  
-Yeah, so it's basically changing like a...  
+Yeah, so it's basically changing like a..  
 changing to a contiguous shape track or from shape for the reduced axis.  
 I'm not sure if this is correct.  
 OK, I think this is too much detail.  
@@ -189,7 +189,7 @@ I don't think we have enough tests for memory usage and things.
 And BERT is a special case because it's very tight on memory.  
 Can we add BERT to CI?  
 Look, I need the feedback loop, though.  
-If you don't want me to merge...
+If you don't want me to merge..
 That's another problem.  
 For now, just to start and do the scheduling, it takes five minutes.  
 So that's the short reason for why it's not in CI.  
@@ -221,7 +221,7 @@ I think this is probably the important, one of the important things for me for n
 The training BERT resembles a lot of like  
 any things that involves transformer, or basically if we can turn BERT fast, we can turn other models fast.  
 And this involves two.  
-So if you run this on master on a green tiny box, I think it takes around 9 to 10 hours.  
+So if you run this on master on a green TinyBox, I think it takes around 9 to 10 hours.  
 Our previous submission was 6 hours.  
 There are like two hours more due to Python speed.  
 Because we need to reset, and reset is very slow.  
@@ -403,7 +403,7 @@ Yeah, the distributed or multi-GPUs primitives are supported by TinyGrad.
 Or specific like auralism or how you separate a model like FSDP, it just needs to be implemented.  
 There might be some nuance on how do you want to swap axes for multi-GPU tensor, but that's the core issue for that bounty.  
 So I tried this yesterday, and it just doesn't do anything.  
-The tiny chat on webGPU, I don't know.  
+The tiny chat on WebGPU, I don't know.  
 I can test it later.  
 
 **Chenyu** [[00:25:51](https://www.youtube.com/watch?v=_zNqg1U1vdI&t=1551)]  
@@ -437,7 +437,7 @@ Any more stuff?
 Okay.  
 I think that's everything we have for today.  
 We'll probably post more about CES.  
-We want to figure out what are the new chips that is coming and like, what do we do for the future tiny box and stuff like that.  
+We want to figure out what are the new chips that is coming and like, what do we do for the future TinyBox and stuff like that.  
 So stay tuned and that's it for this meeting.  
 Thanks everyone.  
 See you next week.  

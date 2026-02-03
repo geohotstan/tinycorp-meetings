@@ -6,7 +6,7 @@
 - company updates
 - release!
 - rangeify
-- mlperf llama (eval / MP / grad_acc mem, fp8)
+- mlperf LLaMA (eval / MP / grad_acc mem, fp8)
 - viz tool
 - drivers
 - cloud
@@ -27,9 +27,9 @@
 
 - **[Rangeify](#geohot-000234)**: Geohot is hoping to merge Rangeify this week. This major refactor will replace the grouper, kernelize, shape tracker, and lower, with the goal of improving kernel splitting and view handling. It will initially be available via an environment variable flag.
 
-- **[MLPerf Llama](#chenyu-000923)**: Work on model parallel is waiting on evaluation correctness and resolving compiler errors on LLVM and HIP. For the 8B model, the new dataset was just uploaded, and they plan to start trying it, though it may require more drive space. Work is also being done on supporting smaller data types like BFLOAT16 and FP8.
+- **[MLPerf LLaMA](#chenyu-000923)**: Work on model parallel is waiting on evaluation correctness and resolving compiler errors on LLVM and HIP. For the 8B model, the new dataset was just uploaded, and they plan to start trying it, though it may require more drive space. Work is also being done on supporting smaller data types like BFLOAT16 and FP8.
 
-- **[Viz Tool](#qazalin-001438)**: The tool is struggling with large Llama traces (~2GB, 100k events), causing browser memory issues. Instead of moving processing to the server, the proposed solution is to reduce the size of each event by creating a more compact data format, aiming to handle up to a million events within about 100MB.
+- **[Viz Tool](#qazalin-001438)**: The tool is struggling with large LLaMA traces (~2GB, 100k events), causing browser memory issues. Instead of moving processing to the server, the proposed solution is to reduce the size of each event by creating a more compact data format, aiming to handle up to a million events within about 100MB.
 
 - **[Drivers](#nimlgen-003325)**: There's a draft PR for AQL support which should provide a "free speed up" for kernel time. Progress is also being made on MI400 support.
 
@@ -169,7 +169,7 @@ And I. It's like seven back to back loops and like some splits and merge thing s
 Yeah. I mean this is the third linearizer I wrote. And this one I think is good. Great. Yeah. It's faster. So I'm happy with that.
 
 ##### **Chenyu** [[00:09:15](https://www.youtube.com/watch?v=6EDbdI_m73o&t=555)]
-Okay. Yeah. Looking forward to the next one. Looking forward to that. So moving on. Next is Lama.
+Okay. Yeah. Looking forward to the next one. Looking forward to that. So moving on. Next is LLaMA.
 
 ##### **Chenyu** [[00:09:23](https://www.youtube.com/watch?v=6EDbdI_m73o&t=563)]
 So I don't have a new picture for the whiteboard. It's the same as last week. I think we are at LNB model parallel. For that one. Basically I'm waiting for eval. That's one thing I really want to see if the eval is correct. And there are compiler arrows, both on LLVM and HIP that I hope would disappear after we upgrade the compiler versions. We will follow up on that. My hope is we can like run 7B with split, like split the model on eight GPUs.
@@ -262,19 +262,19 @@ George, do you want to quickly check the C style one and the cast one, both you 
 Sure.
 
 ##### **Chenyu** [[00:13:50](https://www.youtube.com/watch?v=6EDbdI_m73o&t=830)]
-Yeah, so hopefully this week we will have Lama eval. And around the 70B, maybe smaller context windows. Then we'll see. Some AB going on. Hopefully we can start to trend those as well.
+Yeah, so hopefully this week we will have LLaMA eval. And around the 70B, maybe smaller context windows. Then we'll see. Some AB going on. Hopefully we can start to trend those as well.
 
 ##### **Geohot** [[00:14:13](https://www.youtube.com/watch?v=6EDbdI_m73o&t=853)]
 Oh, sweet. You fixed the cast. Nice.
 
 ##### **Chenyu** [[00:14:18](https://www.youtube.com/watch?v=6EDbdI_m73o&t=858)]
-Yeah, just review those. And we can move on to make more stuff. And we will discuss other MLPerf stuff in other bounties. So I have four Lama.
+Yeah, just review those. And we can move on to make more stuff. And we will discuss other MLPerf stuff in other bounties. So I have four LLaMA.
 
 ##### **Geohot** [[00:14:32](https://www.youtube.com/watch?v=6EDbdI_m73o&t=872)]
 So with that, we can move to this.
 
 ##### **Qazalin** [[00:14:38](https://www.youtube.com/watch?v=6EDbdI_m73o&t=878)]
-So I realized that the problem with Wiz is that we can't the entire Lama trace to the browser. When you forward with SSH, it's extremely slow over the internet. And it's just 100K events. So it's out of memories. I have it here.
+So I realized that the problem with Wiz is that we can't the entire LLaMA trace to the browser. When you forward with SSH, it's extremely slow over the internet. And it's just 100K events. So it's out of memories. I have it here.
 
 ##### **Geohot** [[00:14:59](https://www.youtube.com/watch?v=6EDbdI_m73o&t=899)]
 Wait, how big is the trace?
@@ -313,7 +313,7 @@ I think it's different per browser. Some things work better on Firefox. box. Chr
 Okay, so I have 100,000. How much? How much kilobytes do I have per event?
 
 ##### **Qazalin** [[00:16:16](https://www.youtube.com/watch?v=6EDbdI_m73o&t=976)]
-In total, the llama trees was around two gigs.
+In total, the LLaMA trees was around two gigs.
 
 ##### **Geohot** [[00:16:23](https://www.youtube.com/watch?v=6EDbdI_m73o&t=983)]
 Two gigs. So you're telling me it's two e nine divided by Okay, okay, that seems plausible. And that's too big for a browser.
@@ -346,7 +346,7 @@ when you zoom in automatic and make a request on the server.
 Yes
 
 ##### **Geohot** [[00:18:14](https://www.youtube.com/watch?v=6EDbdI_m73o&t=1094)]
-Yeah, Mauricio Crespo This is Lama. So who kicked? I mean, which Lama you are talking about.
+Yeah, Mauricio Crespo This is LLaMA. So who kicked? I mean, which LLaMA you are talking about.
 
 ##### **Qazalin** [[00:18:32](https://www.youtube.com/watch?v=6EDbdI_m73o&t=1112)]
 Oh, it's the, I think, let's see, 70B.
@@ -418,7 +418,7 @@ A couple hundred megs. Yeah, I mean, what I would do here is, well, first we sho
 Like it's never going to work for 10 million. And then, yeah, having some command line flags to turn things off is fine, but not on. Because off people will figure out, on they'll never figure out. But yeah, I think that might be the idea. So how much stuff do you have to store per event? They don't have to save people. Don't mess things up. Apart from what they're sure they're going to take but don't you fear that they're going to be stopping you though? Yeah.
 
 ##### **Geohot** [[00:23:31](https://www.youtube.com/watch?v=6EDbdI_m73o&t=1411)]
-So they're probably going to be realizat... Cool, how much do they need in Excel... Or on the Word console? So there are user passwords, educational purposes, if they have to live somehow, and I don't know like what it's called, but I'm not so sure. Like what because you're just like a centimeter, so. Okay, I see. Yes, this is effective today. It's a little bigger purpose.
+So they're probably going to be realizat.. Cool, how much do they need in Excel.. Or on the Word console? So there are user passwords, educational purposes, if they have to live somehow, and I don't know like what it's called, but I'm not so sure. Like what because you're just like a centimeter, so. Okay, I see. Yes, this is effective today. It's a little bigger purpose.
 
 ##### **Geohot** [[00:23:37](https://www.youtube.com/watch?v=6EDbdI_m73o&t=1417)]
 This is getting a charged time. problem. Just store the bytes. Think about it, JSON's printing these numbers. Putting strings everywhere. Yeah, yeah, it is slow. Just have Python
@@ -559,7 +559,7 @@ Yeah, but yeah, they've never used them like in tests. I don't know if it's even
 Yeah, I think it's. Yeah, I think it's 99. PM4 99 runs AQL. Why do I know that? I mean, the advantage to actually like making the base type of the queue be AQL is that it just copies what the existing driver is sending. I don't know. I would briefly. I understand why it's easier if we can leave the base type as PM4. I would maybe briefly try it, but I think we're just going to have to make the base type be AQL. So we can make it match. And these AMD's implementation.
 
 ##### **Nimlgen** [[00:36:04](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2164)]
-Yeah, but yeah, I've done that. But actually, there is some problem with AMD LVM because it's like the kernel is not compatible. I think maybe I need to. Okay, I'll look into it. There is. I mean, it can find the AQL header. So it can't execute.
+Yeah, but yeah, I've done that. But actually, there is some problem with AMD LLVM because it's like the kernel is not compatible. I think maybe I need to. Okay, I'll look into it. There is. I mean, it can find the AQL header. So it can't execute.
 
 ##### **Geohot** [[00:36:22](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2182)]
 Oh, it's not generating the AQL header. Yeah. I don't know. I don't know where those come from, but I'm sure we can figure that out. I'm sure that's some fun. I think it's going to flag somewhere.
@@ -598,7 +598,7 @@ So, yeah. And timings actually look good already. I need to fix some things. But
 Sweet.
 
 ##### **Nimlgen** [[00:38:13](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2293)]
-So, yeah. So, 4AM MI400, there's some progress, but I spent a lot of time figuring out some... I mean, actually, because of these GPU support, XGMI, they have different aperture mappings. And basically, yeah, like it was quite strange to debug because it worked on one GPU, not another because like the window is floating based on which peer ID each GPU is. So, yeah. But I also fixed that and it should be pretty close to merging it. I've already merged some parts from it.
+So, yeah. So, 4AM MI400, there's some progress, but I spent a lot of time figuring out some.. I mean, actually, because of these GPU support, XGMI, they have different aperture mappings. And basically, yeah, like it was quite strange to debug because it worked on one GPU, not another because like the window is floating based on which peer ID each GPU is. So, yeah. But I also fixed that and it should be pretty close to merging it. I've already merged some parts from it.
 
 ##### **Geohot** [[00:38:58](https://www.youtube.com/watch?v=6EDbdI_m73o&t=2338)]
 So, yeah. Cool. Yeah.
@@ -763,7 +763,7 @@ Most of the recent progress. And one of the other discord channels. I'm setting 
 And we're trying to do it in a more. I mean,
 
 ##### **Chenyu** [[00:51:14](https://www.youtube.com/watch?v=6EDbdI_m73o&t=3074)]
-the only thing I would say is if you expect to run something for extended period of time, just post in the. In the. The tiny box access channel. So we can sync. Because we only have like two MI 300 X machine. It's fine. If it's fine. If you have calculated everything and just need some time to run, but just. Post later for estimated time. So everyone else knows like not to break your job first. Then know when, when that will be free.
+the only thing I would say is if you expect to run something for extended period of time, just post in the. In the. The TinyBox access channel. So we can sync. Because we only have like two MI 300 X machine. It's fine. If it's fine. If you have calculated everything and just need some time to run, but just. Post later for estimated time. So everyone else knows like not to break your job first. Then know when, when that will be free.
 
 ##### **Hooved** [[00:51:43](https://www.youtube.com/watch?v=6EDbdI_m73o&t=3103)]
 For sure. I'll do that right now. I'm just running a couple minutes at a time, but I'll,

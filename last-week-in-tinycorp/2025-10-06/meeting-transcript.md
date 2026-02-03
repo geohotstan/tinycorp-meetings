@@ -35,16 +35,16 @@ Maybe Cid, so you can start with the symbolic stuff.
 Alright, so good morning. Yeah, so the big symbolic update is that we have ad chain sorting now, finally. And also we can get rid of the distinction between symbolic flat and symbolic. And yeah, I made some improvements to UOP-Given-Valid and to a method called UOP-Blood-Factor, which allows you to factor out multiples of an expression, and then you can substitute them. So that works well. That was all necessary for the Resonate on stuff, which is still not fixed. I know how to fix it. It just made CI quite a bit slower, so it was very close to timing out. So we just have to figure out how to make it a little bit faster. But that's for the range of ResonateConf. That was not simplifying on some reshapes.
 
 ##### **Chenyu** [[00:01:24](https://www.youtube.com/watch?v=-boFPBPcUK8&t=84)]
-And some of the reshapes had to use UOP-Given-Valid. But yeah, doing that on every...
+And some of the reshapes had to use UOP-Given-Valid. But yeah, doing that on every..
 
 ##### **Sieds Lykles** [[00:01:39](https://www.youtube.com/watch?v=-boFPBPcUK8&t=99)]
 In rangeify on the big graph was just slow, but it doesn't need to happen.
 
 ##### **Chenyu** [[00:01:47](https://www.youtube.com/watch?v=-boFPBPcUK8&t=107)]
-Yeah, I think as part of the rangeify thing, there are two things that we noticed. One is... Invalid can be slow. I think there's a comment somewhere around it. The benchmark now spends lots of time on the invalid stuff. That's one. Another is we currently disable the Z3 check by default because it's very slow. It can get very slow. I think some of it might just be like some expression that's bad or the kernel is getting too big now. So we need to disable that. For speed for now. But I mean, looking forward to get this back.
+Yeah, I think as part of the rangeify thing, there are two things that we noticed. One is.. Invalid can be slow. I think there's a comment somewhere around it. The benchmark now spends lots of time on the invalid stuff. That's one. Another is we currently disable the Z3 check by default because it's very slow. It can get very slow. I think some of it might just be like some expression that's bad or the kernel is getting too big now. So we need to disable that. For speed for now. But I mean, looking forward to get this back.
 
 ##### **Sieds Lykles** [[00:02:30](https://www.youtube.com/watch?v=-boFPBPcUK8&t=150)]
-Yeah, I mean, the Z3 also had the float stuff. It needs to be fixed. And that, yeah, I mean, that's just... I think we just banned pretty much all floats in indexing.
+Yeah, I mean, the Z3 also had the float stuff. It needs to be fixed. And that, yeah, I mean, that's just.. I think we just banned pretty much all floats in indexing.
 
 ##### **Chenyu** [[00:02:45](https://www.youtube.com/watch?v=-boFPBPcUK8&t=165)]
 We shouldn't have any real use case for floating indexing.
@@ -53,7 +53,7 @@ We shouldn't have any real use case for floating indexing.
 Yeah, I don't think so. I mean, this stuff should just be expressed with ints somehow and like remainders. And yeah, it's not easy. But yeah. Yeah, I mean, I'll work on that this week. Get that back.
 
 ##### **Chenyu** [[00:03:11](https://www.youtube.com/watch?v=-boFPBPcUK8&t=191)]
-Sounds good. Yeah, we are... We'll probably get rangeify as default, like Spanish. We will talk about that more. But definitely sometime this week.
+Sounds good. Yeah, we are.. We'll probably get rangeify as default, like Spanish. We will talk about that more. But definitely sometime this week.
 
 ##### **Sieds Lykles** [[00:03:29](https://www.youtube.com/watch?v=-boFPBPcUK8&t=209)]
 Cool. Yeah. Anything else? No, not really. See you in Hong Kong. Yep. Looking forward to seeing you later. Safe trip. Okay. So we still don't have George.
@@ -89,7 +89,7 @@ Yeah. Yeah.
 Well.
 
 ##### **Chenyu** [[00:08:16](https://www.youtube.com/watch?v=-boFPBPcUK8&t=496)]
-Yeah, I want to tell, so, the same thing before andались what else.
+Yeah, I want to tell, so, the same thing before and what else.
 
 ##### **Flata** [[00:08:20](https://www.youtube.com/watch?v=-boFPBPcUK8&t=500)]
 Absolutely.
@@ -104,7 +104,7 @@ Not like nature to me.
 I don't know.
 
 ##### **Chenyu** [[00:08:52](https://www.youtube.com/watch?v=-boFPBPcUK8&t=532)]
-So George is working on adding pipelining and I guess in general making gens and full attention fast. That would be his main thing and also improving the rewriting algorithm or the rewriting speed itself. Now TinyGrade is pretty slow. Slow because like a lot of rewrite steps. So there are rewrites for index, rewrites for rangeify, rewrites for big graph, all the recursive thing, recursive property. Well that's a new thing he added. Supposedly makes everything faster and fixed one of the old issue that. Because it recurs too much, it surpasses the Python stack limits. Replacement was more like... So instead of going like stack, go into the stack, it just tried to paint the whole top of the sort with that property so that the next time it's something like that. Anyway. Supposedly it's faster. And it fixed the stack overflow issue.
+So George is working on adding pipelining and I guess in general making gens and full attention fast. That would be his main thing and also improving the rewriting algorithm or the rewriting speed itself. Now TinyGrade is pretty slow. Slow because like a lot of rewrite steps. So there are rewrites for index, rewrites for rangeify, rewrites for big graph, all the recursive thing, recursive property. Well that's a new thing he added. Supposedly makes everything faster and fixed one of the old issue that. Because it recurs too much, it surpasses the Python stack limits. Replacement was more like.. So instead of going like stack, go into the stack, it just tried to paint the whole top of the sort with that property so that the next time it's something like that. Anyway. Supposedly it's faster. And it fixed the stack overflow issue.
 
 ##### **Chenyu** [[00:10:29](https://www.youtube.com/watch?v=-boFPBPcUK8&t=629)]
 Stack recursion too deep issue. Okay. And now our backend is ready for review. Okay. So we'll figure out that one probably tomorrow. Figure out like who is going to review that. Okay.
@@ -146,7 +146,7 @@ I think that's a separate. Speed is probably a separate issue. It would be nice 
 Okay.
 
 ##### **Chenyu** [[00:14:18](https://www.youtube.com/watch?v=-boFPBPcUK8&t=858)]
-I will... So let's get the correct version. Merge the ladder. can also try those. That would be nice.
+I will.. So let's get the correct version. Merge the ladder. can also try those. That would be nice.
 
 ##### **B1tg** [[00:14:28](https://www.youtube.com/watch?v=-boFPBPcUK8&t=868)]
 Should we get the AMD ARVM version first? Up to you.

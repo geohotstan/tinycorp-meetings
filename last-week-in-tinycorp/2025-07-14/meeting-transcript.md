@@ -5,7 +5,7 @@
 **Time:** 9am Monday San Diego time
 - company updates
 - kernel refactors
-- hcopt refactors, mlperf llama 405b
+- hcopt refactors, mlperf LLaMA 405b
 - viz tool
 - drivers
 - cloud
@@ -23,13 +23,13 @@
 - **[Kernel Refactors](#geohot-000041)**: Major refactoring is underway to create a cleaner kernel representation by explicitly ending ranges, using `define_reg`, and removing `ones` to ensure ops work consistently across small and large graphs.
 - **[hcopt Refactors](#chenyu-000130)**: Hand-coded optimizations (`hcopt`) have been refactored for readability and flexibility, now using absolute axis positions. This allows for more advanced reordering (e.g., moving upcasts before reduces) and unexpectedly improved openpilot performance.
 - **[Kernel Refactors](#geohot-000507)**: A new approach for labeling axes (e.g., `global one`, `reduce zero`) is being adopted to make optimizations invariant to the removal of size-1 dimensions.
-- **[MLPerf Llama 405B](#chenyu-000810)**: For the Llama 405B evaluation, it was confirmed that the data loader concatenates all datasets into one large stream and evaluates with a sliding window, explaining the strict evaluation order requirement.
-- **[MLPerf Llama 405B](#geohot-001000)**: To meet the AMD contract goals, the primary focus for Llama training is on optimizing the performance of the GEMM and flash attention kernels, alongside implementing multi-node support.
+- **[MLPerf LLaMA 405B](#chenyu-000810)**: For the LLaMA 405B evaluation, it was confirmed that the data loader concatenates all datasets into one large stream and evaluates with a sliding window, explaining the strict evaluation order requirement.
+- **[MLPerf LLaMA 405B](#geohot-001000)**: To meet the AMD contract goals, the primary focus for LLaMA training is on optimizing the performance of the GEMM and flash attention kernels, alongside implementing multi-node support.
 - **[Viz Tool](#qazalin-001135)**: Graph rewrite steps can now be visualized using the `tiny-device`, providing better insight into the transformations applied during `get_program` and `get_schedule`.
 - **[Viz Tool](#qazalin-001208)**: The visualization tool now renders graphs in a separate stream, fixing display issues with multi-graph programs and showing kernel execution timelines across different devices.
 - **[Viz Tool](#geohot-001337)**: There are plans to enhance the viz tool with more detailed profiling data, such as SQTT traces and performance counters (e.g., L2 bandwidth), to better diagnose kernel performance bottlenecks.
 - **[Drivers](#geohot-002040)**: The next priority for driver development is to enable fast data copies between storage and GPUs and to implement optimizer weight offloading, which requires efficient use of pinned CPU memory.
-- **[Drivers](#chenyu-002531)**: It was suggested to test the copy overhead and optimizer offloading performance by running a BERT model on an MI300X with its optimizer state kept on the CPU, simulating the Llama 405B workload.
+- **[Drivers](#chenyu-002531)**: It was suggested to test the copy overhead and optimizer offloading performance by running a BERT model on an MI300X with its optimizer state kept on the CPU, simulating the LLaMA 405B workload.
 - **[Cloud](#wozeparrot-002736)**: The cloud file system is slow and blocked on merging hashing improvements from `tiny-grid`. This is delayed by a machine-specific hashing bug on AMD that needs to be resolved first.
 - **[ONNX](#chenyu-003122)**: The `load_onnx` implementation is blocked by a failing test in openpilot involving a constant-folded, shape-changing bitcast. A workaround is needed to unblock merging the new ONNX support.
 - **[ONNX](#chenyu-003502)**: A correctness bug in an ONNX up/down-sampling operation was exposed by recent `hcopt` refactors. The issue, previously thought to be device-specific, needs a proper fix to ensure correct behavior on all platforms.
@@ -42,16 +42,16 @@
 Okay. Any update? Step to the bottom of the screen. We soldered red in the green last week. Got a few more greens being dealt. Yeah, we got all the AMD machines are off. One, two, three and four. Where? So, you can go wake. Anything quick for your factors?
 
 ##### **Geohot** [[00:00:41](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=41)]
-Yeah, I think there's a few things that are finally like being made correct. There should be no reason that you only have a... There should be no reason that whatever you're building doesn't work in a big graph as well as the small graphs. And the key thing to realize is that stores and loops. It doesn't even have to be stores. I can have an end range. But like the way that I was implicitly ending the ranges didn't really make sense. So by explicitly ending ranges and then fixing to find ACC to be defined reg, doing all the other things about removing the ones. I think then we have a really beautiful. A kernel thing that can express all the things that like, like, hey, like, can it stop?
+Yeah, I think there's a few things that are finally like being made correct. There should be no reason that you only have a.. There should be no reason that whatever you're building doesn't work in a big graph as well as the small graphs. And the key thing to realize is that stores and loops. It doesn't even have to be stores. I can have an end range. But like the way that I was implicitly ending the ranges didn't really make sense. So by explicitly ending ranges and then fixing to find ACC to be defined reg, doing all the other things about removing the ones. I think then we have a really beautiful. A kernel thing that can express all the things that like, like, hey, like, can it stop?
 
 ##### **Chenyu** [[00:01:30](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=90)]
-Yeah, I guess to the related thing. So I did bunch of in co-optimization, reflectors. I think it's a bit. I think now is a lot readable and it's more flexible to... So I think at the end of the list, it should be able to support moving upcast to before reduce. For now, those games no longer... It's not taking relative positions, but like taking from the absolute position. So it doesn't... It's invariant even if you like, they're differently. And also it should be also... Also, I know skip the ones. So let's... If later we want to introduce not doing simplifying ones in between up-up, let's also invariant and should just work. So we should be able to remove all the reference to the first underscore, reduce, and first underscore upcast. And basically you can reorder it however you like. Then you can move the upcast to before reduce and after the global no-cause.
+Yeah, I guess to the related thing. So I did bunch of in co-optimization, reflectors. I think it's a bit. I think now is a lot readable and it's more flexible to.. So I think at the end of the list, it should be able to support moving upcast to before reduce. For now, those games no longer.. It's not taking relative positions, but like taking from the absolute position. So it doesn't.. It's invariant even if you like, they're differently. And also it should be also.. Also, I know skip the ones. So let's.. If later we want to introduce not doing simplifying ones in between up-up, let's also invariant and should just work. So we should be able to remove all the reference to the first underscore, reduce, and first underscore upcast. And basically you can reorder it however you like. Then you can move the upcast to before reduce and after the global no-cause.
 
 ##### **Geohot** [[00:02:49](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=169)]
 Great. Yeah, I think I also have to make changes in the GPU dim thing to allow global and local to be in any position.
 
 ##### **Geohot** [[00:02:57](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=177)]
-But I think when that's done, we have a much cleaner approach down the...
+But I think when that's done, we have a much cleaner approach down the..
 
 ##### **Chenyu** [[00:03:05](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=185)]
 Where is that being for putting on other land? First take. I guess I'm to place. Also another thing is we previously have the idea of the axis into unrow or anything reduced related is relative to your first reduce. But if we want to keep once then something needs to be changed there.
@@ -63,7 +63,7 @@ It's minor, it's quite fine.
 Because previously we would remove that left over one after if we say unrow the whole X-reduce axis.
 
 ##### **Geohot** [[00:03:52](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=232)]
-Yeah, I think that that's where no real rush to do that. But in general one should just be banned from everything. Like there's nothing, there's no...
+Yeah, I think that that's where no real rush to do that. But in general one should just be banned from everything. Like there's nothing, there's no..
 
 ##### **Chenyu** [[00:04:06](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=246)]
 What do you mean by one should be banned?
@@ -72,10 +72,10 @@ What do you mean by one should be banned?
 Well, so you can draw the distinction between removing the ones from the shape from what you really want to stay invariant is just the name of the axis. So as soon as the AST comes into kernel you can just label the axis like global zero, global one, global two, reduce zero, reduce one. And then whether you actually keep the ones in the shape or not is kind of irrelevant. But in general, like there's nothing that ones really should be doing.
 
 ##### **Chenyu** [[00:04:44](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=284)]
-But the decision, we need to make a decision to do we remove it as soon as possible or do we remove it as late as possible? Because... Yes. So...
+But the decision, we need to make a decision to do we remove it as soon as possible or do we remove it as late as possible? Because.. Yes. So..
 
 ##### **Geohot** [[00:04:56](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=296)]
-If we want to keep the shape length... I don't think we have to change it. I don't think we have to change it as early as possible.
+If we want to keep the shape length.. I don't think we have to change it. I don't think we have to change it as early as possible.
 
 ##### **Geohot** [[00:05:07](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=307)]
 Yeah. I don't think it's that important. I think that like what you really want to change before you think about whether you're removing the ones or not is just how we label axes. So right now we just label the axes like it's the argument in the opt-off. It's like zero, one, two, three. But like so one, this is going to have to change a bit for reduces. Because if you have like three reduces in a kernel, how do you know which opt-off refers to which reduce? And then if you like make it so that you label the axes like global one, and that just always is global one, global one might be removed if it becomes ones. But like what won't happen is that like global two will shift over and become global one. It'll always stay global too. So it's really more of a naming thing than anything to do with the actual ones. And we have to address the naming thing in some way anyway.
@@ -99,7 +99,7 @@ I also changed some behavior slightly. The initial idea was so like it as long a
 I totally believe that. Yeah, that's some of the oldest like crabby is code. Nice to see you getting cleaned up.
 
 ##### **Chenyu** [[00:08:10](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=490)]
-Yeah, so I'll probably do this for a few days. Then go back to lama for a while. I was able to run their data loader. I can confirm now that when they do e-vail, they just cat everything together. Make a very big dream and evolve on that thing. So I can like just replicate that. And I discussed this was was parrots that. Or it's I think that's the main reason they need the e-vail order to stay the same because they just get everything together.
+Yeah, so I'll probably do this for a few days. Then go back to LLaMA for a while. I was able to run their data loader. I can confirm now that when they do e-vail, they just cat everything together. Make a very big dream and evolve on that thing. So I can like just replicate that. And I discussed this was was parrots that. Or it's I think that's the main reason they need the e-vail order to stay the same because they just get everything together.
 
 ##### **Geohot** [[00:08:46](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=526)]
 And then at the end of the pad zeroes are. No, so.
@@ -114,7 +114,7 @@ Yeah, I mean we should just this should always be basically one size.
 Yeah, the main reason I want to understand this is I just want to implement it. Otherwise Nemo or make out from is very hard to use because we are running let's. Then a media machine and it pretty much just assume a lot of. And then stuff that we need to mark so the code we're on. That's annoying. Yeah, we don't probably don't let. So yeah, we'll get back to this later. Or I don't know if someone is more. Knowledge. I want to help. Oh, so we're.
 
 ##### **Geohot** [[00:10:00](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=600)]
-Anyway, you know, overall I'm you know just think of through the whole AMD contract. I think I think we're in a pretty good place if you could get the stuff training. It's really only two kernels that I have to make fast. I have to make the gem fast and I have to make the flash attention fast.
+Anyway, you know, overall I'm you know just think of through the whole AMD contract. I think I think we're in a pretty good place if you could get the stuff training. It's really only two kernels that I have to make fast. I have to make the GEMM fast and I have to make the flash attention fast.
 
 ##### **Chenyu** [[00:10:17](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=617)]
 And we need to make everything.
@@ -288,7 +288,7 @@ I mean, basically we can already allocate like the Pint memory and we just put p
 So the limit equals the. Call the CPU to CPU code. May we can just get rid of this type. I think we should get the full bandwidth.
 
 ##### **Chenyu** [[00:25:31](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=1531)]
-So I think what we can ask maybe the easiest way to test something like this is we can take birds then move birds. Optimizer state to CPU before training and we start training like that and see how much of copy overhead we are getting our M 300 X. That would be very similar in terms of what we want for llama 405 B because 45 is so big that the off-matter state need to be state in system rate. Anyway, making sure like copy is fast from the initial weight loading from disk to GPU is fast then GPU state is GPU tensor to CPU and back is fast.
+So I think what we can ask maybe the easiest way to test something like this is we can take birds then move birds. Optimizer state to CPU before training and we start training like that and see how much of copy overhead we are getting our M 300 X. That would be very similar in terms of what we want for LLaMA 405 B because 45 is so big that the off-matter state need to be state in system rate. Anyway, making sure like copy is fast from the initial weight loading from disk to GPU is fast then GPU state is GPU tensor to CPU and back is fast.
 
 ##### **Geohot** [[00:26:27](https://www.youtube.com/watch?v=7hyHb7LBF9M&t=1587)]
 I think that's why you. Yeah, okay, sounds good. Anything else? I don't know. To cloud. I've been going through UV and PRs. Mostly okay.

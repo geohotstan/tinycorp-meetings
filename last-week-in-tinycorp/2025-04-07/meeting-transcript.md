@@ -10,7 +10,7 @@
 - driver
 - tensor core / local
 - onnx, moe speed
-- webgpu
+- WebGPU
 - retinanet
 - torch frontend
 - fast div / mod stuff
@@ -22,7 +22,7 @@
 
 ### Highlights
 
-- **[Company Update](#geohot-000007)**: Tiny Box Green postponed due to evolving tariff situation in the U.S., impacting profitability; options include waiting for tariffs to change or moving production to Hong Kong for free trade benefits.
+- **[Company Update](#geohot-000007)**: TinyBox Green postponed due to evolving tariff situation in the U.S., impacting profitability; options include waiting for tariffs to change or moving production to Hong Kong for free trade benefits.
 - **[Fast Python Project](#geohot-000157)**: Discussion on improving Python code generation (PR 9737) with $3,000 in bounties available, aiming for 4x to 8x speedup by optimizing UPats and reducing function calls.
 - **[Softmax Project](#geohot-000353)**: Geohot plans to create a branch for single kernel Softmax by the end of the week, targeting completion in two weeks with scheduler and codegen enhancements.
 - **[MLPerf Submission Preparation](#chenyu-000503)**: Planning BERT submission by May 2nd, testing on TinyBox Green, TinyBox Red, and 8xMI300x machine; optimizations include reducing setup time from 24 to 18 minutes.
@@ -42,7 +42,7 @@
 Let's start with company update.
 
 ##### **Geohot** [[00:00:07](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=7)]
-Yeah, so the main thing is the Tiny Box Green is postponed.
+Yeah, so the main thing is the TinyBox Green is postponed.
 Pre-orders are just like the Nintendo Switch due to the evolving tariff situation in the United States.
 Basically, if the tariffs actually stay at anything near the levels that's been stated, we are just no longer profitable.
 So I'm not going to make these boxes at a loss.
@@ -123,7 +123,7 @@ And we don't have any real way of expressing that.
 
 ##### **Chenyu** [[00:04:15](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=255)]
 Yeah, so you're something real, first real reduce, something like that?
-Yeah, so... You use shape to be different to know which one is reduced and stuff.
+Yeah, so.. You use shape to be different to know which one is reduced and stuff.
 
 ##### **Geohot** [[00:04:29](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=269)]
 Yeah, that's potentially one way to do it.
@@ -287,7 +287,7 @@ So I tried this this weekend, and I got nothing.
 With the registers.
 
 ##### **Nimlgen** [[00:14:39](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=879)]
-Yeah, I think I have a feeling that, like, we need...
+Yeah, I think I have a feeling that, like, we need..
 We need to set more than two registers, and each write will just overwrite more than two registers we need.
 So it's kind of without firmware changes.
 
@@ -358,7 +358,7 @@ I think that, like, I mean, I don't think AMD is going to help us with it.
 I don't think they have any idea.
 I'm starting to think that all this firmware is coded in assembly.
 So yeah, I don't think we're going to get help.
-If we can keep the PM4 and we can just... Or the other thing we could potentially even do is just do an AQL packet that is like an empty AQL packet.
+If we can keep the PM4 and we can just.. Or the other thing we could potentially even do is just do an AQL packet that is like an empty AQL packet.
 That's probably the ideal thing to do.
 If it's an empty AQL packet and it could trigger the sync, and it could just be like packet 99, AQL packet, trigger sync, don't actually run a kernel, that's great.
 Then we have a sync packet.
@@ -411,7 +411,7 @@ Which is fine, but you should have the same check when you're applying it, when 
 
 ##### **Ignaciosica** [[00:20:30](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=1230)]
 Okay.
-Sure, I should...
+Sure, I should..
 Sure, go ahead.
 
 ##### **Geohot** [[00:20:39](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=1239)]
@@ -440,18 +440,18 @@ But I think that once that is issued, the compiler actually leaves the thread al
 And that's why it makes it faster, because if it was
 
 ##### **Ignaciosica** [[00:22:05](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=1325)]
-Like basically the... Sorry.
+Like basically the.. Sorry.
 
 ##### **Geohot** [[00:22:08](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=1328)]
 You can look to see if it's doing anything like that, but I'd be surprised by it.
 I'll link the instructions in the NVIDIA hardware channel.
-They're called... There's like bulk copy and non-bulk copy.
+They're called.. There's like bulk copy and non-bulk copy.
 So I would be surprised if the compiler is capable of inferring that, but you can check.
 
 ##### **Ignaciosica** [[00:22:26](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=1346)]
 Yeah.
 Not for NVIDIA.
-I tested it in my Mac, and it did so, but...
+I tested it in my Mac, and it did so, but..
 
 ##### **Geohot** [[00:22:35](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=1355)]
 Oh, the Mac's doing it.
@@ -604,7 +604,7 @@ So I have to look into that.
 
 ##### **Chenyu** [[00:29:23](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=1763)]
 Yeah, so I think specifically for MOE, since I think we are going to have more MOE problems down the road.
-Now Lama is also on MOE.
+Now LLaMA is also on MOE.
 First, just check how many weights are we really reading, or what's the total memory access we are doing to make sure
 Because a lot of these reading the things we don't need, either it's like embeddings or MOE itself, because the tricks we use with ARange, it's very likely like accidentally just loads everything and have a lot of zeros here and there.
 So I think it's good to establish that we are not reading anything dumb.
@@ -683,9 +683,9 @@ So I've been able to actually get a good training run for RetinaNet on float16 t
 So it's definitely above the 0.34 metric.
 So there's that.
 I'm just trying one more run with a higher batch size.
-And I'll try to reset the... Or not resetting the JIT cache, but it's actually not working.
+And I'll try to reset the.. Or not resetting the JIT cache, but it's actually not working.
 Like, it's still running out of memory, so I just kind of foregone on that for now.
-But I think I should have a command for you, Chen Yu, this week to...
+But I think I should have a command for you, Chen Yu, this week to..
 uh repro it and i think i'll probably put one more pr i think just kind of moving some helpers uh that's uh that was in the mask rcnn and uh repo but i'll just kind of or a model file and just moving it into the helpers on under ml perf and then i think that should be it
 
 ##### **Chenyu** [[00:36:25](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=2185)]
@@ -932,7 +932,7 @@ It can't just be noise, right?
 
 ##### **Chenyu** [[00:49:23](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=2963)]
 There are other issues.
-But now, if you put it as a...
+But now, if you put it as a..
 If you put the bounty gate on the kernel speed, it's fine.
 Because I also don't know if using the LLVM compiler is slower.
 
@@ -999,9 +999,9 @@ OK.
 Let's see.
 
 ##### **Geohot** [[00:52:09](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=3129)]
-Llama 4 Scout.
-If someone has previously claimed a bounty and you would like access to a tiny box red, let me know.
-And then, yeah, you can download Llama 4 Scout on the tiny box red.
+LLaMA 4 Scout.
+If someone has previously claimed a bounty and you would like access to a TinyBox red, let me know.
+And then, yeah, you can download LLaMA 4 Scout on the TinyBox red.
 And you should be able to load it in and get it running faster than 200 tokens per second.
 You got yourself $500.
 So 200 tokens per second is not that crazy.
@@ -1020,15 +1020,15 @@ So also 50%.
 You know what?
 I'm going to relax it.
 I'll relax it to 100 tokens per second, because you've got to go across the GPUs.
-What's our LLAMA?
-What's our llama speed across the GPUs?
+What's our LLaMA?
+What's our LLaMA speed across the GPUs?
 
 ##### **Chenyu** [[00:53:13](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=3193)]
-You mean one llama split into four?
+You mean one LLaMA split into four?
 
 ##### **Geohot** [[00:53:17](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=3197)]
 Yeah, yeah, yeah, because it's basically the same thing.
-Yeah, we can just do split on the Llama.
+Yeah, we can just do split on the LLaMA.
 I think it's not that good.
 
 ##### **Chenyu** [[00:53:40](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=3220)]
@@ -1036,10 +1036,10 @@ Yeah, so it's 18.66 milliseconds for one and 14 for four.
 
 ##### **Geohot** [[00:53:50](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=3230)]
 Yeah, yeah.
-I mean, the Llama 4 Scout is basically the same access as 7B.
+I mean, the LLaMA 4 Scout is basically the same access as 7B.
 
 ##### **Chenyu** [[00:54:01](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=3241)]
-If you do Llama 4 Scout with FP8.
+If you do LLaMA 4 Scout with FP8.
 fp8 uh yeah they didn't really merge fp8 
 
 ##### **Geohot** [[00:54:20](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=3260)]
@@ -1086,7 +1086,7 @@ Great.
 And I will lock this bounty right now.
 and move it to the top.
 It's a high priority.
-Actually, what's more exciting about FP8 is... 
+Actually, what's more exciting about FP8 is.. 
 
 ##### **Chenyu** [[00:55:55](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=3355)]
 We're going to use that for MLPerf.
@@ -1113,7 +1113,7 @@ I don't know what to comment on all the attempt on test failure 53 and similar s
 
 ##### **Geohot** [[00:56:40](https://www.youtube.com/watch?v=BQQqrUqe1VA&t=3400)]
 The failure 53 one I don't like.
-That doesn't even... The other one has like an explanation, and I have to sit down and see if I understand it.
+That doesn't even.. The other one has like an explanation, and I have to sit down and see if I understand it.
 I'm going to work on the linearizer tomorrow.
 I have a fix for the other bug in the linearizer.
 There's another bug in the linearizer where if it creates a block fork and it creates a block before it, if it needed a block end, it doesn't insert one.

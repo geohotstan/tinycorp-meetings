@@ -40,10 +40,10 @@ And yeah, you can look in there to find children, which will eventually be rewri
 So UOP mutability, it just ruins the beauty of UOPs.  
 And the only thing you ever really need to change for a tensor when you realize a tensor, you don't actually want to change the UOPs themselves.  
 You want to change where the tensor points.  
-So yeah, what this does will allow us to...  
+So yeah, what this does will allow us to..  
 The tensor universe thing just doesn't work.  
 The only graph that should exist anywhere in TinyGrad is the UOP graph.  
-So the UOP graph sources are the parent nodes, and those are strong references to the parents because you can't construct a child without the parents, but you can construct... Children are not strong references because if a child has no other references to it, you don't want to keep it around, otherwise nothing will ever be cleaned up.  
+So the UOP graph sources are the parent nodes, and those are strong references to the parents because you can't construct a child without the parents, but you can construct.. Children are not strong references because if a child has no other references to it, you don't want to keep it around, otherwise nothing will ever be cleaned up.  
 So, yep, that's the rest of today and maybe tomorrow for me.  
 But I hope to have UOP Mutability gone for the new year.  
 And then it doesn't look like Gradient's going to get in this year.  
@@ -66,7 +66,7 @@ The challenge I have come across is that if I give constants a shapetracker at t
 You see what I mean?  
 Currently, uop.const on a lowerer has src of nothing.  
 If I give it a src of view, it has to also merge views and do movement ops.  
-It works, but does this break the abstraction of...  
+It works, but does this break the abstraction of..  
 
 **Geohot** [00:04:12]  
 I'm fine with const not having a shape.  
@@ -155,7 +155,7 @@ And I'm like, I'm never going to.
 I'm violating a core tenet of software development, which is do not put state in two places.  
 State should be in one canonical place.  
 And then if you want, you can build indexes on top of that state in order to quickly access it.  
-But you should never be...  
+But you should never be..  
 Children is basically just an index on top of UOP cache.  
 You could imagine iterating through the entire UOP cache and finding all the UOPs and then reconstructing the children graph each time, but that's really slow.  
 So children is just an index on that.  
@@ -174,7 +174,7 @@ Yeah, I wrote tests for the map thing, too.
 Pretty.  
 I mean, it's hard to come up with the cases that are hard.  
 It's hard to think through independently of an application what they should be.  
-So I think what the right approach is here is for you just to try to write the application, use that graph before map, and then if you can write a failing test case...  
+So I think what the right approach is here is for you just to try to write the application, use that graph before map, and then if you can write a failing test case..  
 If you can write a failing test case, you can put that on me and say, I expect graph before map, graph rewrite map to behave like X, it's actually behaving like Y. And then, yeah, I think that's a good way to go about it.  
 But the obvious test cases I came up with, it works fine for.  
 And it was hard for me to come up with without seeing the application.  
@@ -187,7 +187,7 @@ Merge AM driver.
 Do we have the speed regression found yet?  
 Are you there, Nimlgen?  
 Going into some connectivity issues.  
-Yeah, if you can hear me, I think that...  
+Yeah, if you can hear me, I think that..  
 Hopefully the speed regression's fixed, but even without the speed regression fixed, I'm okay with bumping the line count and merging it.  
 I mean, look, I'm never thrilled about bumping the line count.  
 There's three pieces of code that TinyGrad still relies on that are not in the TinyGrad repo.  
@@ -211,9 +211,9 @@ But yeah, I think I'll bump the line count.
 Let's get AM merged by the end of the year.  
 The other place, so the drivers are one place where TinyGrad is still depending on dependencies.  
 The other place where we're still depending on dependencies is for assembly compilers.  
-So even with PTX, PTX is not really a... PTX is not machine code.  
+So even with PTX, PTX is not really a.. PTX is not machine code.  
 You might want to call PTX an assembly language, but PTX looks a lot more like LLVMIR than machine code.  
-So we are going to... in 2025 be adding our own assemblers.  
+So we are going to.. in 2025 be adding our own assemblers.  
 I think there's a decent start to the x86 assembler.  
 I'm still waiting on benchmarks for that.  
 I think tomsa, is that you with the x86 assembler?  
@@ -247,7 +247,7 @@ But I don't think it's super important, I guess.
 Well, so I want to separate two concerns here.  
 So there's one that, yeah, vectorization is an optimization and I don't think is a requirement for the bounty and I don't think is a requirement to get this merged.  
 If all of the slowdowns are really due to vectorization, then that's fine.  
-But...  
+But..  
 If the slowdowns are due to things like bad register allocation, we had some assembly backends back in the day, and the main problem with them is they would do stack spilling constantly.  
 They would stack spill all these times you didn't need to.  
 So how does this look with that?  
@@ -258,10 +258,10 @@ Not O2, but O0.
 **Tomsa** [00:17:29]  
 I haven't done any benchmarks, but it runs more tests than Clang.  
 For example, I was looking right now at the test transformer, and it does it in twice the speed as Clang.  
-It's still a lot slower than LLVM, but... So there's no optimizations.  
+It's still a lot slower than LLVM, but.. So there's no optimizations.  
 There's no register coalescing.  
 Everything has to move to registers.  
-In x86, a lot of the instructions don't need...  all the operands to be registers.  
+In x86, a lot of the instructions don't need..  all the operands to be registers.  
 So if we took that into account, there would be a lot less register pressure and a lot less moves.  
 But it doesn't do any of that because it's already 200 lines.  
 And so I just went for the least amount of lines possible.  
@@ -269,18 +269,18 @@ But it's already faster than Clang, I'm pretty sure.
 But I could run some benchmarks.  
 
 **Geohot** [00:18:13]  
-I mean, faster than Clang at... So a lot of Clang slowness is not... I'm curious, actually.  
+I mean, faster than Clang at.. So a lot of Clang slowness is not.. I'm curious, actually.  
 If it's faster than Clang's runtime, that's great.  
 But a lot of Clang slowness is not at all due to the code Clang outputs.  
-Clang is both very slow to run, and then Clang is also very slow to...  
+Clang is both very slow to run, and then Clang is also very slow to..  
 The uuuvn has a fix for this.  
 The ctypes.cdll is absurdly slow.  
 So we're going to put in raw shellcode.  
-Because eventually... So right now, x86 is still calling Clang.  
+Because eventually.. So right now, x86 is still calling Clang.  
 It's still calling Clang to do the assembly.  
 And we're going to need to remove that.  
 Not for the bounty.  
-But... Yeah, actually... That stuff's going to go away.  
+But.. Yeah, actually.. That stuff's going to go away.  
 Yeah.  
 Yeah, so the x86 device, you're not going to be able to use the Clang compiler like that anymore.  
 Maybe it's fine.  
@@ -297,17 +297,17 @@ Because only general registers can take immediate values, so float registers can
 So you can't move a floating point value to a floating point register.  
 You need to use a general register.  
 So I use that, and then I  
-I mean, that...  
+I mean, that..  
 
 **Geohot** [00:20:04]  
 That's not exactly what I'm saying.  
-What I'm saying is that should be dealt with as a rewrite rule, not as... Like, why does that have to go in R15 specifically?  
+What I'm saying is that should be dealt with as a rewrite rule, not as.. Like, why does that have to go in R15 specifically?  
 
 **Tomsa** [00:20:18]  
 That's just the designated temporary register.  
 Because there's other instructions that need R15.  
 For example, div.  
-And there isn't... I don't think there's a way to...  
+And there isn't.. I don't think there's a way to..  
 Do it in rewrites.  
 DIV requires a temporary register.  
 There's also float compares require a NaN check, which requires an additional register.  
@@ -339,7 +339,7 @@ I think it's called register coloring.
 Use a graph coloring algorithm.  
 And that graph coloring algorithm should operate on the UOP graph to assign each UOP to a register.  
 Let me see how this works now.  
-So yeah, the registers are assigned at...  
+So yeah, the registers are assigned at..  
 Ideally, you even want the registers to be assigned, I guess you can't do it before linearization.  
 Maybe you can, and maybe that can affect linearization.  
 There's just a lot of complexities here that we haven't fully ironed out exactly where things belong.  
@@ -392,7 +392,7 @@ say, $400 each on account of the beauty of the code.
 OK, thank you.  
 And to mention only for the H100 Tensor Cores, if it wasn't for the special requirements that it has for the B matrix to live in shared memory, it would work.  
 But this will require an adaptation for that.  
-And from what I'm looking, it's a little bit .. Do you remember the special registers we talked for AMX?  
+And from what I'm looking, it's a little bit. Do you remember the special registers we talked for AMX?  
 
 **Geohot** [00:27:23]  
 Yeah, yeah, yeah.  
@@ -419,7 +419,7 @@ Great things planned for 2025.
 2025, I think we'll see the first truly complete stack.  
 Well, I think we'll get them for CPUs first.  
 Because CPUs don't really have a driver.  
-But maybe when we get... Maybe it'll be RDNA 3.  
+But maybe when we get.. Maybe it'll be RDNA 3.  
 If we get TinyGrad to output RDNA 3 machine code, RDNA 3 machine code combined with the AM driver is the entire game.  
 There is no more external dependencies anywhere.  
 And that's all kind of step one to building a complete sovereign stack for machine learning.  
@@ -432,8 +432,8 @@ People think NVIDIA's moat is CUDA.
 This just isn't true at all.  
 NVIDIA's moat is an ecosystem.  
 People mistakenly call this ecosystem CUDA, but it's not CUDA.  
-CUDA itself is a very mediocre language that really is... I think Intel's even got a better strategy with trying to make OpenCL good.  
-NVIDIA just made CUDA for...  
+CUDA itself is a very mediocre language that really is.. I think Intel's even got a better strategy with trying to make OpenCL good.  
+NVIDIA just made CUDA for..  
 Probably because OpenCL spec was insufficient or something.  
 And they just didn't feel like modding it.  
 And they're just like, whatever, we'll make our own language.  
@@ -502,7 +502,7 @@ I got an email from some startup offering $5,000 for a bounty to get the Qualcom
 So if someone's interested in that bounty, I told them to come post in our Discord.  
 I said, for $5,000, it's probably not worth changing the company's priorities.  
 But yeah, the Qualcomm DSP and hardware that looks like that will probably be our first target away from GPUs.  
-And if you look at Qualcomm's new DSPs, they have something called...  
+And if you look at Qualcomm's new DSPs, they have something called..  
 They have a matrix unit.  
 I mean, they have a vector unit on the old ESP.  
 They have these very wide vector words.  
@@ -571,8 +571,8 @@ This is a normal cloudy cloud built on open source software that we're going to 
 And if the people who are using it, if it starts to basically get adoption, we'll have the free version.  
 We'll expand the free version out to some amount of machines.  
 And then if there's demand for more machines, well, we'll have a paid version that we operate at a profit.  
-And yeah, I think we can be competitive with all of the big clouds too through basically... Our number one trick is using consumer GPUs.  
-Yeah, we're going to use...  
+And yeah, I think we can be competitive with all of the big clouds too through basically.. Our number one trick is using consumer GPUs.  
+Yeah, we're going to use..  
 especially AMD consumer GPUs.  
 If you can use AMD consumer GPUs and you manage to make this stable and a good experience for people, there's a massive arbitrage opportunity over H100s.  
 So, yeah.  

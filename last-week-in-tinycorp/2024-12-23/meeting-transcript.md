@@ -73,13 +73,13 @@ So the green boxes are really flying off the shelves.
 Yeah, I think we have.
 That might have been the last one.
 Well, nothing's going to ship until after the holidays anyway.
-We have some parts to build some more also, so we are...
+We have some parts to build some more also, so we are..
 Good on that.
 Yeah, green boxes are really flying off the shelves.
 We delivered [27 TinyBox Pros](https://x.com/gregjhogan/status/1870712068644741287) to Comma.
 We have a bunch for pre-orders ready to ship.
 I'm not sure we've gotten any of the wires for those yet.
-But yeah, if you want a [TinyBox Pro](https://tinycorp.myshopify.com/products/tinybox-pro), I think we have one extra that we can ship right away, and then the rest will ship Q1 next year.
+But yeah, if you want a [TinyBox Pro](https://tinycorp.myshopify.com/products/TinyBox-pro), I think we have one extra that we can ship right away, and then the rest will ship Q1 next year.
 But yeah, 27 are up for Comma.
 They all seem stable.
 We had CPU issues with one, but it's about the CPUs.
@@ -87,7 +87,7 @@ Those are good.
 Yeah.
 Tiny boxes are moving.
 And oh, Dylan Patel wrote a [scathing review](https://semianalysis.com/2024/12/22/mi300x-vs-h100-vs-h200-benchmark-part-1-training/) of the AMD ecosystem.
-So, you know, if AMD is not going to listen to semi-analysis, it's pretty much... 
+So, you know, if AMD is not going to listen to semi-analysis, it's pretty much.. 
 
 **Chenyu** [00:01:30]
 Yeah, Flammit may share a link in the AMD channel as well.
@@ -142,8 +142,8 @@ we need a way to get back to the tensor.
 I think you had a proposal for the tracking.
 
 **Geohot** [00:05:19]
-You have a proposal for the... Okay, so the tracking is not obvious.
-It's not... It's going to require some new sort of innovation.
+You have a proposal for the.. Okay, so the tracking is not obvious.
+It's not.. It's going to require some new sort of innovation.
 The concept of tracking a UOP through rewrite rules
 is not something we've really fully explored yet.
 So yeah, I mean, you want something that basically will maintain a dictionary if the UOPs change.
@@ -153,11 +153,11 @@ So I think this is going to involve messing with the rewrite itself.
 But I'll emphasize that the fragility I was experiencing has really nothing to do with this, the fact that it's buffers.
 I'm not that upset about buffers.
 I'm upset about when I delete some view folding rule that should be an optimization, the whole thing breaks, and it breaks in incomprehensible ways.
-It breaks with errors that are... I had one where I deleted the first pass at that other one where I did the UOP fusion.
+It breaks with errors that are.. I had one where I deleted the first pass at that other one where I did the UOP fusion.
 The word through was appearing in rendered things.
 And that only happens when you're taking args of sources that you have not type checked.
 So I'm glad to see that stuff moving in the right direction.
-But yeah, then there's two other problems to solve that are kind of...
+But yeah, then there's two other problems to solve that are kind of..
 orthogonal to the instability.
 One is a tracking rewrite, and the other is UOP mutability.
 And I think tracking rewrite is a prerequisite for UOP mutability.
@@ -193,10 +193,10 @@ So it's pretty stable.
 I've been testing BERT BEAM a lot.
 So we had problems with BERT BEAM.
 previously, previous MLPerf.
-So, actually, AM is stable, so I'm going to... Are we good on lines?
-I think we can... George said that we can raise them.
+So, actually, AM is stable, so I'm going to.. Are we good on lines?
+I think we can.. George said that we can raise them.
 So, yeah, I'm going to merge AM soon.
-And... So, yeah, it's still a bit slower.
+And.. So, yeah, it's still a bit slower.
 I mean, I'll follow up with some fixes.
 But, yeah, it's actually stable right now.
 
@@ -238,7 +238,7 @@ Yeah, you know, in the absolute extreme, we changed the firmware that's running 
 It is flashable.
 It looks pretty simple, but I'm hoping we don't have to do that.
 I'm hoping we can just figure out what the fast interface is and use that.
-But yeah, I think a libUSB rewrite is a good first step anyway, because if we want this to work on Mac, we're not going to have DevSG0, so...
+But yeah, I think a libUSB rewrite is a good first step anyway, because if we want this to work on Mac, we're not going to have DevSG0, so..
 The goal is Mac.
 The goal is literal drop-in anywhere.
 If you have a user-space USB, you get a GPU.
@@ -248,7 +248,7 @@ And there's no fundamental reason.
 There's no fundamental reason other stacks don't look like this.
 It's enough for speed.
 It's mostly just for legacy reasons.
-But yeah, we are... I think, yeah, a good first step is libUSB and batching requests.
+But yeah, we are.. I think, yeah, a good first step is libUSB and batching requests.
 But we're going to still have to figure out how the DMA works.
 And with regards to line count for AM, let's get all the prerequisites merged first.
 Maybe if the only prerequisite is just the refactor for the new interface, then let's get that one merged.
@@ -366,7 +366,7 @@ Pretty much said most of what I wanted to say.
 Yeah, really looking forward to the schedule getting better, getting new gradient merge.
 I worked a lot last week on
 There is a change to the API.
-We still have .backwards, so we're not just pushing the new gradient API.
+We still have.backwards, so we're not just pushing the new gradient API.
 People from PyTorch talked me out of it.
 But we won't be able to compute a backward pass if you've realized the forward tensor.
 I don't think this is too much of a limitation, but it did require updating to a few tasks.
@@ -420,7 +420,7 @@ It's an app.
 Cool.
 Yeah, I mean, it looks pretty good.
 I'll do a better review of it later today or tomorrow.
-But I think we're good to merge it and then...
+But I think we're good to merge it and then..
 Yeah, hopefully with these refactors, it could be easy for you to clean up all the bounties for the other Dtypes and stuff.
 They're all locked to you.
 So yeah, first refactor, then yeah, cool.
@@ -450,7 +450,7 @@ Yeah, I see it here.
 Qazalin, I'm curious what your thoughts are on this.
 I'm not that familiar with this code, or if this makes sense.
 One of the problems I've seen with the scheduler, maybe it's the same one, if you have two views next to each other, the two views should be added together, which I feel like that doesn't always happen.
-Is that the same thing as this, or...?
+Is that the same thing as this, or..?
 
 **Qazalin** [00:24:45]
 That actually does always happen.
@@ -461,7 +461,7 @@ I'll make sure it happens early, but there's nothing blocking that to happen.
 Yeah, I mean, no, I agree.
 This change is actually very controversial.
 Push the permute from source to root if the shape is the same?
-Hmmmmmmmmm...
+Hmmmmmmmmm..
 
 **Qazalin** [00:25:06]
 Like, I think a lot of these stuff, Ignaciosica, do you remember the PR that you had for True Swizzle?
@@ -594,12 +594,12 @@ But yeah, no, otherwise it looks pretty clean.
 I think we're making progress on that.
 I locked the bounty.
 We'll get it in, but we have to fully understand if we need that, if platform, machine, ARM64, and OSX align.
-Yeah, and the ClangJIT program is... Maybe it shouldn't even be named that.
+Yeah, and the ClangJIT program is.. Maybe it shouldn't even be named that.
 I'm not that worried about the name for now.
 But what it really is is just a raw assembly program.
 And if we could move LLVM, Clang, and x86 Assembler all to this new thing, it runs very fast compared to CTLL, which is super slow for some reason I don't quite understand.
 It's probably making tons of syscalls and something.
-So, yeah, no, I think we're going to get it in, but we've got to really understand...
+So, yeah, no, I think we're going to get it in, but we've got to really understand..
 why it's different.
 And we need a way to disassemble, which I don't see.
 

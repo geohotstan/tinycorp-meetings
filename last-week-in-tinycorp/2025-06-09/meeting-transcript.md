@@ -51,7 +51,7 @@
 
 - **[General Developer Experience](#chenyu-002904)**: Developer experience prioritized, with feedback actively sought from users, especially largest user Comma; rapid addressing of usability concerns and error handling.
 
-- **[MLPerf and Training Benchmarks](#chenyu-003044)**: Next MLPerf submission deadline October 10; challenges with increasing model complexity and hardware requirements, especially Llama 405B.
+- **[MLPerf and Training Benchmarks](#chenyu-003044)**: Next MLPerf submission deadline October 10; challenges with increasing model complexity and hardware requirements, especially LLaMA 405B.
 
 - **[Tinygrad Diffusion Use](#chenyu-003940)**: Plans to support Comma’s diffusion models for benchmarking against Torch; aim for improved usability and performance comparison.
 
@@ -60,7 +60,7 @@
 
 ### Transcript
 ##### **Geohot** [[00:00:00](https://www.youtube.com/watch?v=axTYYYYOHHY&t=0)]
-Geohot, Chenyu , Wozeparrot are here in the San Diego tinygrad office
+Geohot, Chenyu, Wozeparrot are here in the San Diego tinygrad office
 
 ##### **Chenyu** [[00:00:06](https://www.youtube.com/watch?v=axTYYYYOHHY&t=6)]
 Okay, everyone here? Kind of?
@@ -154,7 +154,7 @@ So like we don't know which kernels run when and we don't know how memory is ass
 So we have stuff like Memory Planner, but Memory Planner is not in the new architecture yet.
 Memory Planner operates on these schedule item things, and these schedule item things are not UOPs.
 We have almost no insight into them.
-We're lucky that that thing doesn't seem to have too many bugs, but I think if we have an understanding of how...
+We're lucky that that thing doesn't seem to have too many bugs, but I think if we have an understanding of how..
 We're basically missing an entire part of how kernels, like, okay, great, you have this graph, and then we run this graph on the GPU.
 Okay, how?
 Yeah, so just stuff to understand that whole missing middle part, and it'll make some scheduler things a lot easier to debug.
@@ -176,7 +176,7 @@ This week I just added the functionality that when you click on the kernel graph
 ##### **Geohot** [[00:08:01](https://www.youtube.com/watch?v=axTYYYYOHHY&t=481)]
 Yeah, I saw that at Gitmerge.
 I haven't tried it yet, but I'm excited about that.
-Yeah, this should all be...
+Yeah, this should all be..
 The value prop of Tinygrad is that all of this stuff is in one unified framework.
 And it should be really easy to jump between the overworld and the kernel world.
 
@@ -214,7 +214,7 @@ What was it?
 
 ##### **Nimlgen** [[00:09:51](https://www.youtube.com/watch?v=axTYYYYOHHY&t=591)]
 It was the Linux just relocate pages, which were locked.
-And...
+And..
 The reason we saw NANs is because we use the locked pages to copy to the GPU.
 So basically, we copy the wrong data to the GPU after some time.
 So it just was randomly.
@@ -231,13 +231,13 @@ Wait, it's not a fixed reg update.
 Which PR is this?
 
 ##### **Wozeparrot** [[00:10:29](https://www.youtube.com/watch?v=axTYYYYOHHY&t=629)]
-I don't particularly like the way... I feel like there's too many random OS.system calls.
+I don't particularly like the way.. I feel like there's too many random OS.system calls.
 
 ##### **Geohot** [[00:10:36](https://www.youtube.com/watch?v=axTYYYYOHHY&t=636)]
 Where there are OS.system calls.
 
 ##### **Wozeparrot & Geohot** [[00:10:39](https://www.youtube.com/watch?v=axTYYYYOHHY&t=639)]
-Wozeparrot: The way he fixed this is... The way Nimlgen fixed this is an OS.system call.
+Wozeparrot: The way he fixed this is.. The way Nimlgen fixed this is an OS.system call.
 Geohot: Oh, this.
 Wozeparrot: Yeah. It feels really jank.
 Geohot: Disable migration of locked pages.
@@ -262,7 +262,7 @@ I know, it's really jank.
 Yeah, yeah.
 
 ##### **Wozeparrot** [[00:11:59](https://www.youtube.com/watch?v=axTYYYYOHHY&t=719)]
-The other way is to give Python caps as admin, but... Well, yeah, Python has caps as admin, actually.
+The other way is to give Python caps as admin, but.. Well, yeah, Python has caps as admin, actually.
 Does it currently?
 I think we currently give it some stuff.
 I don't know if we give it caps as admin.
@@ -288,7 +288,7 @@ Yeah.
 I just try to write it directly.
 It can open it for right.
 
-##### **Geohot ,Chenyu & Nimlgen** [[00:12:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=760)]
+##### **Geohot,Chenyu & Nimlgen** [[00:12:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=760)]
 Geohot: All right.Yeah, I believe you.
 All right.Well, the kernel moves the lock.
 Someday we're going to get rid of the kernel.
@@ -298,7 +298,7 @@ Nice work finding that. Yeah.
 Two other things to talk about.
 We still got to fix the copy out speed of the USB.
 Nimlgen: Yeah.
-Geohot: I bought a... Oh, this is flaky.
+Geohot: I bought a.. Oh, this is flaky.
 I'll remove that.
 
 ##### **Chenyu** [[00:13:14](https://www.youtube.com/watch?v=axTYYYYOHHY&t=794)]
@@ -308,7 +308,7 @@ Does that mean we can run RetinaNet with AM now?
 
 ##### **Nimlgen** [[00:13:25](https://www.youtube.com/watch?v=axTYYYYOHHY&t=805)]
 Yeah, I haven't tried RetinaNet.
-I just .
+I just.
 
 ##### **Chenyu** [[00:13:29](https://www.youtube.com/watch?v=axTYYYYOHHY&t=809)]
 He can probably try it later.
@@ -339,7 +339,7 @@ If Wozeparrot has questions on that.
 Yeah, yeah, yeah.
 A few more comments there that say basically, locked pages don't behave how you think they do.
 But yeah, we definitely got to do something about the copy out speed.
-I ordered a...
+I ordered a..
 I woke up at 4.30 in the morning last night and I saw the thing with the new SMU and I'm like, whoa, I can buy 9060s.
 And then I saw them on Amazon on my phone and then I was like, all right, I'll get my laptop out and buy one.
 So we got a 9060 coming.
@@ -380,7 +380,7 @@ It works.
 Yeah, we now have three 5090 machines.
 If anyone in here needs a 5090 for something, we can get you on them.
 Yeah, we didn't.
-I mean, Tinybox V2s are really expensive.
+I mean, TinyBox V2s are really expensive.
 So we'll eventually get some.
 But for now, we just have machines with one 5090.
 Yeah, they cost us a lot of money.
@@ -603,7 +603,7 @@ Yes.
 Yeah, if it's a couple percent in an instruction order issue.
 
 ##### **B1tg** [[00:26:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1600)]
-Okay, I mean, we are always... This has something to do...
+Okay, I mean, we are always.. This has something to do..
 Look like the register pressure issue.
 
 ##### **Chenyu** [[00:26:46](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1606)]
@@ -614,7 +614,7 @@ Yeah, yeah.
 Instruction ordering can affect register pressure.
 
 ##### **Chenyu** [[00:26:54](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1614)]
-I mean... Oh, so I made a flag to optionally disable the block reordering.
+I mean.. Oh, so I made a flag to optionally disable the block reordering.
 So I think that's a good start point for those.
 
 ##### **Geohot** [[00:27:04](https://www.youtube.com/watch?v=axTYYYYOHHY&t=1624)]
@@ -756,7 +756,7 @@ Yeah.
 I'm not complaining about complexity of the models.
 I'm just literally complaining about dollars cost of the computer to run these things.
 Yeah.
-You look at the Llama 405B, and the smallest one on there, I think, is like 512 H100s.
+You look at the LLaMA 405B, and the smallest one on there, I think, is like 512 H100s.
 
 ##### **Geohot & Chenyu** [[00:33:33](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2013)]
 Geohot: That's like more money than I've ever had in my life.
@@ -778,7 +778,7 @@ I don't think none of those are really good.
 ##### **Geohot** [[00:34:09](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2049)]
 No, yeah.
 If you're going to submit code with AI and half-assed effort stuff, just don't.
-But if someone really dives into that hlb_c part one and is like, oh, I did a really good job, I went in, found out which kernels were slow and made them fast and re-implemented this and it's good and tested it... regressions tests , yeah.
+But if someone really dives into that hlb_c part one and is like, oh, I did a really good job, I went in, found out which kernels were slow and made them fast and re-implemented this and it's good and tested it.. regressions tests, yeah.
 
 ##### **Chenyu** [[00:34:32](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2072)]
 So this is ResNet time after your fix?
@@ -811,8 +811,8 @@ Also, BERT doesn't run now.
 Well, we should fix that.
 I'm absolutely fine with occupying the machine.
 If we need more machines, we'll get more machines.
-I have a lot of Tinybox Reds.
-Is anyone interested in my Tinybox Red?
+I have a lot of TinyBox Reds.
+Is anyone interested in my TinyBox Red?
 
 ##### **Chenyu** [[00:35:35](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2135)]
 Yeah. I think that's it for this meeting.
@@ -859,7 +859,7 @@ For people in this meeting, any questions or suggestions?
 Or any bounties you would like to see?
 
 ##### **Chenyu & Geohot** [[00:38:12](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2292)]
-Chenyu: Yeah, I mean, that's part of the...
+Chenyu: Yeah, I mean, that's part of the..
 Geohot: Yeah, the mask select being slow.
 Yeah, look into why mask select is slow.
 I don't think it has to be.
@@ -880,7 +880,7 @@ No, no, that's fundamental.
 That's the issue.
 
 ##### **Chenyu** [[00:38:43](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2323)]
-Yeah, so that's an issue with...
+Yeah, so that's an issue with..
 Version or time of this, right?
 
 ##### **Qazalin** [[00:38:50](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2330)]
@@ -891,11 +891,11 @@ Geohot: Oh, there's a realize in set item, not get item.
 Chenyu: Yeah, get item is set item.
 Geohot: Oh, set item. Okay, I thought there was a realize in get item.
 That would upset me a lot more.
-Chenyu: Oh, set item is... It's a sign. That's a sign.
+Chenyu: Oh, set item is.. It's a sign. That's a sign.
 Geohot: Okay. Yeah, I can think about that. Yeah.
 Okay, no, okay.It's in set item and I misread that.
 I thought it was in get item.It's a lot better now. Great.
-Yeah, no, I thought like our tensor select had to be... No, of course not.
+Yeah, no, I thought like our tensor select had to be.. No, of course not.
 
 ##### **Geohot** [[00:39:25](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2365)]
 Great.
@@ -904,7 +904,7 @@ What?
 Oh, okay.
 
 ##### **Chenyu** [[00:39:40](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2380)]
-Yeah, so...
+Yeah, so..
 Comma is also interested in running Tinygrad on their diffusion stuff, and I think they will provide us a script so we can start to benchmark and see how good or bad we are compared to Torch.
 
 ##### **Geohot** [[00:39:50](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2390)]
@@ -913,7 +913,7 @@ Yes, and Harold said, no, they don't have access to RAID Dell 2.
 Yeah, I saw that.
 
 ##### **Chenyu** [[00:40:02](https://www.youtube.com/watch?v=axTYYYYOHHY&t=2402)]
-Yeah, so...
+Yeah, so..
 Short-term focus will be making developer experience better, user experience better.
 Everyone using Tinygrad should feel joy and happy to use it and not dreadful and like unknown errors and frustration.
 So that's the idea and direction we'd like to go.

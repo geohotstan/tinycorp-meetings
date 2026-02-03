@@ -199,7 +199,7 @@ Yeah, let's let's see if we can quickly raise some arrow for group reduce then w
 I think in general the range of fire is flu using like a lot.
 
 ##### **Chenyu** [[00:14:23](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=863)]
-So I think if the issue is the cost function to decide like what to fuse and what not to fuse then we can decide here. I think for. Hope specifically. I don't know. We'll get there. I think I think let's fix this prioritize the correctness first and like fix the issue. If it's not just optimization. For. Speed. And not a correctness issue. We can wait for I guess. That's that's the last thing before we make this the default. So we fix the arrow first. We make them. We make sure we understand the behavior and we see we fix all the correctness issue then see like. After that to get a good default, we need to make sure its performance then there we can optimize the cost function as. I think. So on the right side we can put that here for이� rented a lot of testing and the same means we can control the prevents this one to the check dev. Will be heard a little bit IMG sense to me. Meet us in the next evaluation on what we're doing with constituting or maybe anything dancing in there. generally a problem with index. I think some rewriting rules, we just cast things arbitrarily, and if something should be in a dtype index, but we cast it to something that is not dtype index, then the whole thing becomes not dtype index, and later you have an issue with some ALU. So I don't really understand this, but I think it might be related to image. And I also think some of the cast thing, I don't understand the scope of this very well, but we have some tests that the error is less than, it's not defined between invalid and
+So I think if the issue is the cost function to decide like what to fuse and what not to fuse then we can decide here. I think for. Hope specifically. I don't know. We'll get there. I think I think let's fix this prioritize the correctness first and like fix the issue. If it's not just optimization. For. Speed. And not a correctness issue. We can wait for I guess. That's that's the last thing before we make this the default. So we fix the arrow first. We make them. We make sure we understand the behavior and we see we fix all the correctness issue then see like. After that to get a good default, we need to make sure its performance then there we can optimize the cost function as. I think. So on the right side we can put that here for� rented a lot of testing and the same means we can control the prevents this one to the check dev. Will be heard a little bit IMG sense to me. Meet us in the next evaluation on what we're doing with constituting or maybe anything dancing in there. generally a problem with index. I think some rewriting rules, we just cast things arbitrarily, and if something should be in a dtype index, but we cast it to something that is not dtype index, then the whole thing becomes not dtype index, and later you have an issue with some ALU. So I don't really understand this, but I think it might be related to image. And I also think some of the cast thing, I don't understand the scope of this very well, but we have some tests that the error is less than, it's not defined between invalid and
 
 ##### **Flata** [[00:16:38](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=998)]
 thing.
@@ -259,7 +259,7 @@ Is there anything I missed? That the issues you are aware. But. I didn't. Listen
 Okay. So.
 
 ##### **Chenyu** [[00:24:01](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1441)]
-For things. That we did fix. I think most of the annex stuff is. Fixed. The high level tensor stuff is. Looks good. We added a lot more tests. Also. I just added. The. Mac OS. For. Metal as well. It's quite annoying. That sometimes. It works for. Especially. Open COS. I don't know why it's different. Sometimes. Open. Open COS. Fails in one of the. Metal and Linux version. I just added. Okay. So. First. Of issues. Inter 걤d. Up to.
+For things. That we did fix. I think most of the annex stuff is. Fixed. The high level tensor stuff is. Looks good. We added a lot more tests. Also. I just added. The. Mac OS. For. Metal as well. It's quite annoying. That sometimes. It works for. Especially. Open COS. I don't know why it's different. Sometimes. Open. Open COS. Fails in one of the. Metal and Linux version. I just added. Okay. So. First. Of issues. Inter d. Up to.
 
 ##### **Chenyu** [[00:24:50](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1490)]
 propor.
@@ -280,7 +280,7 @@ So.
 I will. Anything that's. Different. To.
 
 ##### **Wozeparrot** [[00:25:12](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1512)]
-We can give a little stats. Oh yeah what's the... is it working now? Oh it's working now okay. It's working but we don't have historic data. No... It will be back, historic data will be back. But so as of right now the database that we use for stats is influxdb.
+We can give a little stats. Oh yeah what's the.. is it working now? Oh it's working now okay. It's working but we don't have historic data. No.. It will be back, historic data will be back. But so as of right now the database that we use for stats is influxdb.
 
 ##### **Nimlgen** [[00:25:42](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1542)]
 Okay.
@@ -292,10 +292,10 @@ The after the power outage the database corrupted.
 Okay.
 
 ##### **Wozeparrot** [[00:25:54](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1554)]
-Great but that was a pretty easy fix and I also thought I'll do a... I'll do a minor version bump.
+Great but that was a pretty easy fix and I also thought I'll do a.. I'll do a minor version bump.
 
 ##### **Wozeparrot** [[00:26:04](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1564)]
-Or...
+Or..
 
 ##### **Wozeparrot** [[00:26:04](https://www.youtube.com/watch?v=IuaE1LK9_SQ&t=1564)]
 And then the problem is for the database. Okay. And then there's an open GitHub issue on influx right now but on all versions past 3.0 for some reason they just hang when starting.

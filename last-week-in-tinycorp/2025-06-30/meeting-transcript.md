@@ -6,7 +6,7 @@
 - company update
 - scheduler kernel ops stuff
 - tests with uop and kernel dataset
-- mlperf llama 405b
+- mlperf LLaMA 405b
 - viz tooling
 - drivers
 - cloud, tinyfs
@@ -22,10 +22,10 @@
 
 ### Highlights
 
-- **[Company Update](#geohot-000000)**: Tinybox v2s are shipping and will be caught up this week, the AMD contract is signed, and the company successfully debunked the AI startup "etched".
+- **[Company Update](#geohot-000000)**: TinyBox v2s are shipping and will be caught up this week, the AMD contract is signed, and the company successfully debunked the AI startup "etched".
 - **[Scheduler Kernel Ops Stuff](#geohot-000409)**: After studying Halide, Geohot plans to simplify the optimization space by removing concepts like `keep_dims` and `full_shape`, and fixing fusion by generating new ranges for each reduce.
 - **[Tests with UOP and Kernel Dataset](#chenyu-001246)**: The team agreed to delete brittle tests with hardcoded UOPs and plans to put the generation of the kernel dataset into CI for easier access.
-- **[MLPerf Llama 405b](#chenyu-001416)**: The 8B model is hitting a memory bottleneck with a long context length; the next steps are to improve memory visualization and implement sharding to get it working on multiple GPUs.
+- **[MLPerf LLaMA 405b](#chenyu-001416)**: The 8B model is hitting a memory bottleneck with a long context length; the next steps are to improve memory visualization and implement sharding to get it working on multiple GPUs.
 - **[Viz Tooling](#qazalin-002123)**: A memory graph tool has been merged to visualize memory allocation, which will be enhanced to trace buffers back to the kernel graph to help debug high memory usage.
 - **[Drivers](#nimlgen-002646)**: The driver for the NVIDIA 4090 is merged and working, with ongoing work to improve performance by implementing huge pages; future work will focus on optimizing performance for the MI300X.
 - **[Cloud, tinyfs](#wozeparrot-003453)**: The goal for the week is to get tinyfs operational and decommission the old provisioning machines.
@@ -36,13 +36,13 @@
 
 ### Transcript
 ##### **Geohot** [[00:00:00](https://www.youtube.com/watch?v=U-UYchhy_dY&t=0)]
-I'm going to start with some company update. Tinybox v2s are shipping. I think we're going to be all caught up this week, which means if you order them, they are going to ship out right away. That's good. AMD contract signed. Work started on that. That's pretty much it. We did very well on our beef with etched this weekend. The latest in fake AI startups. I've been getting DMs from people about the etched thing. It's way worse than you think it is. They've never taped out a chip. I guess this isn't related to us, but I can't believe the more you work on this.
+I'm going to start with some company update. TinyBox v2s are shipping. I think we're going to be all caught up this week, which means if you order them, they are going to ship out right away. That's good. AMD contract signed. Work started on that. That's pretty much it. We did very well on our beef with etched this weekend. The latest in fake AI startups. I've been getting DMs from people about the etched thing. It's way worse than you think it is. They've never taped out a chip. I guess this isn't related to us, but I can't believe the more you work on this.
 
 ##### **Chenyu** [[00:00:49](https://www.youtube.com/watch?v=U-UYchhy_dY&t=49)]
 For the audience in this meeting, that's not aware of it. You have, I give you three minutes to go through this.
 
 ##### **Geohot** [[00:00:56](https://www.youtube.com/watch?v=U-UYchhy_dY&t=56)]
-Yeah, so etched is this company that's claiming they're going to tape out some chip that is a transformer ASIC, which gets 20x performance over H100s. But this is nonsense. 70% of time and power spent on transformers is just spent in gem. GPUs are already pretty close to ideal gem machines. I did learn something really interesting. So apparently their plan was a 2048 by 2048 systolic array. Just make a huge systolic array and then you can calculate one transformer, but this doesn't work. Chatchypt did this whole analysis on it and says basically the ideal size for a systolic array is 128 by 128 because you have losses in the wires. You don't want to make wires really, really, really long, right? And think about why. If you make a really, really long wire, that wire is going to have capacitance. And then you have to use more power to drive that wire. So yeah, the whole plan is utterly nonsense. I'm happy we debunked them with Twitter. So that's that's that situation. And GPUs are really like really close to optimal. So another point in us not making our own chip anytime soon.
+Yeah, so etched is this company that's claiming they're going to tape out some chip that is a transformer ASIC, which gets 20x performance over H100s. But this is nonsense. 70% of time and power spent on transformers is just spent in GEMM. GPUs are already pretty close to ideal GEMM machines. I did learn something really interesting. So apparently their plan was a 2048 by 2048 systolic array. Just make a huge systolic array and then you can calculate one transformer, but this doesn't work. Chatchypt did this whole analysis on it and says basically the ideal size for a systolic array is 128 by 128 because you have losses in the wires. You don't want to make wires really, really, really long, right? And think about why. If you make a really, really long wire, that wire is going to have capacitance. And then you have to use more power to drive that wire. So yeah, the whole plan is utterly nonsense. I'm happy we debunked them with Twitter. So that's that's that situation. And GPUs are really like really close to optimal. So another point in us not making our own chip anytime soon.
 
 ##### **Geohot** [[00:02:24](https://www.youtube.com/watch?v=U-UYchhy_dY&t=144)]
 But yeah, no, it's very.
@@ -66,13 +66,13 @@ Okay.
 We so do you have any box red V2?
 
 ##### **Geohot** [[00:03:19](https://www.youtube.com/watch?v=U-UYchhy_dY&t=199)]
-Whoa, red V2. I haven't heard anything about that. We have we have tiny box red. We have to sell tiny box red.
+Whoa, red V2. I haven't heard anything about that. We have we have TinyBox red. We have to sell TinyBox red.
 
 ##### **Geohot** [[00:03:27](https://www.youtube.com/watch?v=U-UYchhy_dY&t=207)]
 We have two more tiny.
 
 ##### **Geohot** [[00:03:31](https://www.youtube.com/watch?v=U-UYchhy_dY&t=211)]
-We have to sell the tiny box red first. I'm not going to make V2 if we haven't sold all the reds. I have two of them just sitting there still. Okay. The government bought two of them after a long ordeal. Uh, we're so too. Yeah, maybe another 17 business months. Yeah.
+We have to sell the TinyBox red first. I'm not going to make V2 if we haven't sold all the reds. I have two of them just sitting there still. Okay. The government bought two of them after a long ordeal. Uh, we're so too. Yeah, maybe another 17 business months. Yeah.
 
 ##### **Chenyu** [[00:03:56](https://www.youtube.com/watch?v=U-UYchhy_dY&t=236)]
 Great. Okay. That was good. Okay. I don't know what you'll call your stuff, but your stuff is next.
@@ -102,7 +102,7 @@ So full shape is also nonsense. You can have full shape because if you have a pa
 Yeah, but there's code in front of us and there's some other logic that requires let's know.
 
 ##### **Geohot** [[00:07:45](https://www.youtube.com/watch?v=U-UYchhy_dY&t=465)]
-Well, yeah. I mean, okay, so I took a big thing out of the lower already the GPU dimensions have been refactored out of the lower. Uh, but the thing that I haven't refactored out of kernel yet is the tensor course. And that's the until we do that, it's really hard to delete kernel. So that involves upcasted warps, but I don't know. I'm just going to leave all this. I think we can get flash attention without any of this and I think we can get fast jam without any of this. So like to keep this project scoped in something that's concrete. My goal is at the end of like a month or two to have a really fast jam and a really fast flash attention on the M300.
+Well, yeah. I mean, okay, so I took a big thing out of the lower already the GPU dimensions have been refactored out of the lower. Uh, but the thing that I haven't refactored out of kernel yet is the tensor course. And that's the until we do that, it's really hard to delete kernel. So that involves upcasted warps, but I don't know. I'm just going to leave all this. I think we can get flash attention without any of this and I think we can get fast GEMM without any of this. So like to keep this project scoped in something that's concrete. My goal is at the end of like a month or two to have a really fast GEMM and a really fast flash attention on the M300.
 
 ##### **Geohot** [[00:08:33](https://www.youtube.com/watch?v=U-UYchhy_dY&t=513)]
 I don't yeah, I think we can leave the full set of shapes off.
@@ -234,7 +234,7 @@ Yeah, that's probably. Yep.
 So next goal is for me is to make 70 B. Harding works. I think this requires understand memory because I was not easily trying to. And instead of one GPU using 50% of a memory, now I have to 2 GPUs use both using 90% of a memory and I don't know what.
 
 ##### **Geohot** [[00:18:27](https://www.youtube.com/watch?v=U-UYchhy_dY&t=1107)]
-Yeah, well, I mean, I think I think we all sort of have a. We also have a job to do for for llama 405 Bay. Yeah, I mean, you're on the.
+Yeah, well, I mean, I think I think we all sort of have a. We also have a job to do for for LLaMA 405 Bay. Yeah, I mean, you're on the.
 
 ##### **Chenyu** [[00:18:39](https://www.youtube.com/watch?v=U-UYchhy_dY&t=1119)]
 I'll tell you the gradually adding features so we can work with bigger and bigger models with more and more pieces that we will need eventually for or why we're training in the script. Can we train 8B according to the like the rules? So a one that who doesn't work. So let's look immediate blocker. It cannot even.
@@ -282,10 +282,10 @@ Okay, I don't know if you if was per you think you are better at figuring out wh
 Great. Okay, what's last set? Let's move on to this.
 
 ##### **Qazalin** [[00:21:23](https://www.youtube.com/watch?v=U-UYchhy_dY&t=1283)]
-Emerge the memory graph that you can try it out. It's a master. And yeah, I'm going to work on this. A way to go from like a buffer to the actual kernel to the actual node in the kernel graph. They can see clearly like which buffer. It's hold on to and why I tried llama. It looks like the. Graph just grows. And it allocated 24 gigabytes.
+Emerge the memory graph that you can try it out. It's a master. And yeah, I'm going to work on this. A way to go from like a buffer to the actual kernel to the actual node in the kernel graph. They can see clearly like which buffer. It's hold on to and why I tried LLaMA. It looks like the. Graph just grows. And it allocated 24 gigabytes.
 
 ##### **Chenyu** [[00:21:58](https://www.youtube.com/watch?v=U-UYchhy_dY&t=1318)]
-So you say you tried llama. What was the thing to try?
+So you say you tried LLaMA. What was the thing to try?
 
 ##### **Qazalin** [[00:22:03](https://www.youtube.com/watch?v=U-UYchhy_dY&t=1323)]
 Just a script that you merged with the ML product.
@@ -300,7 +300,7 @@ So by default, it runs with a B model. And that certainly doesn't fit for a sing
 Yeah, it's out of memories.
 
 ##### **Chenyu** [[00:22:25](https://www.youtube.com/watch?v=U-UYchhy_dY&t=1345)]
-So if you want to try on the regular tiny box, you can change the llama size to 1B. And that will fit. And I believe give you a similar pattern as in terms of training and parameters stuff.
+So if you want to try on the regular TinyBox, you can change the LLaMA size to 1B. And that will fit. And I believe give you a similar pattern as in terms of training and parameters stuff.
 
 ##### **Geohot** [[00:22:39](https://www.youtube.com/watch?v=U-UYchhy_dY&t=1359)]
 And if they should also. It should all work with the null back end too, right?
@@ -315,7 +315,7 @@ So much.
 The everything like they entire pattern is completely clear.
 
 ##### **Chenyu** [[00:23:05](https://www.youtube.com/watch?v=U-UYchhy_dY&t=1385)]
-Yeah, so I think one one thing will be really interesting. Not necessarily llama, but. So we talk a lot about like the buffers we stores in the four words. So that is needed for backwards. And this tools can show like what's being stored in the four words later used in.
+Yeah, so I think one one thing will be really interesting. Not necessarily LLaMA, but. So we talk a lot about like the buffers we stores in the four words. So that is needed for backwards. And this tools can show like what's being stored in the four words later used in.
 
 ##### **Geohot** [[00:23:25](https://www.youtube.com/watch?v=U-UYchhy_dY&t=1405)]
 Backward will be useful.
@@ -444,7 +444,7 @@ Not much from you this week. I was out last week this week. I would just try to 
 I'm the goal for this week. I guess if you be in has anything. I'm going to upload.
 
 ##### **Geohot** [[00:35:08](https://www.youtube.com/watch?v=U-UYchhy_dY&t=2108)]
-I upload. Lama wait. We should be able to try fetching the Lama wait from the files. I don't know. The big one is pretty big. Maybe it's using like the wrong like a llama one. So is it all solved like what side's going to do the hashing?
+I upload. LLaMA wait. We should be able to try fetching the LLaMA wait from the files. I don't know. The big one is pretty big. Maybe it's using like the wrong like a LLaMA one. So is it all solved like what side's going to do the hashing?
 
 ##### **Geohot** [[00:35:41](https://www.youtube.com/watch?v=U-UYchhy_dY&t=2141)]
 Yeah. We don't want the client side to do the hashing.

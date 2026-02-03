@@ -78,7 +78,7 @@ So this would happen before bufferization.
 It would just capture everything in a kernel, and then the inputs to that kernel are either other kernels or buffers.
 And I think I can do that in the same way linearize works.
 So something to start experimenting with.
-I think I'll work on that for the rest of the week or...
+I think I'll work on that for the rest of the week or..
 I have that, or I can start working on the DSP stuff.
 
 **Chenyu** [[00:03:49](https://www.youtube.com/watch?v=IEel2egz8pc&t=229)]
@@ -132,7 +132,7 @@ You know what it might be?
 It might be the sigmoid.
 I went through all the derivatives and was like, okay, what's different about the new derivatives and the old derivatives?
 And ReLU has an obvious difference.
-But other than that... 
+But other than that.. 
 
 **Chenyu** [[00:06:51](https://www.youtube.com/watch?v=IEel2egz8pc&t=411)]
 We changed sigmoid to the new sigmoid a while ago and ResNet was fine after that change.
@@ -195,7 +195,7 @@ No, that test change with the strides thing, it's just because there's no more s
 It should be the same behavior.
 
 **Chenyu** [[00:08:59](https://www.youtube.com/watch?v=IEel2egz8pc&t=539)]
-You changed something about the real...
+You changed something about the real..
 
 **Geohot** [[00:09:06](https://www.youtube.com/watch?v=IEel2egz8pc&t=546)]
 I didn't mean to.
@@ -218,7 +218,7 @@ Then it's just empty, maybe, or zeros?
 
 **Geohot** [[00:09:42](https://www.youtube.com/watch?v=IEel2egz8pc&t=582)]
 Yeah, it should be all zeros, yeah.
-So if that's...
+So if that's..
 
 **Chenyu** [[00:09:48](https://www.youtube.com/watch?v=IEel2egz8pc&t=588)]
 I don't know.
@@ -376,12 +376,12 @@ So I think I found one bug I'm not really sure about.
 And you posted it.
 So that's page file to the address, like FF000.
 So and actually, I think it's just from SDMA.
-Like, you got it on the AM, and I just tried to... And actually, it's kind of reproducible, not only on AM, but also on AMD.
+Like, you got it on the AM, and I just tried to.. And actually, it's kind of reproducible, not only on AM, but also on AMD.
 Actually, the same address.
 I don't know.
 I think maybe it's something hardware related.
 I'm not sure.
-So yeah, actually, it's reproducible running a lot of our...
+So yeah, actually, it's reproducible running a lot of our..
 I think how it's called, reduce benchmark or something like that.
 Yeah, without JIT, without graph.
 So yeah.
@@ -456,7 +456,7 @@ So do you want to split the work as I do the refactor for removing all those buf
 Yeah, well, I think I should probably work on the DSP stuff as well.
 I don't exactly see how to, like, I can write the kernel thing, but the problem is I don't know where to, like, stop consuming with the kernels.
 Like, we already have a lot of logic for that.
-I don't want to...
+I don't want to..
 rewrite the logic at the same time that I'm rewriting the style.
 So I think maybe if you could first refactor bufferization to happen after choosing.
 
@@ -467,7 +467,7 @@ After doing the reduce op stuff.
 What reduce op stuff?
 
 **Qazalin** [[00:24:58](https://www.youtube.com/watch?v=IEel2egz8pc&t=1498)]
-The group realizes stuff that exists like...
+The group realizes stuff that exists like..
 
 **Geohot** [[00:25:01](https://www.youtube.com/watch?v=IEel2egz8pc&t=1501)]
 After group realizes, yeah, yeah, yeah.
@@ -478,7 +478,7 @@ Then after group realizes, insert contiguouses everywhere that you want there to
 Then I can write kernel, which comes in and grabs everything up to a contiguous.
 then do bufferization.
 The thing that I imagine this eventually being is not something that really ever has a bufferization step.
-It becomes the graph of the kernels with the kernels either pointing... Every source of a kernel is either another kernel or...
+It becomes the graph of the kernels with the kernels either pointing.. Every source of a kernel is either another kernel or..
 a buffer, a pre-created buffer.
 Yeah, so do you think it's doable with what we currently have to move bufferization after group realizes?
 
@@ -517,7 +517,7 @@ Well, yeah.
 I think having the multi-map step exposes
 Like, I don't understand, yeah, what is it about it that it can't be in the graphrewrite?
 Did you say that if there's a reshape?
-The reshape is...
+The reshape is..
 
 **Qazalin** [[00:29:19](https://www.youtube.com/watch?v=IEel2egz8pc&t=1759)]
 Yeah.
@@ -590,7 +590,7 @@ I mean, why does graph rewrite map have to collapse the views?
 I guess there's a lot of stuff we want to do in that one.
 Okay, I see the problem.
 I don't have an obvious solution right now.
-I'll start working on... I'll work on the kernel stuff tomorrow, and we'll see how far I get with it.
+I'll start working on.. I'll work on the kernel stuff tomorrow, and we'll see how far I get with it.
 I'll probably, similar to toonygrad, get it to a point where it's kind of correct, and then hand it back to you.
 
 **Qazalin** [[00:32:40](https://www.youtube.com/watch?v=IEel2egz8pc&t=1960)]
@@ -610,7 +610,7 @@ I'll make it pretty.
 
 **Geohot** [[00:33:01](https://www.youtube.com/watch?v=IEel2egz8pc&t=1981)]
 Oh, then the other thing that I want to talk about about Viz was a memory profiler.
-I think...
+I think..
 This can wait for another time.
 I like that this is going to be fast, though.
 
@@ -748,7 +748,7 @@ Cool.
 So it's been working on WebGPU for a couple of weeks.
 I just got working on Wasm with Clang today, but it's not hosted yet.
 So my priority has been to try to get it to work on a phone because
-I think we'll get the most exposure and people will get the most value if they just see the tweet, they click on the link, and it just works without having to go and figure out what webGPU is.
+I think we'll get the most exposure and people will get the most value if they just see the tweet, they click on the link, and it just works without having to go and figure out what WebGPU is.
 Just think about the average person, right?
 So that's the plan.
 It's only taking up two gigabytes of memory with Clang, because I'm using quantized weights.

@@ -5,8 +5,8 @@
 **Time:** 9am Monday San Diego time
 - company update, new intern
 - openpilot regression, conv regression, hevc decode
-- llama mem usage, outerworld range, fp8?
-- sqtt
+- LLaMA mem usage, outerworld range, fp8?
+- SQTT
 - tinykitten flash attention
 - other bounties
 
@@ -19,9 +19,9 @@
 - **[Company Updates and RedV2](#chenyu-000028)**: RedV2 has launched, with Geohot offering SSH access to machines for anyone reputable willing to run LLM benchmarks.
 - **[EGraphs and Rewrite Rules](#qazalin-000254)**: Discussion on potentially using EGraphs to solve rewrite rule ordering and indexing issues, with plans to implement an EGraph saturation engine if current fixes fail.
 - **[HEVC Decode for Comma](#nimlgen-000617)**: Comma expressed interest in edge event decode; the team plans to test HEVC throughput and optimize resizing kernels by flattening 2D indexes.
-- **[Llama Training Strategy](#qazalin-000939)**: The roadmap for Llama involves three parallel tracks: getting 8B training to work, implementing custom Flash Attention kernels to reduce memory usage, and differentiating outer world loops.
+- **[LLaMA Training Strategy](#qazalin-000939)**: The roadmap for LLaMA involves three parallel tracks: getting 8B training to work, implementing custom Flash Attention kernels to reduce memory usage, and differentiating outer world loops.
 - **[Differentiable Scan Operator](#geohot-001105)**: Geohot is working on a differentiable scan operator to avoid range-ifying massive graphs, aiming for completion by the end of the week.
-- **[End of Year Goals](#nimlgen-001450)**: Objectives set for the end of the year include working custom Flash Attention/GEMM, 8B training hitting MLPerf targets, and sub-20 second Python time for Llama 405B.
+- **[End of Year Goals](#nimlgen-001450)**: Objectives set for the end of the year include working custom Flash Attention/GEMM, 8B training hitting MLPerf targets, and sub-20 second Python time for LLaMA 405B.
 - **[SQTT Timeline Visualization](#qazalin-001614)**: Qazalin merged the SQTT timeline which visualizes wave dispatch cycles on a separate graph, utilizing Rockm profile traces.
 - **[Tiny Kittens and MI350](#qazalin-002555)**: Updates on Tiny Kittens support for MI350, focusing on shared memory swizzling to handle bank conflicts without resorting to raw assembly.
 - **[Issue Backlog and Bounties](#chenyu-003249)**: The team plans to tackle the 127 open issues now that major refactors are done; discussion on banning users who copy-paste misunderstood AI code for bounties.
@@ -212,7 +212,7 @@ LLM
 LLM
 
 ##### **Geohot** [[00:02:48](https://www.youtube.com/watch?v=cLnu8McQRlw&t=168)]
-EGraphs don't actually need...
+EGraphs don't actually need..
 
 ##### **Geohot** [[00:02:50](https://www.youtube.com/watch?v=cLnu8McQRlw&t=170)]
 I thought they needed a different kind of rewrite rule.
@@ -242,7 +242,7 @@ That's always safe.
 Which is like true for all symbolic rules.
 
 ##### **Qazalin** [[00:03:15](https://www.youtube.com/watch?v=cLnu8McQRlw&t=195)]
-So we could actually probably write like a 100-line...
+So we could actually probably write like a 100-line..
 
 ##### **Chenyu** [[00:03:18](https://www.youtube.com/watch?v=cLnu8McQRlw&t=198)]
 EGraph saturation engine.
@@ -308,7 +308,7 @@ Yeah.
 So the other thing too is like,
 
 ##### **Chenyu** [[00:03:59](https://www.youtube.com/watch?v=cLnu8McQRlw&t=239)]
-it does kind of look like indexing is this separate kind of like...
+it does kind of look like indexing is this separate kind of like..
 
 ##### **Nimlgen** [[00:04:03](https://www.youtube.com/watch?v=cLnu8McQRlw&t=243)]
 We use the rewrite engine for a lot of stuff.
@@ -323,7 +323,7 @@ on the indexing rewrite.
 And yeah, it'll make the indexing rewrite a little bit slower,
 
 ##### **Geohot** [[00:04:14](https://www.youtube.com/watch?v=cLnu8McQRlw&t=254)]
-but I don't think it's that...
+but I don't think it's that..
 
 ##### **Qazalin** [[00:04:16](https://www.youtube.com/watch?v=cLnu8McQRlw&t=256)]
 It's very slow.
@@ -350,7 +350,7 @@ You mean right in the EGraph algorithm?
 Yeah, the algorithm is simple, actually.
 
 ##### **Chenyu** [[00:04:39](https://www.youtube.com/watch?v=cLnu8McQRlw&t=279)]
-It's not...
+It's not..
 
 ##### **Nimlgen** [[00:04:40](https://www.youtube.com/watch?v=cLnu8McQRlw&t=280)]
 Basically what you do is you just like apply every rule.
@@ -392,7 +392,7 @@ you can go, you know, any of these three things are equivalent.
 So it's just equivalence things at every node.
 
 ##### **Chenyu** [[00:05:18](https://www.youtube.com/watch?v=cLnu8McQRlw&t=318)]
-Then at the end, you can run...
+Then at the end, you can run..
 
 ##### **Nimlgen** [[00:05:20](https://www.youtube.com/watch?v=cLnu8McQRlw&t=320)]
 I haven't looked too much into that,
@@ -497,7 +497,7 @@ Just decode an HVAC.
 Maybe some throughput tests.
 
 ##### **Chenyu** [[00:06:58](https://www.youtube.com/watch?v=cLnu8McQRlw&t=418)]
-We can definitely...
+We can definitely..
 
 ##### **Nimlgen** [[00:06:59](https://www.youtube.com/watch?v=cLnu8McQRlw&t=419)]
 There's tons of examples of Kama HVACs online we can try.
@@ -509,7 +509,7 @@ But I mean, we should also test it with other HVACs too.
 Another victory for Kama is
 
 ##### **Geohot** [[00:07:16](https://www.youtube.com/watch?v=cLnu8McQRlw&t=436)]
-they do this...
+they do this..
 
 ##### **Geohot** [[00:07:17](https://www.youtube.com/watch?v=cLnu8McQRlw&t=437)]
 they do this resizing thing on the device.
@@ -530,10 +530,10 @@ But if you flatten it first, and then you index in 1D, it's fast.
 Why is it not fast for 2D? Do you know?
 
 ##### **Geohot** [[00:07:42](https://www.youtube.com/watch?v=cLnu8McQRlw&t=462)]
-I have no idea. I think we just didn't write the...
+I have no idea. I think we just didn't write the..
 
 ##### **Geohot** [[00:07:46](https://www.youtube.com/watch?v=cLnu8McQRlw&t=466)]
-I think we just didn't write the...
+I think we just didn't write the..
 
 ##### **Qazalin** [[00:07:47](https://www.youtube.com/watch?v=cLnu8McQRlw&t=467)]
 We can fix that.
@@ -635,13 +635,13 @@ Let's look at comma.
 Then we have MLPerf.
 
 ##### **Geohot** [[00:09:17](https://www.youtube.com/watch?v=cLnu8McQRlw&t=557)]
-Then we have Lama.
+Then we have LLaMA.
 
 ##### **Geohot** [[00:09:23](https://www.youtube.com/watch?v=cLnu8McQRlw&t=563)]
 There was a stop function.
 
 ##### **Qazalin** [[00:09:25](https://www.youtube.com/watch?v=cLnu8McQRlw&t=565)]
-I tried to see what's the limit that we are getting now on Lama training.
+I tried to see what's the limit that we are getting now on LLaMA training.
 
 ##### **Chenyu** [[00:09:31](https://www.youtube.com/watch?v=cLnu8McQRlw&t=571)]
 I think we are still 2x off in terms of memory usage.
@@ -650,10 +650,10 @@ I think we are still 2x off in terms of memory usage.
 Yeah.
 
 ##### **Qazalin** [[00:09:39](https://www.youtube.com/watch?v=cLnu8McQRlw&t=579)]
-So I think there's three parts to Lama training that can be worked on in parallel.
+So I think there's three parts to LLaMA training that can be worked on in parallel.
 
 ##### **Geohot** [[00:09:43](https://www.youtube.com/watch?v=cLnu8McQRlw&t=583)]
-One is getting 8B Lama to train,
+One is getting 8B LLaMA to train,
 
 ##### **Geohot** [[00:09:46](https://www.youtube.com/watch?v=cLnu8McQRlw&t=586)]
 which should work with what we already have.
@@ -686,13 +686,13 @@ because that will let us do the long context function.
 So we can actually do that in a single GPU.
 
 ##### **Chenyu** [[00:10:17](https://www.youtube.com/watch?v=cLnu8McQRlw&t=617)]
-So even if we do...
+So even if we do..
 
 ##### **Nimlgen** [[00:10:18](https://www.youtube.com/watch?v=cLnu8McQRlw&t=618)]
 By the way,
 
 ##### **Qazalin** [[00:10:20](https://www.youtube.com/watch?v=cLnu8McQRlw&t=620)]
-Klausulin has this cute thing where you can actually...
+Klausulin has this cute thing where you can actually..
 
 ##### **Geohot** [[00:10:22](https://www.youtube.com/watch?v=cLnu8McQRlw&t=622)]
 You can use custom kernels if you want to just write arbitrary like hip code
@@ -719,7 +719,7 @@ There's the fast kernels,
 which is like, you know, getting fast flash attention.
 
 ##### **Geohot** [[00:10:45](https://www.youtube.com/watch?v=cLnu8McQRlw&t=645)]
-First, and then fast gem.
+First, and then fast GEMM.
 
 ##### **Geohot** [[00:10:48](https://www.youtube.com/watch?v=cLnu8McQRlw&t=648)]
 Second.
@@ -749,10 +749,10 @@ they will happily differentiate scan.
 And the derivative is pretty simple.
 
 ##### **Chenyu** [[00:11:14](https://www.youtube.com/watch?v=cLnu8McQRlw&t=674)]
-What you do is...
+What you do is..
 
 ##### **Nimlgen** [[00:11:15](https://www.youtube.com/watch?v=cLnu8McQRlw&t=675)]
-You convert the range...
+You convert the range..
 
 ##### **Qazalin** [[00:11:18](https://www.youtube.com/watch?v=cLnu8McQRlw&t=678)]
 All you basically need to do is substitute the range on the forward pass
@@ -767,7 +767,7 @@ And then it mostly just works.
 You can't use the same range on the forward pass as the backward pass
 
 ##### **Qazalin** [[00:11:32](https://www.youtube.com/watch?v=cLnu8McQRlw&t=692)]
-because then it's...
+because then it's..
 
 ##### **Chenyu** [[00:11:34](https://www.youtube.com/watch?v=cLnu8McQRlw&t=694)]
 You know, then the range already ended.
@@ -794,7 +794,7 @@ And then we'll be able to write these things.
 It'll be the same thing,
 
 ##### **Nimlgen** [[00:11:49](https://www.youtube.com/watch?v=cLnu8McQRlw&t=709)]
-but it'll just be very fast to...
+but it'll just be very fast to..
 
 ##### **Qazalin** [[00:11:52](https://www.youtube.com/watch?v=cLnu8McQRlw&t=712)]
 In Python time.
@@ -869,7 +869,7 @@ I mean, anything will be faster than using the massive amount of memory anyway.
 So yeah, whatever we can get in.
 
 ##### **Geohot** [[00:12:58](https://www.youtube.com/watch?v=cLnu8McQRlw&t=778)]
-But let's definitely...
+But let's definitely..
 
 ##### **Qazalin** [[00:12:59](https://www.youtube.com/watch?v=cLnu8McQRlw&t=779)]
 I want this training by the end of the week with a custom flash forward
@@ -962,7 +962,7 @@ Sorry, go ahead.
 I mean, things that I definitely want by the end of the year.
 
 ##### **Nimlgen** [[00:14:50](https://www.youtube.com/watch?v=cLnu8McQRlw&t=890)]
-I want like custom flash attention and gem working that are decently fast.
+I want like custom flash attention and GEMM working that are decently fast.
 
 ##### **Qazalin** [[00:14:57](https://www.youtube.com/watch?v=cLnu8McQRlw&t=897)]
 I want 8B training and hitting the ML perf target.
@@ -1013,10 +1013,10 @@ We got six weeks.
 Sounds good.
 
 ##### **Geohot** [[00:15:35](https://www.youtube.com/watch?v=cLnu8McQRlw&t=935)]
-Next is sqtt with the Vibe processor.
+Next is SQTT with the Vibe processor.
 
 ##### **Geohot** [[00:15:46](https://www.youtube.com/watch?v=cLnu8McQRlw&t=946)]
-Yeah, I can talk about my site on SQTT. I merged the...
+Yeah, I can talk about my site on SQTT. I merged the..
 
 ##### **Qazalin** [[00:15:56](https://www.youtube.com/watch?v=cLnu8McQRlw&t=956)]
 Can I hear you?
@@ -1052,10 +1052,10 @@ It's not on the main profiler.
 That's fine, actually. I think that's mostly fine. So it's cool.
 
 ##### **Geohot** [[00:16:52](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1012)]
-You've got something like... I can't run it right now on my Mac, but I'll try it later.
+You've got something like.. I can't run it right now on my Mac, but I'll try it later.
 
 ##### **Geohot** [[00:16:57](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1017)]
-So that's...
+So that's..
 
 ##### **Geohot** [[00:16:57](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1017)]
 You're saying that's like when I click on the kernel, it shows me how all the waves dispatched on a separate copy of the profile timeline?
@@ -1076,7 +1076,7 @@ Yeah, yeah.
 Yeah.
 
 ##### **Geohot** [[00:17:21](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1041)]
-I actually think it's better because when I normalized it to...
+I actually think it's better because when I normalized it to..
 
 ##### **Geohot** [[00:17:27](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1047)]
 Real time, it looked too small.
@@ -1091,7 +1091,7 @@ It has to be like a clock scale.
 Yeah, I mean, it's super fast.
 
 ##### **Qazalin** [[00:17:40](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1060)]
-So like this is going to be...
+So like this is going to be..
 
 ##### **Geohot** [[00:17:42](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1062)]
 You got to think about like what the order of magnitude is of the number of waves we're going to do.
@@ -1103,7 +1103,7 @@ The order of magnitude is something like 10,000.
 Is it fine?
 
 ##### **Qazalin** [[00:17:49](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1069)]
-Can our profile...
+Can our profile..
 
 ##### **Chenyu** [[00:17:50](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1070)]
 Like that's reusing the logic from profiler, right?
@@ -1187,7 +1187,7 @@ Yeah, yeah, yeah.
 I got it mostly.
 
 ##### **Qazalin** [[00:18:53](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1133)]
-But there's no like stall in the...
+But there's no like stall in the..
 
 ##### **Chenyu** [[00:18:57](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1137)]
 Well, no, there's no stall.
@@ -1196,10 +1196,10 @@ Well, no, there's no stall.
 There's no stall.
 
 ##### **Qazalin** [[00:19:01](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1141)]
-The big breakthrough I made was being able to...
+The big breakthrough I made was being able to..
 
 ##### **Geohot** [[00:19:03](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1143)]
-I got all the names of the things from the...
+I got all the names of the things from the..
 
 ##### **Geohot** [[00:19:07](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1147)]
 Just by excluding them one at a time.
@@ -1502,7 +1502,7 @@ That's the scale we need to be targeting.
 I mean, it's not crazy big.
 
 ##### **Qazalin** [[00:24:04](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1444)]
-It's a much smaller MatMall than any of the Lama ones.
+It's a much smaller MatMall than any of the LLaMA ones.
 
 ##### **Chenyu** [[00:24:10](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1450)]
 Yeah, so we get every hit of the instruction.
@@ -1691,7 +1691,7 @@ I mean, that's crazy.
 Like.
 
 ##### **Qazalin** [[00:26:54](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1614)]
-I don't just LVM even like support.
+I don't just LLVM even like support.
 
 ##### **Chenyu** [[00:26:56](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1616)]
 I don't even know.
@@ -1763,7 +1763,7 @@ Their matmul example, I think they tested things on 7.0, and then on 7.1 it brok
 And it didn't break the compiler. It just started giving wrong answers.
 
 ##### **Qazalin** [[00:28:12](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1692)]
-Which is... I don't know.
+Which is.. I don't know.
 
 ##### **Geohot** [[00:28:19](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1699)]
 Maybe next weekend I'll try an assembly backend.
@@ -1790,13 +1790,13 @@ Okay.
 You just look at the way that matmul is written, and it doesn't look like the CUDA one.
 
 ##### **Geohot** [[00:28:53](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1733)]
-It's clear how...
+It's clear how..
 
 ##### **Geohot** [[00:28:54](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1734)]
 It's not just performance impact. It's actually wrong.
 
 ##### **Qazalin** [[00:28:58](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1738)]
-Which...
+Which..
 
 ##### **Chenyu** [[00:28:58](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1738)]
 Yeah.
@@ -1805,13 +1805,13 @@ Yeah.
 Okay.
 
 ##### **Qazalin** [[00:29:05](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1745)]
-But also, the kittens people don't seem...
+But also, the kittens people don't seem..
 
 ##### **Geohot** [[00:29:08](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1748)]
 They seem to be researchers.
 
 ##### **Geohot** [[00:29:10](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1750)]
-They seem just interested in achieving max perf on one...
+They seem just interested in achieving max perf on one..
 
 ##### **Geohot** [[00:29:13](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1753)]
 Works on my machine is good enough for them.
@@ -1841,10 +1841,10 @@ Yeah.
 Okay.
 
 ##### **Chenyu** [[00:29:34](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1774)]
-So...
+So..
 
 ##### **Nimlgen** [[00:29:36](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1776)]
-Color bonkies...
+Color bonkies..
 
 ##### **Qazalin** [[00:29:40](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1780)]
 What did we get?
@@ -1868,7 +1868,7 @@ What's the manual message send?
 Like, you have to do, obviously, underscore message send for a couple string manipulation things.
 
 ##### **Qazalin** [[00:30:07](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1807)]
-Because it uses...
+Because it uses..
 
 ##### **Geohot** [[00:30:08](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1808)]
 The string manipulation in Objective-C uses categories, I think they're called.
@@ -1892,22 +1892,22 @@ Anyway, I wrote a patch that fixes it.
 It's not a problem with the real autogen because the real autogen generates stuff that looks like that rather than putting them inside the thing.
 
 ##### **Geohot** [[00:30:30](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1830)]
-I can try and figure out...
+I can try and figure out..
 
 ##### **Geohot** [[00:30:30](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1830)]
 What do you mean, the real autogen?
 
 ##### **Geohot** [[00:30:33](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1833)]
-Like, the script generates code that...
+Like, the script generates code that..
 
 ##### **Qazalin** [[00:30:35](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1835)]
 Or, like, the support slash autogen generates code that looks like the thing I posted right there.
 
 ##### **Chenyu** [[00:30:40](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1840)]
-Whereas the test was...
+Whereas the test was..
 
 ##### **Nimlgen** [[00:30:42](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1842)]
-I put the fields inside...
+I put the fields inside..
 
 ##### **Qazalin** [[00:30:43](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1843)]
 Oh, I see what you're saying.
@@ -1922,10 +1922,10 @@ Oh, cool.
 Yeah.
 
 ##### **Qazalin** [[00:30:47](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1847)]
-Yeah, so it's not a...
+Yeah, so it's not a..
 
 ##### **Chenyu** [[00:30:48](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1848)]
-It's not a...
+It's not a..
 
 ##### **Nimlgen** [[00:30:48](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1848)]
 It's not a real issue.
@@ -1934,7 +1934,7 @@ It's not a real issue.
 Yeah.
 
 ##### **Geohot** [[00:30:50](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1850)]
-I mean, I could try and figure out exactly what's going on there because it should work, but...
+I mean, I could try and figure out exactly what's going on there because it should work, but..
 
 ##### **Geohot** [[00:30:53](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1853)]
 I don't know.
@@ -1943,10 +1943,10 @@ I don't know.
 Yeah, yeah.
 
 ##### **Qazalin** [[00:30:58](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1858)]
-So, anyway, yeah, there's these Objective-C categories which we could try and parse as well, but it just seemed annoying and also, like, is only used in, like, three places, so...
+So, anyway, yeah, there's these Objective-C categories which we could try and parse as well, but it just seemed annoying and also, like, is only used in, like, three places, so..
 
 ##### **Chenyu** [[00:31:07](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1867)]
-Just make the escape patch code clean and...
+Just make the escape patch code clean and..
 
 ##### **Nimlgen** [[00:31:09](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1869)]
 Yeah.
@@ -1958,10 +1958,10 @@ Yeah.
 I don't know if there's anything else with autogen right now.
 
 ##### **Geohot** [[00:31:18](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1878)]
-The nice thing is that...
+The nice thing is that..
 
 ##### **Geohot** [[00:31:19](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1879)]
-I think you mentioned this last time, but it's easy to edit it now because it's just Intree and it's not, like...
+I think you mentioned this last time, but it's easy to edit it now because it's just Intree and it's not, like..
 
 ##### **Qazalin** [[00:31:24](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1884)]
 Yeah, no, that library was bad to rely on.
@@ -2048,7 +2048,7 @@ I went through all the pull requests.
 I went through all the pull requests.
 
 ##### **Qazalin** [[00:32:20](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1940)]
-We should do the same for the issues, but, yeah, we're...
+We should do the same for the issues, but, yeah, we're..
 
 ##### **Chenyu** [[00:32:22](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1942)]
 No, so the issues, I went through that multiple times, and many times things are still broken.
@@ -2072,7 +2072,7 @@ Yeah.
 So, yeah, we can start fixing issues.
 
 ##### **Chenyu** [[00:32:49](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1969)]
-I mean, hopefully we're kind of in a place where it's...
+I mean, hopefully we're kind of in a place where it's..
 
 ##### **Nimlgen** [[00:32:53](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1973)]
 I don't know.
@@ -2090,7 +2090,7 @@ It's not like, oh, it's going to be fixed in the next rewrite.
 The only big rewrite I kind of see incoming is going to be things that, yeah, again, if
 
 ##### **Qazalin** [[00:33:15](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1995)]
-we find ourselves tweaking symbolic...
+we find ourselves tweaking symbolic..
 
 ##### **Chenyu** [[00:33:17](https://www.youtube.com/watch?v=cLnu8McQRlw&t=1997)]
 The rule order?
@@ -2114,7 +2114,7 @@ We have to do it.
 I mean, there's no way.
 
 ##### **Chenyu** [[00:33:36](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2016)]
-Because, like, some guy posted, oh, there was an issue...
+Because, like, some guy posted, oh, there was an issue..
 
 ##### **Nimlgen** [[00:33:41](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2021)]
 There was an issue where someone thought, like, two things should be equal.
@@ -2147,7 +2147,7 @@ But even if you use it right, it's still wrong.
 It still doesn't work.
 
 ##### **Geohot** [[00:34:16](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2056)]
-Like, because it had a...
+Like, because it had a..
 
 ##### **Geohot** [[00:34:17](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2057)]
 We have to fix this.
@@ -2165,7 +2165,7 @@ I don't think egraph can solve that.
 I don't know.
 
 ##### **Geohot** [[00:34:23](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2063)]
-No, egraph can totally...
+No, egraph can totally..
 
 ##### **Geohot** [[00:34:25](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2065)]
 But polynomial canonicalization is a pretty hard problem.
@@ -2186,7 +2186,7 @@ It's a pretty hard problem.
 Well, you don't solve it, but the egraph doesn't solve it with canonicalization.
 
 ##### **Geohot** [[00:34:46](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2086)]
-Uh...
+Uh..
 
 ##### **Geohot** [[00:34:47](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2087)]
 Yeah.
@@ -2204,13 +2204,13 @@ They just have the same representative.
 Yeah, yeah, yeah.
 
 ##### **Qazalin** [[00:34:55](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2095)]
-And if the two...
+And if the two..
 
 ##### **Geohot** [[00:34:56](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2096)]
 And the egraph would do explicitly the look for equality.
 
 ##### **Geohot** [[00:35:06](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2106)]
-But also, why is polynomial...
+But also, why is polynomial..
 
 ##### **Geohot** [[00:35:09](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2109)]
 Why is this a hard problem?
@@ -2231,7 +2231,7 @@ Anyway.
 Yeah.
 
 ##### **Geohot** [[00:35:30](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2130)]
-I mean...
+I mean..
 
 ##### **Geohot** [[00:35:31](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2131)]
 So, the most generic form, it's a very hard problem.
@@ -2240,7 +2240,7 @@ So, the most generic form, it's a very hard problem.
 We probably don't need that.
 
 ##### **Chenyu** [[00:35:39](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2139)]
-But then we are...
+But then we are..
 
 ##### **Nimlgen** [[00:35:40](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2140)]
 Yeah.
@@ -2249,7 +2249,7 @@ Yeah.
 We started to discuss, like, what do we use?
 
 ##### **Geohot** [[00:35:43](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2143)]
-Then we kind of...
+Then we kind of..
 
 ##### **Geohot** [[00:35:44](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2144)]
 We kind of settled previously on what's the real kernel that we encounter.
@@ -2273,7 +2273,7 @@ I'm not sure it's so easy to say that there's, like, a desirable canonical form.
 Yeah.
 
 ##### **Geohot** [[00:36:04](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2164)]
-Because previously...
+Because previously..
 
 ##### **Geohot** [[00:36:05](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2165)]
 We probably still use this in somewhere that we use this to find those strides for stuff,
@@ -2369,7 +2369,7 @@ That's fixed when you do something.
 Yeah.
 
 ##### **Nimlgen** [[00:37:05](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2225)]
-But you can't...
+But you can't..
 
 ##### **Qazalin** [[00:37:07](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2227)]
 Anyway.
@@ -2378,7 +2378,7 @@ Anyway.
 Yeah.
 
 ##### **Geohot** [[00:37:11](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2231)]
-I think these...
+I think these..
 
 ##### **Geohot** [[00:37:16](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2236)]
 I don't know.
@@ -2402,19 +2402,19 @@ I'll just scan this week and then maybe next week I'll start looking into eGraph
 I mean, it's something we have to do.
 
 ##### **Geohot** [[00:37:31](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2251)]
-But it also...
+But it also..
 
 ##### **Qazalin** [[00:37:32](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2252)]
 It's very nice how I think we can very, like, comfortably transition to it.
 
 ##### **Chenyu** [[00:37:37](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2257)]
-There's going to be no...
+There's going to be no..
 
 ##### **Nimlgen** [[00:37:38](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2258)]
 It's all the same rewriting.
 
 ##### **Qazalin** [[00:37:39](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2259)]
-Yeah, I mean, like, in the past, if you've done a lot of rewriting, you've done...
+Yeah, I mean, like, in the past, if you've done a lot of rewriting, you've done..
 
 ##### **Geohot** [[00:37:40](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2260)]
 So, to go back to the old, like, string of rules, it just sometimes applies them
@@ -2444,10 +2444,10 @@ Is that true?
 Oh, yeah.
 
 ##### **Geohot** [[00:38:04](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2284)]
-We can lock...
+We can lock..
 
 ##### **Qazalin** [[00:38:05](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2285)]
-GPT...
+GPT..
 
 ##### **Chenyu** [[00:38:06](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2286)]
 What's the current speed on GPT-OSS?
@@ -2462,7 +2462,7 @@ Is he wrong?
 I think it runs, but I think it's just that the speed isn't good.
 
 ##### **Geohot** [[00:38:20](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2300)]
-And like how far we...
+And like how far we..
 
 ##### **Geohot** [[00:38:22](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2302)]
 0.1 tokens per second.
@@ -2486,7 +2486,7 @@ All right.
 I'll relock the torch back end based on that picture.
 
 ##### **Geohot** [[00:38:36](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2316)]
-But yeah, no, we do need it to not...
+But yeah, no, we do need it to not..
 
 ##### **Qazalin** [[00:38:43](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2323)]
 If it's realizing at every torch thing, there's no point.
@@ -2576,7 +2576,7 @@ because LLMs can't do that one.
 LLMs just misunderstand that one.
 
 ##### **Chenyu** [[00:41:23](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2483)]
-The CIFAR one they understand, and they give me something that's...
+The CIFAR one they understand, and they give me something that's..
 
 ##### **Nimlgen** [[00:41:26](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2486)]
 Just a reminder, I don't care if you use AI,
@@ -2603,7 +2603,7 @@ You want to use AI? Use AI. It's great. I use AI. Everyone loves AI.
 But if you're just copying and pasting something you don't understand,
 
 ##### **Qazalin** [[00:41:52](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2512)]
-you're actually more...
+you're actually more..
 
 ##### **Geohot** [[00:41:53](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2513)]
 You're more useless than the AI.
@@ -2945,7 +2945,7 @@ Oh, yeah.
 End of the end of the year.
 
 ##### **Geohot** [[00:47:16](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2836)]
-We're going to be training llama.
+We're going to be training LLaMA.
 
 ##### **Geohot** [[00:47:20](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2840)]
 8B.
@@ -2960,10 +2960,10 @@ Yeah.
 We're going to have a lot of 45B that starts up fast.
 
 ##### **Qazalin** [[00:47:24](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2844)]
-And we're going to have decent gem and flash retention kernels written in UOPs running
+And we're going to have decent GEMM and flash retention kernels written in UOPs running
 
 ##### **Geohot** [[00:47:30](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2850)]
-for the llama 8B.
+for the LLaMA 8B.
 
 ##### **Geohot** [[00:47:32](https://www.youtube.com/watch?v=cLnu8McQRlw&t=2852)]
 And then just next year, we got to we got to scale it up, debug a bunch of issues.

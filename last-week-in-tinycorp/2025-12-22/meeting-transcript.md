@@ -5,7 +5,7 @@
 **Time:** holiday edition, 9am Monday San Diego time
 - company update
 - llm app
-- llama training (grad acc, jit, flash attention)
+- LLaMA training (grad acc, jit, flash attention)
 - viz
 - driver
 - other bounties
@@ -26,14 +26,14 @@
 - **[Focus on Human-Facing Optimization APIs](#geohot-000631)**: Rather than “fully rendering/running” everything, he wants better APIs for humans to specify optimizations (e.g., splitting kernels), then LLMs can iterate like humans do.
 - **[Viz as Machine-Consumable Artifact](#geohot-000727)**: Notes Viz can run with `viz=-1`/`viz=-2` to output a pickle without a server; describes Claude reading the pickle and iterating, motivating Viz outputs that machines can consume.
 - **[LLM Productivity Needs Precise Specs & Fast Feedback](#geohot-000805)**: Emphasizes the future-critical code is what lets LLMs experiment “without fear of breaking things,” with quick checks for correctness—LLMs need precisely specified problems to avoid going off the rails.
-- **[Llama Training Status: JIT Workaround + Multi-Device Wins](#chenyu-001046)**: Chenyu reports a workaround so gradient accumulation works under JIT; once that’s in place, CPU offload and multi-device “just work first try,” highlighting TinyGrad’s strength across backends.
+- **[LLaMA Training Status: JIT Workaround + Multi-Device Wins](#chenyu-001046)**: Chenyu reports a workaround so gradient accumulation works under JIT; once that’s in place, CPU offload and multi-device “just work first try,” highlighting TinyGrad’s strength across backends.
 - **[Planned JIT Refactor: Capture Less Aggressively](#geohot-001142)**: Geohot says current JIT “counts to three” then captures; he plans to make it see the same thing five times before capturing so “when I add the JIT things break” should mostly go away.
 - **[Speed Strategy: Layer Tests → Throw LLM at Optimization](#geohot-001326)**: Wants good per-layer speed tests so they can “throw Claude at making that layer fast,” using both automated search and “hand search” for standout wins.
 - **[Assembly Visualizer & Python RDNA Tooling Vision](#geohot-001630)**: Praises the new assembly graph; proposes a tasteful Python disassembler/assembler/simulator (moving away from LLVM) and pushing toward RDNA3 assembly as the first fully supported target.
 - **[Endgame: Minimal Full AMD Driver + Better GPU Execution Views](#geohot-001939)**: Wants the stack to output correct GPU bitcode with a “complete full AMD driver” under 20k LOC; also wants views that show bottlenecks/latencies and tighter coupling with execution traces (mentions SQTT parser limitations).
 - **[LLM Coherence “Doesn’t Lose the Plot” Claim](#geohot-002313)**: Says older LLMs lose the plot quickly but claims Opus 4.5 persists and stays coherent for “four hours and 49 minutes,” though Chenyu notes it can stay too coherent on a wrong path.
 - **[Driver Update: MI350 Support + AQL/XCC Sync Issue](#nimlgen-002454)**: Nimlgen reports working on MI350 support and driver stability; describes an AQL queue reset/reupload issue that fails to sync across XCCs (also seen in AMD’s driver), with a current workaround of reusing the queue.
-- **[Cleanup & Consolidation: Delete Old Infra + One LLM Home](#geohot-003351)**: Encourages deleting old code in extra/external (e.g., ShapeTracker/lazy buffer); wants to delete other LLM implementations and consolidate on TinyGradApps LLM (mentions it supports Llama, Qwen, Alma, and a compact MOE).
+- **[Cleanup & Consolidation: Delete Old Infra + One LLM Home](#geohot-003351)**: Encourages deleting old code in extra/external (e.g., ShapeTracker/lazy buffer); wants to delete other LLM implementations and consolidate on TinyGradApps LLM (mentions it supports LLaMA, Qwen, Alma, and a compact MOE).
 - **[Replace heuristics.py with RLVR-Trained LLM Search](#geohot-003446)**: Proposes using “RLVR” (reinforcement learning from verifiable rewards) to fine-tune a coder model on kernel performance traces; imagines an LLM that one-shots optimizations, with “search” being how long/many shots (1/3/10) you run it.
 
 
@@ -42,7 +42,7 @@
 Quickly, Ghost Release, company update.
 
 ##### **Geohot** [[00:00:05](https://www.youtube.com/watch?v=5XHgivHDYPg&t=5)]
-Yeah, kind of Christmas. No real meeting this week. Everybody should be playing with and leveraging Cloud Code. I think that... Look, it's not that good yet, but this is the first one that's usable. And I think it's going to impact the entire industry so radically in the next two to three years. Like, I'm almost to the point where I'm thinking about canceling bounties. What I get for bounties now is basically all AI spam. And it's not like... AI is such a jagged thing, right? Like, the problem is that these people are people who never could have completed bounties on their own. And I don't think that AI is going to... take less skilled people and make them more skilled. I think AI is going to take more skilled people and give them more leverage. So it's interesting.
+Yeah, kind of Christmas. No real meeting this week. Everybody should be playing with and leveraging Cloud Code. I think that.. Look, it's not that good yet, but this is the first one that's usable. And I think it's going to impact the entire industry so radically in the next two to three years. Like, I'm almost to the point where I'm thinking about canceling bounties. What I get for bounties now is basically all AI spam. And it's not like.. AI is such a jagged thing, right? Like, the problem is that these people are people who never could have completed bounties on their own. And I don't think that AI is going to.. take less skilled people and make them more skilled. I think AI is going to take more skilled people and give them more leverage. So it's interesting.
 
 ##### **Geohot** [[00:01:04](https://www.youtube.com/watch?v=5XHgivHDYPg&t=64)]
 Yeah, just kind of how that works. Have you tried the latest Codex? Yeah.
@@ -60,7 +60,7 @@ Okay. So there's the Codex. There's the Codex that runs on your computer. And th
 But also has a run time. You also use the cloud code that runs in the machine, right? Not the browser one. Or you use both.
 
 ##### **Geohot** [[00:01:49](https://www.youtube.com/watch?v=5XHgivHDYPg&t=109)]
-I use the cloud code entirely that runs on the machine. So you run on the machine. You type cloud. And it'll run in a directory. There's also an open source version called open code. That seems to work pretty much as well as cloud code. But that's really just all about the model. It's Opus 4.5 that's actually better. But the best flow I've found is the cloud code that runs on your machine. And it's to the point. Like this morning, I had to change my time zone. I just ran cloud and said fix my time zone. And it ran the right time zone control command to do the time zone. Because I'm not going to read the manual. Cloud can do it for me. And it's great. So yeah. No, it's really good. I mean, it can run for a long time. If you give it a task that it can't mess up, that doesn't require taste. If you're just like fix this test, it will repeatedly try things until it fixes the test. And it's good at that. If you ask it to refactor this, it'll give you garbage. It's the same as any of these other AI things. It won't refactor it to make it nice. You have to do a whole lot of polish on the code before you can submit it. That's all still true. But if you just want something to work and you want it to repeatedly throw itself at it for two hours, it will do that. Which is cool. Yeah, it also seems almost entirely to be the model. Because I tried all the other models. I tried GPT-5.2 in cloud code. I tried GPT-5.2 in open code, which is supposed to be the second best model. And it's... Significantly worse. Though it's still more usable than any of the open source models I've tried. I tried QuenCoder. I tried GLM. They just came out with a new GLM today. So I haven't tried that one yet. But I tried GLM 4.6 and it's not good. But I think this is the most radical thing that's going to change our company. I also think that we've structured ourselves incredibly well to take advantage of this. For Pathy's blog, an interesting post. It was about how basically individuals are getting way more benefit from AI than companies. Because companies are set up in these dodgy ways. It's difficult to change things at companies. I'm not talking about Google. I'm sure Google is doing fine. But your average company is just... Even TinyCorp is better set up than Comma to take advantage of this stuff. Comma's got to deal with security issues. And not security issues. Someone's going to leak some information. Security issues. If you just run Claude in the Comma infrastructure, we'll have to delete all the data. Yes. Whereas the tiny boxes are designed not to be trusted. TinyGrad is designed to be entirely public. It's short. When you try to use these things on bigger repos, they get lost. Yes. It's amazing how good they are. You just read the three files in TinyGrad. It all makes sense. I tried to get them to do some stuff in PyTorch. It's all over the place.
+I use the cloud code entirely that runs on the machine. So you run on the machine. You type cloud. And it'll run in a directory. There's also an open source version called open code. That seems to work pretty much as well as cloud code. But that's really just all about the model. It's Opus 4.5 that's actually better. But the best flow I've found is the cloud code that runs on your machine. And it's to the point. Like this morning, I had to change my time zone. I just ran cloud and said fix my time zone. And it ran the right time zone control command to do the time zone. Because I'm not going to read the manual. Cloud can do it for me. And it's great. So yeah. No, it's really good. I mean, it can run for a long time. If you give it a task that it can't mess up, that doesn't require taste. If you're just like fix this test, it will repeatedly try things until it fixes the test. And it's good at that. If you ask it to refactor this, it'll give you garbage. It's the same as any of these other AI things. It won't refactor it to make it nice. You have to do a whole lot of polish on the code before you can submit it. That's all still true. But if you just want something to work and you want it to repeatedly throw itself at it for two hours, it will do that. Which is cool. Yeah, it also seems almost entirely to be the model. Because I tried all the other models. I tried GPT-5.2 in cloud code. I tried GPT-5.2 in open code, which is supposed to be the second best model. And it's.. Significantly worse. Though it's still more usable than any of the open source models I've tried. I tried QuenCoder. I tried GLM. They just came out with a new GLM today. So I haven't tried that one yet. But I tried GLM 4.6 and it's not good. But I think this is the most radical thing that's going to change our company. I also think that we've structured ourselves incredibly well to take advantage of this. For Pathy's blog, an interesting post. It was about how basically individuals are getting way more benefit from AI than companies. Because companies are set up in these dodgy ways. It's difficult to change things at companies. I'm not talking about Google. I'm sure Google is doing fine. But your average company is just.. Even TinyCorp is better set up than Comma to take advantage of this stuff. Comma's got to deal with security issues. And not security issues. Someone's going to leak some information. Security issues. If you just run Claude in the Comma infrastructure, we'll have to delete all the data. Yes. Whereas the tiny boxes are designed not to be trusted. TinyGrad is designed to be entirely public. It's short. When you try to use these things on bigger repos, they get lost. Yes. It's amazing how good they are. You just read the three files in TinyGrad. It all makes sense. I tried to get them to do some stuff in PyTorch. It's all over the place.
 
 ##### **Chenyu** [[00:05:00](https://www.youtube.com/watch?v=5XHgivHDYPg&t=300)]
 Some of it we can probably do better. From time to time, we still try to read the whole file and it says the file is too big or something like that. Or cannot probably find the right thing.
@@ -126,7 +126,7 @@ Yeah. I mean, my take is the stake of trying that is very, very low anyway. So e
 Yeah. Yeah.
 
 ##### **Chenyu** [[00:10:46](https://www.youtube.com/watch?v=5XHgivHDYPg&t=646)]
-I think for, for the Lama training, what I have learned a lot is once. The JIT is workaround. I find a workaround so that the gradient accumulation can work in JIT. It's very weird. I don't know the root cause, but, uh, as long as the workaround is good, it's good. Then all the offloading to CPU and the multi device stuff are just work first try. I think that's the part tiny grid works the best for like multi backend and stuff like that. Right.
+I think for, for the LLaMA training, what I have learned a lot is once. The JIT is workaround. I find a workaround so that the gradient accumulation can work in JIT. It's very weird. I don't know the root cause, but, uh, as long as the workaround is good, it's good. Then all the offloading to CPU and the multi device stuff are just work first try. I think that's the part tiny grid works the best for like multi backend and stuff like that. Right.
 
 ##### **Geohot** [[00:11:20](https://www.youtube.com/watch?v=5XHgivHDYPg&t=680)]
 So birds now. Okay.
@@ -168,7 +168,7 @@ Yep. I think then with all these techniques, we should be pretty good at least t
 The sooner we can get good tests up on one layer for the speed of one layer, we can also just throw Claude at making that layer fast. We can hand search to find the most incredible stuff.
 
 ##### **Chenyu** [[00:13:43](https://www.youtube.com/watch?v=5XHgivHDYPg&t=823)]
-So loads kind of needs fresh attention anyway, because you would need that layer to be representative. Yeah. And now every bottleneck is on tension. So I guess the tension is the fast gem. So making gem fast is also part of that.
+So loads kind of needs fresh attention anyway, because you would need that layer to be representative. Yeah. And now every bottleneck is on tension. So I guess the tension is the fast GEMM. So making GEMM fast is also part of that.
 
 ##### **Geohot** [[00:14:01](https://www.youtube.com/watch?v=5XHgivHDYPg&t=841)]
 Agreed.
@@ -198,7 +198,7 @@ If it doesn't work for you, it's fine. No big deal. But it's worth trying.
 This graph looks great. This is much more readable to me than what was there before. I mean, I like being able to just zoom in on the thing, too. I probably spent like 10,000 hours in IDA, and I'm like, oh, I'm going to do this. Probably even more. It feels cool. Some other things that you could add, but things that we want to start basically, I don't know if you saw, I have a PR from a while ago building a Python DSL for the RDNA pre-assembly language. So you're just using, how are you generating this right now, the graph?
 
 ##### **Geohot** [[00:17:08](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1028)]
-I'm just parsing the assembly using LVM. You're parsing the assembly, the text assembly, or? The text assembly, yeah. Yeah, I mean, what we want is like, yeah, go ahead.
+I'm just parsing the assembly using LLVM. You're parsing the assembly, the text assembly, or? The text assembly, yeah. Yeah, I mean, what we want is like, yeah, go ahead.
 
 ##### **Geohot** [[00:17:27](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1047)]
 Yeah, how are you finding like where the block ends and stuff? Like, how are you finding the jump destination?
@@ -222,7 +222,7 @@ Yeah, I feel good. But yeah, no, I mean, overall, overall, I like this. So anoth
 Yeah, download the demo of IDA and try it,
 
 ##### **Geohot** [[00:19:00](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1140)]
-because we want this to be a full like environment to see this. Like I'm looking at this, I'm looking at just the test gem right now. And it's amazing how it never uses the dual ALU. Like they're all just single FMAC. Why?
+because we want this to be a full like environment to see this. Like I'm looking at this, I'm looking at just the test GEMM right now. And it's amazing how it never uses the dual ALU. Like they're all just single FMAC. Why?
 
 ##### **Geohot** [[00:19:17](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1157)]
 Oh. Yeah, but. No, it's good.
@@ -237,7 +237,7 @@ Yeah, move away from LLVM. Full.
 It's complete. It's fully complete when we're done with that. It's like I don't even want LLVM to be assembled. I want the entire thing to like output the correct bitcode to the GPU under 20,000 lines, the complete full AMD driver.
 
 ##### **Geohot** [[00:19:58](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1198)]
-Oh. Yeah, how's the speed of the gem going? How fast is the gem on MIT 50? So,
+Oh. Yeah, how's the speed of the GEMM going? How fast is the GEMM on MIT 50? So,
 
 ##### **Qazalin** [[00:20:10](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1210)]
 baseline, it's a lot of 1.4 times faster than our baseline. The hand coded one. I'm sure there's some secret one that's faster, but we'll just find it.
@@ -246,13 +246,13 @@ baseline, it's a lot of 1.4 times faster than our baseline. The hand coded one. 
 But I have like the infrastructure to like run assembly and see everything.
 
 ##### **Qazalin** [[00:20:31](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1231)]
-I spent way too much time figuring out what headers going to the LLVM thingy for MI3. You just have, you just have to specify what is the ну will do what, which is kind of cool talking about the jako,
+I spent way too much time figuring out what headers going to the LLVM thingy for MI3. You just have, you just have to specify what is the will do what, which is kind of cool talking about the jako,
 
 ##### **Geohot** [[00:20:50](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1250)]
 but why like the bitcode has been 5.5 times faster than the04 you wereow, which is clamshell 50 more faithful.
 
 ##### **Qazalin** [[00:20:52](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1252)]
-But your DNA functions, your RNA is 15 times faster than the Seminal highly right? When you get past that Map attack with Aha, And then once you're at this level of comfort you're like, It's perfect for the stream. Because we have the webmaga, Does it work .
+But your DNA functions, your RNA is 15 times faster than the Seminal highly right? When you get past that Map attack with Aha, And then once you're at this level of comfort you're like, It's perfect for the stream. Because we have the webmaga, Does it work.
 
 ##### **Geohot** [[00:21:03](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1263)]
 That's all it can do is
@@ -294,13 +294,13 @@ coherent for four hours and 49 minutes.
 Sometimes it's too coherent that if the first few tries is wrong, it will just continue on that attempt and the easiest way to recover is just the start of it.
 
 ##### **Geohot** [[00:24:05](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1445)]
-This is just a very new strategy. Yeah. Yeah. I mean, it's not perfect. And it requires some handholding, but it doesn't lose the plot like the other ones anymore. I think we've got holiday week for this. Let's play with it. Just tell us, make the gem fast. Maybe we'll make the gem fast.
+This is just a very new strategy. Yeah. Yeah. I mean, it's not perfect. And it requires some handholding, but it doesn't lose the plot like the other ones anymore. I think we've got holiday week for this. Let's play with it. Just tell us, make the GEMM fast. Maybe we'll make the GEMM fast.
 
 ##### **Chenyu** [[00:24:42](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1482)]
 Okay.
 
 ##### **Nimlgen** [[00:24:54](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1494)]
-Yeah, so I've been working on MI350 support for AM and the stability of the state in general. So yeah, we actually have...
+Yeah, so I've been working on MI350 support for AM and the stability of the state in general. So yeah, we actually have..
 
 ##### **Geohot** [[00:25:10](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1510)]
 Have you tried Claude's code?
@@ -315,16 +315,16 @@ What do you think?
 Yeah, it's helpful, but I think I haven't used it much. I don't have a strong opinion yet.
 
 ##### **Geohot** [[00:25:30](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1530)]
-Yeah. Yeah, it's... Good.
+Yeah. Yeah, it's.. Good.
 
 ##### **Nimlgen** [[00:25:37](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1537)]
-I think doing some research and just trying things. Actually, I just tried to fix the AQL stuff. Because actually, even the AMD GPU driver has the broken... Has the broken AQL. Like, basically the issue if you just reset the queue, the AQL queue, and just re-upload it with the new data, it just does not sync with... With different XCCs. So... Yeah, I don't know. Like, Claude just tried for several hours, but I know nothing useful.
+I think doing some research and just trying things. Actually, I just tried to fix the AQL stuff. Because actually, even the AMD GPU driver has the broken.. Has the broken AQL. Like, basically the issue if you just reset the queue, the AQL queue, and just re-upload it with the new data, it just does not sync with.. With different XCCs. So.. Yeah, I don't know. Like, Claude just tried for several hours, but I know nothing useful.
 
 ##### **Geohot** [[00:26:21](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1581)]
-Yeah. No, sometimes if it can't make... If it's like one thing that has to just get or doesn't get, it often can't get. But if it's the kind of thing where it can write S and hit intermediate, it can get it. If it's the kind of thing where it can write S and hit intermediate stuff, it's pretty good. But yeah, no, with a lot of hardware stuff. Yeah, I can see how it can just continually miss.
+Yeah. No, sometimes if it can't make.. If it's like one thing that has to just get or doesn't get, it often can't get. But if it's the kind of thing where it can write S and hit intermediate, it can get it. If it's the kind of thing where it can write S and hit intermediate stuff, it's pretty good. But yeah, no, with a lot of hardware stuff. Yeah, I can see how it can just continually miss.
 
 ##### **Geohot** [[00:26:49](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1609)]
-Yeah. So yeah, but...
+Yeah. So yeah, but..
 
 ##### **Geohot** [[00:26:55](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1615)]
 Yeah, if it involves deep reasoning, it's not good at that. If it involves spamming over and over again, it's good at that.
@@ -339,10 +339,10 @@ I also found it's like not really good reading AMD GPU driver. So like, as a ref
 But yeah. Yeah. Maybe the code base is too big.
 
 ##### **Qazalin** [[00:27:31](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1651)]
-So yeah, I'll... Oh, cool.
+So yeah, I'll.. Oh, cool.
 
 ##### **Nimlgen** [[00:27:36](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1656)]
-Maybe the code base is too big. Maybe the code base is too big. Yeah. Yeah. So I'm still going to do some runs this week to make sure that it's stable and it's ready for LAMA training. And yeah, also I'll reduce speed. I started... I've started to work on XGMI, like instead of PCI SDMA. But... No results yet. So yeah. I'll... I'll look into these.
+Maybe the code base is too big. Maybe the code base is too big. Yeah. Yeah. So I'm still going to do some runs this week to make sure that it's stable and it's ready for LAMA training. And yeah, also I'll reduce speed. I started.. I've started to work on XGMI, like instead of PCI SDMA. But.. No results yet. So yeah. I'll.. I'll look into these.
 
 ##### **Chenyu** [[00:28:10](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1690)]
 Cool.
@@ -351,28 +351,28 @@ Cool.
 But great. So we have a driver that works on both 300 and 350. We can unload the stuff?
 
 ##### **Geohot** [[00:28:20](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1700)]
-Yeah. Is it better or worse? I'll...
+Yeah. Is it better or worse? I'll..
 
 ##### **Nimlgen** [[00:28:28](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1708)]
-I mean, the main issue we had is the stability with the AMD GPU driver. I mean, the main issue we had is the stability with the AMD GPU driver. So yeah, I just need some time to validate these on AMS. But yeah, I mean... And although the warm...
+I mean, the main issue we had is the stability with the AMD GPU driver. I mean, the main issue we had is the stability with the AMD GPU driver. So yeah, I just need some time to validate these on AMS. But yeah, I mean.. And although the warm..
 
 ##### **Geohot** [[00:28:42](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1722)]
 The warm reset stuff is fixed?
 
 ##### **Geohot** [[00:28:45](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1725)]
-Yeah. Great. Cool. Yeah. No, I mean, it's...
+Yeah. Great. Cool. Yeah. No, I mean, it's..
 
 ##### **Geohot** [[00:28:56](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1736)]
 It's nice that when we hit bugs on this, we'll be able to actually debug them. I'm not familiar with what specifically is the AQL problem. You're saying that it's not syncing across the XCCs? Like if there's a cache that's not being validated?
 
 ##### **Nimlgen** [[00:29:11](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1751)]
-Yeah, that also was fixed. Yeah. Not the cache, but... Actually, I don't know. There is something inside the GPU actually to sync these XCCs. And...
+Yeah, that also was fixed. Yeah. Not the cache, but.. Actually, I don't know. There is something inside the GPU actually to sync these XCCs. And..
 
 ##### **Geohot** [[00:29:22](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1762)]
 I still haven't found this. I looked quite a bit, too.
 
 ##### **Nimlgen** [[00:29:27](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1767)]
-Yeah. So... Actually, I don't know. I just tried to reset a lot of different parts of the GPU. But actually, the issue is that if you just run some compute on the queue... So I don't know. Maybe there is some counter inside on the GPU. So actually, if you just reupload the queue and you just start running it from the beginning, it will not sync like the same amount of compute you've run the previous... Like the previous time.
+Yeah. So.. Actually, I don't know. I just tried to reset a lot of different parts of the GPU. But actually, the issue is that if you just run some compute on the queue.. So I don't know. Maybe there is some counter inside on the GPU. So actually, if you just reupload the queue and you just start running it from the beginning, it will not sync like the same amount of compute you've run the previous.. Like the previous time.
 
 ##### **Chenyu** [[00:29:59](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1799)]
 Yeah.
@@ -399,7 +399,7 @@ Yeah. More validation. XTMI. Sounds good.
 I'd kind of like to just stick plug code on reverse engineering the MEC.
 
 ##### **Geohot** [[00:31:19](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1879)]
-I put some time into it. And we have a full... I'm really happy with the progress on the USB chip. We have everything figured out on that chip now, if you've seen that repo.
+I put some time into it. And we have a full.. I'm really happy with the progress on the USB chip. We have everything figured out on that chip now, if you've seen that repo.
 
 ##### **Geohot** [[00:31:29](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1889)]
 Yeah.
@@ -408,7 +408,7 @@ Yeah.
 So maybe something based on the silvered package, if you need theikuit contraption. Basically just like any other stuff.
 
 ##### **Geohot** [[00:31:56](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1916)]
-り hitting bigger addresses on the GPU?
+ hitting bigger addresses on the GPU?
 
 ##### **Geohot** [[00:32:01](https://www.youtube.com/watch?v=5XHgivHDYPg&t=1921)]
 Like you didn't try to hit stuff on the bar? No, I don't.
@@ -432,13 +432,13 @@ Mm-hmm.
 How do we go about deleting more stuff in extra and external?
 
 ##### **Chenyu** [[00:33:26](https://www.youtube.com/watch?v=5XHgivHDYPg&t=2006)]
-I think there are still a lot of old stuff that are . So it's probably better to delete it.
+I think there are still a lot of old stuff that are. So it's probably better to delete it.
 
 ##### **Geohot** [[00:33:31](https://www.youtube.com/watch?v=5XHgivHDYPg&t=2011)]
 I mean, yeah, feel free to delete. I don't know. I just went through and looked for old stuff.
 
 ##### **Geohot** [[00:33:37](https://www.youtube.com/watch?v=5XHgivHDYPg&t=2017)]
-And it's old stuff .
+And it's old stuff.
 
 ##### **Chenyu** [[00:33:39](https://www.youtube.com/watch?v=5XHgivHDYPg&t=2019)]
 It's like I searched Shape Tracker, and there are still 20 files. Oh, that's a good idea, yeah.
@@ -450,13 +450,13 @@ Anything that uses Shape Tracker, I'm sure we can just delete.
 Shape Tracker, lazy buffer, something like that.
 
 ##### **Geohot** [[00:33:51](https://www.youtube.com/watch?v=5XHgivHDYPg&t=2031)]
-Yeah. And we should delete everything. I also think we should start deleting. Like, I want to delete the. I want to delete the other LLM implementation. I want to get everything into. The MOE that I wrote for TinyGradApps LLM is like, it's the essence of MOE. If you read the one in there, it's so few lines. It's beautiful. TinyGradApps LLM now supports Llama. It supports Quen, and it supports Alma. Quen and Quen MOE.
+Yeah. And we should delete everything. I also think we should start deleting. Like, I want to delete the. I want to delete the other LLM implementation. I want to get everything into. The MOE that I wrote for TinyGradApps LLM is like, it's the essence of MOE. If you read the one in there, it's so few lines. It's beautiful. TinyGradApps LLM now supports LLaMA. It supports Quen, and it supports Alma. Quen and Quen MOE.
 
 ##### **Chenyu** [[00:34:28](https://www.youtube.com/watch?v=5XHgivHDYPg&t=2068)]
 Yeah. Yeah.
 
 ##### **Geohot** [[00:34:29](https://www.youtube.com/watch?v=5XHgivHDYPg&t=2069)]
-So yeah, I know we still need the Llama for some of the multi-DPU stuff, not in LLM yet. But I think we can delete the Alma in example, and just use TinyGradApps LLM.
+So yeah, I know we still need the LLaMA for some of the multi-DPU stuff, not in LLM yet. But I think we can delete the Alma in example, and just use TinyGradApps LLM.
 
 ##### **Chenyu** [[00:34:44](https://www.youtube.com/watch?v=5XHgivHDYPg&t=2084)]
 OK.
@@ -486,7 +486,7 @@ Hey. Cool. Anything else for the meeting?
 Not really. Merry Christmas. Happy holidays.
 
 ##### **Chenyu** [[00:37:19](https://www.youtube.com/watch?v=5XHgivHDYPg&t=2239)]
-Happy holidays. So for small updates, you can just update in the channel. And for everyone working on .. Right. Wow code, try LLM. See, let's use this time to try something different.
+Happy holidays. So for small updates, you can just update in the channel. And for everyone working on. Right. Wow code, try LLM. See, let's use this time to try something different.
 
 ##### **Geohot** [[00:37:37](https://www.youtube.com/watch?v=5XHgivHDYPg&t=2257)]
 Yeah, I like that. Cool, and that's it for this meeting.

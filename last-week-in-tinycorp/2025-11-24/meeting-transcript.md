@@ -19,8 +19,8 @@
 ### Highlights
 
 - **[AMD Contract Targets](#geohot-000026)**: The team is aiming to complete the AMD contract by May, with specific performance targets including single machine, two-machine clusters, and beating NVIDIA performance benchmarks, each valued at $400,000.
-- **[Flash Attention Progress](#geohot-000126)**: Flash attention is identified as the primary blocker for training Llama 405B; the forward pass works on MI350, and the backward pass is scheduled for implementation this week to enable training Llama 8B.
-- **[Visualization and Profiling](#geohot-000252)**: Occupancy visualization is working, allowing users to see wave patterns; discussion includes setting `sqtt-limit-se` to zero by default to improve performance on instruction tracing.
+- **[Flash Attention Progress](#geohot-000126)**: Flash attention is identified as the primary blocker for training LLaMA 405B; the forward pass works on MI350, and the backward pass is scheduled for implementation this week to enable training LLaMA 8B.
+- **[Visualization and Profiling](#geohot-000252)**: Occupancy visualization is working, allowing users to see wave patterns; discussion includes setting `SQTT-limit-se` to zero by default to improve performance on instruction tracing.
 - **[Optimizing Instruction Tracing](#geohot-000752)**: Geohot critiques the current profiler for listing every instruction hit in loops, suggesting a UI update to aggregate hits and offer expandable views for better usability.
 - **[NVIDIA HEVC Decode](#geohot-001513)**: HEVC decode is functional; Nimlgen implemented a custom file format parser because the hardware requires specific bit offsets and physical address spacing in a dedicated video queue.
 - **[macOS SIP-free Packaging](#geohot-002502)**: The team discusses improving the macOS eGPU driver packaging to remove the requirement for disabling System Integrity Protection (SIP), aiming to make the installation process user-friendly.
@@ -52,25 +52,25 @@ and then if we can get anything, or if we can get faster than NVIDIA, and those 
 You know, I just want to show that Tinygrad can run the absolute best, train the absolute best models.
 
 ##### **Geohot** [[00:00:54](https://www.youtube.com/watch?v=22O5E5aAnJU&t=54)]
-If we're training Lama 405B.
+If we're training LLaMA 405B.
 
 ##### **Geohot** [[00:00:57](https://www.youtube.com/watch?v=22O5E5aAnJU&t=57)]
-There's a few things bigger than Lama 405B, of course, at the crazy labs.
+There's a few things bigger than LLaMA 405B, of course, at the crazy labs.
 
 ##### **Nimlgen** [[00:01:03](https://www.youtube.com/watch?v=22O5E5aAnJU&t=63)]
 So, I think it's a good target, and I think it stress tests a lot of pieces of Tinygrad in a way that's very important,
 
 ##### **Nimlgen** [[00:01:10](https://www.youtube.com/watch?v=22O5E5aAnJU&t=70)]
-because if you can train Lama 405B, if you can start up the process that trains Lama 405B in a minute,
+because if you can train LLaMA 405B, if you can start up the process that trains LLaMA 405B in a minute,
 
 ##### **Geohot** [[00:01:15](https://www.youtube.com/watch?v=22O5E5aAnJU&t=75)]
-you can start up the one that trains Lama 8B in five seconds.
+you can start up the one that trains LLaMA 8B in five seconds.
 
 ##### **Geohot** [[00:01:19](https://www.youtube.com/watch?v=22O5E5aAnJU&t=79)]
 So, you know, all these things trickle down our economics is real.
 
 ##### **Geohot** [[00:01:24](https://www.youtube.com/watch?v=22O5E5aAnJU&t=84)]
-So, yeah, let's start with...
+So, yeah, let's start with..
 
 ##### **Geohot** [[00:01:26](https://www.youtube.com/watch?v=22O5E5aAnJU&t=86)]
 I think the biggest thing holding us back right now from just actually training this stuff is flash retention.
@@ -79,7 +79,7 @@ I think the biggest thing holding us back right now from just actually training 
 A bunch of the stuff to implement flash retention is done.
 
 ##### **Nimlgen** [[00:01:35](https://www.youtube.com/watch?v=22O5E5aAnJU&t=95)]
-There's a...
+There's a..
 
 ##### **Nimlgen** [[00:01:36](https://www.youtube.com/watch?v=22O5E5aAnJU&t=96)]
 Currently, on my branch, there's a flash retention forward that works on MI350,
@@ -109,7 +109,7 @@ I think once we flash retention, we'll be able to train 8B.
 We can retrain 8B now, but the time is crazy,
 
 ##### **Geohot** [[00:02:02](https://www.youtube.com/watch?v=22O5E5aAnJU&t=122)]
-because we should kick off one with...
+because we should kick off one with..
 
 ##### **Geohot** [[00:02:04](https://www.youtube.com/watch?v=22O5E5aAnJU&t=124)]
 Do you want to kick off one with 1.2.4 context or something?
@@ -232,7 +232,7 @@ Yeah.
 I mean, it's fast.
 
 ##### **Geohot** [[00:03:53](https://www.youtube.com/watch?v=22O5E5aAnJU&t=233)]
-Even...
+Even..
 
 ##### **Geohot** [[00:03:53](https://www.youtube.com/watch?v=22O5E5aAnJU&t=233)]
 It's kind of fast even with instruction tracing if we do not limit any SEs.
@@ -247,7 +247,7 @@ So actually, that will take some time.
 Got it.
 
 ##### **Nimlgen** [[00:04:10](https://www.youtube.com/watch?v=22O5E5aAnJU&t=250)]
-I mean, I think what we should do for viz equals 2 is just make sqtt-livet-se, by default, not be on.
+I mean, I think what we should do for viz equals 2 is just make SQTT-livet-se, by default, not be on.
 
 ##### **Nimlgen** [[00:04:27](https://www.youtube.com/watch?v=22O5E5aAnJU&t=267)]
 So we can keep it on.
@@ -268,7 +268,7 @@ I won't have any instruction tracing.
 Okay.
 
 ##### **Nimlgen** [[00:04:33](https://www.youtube.com/watch?v=22O5E5aAnJU&t=273)]
-So I just ran one, and nothing is...
+So I just ran one, and nothing is..
 
 ##### **Nimlgen** [[00:04:35](https://www.youtube.com/watch?v=22O5E5aAnJU&t=275)]
 It's, like, broken in my counters view.
@@ -307,10 +307,10 @@ But, yeah.
 So I think the thing that I really want you to focus on this week is just starting to stress test this on bigger and bigger kernels.
 
 ##### **Geohot** [[00:05:16](https://www.youtube.com/watch?v=22O5E5aAnJU&t=316)]
-And on bigger and bigger...
+And on bigger and bigger..
 
 ##### **Nimlgen** [[00:05:20](https://www.youtube.com/watch?v=22O5E5aAnJU&t=320)]
-You know, we have to get LLAMA-405B tracing with viz.
+You know, we have to get LLaMA-405B tracing with viz.
 
 ##### **Nimlgen** [[00:05:23](https://www.youtube.com/watch?v=22O5E5aAnJU&t=323)]
 viz equals two, basically.
@@ -325,7 +325,7 @@ SQTT-Limit-SE is totally fine.
 We can leave that on.
 
 ##### **Geohot** [[00:05:31](https://www.youtube.com/watch?v=22O5E5aAnJU&t=331)]
-Let me see if this...
+Let me see if this..
 
 ##### **Geohot** [[00:05:32](https://www.youtube.com/watch?v=22O5E5aAnJU&t=332)]
 Let me see if Chrome has a better max size of a canvas.
@@ -337,13 +337,13 @@ Oh, it does!
 Hey, look at that!
 
 ##### **Geohot** [[00:05:39](https://www.youtube.com/watch?v=22O5E5aAnJU&t=339)]
-But it's...
+But it's..
 
 ##### **Geohot** [[00:05:40](https://www.youtube.com/watch?v=22O5E5aAnJU&t=340)]
 Oh, it's absurdly slow.
 
 ##### **Geohot** [[00:05:42](https://www.youtube.com/watch?v=22O5E5aAnJU&t=342)]
-And oh, oh...
+And oh, oh..
 
 ##### **Geohot** [[00:05:45](https://www.youtube.com/watch?v=22O5E5aAnJU&t=345)]
 I mean, this isn't even that big of a kernel, and it's really slow.
@@ -361,13 +361,13 @@ Okay.
 So, let's see if I can get that.
 
 ##### **Geohot** [[00:05:56](https://www.youtube.com/watch?v=22O5E5aAnJU&t=356)]
-And then we got to IMPROVE...
+And then we got to IMPROVE..
 
 ##### **Geohot** [[00:05:56](https://www.youtube.com/watch?v=22O5E5aAnJU&t=356)]
 Yeah.
 
 ##### **Geohot** [[00:05:57](https://www.youtube.com/watch?v=22O5E5aAnJU&t=357)]
-And then we got to IMPROVE...
+And then we got to IMPROVE..
 
 ##### **Geohot** [[00:05:58](https://www.youtube.com/watch?v=22O5E5aAnJU&t=358)]
 So my parser is pretty good now.
@@ -388,7 +388,7 @@ It's pretty cool.
 But, yeah.
 
 ##### **Geohot** [[00:06:19](https://www.youtube.com/watch?v=22O5E5aAnJU&t=379)]
-So I think...
+So I think..
 
 ##### **Geohot** [[00:06:20](https://www.youtube.com/watch?v=22O5E5aAnJU&t=380)]
 When you're showing the like idle duration and so on, I think it's really cool.
@@ -403,10 +403,10 @@ Are those three numbers just given to you by the thing?
 Yeah.
 
 ##### **Geohot** [[00:06:31](https://www.youtube.com/watch?v=22O5E5aAnJU&t=391)]
-And does it give you...
+And does it give you..
 
 ##### **Geohot** [[00:06:34](https://www.youtube.com/watch?v=22O5E5aAnJU&t=394)]
-How many number...
+How many number..
 
 ##### **Geohot** [[00:06:35](https://www.youtube.com/watch?v=22O5E5aAnJU&t=395)]
 If you're in a loop where an instruction runs 10 times, does it give you those numbers 10 times or one time?
@@ -466,7 +466,7 @@ Yeah, maybe the sum.
 Whatever the other one show.
 
 ##### **Geohot** [[00:07:29](https://www.youtube.com/watch?v=22O5E5aAnJU&t=449)]
-But yeah, I mean these traces are...
+But yeah, I mean these traces are..
 
 ##### **Geohot** [[00:07:31](https://www.youtube.com/watch?v=22O5E5aAnJU&t=451)]
 Oh, should we show the sum?
@@ -499,7 +499,7 @@ Yeah.
 Yeah.
 
 ##### **Nimlgen** [[00:07:49](https://www.youtube.com/watch?v=22O5E5aAnJU&t=469)]
-But right now, with...
+But right now, with..
 
 ##### **Nimlgen** [[00:07:51](https://www.youtube.com/watch?v=22O5E5aAnJU&t=471)]
 When you have this, like, the number of hits, I want to see the number of hits.
@@ -508,13 +508,13 @@ When you have this, like, the number of hits, I want to see the number of hits.
 Whenever you have a kernel with a loop, this is pretty much unusable because I'm not going to scroll through this huge, massive list.
 
 ##### **Geohot** [[00:08:00](https://www.youtube.com/watch?v=22O5E5aAnJU&t=480)]
-And it would be nice...
+And it would be nice..
 
 ##### **Geohot** [[00:08:01](https://www.youtube.com/watch?v=22O5E5aAnJU&t=481)]
 I mean, what would be really cool actually is if there was a little triangle next to it and I could expand it, I could see all the hits of the instruction.
 
 ##### **Geohot** [[00:08:15](https://www.youtube.com/watch?v=22O5E5aAnJU&t=495)]
-But yeah, so I think good goals for this week are...
+But yeah, so I think good goals for this week are..
 
 ##### **Geohot** [[00:08:21](https://www.youtube.com/watch?v=22O5E5aAnJU&t=501)]
 Cleaning up the instruction trace to be that.
@@ -565,7 +565,7 @@ Like on this kernel, I don't really know why this is that slow.
 I mean, we also have to make it thinner, smaller.
 
 ##### **Nimlgen** [[00:09:19](https://www.youtube.com/watch?v=22O5E5aAnJU&t=559)]
-I mean, it's not...
+I mean, it's not..
 
 ##### **Geohot** [[00:09:19](https://www.youtube.com/watch?v=22O5E5aAnJU&t=559)]
 I really do want to fit the whole GPU on a single screen.
@@ -589,7 +589,7 @@ Let's think about how we can do this.
 Maybe we should talk about this more after the meeting.
 
 ##### **Geohot** [[00:09:50](https://www.youtube.com/watch?v=22O5E5aAnJU&t=590)]
-Yeah, I have a lot of...
+Yeah, I have a lot of..
 
 ##### **Geohot** [[00:09:53](https://www.youtube.com/watch?v=22O5E5aAnJU&t=593)]
 I think there's so much capability here to go like beyond what the existing GPU profilers
@@ -604,7 +604,7 @@ But first, let's meet the existing GPU profilers where they are.
 Yeah.
 
 ##### **Nimlgen** [[00:10:07](https://www.youtube.com/watch?v=22O5E5aAnJU&t=607)]
-And I'll change sqtt limit se to be zero by default.
+And I'll change SQTT limit se to be zero by default.
 
 ##### **Nimlgen** [[00:10:12](https://www.youtube.com/watch?v=22O5E5aAnJU&t=612)]
 So that's pretty nice.
@@ -643,7 +643,7 @@ I mean, I've asked for it a whole bunch of times.
 And I feel like when I'm asking for something a bunch of times, there's a reason it's like
 
 ##### **Geohot** [[00:10:36](https://www.youtube.com/watch?v=22O5E5aAnJU&t=636)]
-subtly hard and...
+subtly hard and..
 
 ##### **Nimlgen** [[00:10:40](https://www.youtube.com/watch?v=22O5E5aAnJU&t=640)]
 No, just work on other things.
@@ -712,13 +712,13 @@ No, this is shaping up to be a very good GPU tracer.
 It's all pretty easy to use now too.
 
 ##### **Nimlgen** [[00:11:41](https://www.youtube.com/watch?v=22O5E5aAnJU&t=701)]
-I put a lot of work into like...
+I put a lot of work into like..
 
 ##### **Geohot** [[00:11:42](https://www.youtube.com/watch?v=22O5E5aAnJU&t=702)]
 I put the power thing automatically in viz equals two.
 
 ##### **Geohot** [[00:11:46](https://www.youtube.com/watch?v=22O5E5aAnJU&t=706)]
-I mean, viz equals two should basically just...
+I mean, viz equals two should basically just..
 
 ##### **Geohot** [[00:11:48](https://www.youtube.com/watch?v=22O5E5aAnJU&t=708)]
 I mean, viz equals two should basically just work everywhere viz does, and we just accept
@@ -727,7 +727,7 @@ I mean, viz equals two should basically just work everywhere viz does, and we ju
 that there's a little bit more overhead.
 
 ##### **Geohot** [[00:11:55](https://www.youtube.com/watch?v=22O5E5aAnJU&t=715)]
-Yeah, I don't think we need the sqtt limit thing.
+Yeah, I don't think we need the SQTT limit thing.
 
 ##### **Nimlgen** [[00:11:59](https://www.youtube.com/watch?v=22O5E5aAnJU&t=719)]
 I think that's only if you really want to trace like a tiny kernel, but we should be
@@ -748,7 +748,7 @@ Oh yeah, this has to be a lot faster.
 Oh, I'm sorry.
 
 ##### **Geohot** [[00:12:18](https://www.youtube.com/watch?v=22O5E5aAnJU&t=738)]
-Also, can you...
+Also, can you..
 
 ##### **Nimlgen** [[00:12:20](https://www.youtube.com/watch?v=22O5E5aAnJU&t=740)]
 By default on the zoom, can you not start it at zero?
@@ -799,7 +799,7 @@ Yeah, this is turning into a great GPU profiler.
 I mean, you can go back and see what's going on.
 
 ##### **Geohot** [[00:13:18](https://www.youtube.com/watch?v=22O5E5aAnJU&t=798)]
-So did you try sqtt trace equals one at all?
+So did you try SQTT trace equals one at all?
 
 ##### **Geohot** [[00:13:23](https://www.youtube.com/watch?v=22O5E5aAnJU&t=803)]
 Your decoder?
@@ -835,13 +835,13 @@ Yeah, I fixed a bunch of things.
 I fixed a bunch of things Saturday, but why didn't that work?
 
 ##### **Nimlgen** [[00:13:48](https://www.youtube.com/watch?v=22O5E5aAnJU&t=828)]
-Is it sqtt trace?
+Is it SQTT trace?
 
 ##### **Nimlgen** [[00:13:49](https://www.youtube.com/watch?v=22O5E5aAnJU&t=829)]
 What did I name it?
 
 ##### **Geohot** [[00:13:51](https://www.youtube.com/watch?v=22O5E5aAnJU&t=831)]
-Oh, sqtt parse.
+Oh, SQTT parse.
 
 ##### **Geohot** [[00:13:53](https://www.youtube.com/watch?v=22O5E5aAnJU&t=833)]
 Oh, God.
@@ -856,7 +856,7 @@ Yeah, I added two new counters to the thing where we count the number of flags a
 number of ops, and I want them both to go down.
 
 ##### **Nimlgen** [[00:14:04](https://www.youtube.com/watch?v=22O5E5aAnJU&t=844)]
-Yeah, yeah, yeah, sqtt, like this line works.
+Yeah, yeah, yeah, SQTT, like this line works.
 
 ##### **Nimlgen** [[00:14:08](https://www.youtube.com/watch?v=22O5E5aAnJU&t=848)]
 I added like pretty colors to them and stuff.
@@ -1105,7 +1105,7 @@ On the low level, do you submit it to the
 status or the same queue as the copies or a new queue entirely?
 
 ##### **Geohot** [[00:19:02](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1142)]
-No, actually it's a completely different queue. And NVIDIA, their CUDA library doesn't...
+No, actually it's a completely different queue. And NVIDIA, their CUDA library doesn't..
 
 ##### **Nimlgen** [[00:19:11](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1151)]
 So actually, they don't set up the UVM to this engine. And I couldn't make it work with the UVM.
@@ -1270,7 +1270,7 @@ fly?
 What do you mean?
 
 ##### **Geohot** [[00:23:02](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1382)]
-I mean, like...
+I mean, like..
 
 ##### **Geohot** [[00:23:04](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1384)]
 Right now, if I open an NVIDIA GPU, I'm going to create a video queue every time, right?
@@ -1306,7 +1306,7 @@ Yeah. I mean, actually the only thing is like, uh, to finish that is to somehow 
 um, like to make this state hashable because currently it's not hashable and I'm just really
 
 ##### **Geohot** [[00:24:01](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1441)]
-afraid that it will...
+afraid that it will..
 
 ##### **Geohot** [[00:24:02](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1442)]
 Yeah.
@@ -1315,10 +1315,10 @@ Yeah.
 Take a lot of lines if I just create the frozen, uh, like the frozen data, how it's called.
 
 ##### **Geohot** [[00:24:12](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1452)]
-Make it hash. So you mean like...
+Make it hash. So you mean like..
 
 ##### **Nimlgen** [[00:24:14](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1454)]
-Data class. Yeah. Yeah. Because I need to pass...
+Data class. Yeah. Yeah. Because I need to pass..
 
 ##### **Nimlgen** [[00:24:17](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1457)]
 CTF data. Yes.
@@ -1333,7 +1333,7 @@ Got it.
 It's actually, it's, yeah, it's a lot of data you need to fit into.
 
 ##### **Geohot** [[00:24:32](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1472)]
-GPU to decodes each frame. So...
+GPU to decodes each frame. So..
 
 ##### **Geohot** [[00:24:35](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1475)]
 Yeah. Seriously. I'm staring at it right now. Um,
@@ -1351,7 +1351,7 @@ week. Um, when, when HVAC decode is in, uh, have you looked at all into the
 SIP free Mac OS stuff?
 
 ##### **Geohot** [[00:25:07](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1507)]
-No. Um, yeah, I can look into that, but...
+No. Um, yeah, I can look into that, but..
 
 ##### **Geohot** [[00:25:13](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1513)]
 I'm look, I'm mad at Apple for doing this too, but like you see how many,
@@ -1438,10 +1438,10 @@ Um, are we really gonna put in, uh, 12 megabytes of big bug bunny in the PR?
 Um, we want to play at home.
 
 ##### **Geohot** [[00:27:41](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1661)]
-Gotta play ass 와ff.
+Gotta play ass ff.
 
 ##### **Geohot** [[00:27:41](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1661)]
-We should definitely have .
+We should definitely have.
 
 ##### **Nimlgen** [[00:27:42](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1662)]
 This is good. We should have tests in the, uh, in the benchmark.
@@ -1543,7 +1543,7 @@ that might mess some people up,
 so it's worth saying here,
 
 ##### **Geohot** [[00:29:29](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1769)]
-is that...
+is that..
 
 ##### **Geohot** [[00:29:31](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1771)]
 The disassembler for the Qualcomm CL backend
@@ -1657,7 +1657,7 @@ instead of a float three shoot like it was before.
 But yeah, that's the image stuff running.
 
 ##### **Nimlgen** [[00:31:28](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1888)]
-And then the one you sent is the...
+And then the one you sent is the..
 
 ##### **Geohot** [[00:31:31](https://www.youtube.com/watch?v=22O5E5aAnJU&t=1891)]
 In CI running with the CL backend.
@@ -2539,19 +2539,19 @@ If you're using that register as an accumulator.
 You have to do it explicitly with define reg.
 
 ##### **Nimlgen** [[00:44:24](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2664)]
-And I actually like this better than LVM's fee instruction.
+And I actually like this better than LLVM's fee instruction.
 
 ##### **Geohot** [[00:44:29](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2669)]
-You can do the same thing in LVM too.
+You can do the same thing in LLVM too.
 
 ##### **Geohot** [[00:44:31](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2671)]
-But LVM has this like fee instruction where they like pass it through.
+But LLVM has this like fee instruction where they like pass it through.
 
 ##### **Geohot** [[00:44:35](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2675)]
-Actually, I guess you can do the other thing in LVM too.
+Actually, I guess you can do the other thing in LLVM too.
 
 ##### **Geohot** [[00:44:37](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2677)]
-So and this is actually how we generate the LVM.
+So and this is actually how we generate the LLVM.
 
 ##### **Geohot** [[00:44:40](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2680)]
 So yeah, when you define reg, that's just going to be pre allocated in specific registers.
@@ -2650,7 +2650,7 @@ The nvidia does not do this.
 The nvidia compiler is a lot better.
 
 ##### **Geohot** [[00:46:55](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2815)]
-It seems like mostly a cdna4 problem.
+It seems like mostly a CDNA4 problem.
 
 ##### **Geohot** [[00:46:58](https://www.youtube.com/watch?v=22O5E5aAnJU&t=2818)]
 The three one looks better, too.

@@ -8,7 +8,7 @@
 - mlperf ci / div and mod / quantize onnx
 - scheduler
 - driver
-- webgpu
+- WebGPU
 - locals
 - onnx
 - z3 fuzzer
@@ -55,7 +55,7 @@ Oh.
 ##### **Geohot** [[00:00:32](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=32)]
 All right, so the main thing for the company is that Tinyboxes are shipping this week.
 Finally, we're actually going to get a whole bunch of them in the mail.
-We had a few problems with... So Tinyboxes have a RAID array with four NVMe drives in them.
+We had a few problems with.. So Tinyboxes have a RAID array with four NVMe drives in them.
 They also have a USB boot drive.
 We had a problem where the USB boot drive wouldn't show up.
 Maybe a third of the time.
@@ -66,7 +66,7 @@ And none of those things fix it.
 It turned out, so we're thinking that's got to be the processor, it's got to be the BIOS.
 It turns out what was wrong, there's this small splitter we have that plugs into the motherboard that splits the USB ports out.
 And somehow that was broken.
-We switched the same splitter that was used on the Tinybox V1, and that one just worked.
+We switched the same splitter that was used on the TinyBox V1, and that one just worked.
 So yeah, I think that's the last.
 We good to ship Tinyboxes this week?
 
@@ -97,16 +97,16 @@ I also put out a document.
 I'll repost it in Discord right now about how to get speed.
 
 ##### **Geohot** [[00:03:47](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=227)]
-So...
+So..
 
 ##### **Geohot** [[00:03:52](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=232)]
-This is just like a list of... It's nice.
+This is just like a list of.. It's nice.
 We're finally kind of at the point where we can reasonably talk about these things.
 And I think it would just be this list.
 And if we did just this list, we'd be on par with PyTorch.
 So the first one on the list is upcasted warps.
 Maybe we'll get to locals later in the meeting.
-Upcasted warps mean...
+Upcasted warps mean..
 GPUs process data.
 GPUs are like single instruction multiple data machines.
 Or, well, SIMT is the acronym used because they don't appear like a SIMT machine.
@@ -166,9 +166,9 @@ Oh.
 
 ##### **Geohot & Chenyu** [[00:07:23](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=443)]
 I mean, yeah, I guess we can.
-Oh, I was imagining it was just going to be more of a... No, I don't know.
+Oh, I was imagining it was just going to be more of a.. No, I don't know.
 Maybe we should just train the whole thing.
-I thought we were just going to do the beam search and get the time, but...
+I thought we were just going to do the beam search and get the time, but..
 Yeah, I think since we can, this seems to be better in case.
 But I think our ResNet is still suffering from the fact that it doesn't converge to the original number.
 Oh, you know, I found a bug.
@@ -281,10 +281,10 @@ I post some of them in the scheduler channel.
 So I'm wondering if those are blockers to make this default.
 
 ##### **Geohot** [[00:12:39](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=759)]
-Well, if we're getting... I mean, the Z3 thing should be very good about out-of-bound access.
+Well, if we're getting.. I mean, the Z3 thing should be very good about out-of-bound access.
 So if we're getting any real out-of-bounds access, we got to fix that.
 That's probably real.
-This isn't like the...
+This isn't like the..
 Like, yeah, that's now all computed by Z3, and I trust it a lot.
 Oh, so just like you said, it's a bug in the Z3 setup that it's not considering some gates.
 So it might not be real.
@@ -333,7 +333,7 @@ It's creating a for loop.
 
 ##### **Geohot** [[00:14:50](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=890)]
 Yeah, I can look at those too.
-If you post... I hope that new reduced stuff should be powerful enough to get all the A ranges.
+If you post.. I hope that new reduced stuff should be powerful enough to get all the A ranges.
 And if there's something that's not, we need to make sure those for loops go away, because you can get really slow performance then.
 Or actually, even better, write some tests that are currently failing.
 Not folding the A-range.
@@ -450,7 +450,7 @@ Like, it actually has to, the drive has to take the action before the USB in the
 
 ##### **Nimlgen** [[00:21:09](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=1269)]
 Yeah, I mean, actually, I see, like, where the path differs, like, for the NVMe and GPU.
-I just, yeah, so I'm just trying to...
+I just, yeah, so I'm just trying to..
 Cool.
 
 ##### **Geohot** [[00:21:37](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=1297)]
@@ -478,7 +478,7 @@ And maybe if it doesn't, if it has the GPU, it's returning false.
 But I'm not sure that releases the driver's claim on the device.
 I'm pretty sure it's just in the descriptor.
 How do things know?
-I mean, it's not the VID and stuff that determine... No, no, no.
+I mean, it's not the VID and stuff that determine.. No, no, no.
 
 ##### **Nimlgen** [[00:23:19](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=1399)]
 Yeah, I mean, I found this in the firmware.
@@ -499,7 +499,7 @@ It's called B device class.
 And it's set at the device level.
 And then, yeah, 08 is a mass storage device.
 I think if you change that to 0f,
-It won't... Sorry, FF.
+It won't.. Sorry, FF.
 It won't be claimed.
 
 ##### **Nimlgen** [[00:24:16](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=1456)]
@@ -510,7 +510,7 @@ I'll check that.
 I mean, we should also check if Mac can access normal USB devices without sudo from user space.
 
 ##### **Nimlgen** [[00:24:33](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=1473)]
-Um...
+Um..
 Actually, when I just asked ChatGPT about that, it said that the only way to do that is just using driver kit.
 And you need to sign your application with the permission to access USB devices.
 
@@ -539,7 +539,7 @@ Do you know what it is?
 
 ##### **Nimlgen** [[00:25:44](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=1544)]
 Yeah, I looked into that.
-I think it should be, as far as I remember, it's just mostly...
+I think it should be, as far as I remember, it's just mostly..
 Yeah, just like the same, it just talks to the CSFS to do all this stuff with USB.
 But yeah, actually, I'm interested in just looking into the common device timings.
 So yeah, I mean, how about the CPU usage there?
@@ -567,7 +567,7 @@ I think the USB device is higher priority, but if you feel stuck, I don't think 
 You're welcome to kind of work on both.
 However you, whatever you feel like.
 They're both pretty important things to do, especially the 5090 with the runtime.
-I'm interested in... I hope that getting rid of the kernel driver will be easy.
+I'm interested in.. I hope that getting rid of the kernel driver will be easy.
 And then in Tinygrad we won't have to deal with maintaining a patched kernel driver anymore.
 It'll just automatically get you P2P if you use Tinygrad and remove the driver.
 
@@ -632,7 +632,7 @@ I need to actually look at the code that you wrote.
 
 ##### **Geohot** [[00:31:44](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=1904)]
 But yeah, no, I think, I mean, this is only going to get easier.
-And it's not going to interfere with... I think the core of your PR is the concept of the graph renderer that produces the JavaScript, and that interface should be quite stable.
+And it's not going to interfere with.. I think the core of your PR is the concept of the graph renderer that produces the JavaScript, and that interface should be quite stable.
 
 ##### **Hooved** [[00:32:02](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=1922)]
 Yeah, no, I feel pretty satisfied overall with the way I'm capturing the graph.
@@ -654,12 +654,12 @@ How are locals coming?
 
 ##### **Ignaciosica** [[00:33:11](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=1991)]
 So the PR is only blocked now by the
-The bug in CI, I couldn't connect yet to the new machine to test if the... You mean the new Mac?
+The bug in CI, I couldn't connect yet to the new machine to test if the.. You mean the new Mac?
 Yeah.
 I mean, I could connect, but it keeps logging me out every five seconds, so I couldn't even install testing dependencies.
 It's logging you out?
 No, it's disconnecting.
-The connection is... You're tunneling through a gateway machine.
+The connection is.. You're tunneling through a gateway machine.
 Yeah, I went through green 14 and red 10, and I have the same problems in both of them.
 
 ##### **Geohot** [[00:34:00](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2040)]
@@ -678,10 +678,10 @@ I installed unload.
 Yeah, but moving gateway one definitely fixed the switch thing.
 No, but I mean, gateway one can have a lot of bandwidth if we're hitting stats Tinygrad.
 Like, I think it actually was surging that bandwidth.
-But I mean... The times I was monitoring it, it didn't really spike that high.
+But I mean.. The times I was monitoring it, it didn't really spike that high.
 I didn't see it either, but I don't know.
 Moving that one definitely fixed the laggy SSH issue, but this seems like a different issue.
-I didn't get any... I thought it was power management and it was going to sleep.
+I didn't get any.. I thought it was power management and it was going to sleep.
 It disabled sleep on it, so it might be better.
 Oh, on the Mac?
 
@@ -706,7 +706,7 @@ I even had a stable connection when I proxied to the TinyAMG2, the one with the 
 
 ##### **Geohot** [[00:36:10](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2170)]
 Huh.
-I mean, could it be... So you're logging in with a different user.
+I mean, could it be.. So you're logging in with a different user.
 I'm just going to add you to authorized keys of the Tiny user and then try that user.
 Maybe that's the problem.
 Okay.
@@ -726,10 +726,10 @@ I don't know.
 ##### **Geohot** [[00:37:12](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2232)]
 It's newer Mac OS?
 We know Apple made Mac OS worse.
-Okay, so we have... We will definitely look into this.
+Okay, so we have.. We will definitely look into this.
 
 ##### **Ignaciosica** [[00:37:25](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2245)]
-Okay, so we have...
+Okay, so we have..
 No, the thing I want to test if it's still broken with the new Mac OS release, because disabling the compiler optimizations made the issue disappear in the CI box.
 So maybe it's resolved.
 
@@ -743,7 +743,7 @@ I mean, can that be anything but a compiler bug?
 Wow.
 Okay.
 Can we just find a way to force those tests to use O0?
-I was thinking about that, but...
+I was thinking about that, but..
 
 ##### **Ignaciosica** [[00:38:30](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2310)]
 I mean, it's not.
@@ -774,10 +774,10 @@ You tried to SSH and it connected.
 All right, well, the chaff time expired.
 I'm running with a bunch of Vs.
 Okay, yeah, but we'll look into that.
-If it really is... I'll test it today, too.
-If it really is an O0 thing, that's not... I can wire it up to just force it to... Or if it really works with O0, I'm kind of fine with skipping the tests.
+If it really is.. I'll test it today, too.
+If it really is an O0 thing, that's not.. I can wire it up to just force it to.. Or if it really works with O0, I'm kind of fine with skipping the tests.
 It's hard for me to think about a time when you're doing something wrong and it works with O0, but it doesn't work with O2.
-The compiler should pretty much guarantee you they're the same, unless there's some...
+The compiler should pretty much guarantee you they're the same, unless there's some..
 Obvious wrong thing.
 So it works locally on your M3?
 
@@ -804,17 +804,17 @@ Actually.
 I wonder if the alignment thing can trigger the bug.
 
 ##### **Ignaciosica** [[00:41:05](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2465)]
-Maybe that's the... I tested the different alignment configurations when I had access to the TinyCI machine and it didn't fix it.
+Maybe that's the.. I tested the different alignment configurations when I had access to the TinyCI machine and it didn't fix it.
 Also, one thing that I couldn't do much because the disassembled Apple GPU doesn't work for my M3, so I couldn't compare the assembly output.
 
 ##### **Geohot** [[00:41:27](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2487)]
-Yeah, the M3 has the... It never worked for M3.
+Yeah, the M3 has the.. It never worked for M3.
 M3 has a totally different bytecode.
 But all right, cool.
 Yeah, let's try to get this merged today.
 We'll skip the O0 thing if we have to.
 But very exciting to finally have this done.
-I think this is a great step toward making our gems fast.
+I think this is a great step toward making our GEMMs fast.
 
 ##### **Geohot** [[00:41:52](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2512)]
 All right, we're up to ONNX.
@@ -853,17 +853,17 @@ Okay, Z3 Fuzzer?
 Yeah, I haven't really worked on that last week.
 
 ##### **Sied Lykles** [[00:44:06](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2646)]
-So same thing that needs to be done about the... I guess there's more stuff that needs to be fixed first.
+So same thing that needs to be done about the.. I guess there's more stuff that needs to be fixed first.
 
 ##### **Geohot** [[00:44:14](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2654)]
 What needs to be fixed first?
 Sorry.
 
 ##### **Sied Lykles** [[00:44:17](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2657)]
-There's a rewrite rule now that's incorrect for some...
+There's a rewrite rule now that's incorrect for some..
 They're falling.
 The problem is if you fix it, then there's a lot of regression in open pilot, like gated loads.
-So, yeah, to fix that, I was trying to make some improvements to uop-given-valid, so I can still do the same simplification, but...
+So, yeah, to fix that, I was trying to make some improvements to uop-given-valid, so I can still do the same simplification, but..
 
 ##### **Geohot** [[00:44:53](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2693)]
 So the way that I would deal with this is I would just make it a context variable to disable that optimization.
@@ -918,10 +918,10 @@ Upper left, there's no power, but there's rack space.
 The room is out of power.
 I mean, actually, not only is the room out of power, I think that if we used the power, if we ran all those boxes at full load, I think that room would get to 110 degrees.
 So we're going to have to do something about cooling.
-Um...
+Um..
 By the way, I don't know.
 We got a lot of people in the meeting today.
-I don't know if anyone's interested in coming to work here for the summer on supply chain management stuff, just tiny box management stuff, like physical computer builder kind of stuff, sales support, what else?
+I don't know if anyone's interested in coming to work here for the summer on supply chain management stuff, just TinyBox management stuff, like physical computer builder kind of stuff, sales support, what else?
 Everything having to do with the physical computers.
 Buying box fans from Home Depot and sticking them in the window.
 Alright, so we're re-imaging the boxes this week.
@@ -950,7 +950,7 @@ I don't know, like, how quickly can we compute a 4 meg hash is kind of the quest
 Yeah.
 
 ##### **Geohot** [[00:48:31](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=2911)]
-Right, because, like... No, no, no, no, no, no, no.
+Right, because, like.. No, no, no, no, no, no, no.
 I want something that's, like, close to the GPU memory.
 Or maybe, I don't know, 100 gigabytes a second would be good.
 And then we could do 10 in parallel and get the full.
@@ -989,23 +989,23 @@ Yeah.
 I mean, EQ value works like this too, where the subtleties here become, okay, we add another drive, what happens?
 Yeah, that's basically the problem with crush.
 Yeah.
-When you...
+When you..
 Start scaling it up.
 Like, after you've already done a deployment, you have to replace everything.
 Yeah, let's avoid that.
-I don't know if we can... Yeah, and then the way people usually solve this is they spin up a metadata server, and then that tells you where everything is placed.
+I don't know if we can.. Yeah, and then the way people usually solve this is they spin up a metadata server, and then that tells you where everything is placed.
 So those are the two categories of distributed cloud systems.
 A metadata server is okay.
 I just don't want to have to require for each hash to hit some central server to say where that actual hash is stored.
 I mean, that's usually the solution.
-Oh...
-Like basically all the big ones are either metadata server or you have... Big rebalance issues?
+Oh..
+Like basically all the big ones are either metadata server or you have.. Big rebalance issues?
 Yeah.
 Maybe big rebalance issues is okay then.
 Because that metadata server has to be so high throughput.
 It's not that high throughput.
 The blocks are generally smaller and you can cache a lot of the stuff on the client.
-And then if we lose the metadata server... Yeah, and that's where it gets complicated.
+And then if we lose the metadata server.. Yeah, and that's where it gets complicated.
 We're going to do backups and then there's state that can be out of sync.
 Oh, what a nightmare.
 Connection seems stable now with Tinyuser.
@@ -1043,7 +1043,7 @@ I mean, yeah, I'd pay someone out if they did it.
 Yeah, if someone wants to write the ACO shader compiler back in, that's pretty easy.
 I can't believe I'm offering $300 for that.
 Crypto hash function, I know there's some progress on Blake.
-If someone can get a crypto hash function, that's like... Blake is probably not that great for content address.
+If someone can get a crypto hash function, that's like.. Blake is probably not that great for content address.
 It only has 2 to the 64 bit collation resistance.
 What do you mean?
 Someone has a collision in Blake?
@@ -1077,7 +1077,7 @@ Well, everything only has 64 bits.
 Yeah, yeah.
 Oh, yeah.
 It's an 128-bit hash?
-It's a 128-bit hash, but it only has... So everything is only going to have half, then?
+It's a 128-bit hash, but it only has.. So everything is only going to have half, then?
 
 ##### **Wozeparrot** [[00:54:11](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=3251)]
 Yeah, yeah.
@@ -1086,8 +1086,8 @@ Yeah, yeah.
 You can always birthday attack to divide the thing by two.
 So maybe it's fine.
 I mean, I don't know.
-It's not like... This isn't really for security.
-What would happen if... I mean, we can't have something like...
+It's not like.. This isn't really for security.
+What would happen if.. I mean, we can't have something like..
 Finding one collision with a birthday attack, I don't think would break our whole thing.
 I think it would just break that user's flow.
 Versus what you can have is something that can do like pre-image attacks.
@@ -1157,7 +1157,7 @@ Is this real?
 
 ##### **Geohot** [[00:57:27](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=3447)]
 Why is it going to the devices?
-This looks kind of real, but I... Oh, maybe it does have to go to the devices.
+This looks kind of real, but I.. Oh, maybe it does have to go to the devices.
 I don't know.
 
 ##### **Geohot** [[00:57:54](https://www.youtube.com/watch?v=gZ6FvO5RYz4&t=3474)]

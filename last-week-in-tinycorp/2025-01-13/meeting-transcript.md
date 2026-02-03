@@ -22,7 +22,7 @@
 - [DSP briefing](#dsp-briefing) explainer for DSP being a wide vector machine
 - [AM briefing](#am-project-briefing) targeting USB and CLOUD
 - [MLPERF briefing](#mlperf-briefing) doubling bounty payout if submission gets on MLPERF and best way to get hired
-- Geohot: "We've got a lot of reds. So also tiny box reds. Great choice. Someone bought one yesterday. I take it back. You made an excellent choice, sir. You have great taste."
+- Geohot: "We've got a lot of reds. So also TinyBox reds. Great choice. Someone bought one yesterday. I take it back. You made an excellent choice, sir. You have great taste."
 
 ### Transcript
 
@@ -94,7 +94,7 @@ So there might or might not have an interview sometime in the future.
 **Geohot** [[00:02:13](https://www.youtube.com/watch?v=Ha4yFviaLps&t=133)]  
 Oh, like an interview with like Red Hat, like press or?  
 No.  
-So there's this person that is like semi-professional with their gears and just, he just asked me and...  
+So there's this person that is like semi-professional with their gears and just, he just asked me and..  
 
 **Geohot** [[00:02:26](https://www.youtube.com/watch?v=Ha4yFviaLps&t=146)]  
 Oh, oh, you did like an interview.  
@@ -130,7 +130,7 @@ You can see that terrible scheduler hack I added.
 And what I found is that a lot of the quantized models on the internet are not very good, but you can quantize them yourself pretty easily with ONNX Runtime.  
 So that's good.  
 And yeah, we'll get a nice quantized MobileNetv2 running probably this week.  
-And then...  
+And then..  
 
 **Chenyu** [[00:03:59](https://www.youtube.com/watch?v=Ha4yFviaLps&t=239)]  
 Not very good.  
@@ -215,7 +215,7 @@ But if you don't have assigns, or the assigns are all independent of each other,
 So I think this at least expresses the compute correctly, and then we can think about how to schedule.  
 So then, yeah, that's multi.  
 I want to delete the current code we have for multi.  
-But a lot of this is... I really want the gradient stuff to be in first, because it's annoying to deal with old gradient.  
+But a lot of this is.. I really want the gradient stuff to be in first, because it's annoying to deal with old gradient.  
 There's a lot of cleanups blocked on that.  
 
 **Chenyu** [[00:08:29](https://www.youtube.com/watch?v=Ha4yFviaLps&t=509)]  
@@ -261,7 +261,7 @@ If you are like me, that schedule your time according to how these things work, 
 Okay, okay.  
 I mean, this is just something I'm bad at.  
 I mean, this is why the quoting in Twitter infuriated me.  
-Like, it's just... I don't know.  
+Like, it's just.. I don't know.  
 I can't have build times.  
 
 **Chenyu** [[00:10:51](https://www.youtube.com/watch?v=Ha4yFviaLps&t=651)]  
@@ -276,7 +276,7 @@ I would I would try like, can you write like a unit tests that like, like get ge
 
 **Chenyu** [[00:11:23](https://www.youtube.com/watch?v=Ha4yFviaLps&t=683)]  
 Yeah, the problem now is you don't really know what the core problem is.  
-So that 30 minutes is kind of a... So for example, if I'm testing the memory usage, now I can lower the eval frequency, or I can just run more evals and things like that.  
+So that 30 minutes is kind of a.. So for example, if I'm testing the memory usage, now I can lower the eval frequency, or I can just run more evals and things like that.  
 I'm aware of how costly this is.  
 
 **Geohot** [[00:11:42](https://www.youtube.com/watch?v=Ha4yFviaLps&t=702)]  
@@ -296,7 +296,7 @@ I wrote some tests for it.
 Yeah, I just need to use it right because of LRU and other stuff.  
 Well, it's not going to free the LRU.  
 I mean, you can free the LRU.  
-So what I did is I also...  
+So what I did is I also..  
 Free LRU, then I hit other errors.  
 That's what I posted.  
 No, no, other thing about the driver, not your code.  
@@ -359,7 +359,7 @@ You lose the assigned parent.
 
 **Geohot** [[00:17:00](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1020)]  
 Yeah.  
-Yeah, I mean, we might want to... Well, once you're in the local, sure, you'll lose the assigned parent, but we might want to explicitly keep that assigned parent in any downstream buffers, right?  
+Yeah, I mean, we might want to.. Well, once you're in the local, sure, you'll lose the assigned parent, but we might want to explicitly keep that assigned parent in any downstream buffers, right?  
 
 **Qazalin** [[00:17:12](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1032)]  
 In the downstream buffer source?  
@@ -368,10 +368,10 @@ In the downstream buffer source?
 Yeah, in the load, right?  
 You can even point, like, the buffer to that assign, right?  
 Like, the buffer parent is an assign.  
-It's just a way to... I don't know.  
+It's just a way to.. I don't know.  
 I'm not sure.  
 I'm just spitballing here.  
-But...  
+But..  
 Yeah, no, we should think through to make sure that, like, the toposort works.  
 Like, I think we should move a lot of the scheduler to the way that I'm doing it in linearize.  
 
@@ -446,7 +446,7 @@ And what do you say the other issues were?
 **Qazalin** [[00:20:33](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1233)]  
 Image, make things that can't be images, not images.  
 You can't graph rewrite things while that thing exists because it breaks the graph rewrite.  
-You can have, for example...  
+You can have, for example..  
 
 **Geohot** [[00:20:48](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1248)]  
 I don't understand.  
@@ -455,7 +455,7 @@ I thought that only happened on basically the buffer.
 
 **Qazalin** [[00:20:57](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1257)]  
 That does not happen on the buffer right now.  
-That happens...  
+That happens..  
 Like, exactly when you have a UOP base, like, any UOP base, like, multiply even, even if you don't realize it, that becomes float.  
 
 **Geohot** [[00:21:12](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1272)]  
@@ -539,7 +539,7 @@ We should fix it.
 
 **Qazalin** [[00:23:49](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1429)]  
 Yeah, try it again.  
-Maybe it's more than my ...  
+Maybe it's more than my..  
 
 **Geohot** [[00:23:55](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1435)]  
 No, I mean, there may very well be bugs in real size as well.  
@@ -562,7 +562,7 @@ The key difference between a tensor and a UOP is that a UOP is immutable and a t
 And that's like a fundamental deep difference that's never going to go away.  
 And there's nothing less, like it's minimal.  
 It's like, you know, proof from the book.  
-So, yeah, no, I think the deletion of...  
+So, yeah, no, I think the deletion of..  
 The most important thing that we should be working on right now is the deletion of gradient, or the merge of that gradient stuff.  
 I'm here to help with that.  
 
@@ -625,9 +625,9 @@ The second process could be unable to acquire a lock, or it could delay until it
 
 **Nimlgen** [[00:29:08](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1748)]  
 Yeah, yeah.  
-Yeah, and I'm going back to... Oh, I also have mockam to merge.  
-So yeah, it's taking a bit longer because of this... Because of the memory, and actually it's just... I mean, actually, yeah, it just takes... I just want all these layers, I mean, memory layer to be fully emulated, I mean, in terms of tail being translations.  
-So yeah, it just... But...  
+Yeah, and I'm going back to.. Oh, I also have mockam to merge.  
+So yeah, it's taking a bit longer because of this.. Because of the memory, and actually it's just.. I mean, actually, yeah, it just takes.. I just want all these layers, I mean, memory layer to be fully emulated, I mean, in terms of tail being translations.  
+So yeah, it just.. But..  
 Yeah, it's going to be merged this week.  
 
 **Geohot** [[00:29:47](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1787)]  
@@ -647,13 +647,13 @@ I think it's just beautiful to have a big 64-bit
 global address space that's everything.  
 You say disk is slow because it's not using huge pages?  
 Doesn't really make sense to me.  
-I mean...  
+I mean..  
 
 **Nimlgen** [[00:30:24](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1824)]  
-Yeah, I believe... I've seen bad performance, actually.  
+Yeah, I believe.. I've seen bad performance, actually.  
 I mean, it's still be on the GPU, I think.  
 So yeah, because on the GPU, we just map as a lot of 4 kilobyte pages.  
-And I think the TLB is quite... So it's not really huge for 4 kilobyte pages, actually, because it just... The TLB is split into several parts, like for huge pages and for small pages.  
+And I think the TLB is quite.. So it's not really huge for 4 kilobyte pages, actually, because it just.. The TLB is split into several parts, like for huge pages and for small pages.  
 
 **Geohot** [[00:31:01](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1861)]  
 You're saying the GPU's TLB is so bad that it can't get the full PCIe bandwidth when you're DMAing from the system?  
@@ -677,7 +677,7 @@ And it would absolutely shock me if the GPU's TLB was so bad that it couldn't su
 
 **Nimlgen** [[00:32:09](https://www.youtube.com/watch?v=Ha4yFviaLps&t=1929)]  
 So actually, yeah, we do this way.  
-But...  
+But..  
 Yeah, AMD is fast, AM is slow.  
 But it's only when it comes to system pages.  
 And I think the bandwidth between GPUs on AM is the same as AMD.  
@@ -729,8 +729,8 @@ which is going to bring commas inference compute on par with Tesla's.
 We went through this weekend about how many orders of magnitude commas behind in different places.  
 And we're two orders of magnitude behind in inference compute now, but if we stick a 7900 XTX in the car, that's as good as Tesla's processor.  
 So yeah, there's the USB side of things, and then there's kind of the cloud side of things.  
-So we're building right now, we got a shelf in, I'll post some pictures once it's up, but we're building a nine tiny box red test cloud.  
-We're going to have two tiny box pros as like ingestion machines.  
+So we're building right now, we got a shelf in, I'll post some pictures once it's up, but we're building a nine TinyBox red test cloud.  
+We're going to have two TinyBox pros as like ingestion machines.  
 I posted a [picture of the switch on Twitter](https://x.com/__tinygrad__/status/1878509277834260789).  
 So yeah, we should really be thinking about these GPU computers as like the dumbest nodes you could imagine.  
 They're just going to sit there, they're going to run some  
@@ -767,7 +767,7 @@ Sounds like good progress.
 ONNX, do you get everything you need for ONNX?  
 
 **Geohot** [[00:36:32](https://www.youtube.com/watch?v=Ha4yFviaLps&t=2192)]  
-Yeah, you know, it's good that things are fixed, but a little nitpick picks about the... Style.  
+Yeah, you know, it's good that things are fixed, but a little nitpick picks about the.. Style.  
 Yeah, about the style.  
 I mean, I think we want to be moving ONNX more towards high-quality TinyGrad code and not the same quality.  
 But now it's like, maybe it's a little bit better than the tests.  
@@ -779,16 +779,16 @@ So we can abstract that into a function.
 Here's the right place to draw that boundary.  
 It's all about how to correctly factorize  
 this whole big problem into pieces such that the sum of the pieces, if you're familiar with the concept of factor graphs, that's kind of how I think about all this stuff, right?  
-You can think about Boolean expressions as these massive things, but if you can take out sub-expressions and put them together with ands and ors, you can make simplified Boolean expressions where the sum's totally less, but...  
+You can think about Boolean expressions as these massive things, but if you can take out sub-expressions and put them together with ands and ors, you can make simplified Boolean expressions where the sum's totally less, but..  
 you're basically describing a good refactor.  
 Yes, I'm describing a good refactor, but this is what I mean about the line count.  
-I never... This is good for everyone here.  
+I never.. This is good for everyone here.  
 TinyGrad cares about line count.  
-I don't care if you put... Some of it's stylistic, and I just kind of like the style where the four loop has the thing on the same line.  
+I don't care if you put.. Some of it's stylistic, and I just kind of like the style where the four loop has the thing on the same line.  
 That's just a personal preference.  
 But I never want to see seven clauses shoved into a 150-character line.  
 That's unreadable.  
-Multiple nested fors and...  
+Multiple nested fors and..  
 
 **Chenyu** [[00:38:14](https://www.youtube.com/watch?v=Ha4yFviaLps&t=2294)]  
 I think we're pretty on board on this.  
@@ -805,7 +805,7 @@ I don't want to eyeball tolerance or increase until it stops failing.
 I saw a comment from you, ChenYu, on this.  
 I want to develop a framework to work over accuracy in tests.  
 And this will also span across bfloat16.  
-And for Turing...  
+And for Turing..  
 
 **Chenyu** [[00:39:00](https://www.youtube.com/watch?v=Ha4yFviaLps&t=2340)]  
 What did I comment?  
@@ -858,7 +858,7 @@ You can come up with a new bounty or something for extra work.
 
 **Geohot & Chenyu** [[00:41:51](https://www.youtube.com/watch?v=Ha4yFviaLps&t=2511)]  
 Yeah, exactly, right?  
-The TF32 Tensor Core support, I think it's beyond the scope to have a holistic... If you write some holistic accuracy checking thing, that's like a $1,000 bounty.  
+The TF32 Tensor Core support, I think it's beyond the scope to have a holistic.. If you write some holistic accuracy checking thing, that's like a $1,000 bounty.  
 That's very valuable on other levels, if we can start intelligently talking about the fact that floating point math is awful.  
 Because that also guides us to know, OK, so now everything we do, acc_dtype, we do in float32.  
 Is that good enough?  
@@ -883,10 +883,10 @@ What do you want to fix the bug?
 Yeah, and then I think also, yeah, this is what I mean about you can put it behind a flag if you want, right?  
 
 **Ignaciosica** [[00:43:26](https://www.youtube.com/watch?v=Ha4yFviaLps&t=2606)]  
-You can put it behind... I don't think they're very comfortable in increasing that much tolerance.  
+You can put it behind.. I don't think they're very comfortable in increasing that much tolerance.  
 
 **Geohot & Chenyu** [[00:43:34](https://www.youtube.com/watch?v=Ha4yFviaLps&t=2614)]  
-Yeah, no, I wouldn't increase the tolerance for all the tests, but maybe create a context var to match whatever PyTorch's context var is, and then just have it...  
+Yeah, no, I wouldn't increase the tolerance for all the tests, but maybe create a context var to match whatever PyTorch's context var is, and then just have it..  
 You know what I got?  
 I think it's fine.  
 I'm thinking of a name of that.  
@@ -995,7 +995,7 @@ Those ones are $2,000 if we get them on MLPerf.
 And that's, you know, succeed at one of those if you want a job here.  
 Yeah, no, I mean, the StableDiffusion one would be awesome.  
 We're also, it's not going to be May.  
-It's going to be the... November.  
+It's going to be the.. November.  
 November, we're going to hopefully have our first cloud submission.  
 Yeah.  
 54 GPUs all working together to train one of these models in stunning MNIST style.  
@@ -1018,7 +1018,7 @@ OK, so I didn't work on the bounty much this last week.
 But I tried to get an upper bound on the speed.  
 And I'm pretty sure we can get a 2x speedup.  
 I'm not sure about a 4x speedup with a bottom-up automata.  
-And also...  
+And also..  
 
 **Geohot** [[00:51:00](https://www.youtube.com/watch?v=Ha4yFviaLps&t=3100)]  
 I'll double the bounty for the 2x speedup.  
@@ -1027,7 +1027,7 @@ If you get this stuff merged and it's clean and it's short.
 What I like is how short your PR is.  
 
 **Tomsa** [[00:51:12](https://www.youtube.com/watch?v=Ha4yFviaLps&t=3072)]  
-So one thing about the... Because I'm sort of...  
+So one thing about the.. Because I'm sort of..  
 And I'm not sure if I should do a bottom-up automata or a top-down.  
 And there's a couple of reasons, which is if it's a bottom-up, it only applies to the graph rewrite.  
 So every time you want to just rewrite a UOP, so for example, for the renderer, you couldn't use a bottom-up rewrite.  
@@ -1120,7 +1120,7 @@ uh so int64 index i will probably review it later today i don't know i have a mi
 
 **Alveoli** [[00:56:31](https://www.youtube.com/watch?v=Ha4yFviaLps&t=3391)]  
 Uh hello hello oh yeah um i updated the pr for the the weird thing.  
-The Dtype...  
+The Dtype..  
 
 **Chenyu** [[00:56:42](https://www.youtube.com/watch?v=Ha4yFviaLps&t=3402)]  
 Is that still the same, that you have a function that has an input called is int64 supported?  
@@ -1205,14 +1205,14 @@ So, you know, it's really an incredible computer.
 I talk about 5090s.  
 The 5090 is going to cost more.  
 Performance per dollar is probably going to be a wash.  
-So if you got 40 grand to drop on a TinyBox Pro...  
+So if you got 40 grand to drop on a TinyBox Pro..  
 It is ready to ship.  
 I will ship it to you today.  
-We are out of stock of tiny box greens.  
+We are out of stock of TinyBox greens.  
 I actually sold one that we don't even have yet already.  
 So we're actually at negative one stock of greens.  
 We've got a lot of reds.  
-So also tiny box reds.  
+So also TinyBox reds.  
 Great choice.  
 Someone bought one yesterday.  
 I take it back.  

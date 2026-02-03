@@ -10,9 +10,9 @@
 - scheduler, become map
 - am driver, usb
 - tensor cores
-- webgpu (tinychat, export)
+- WebGPU (tinychat, export)
 - onnx
-- other bounties (retinanet, llvm speed, llvm for AMD, rewrite speed, rewrite add chain stuff)
+- other bounties (retinanet, LLVM speed, LLVM for AMD, rewrite speed, rewrite add chain stuff)
 
 ### Audio
 
@@ -25,7 +25,7 @@
 - [DSP](#geohot-000612) Focus on de-vectorization. Qualcomm's DSP code is good but can be beaten.
 - [POW and BERT](#chenyu-001410) Issues with `pow` causing NaNs. BERT improvements reduce memory usage by optimizing backwards.
 - [Scheduler](#qazalin-002322) Reorder expand merged.
-- [List of Scheduler TODOs](#geohot--qazalin--chenyu-003524) good list :D
+- [List of Scheduler TODOs](#geohot--qazalin--chenyu-003524) good list:D
 - [AM Driver & USB](#nimlgen-003730) Working on firmware mods to improve USB GPU speed. 
 - [Tensor Cores](#ignaciosica-004753) Plans to refactor `define_acc`, `assign`, `store`, and `load` to support AMX.
 - [WebGPU](#hooved-004904) Enabling float16 selectively. Working on `TinyChat` PR.
@@ -89,7 +89,7 @@ Backend.py, not backend2.py.
 So it turns out that Torch has this layer right below it called aten that it uses.
 And aten is very similar to tensor.py.
 So it's pretty easy to just point Torch to all the tinygrad methods and then register a new device in Torch called tiny.
-And then it's like...
+And then it's like..
 it wraps TinyGrad.
 So now Torch code runs, but just right below the surface, it's all of TinyGrad.
 It's Torch's gradient API.
@@ -129,7 +129,7 @@ I thought you just get your movement ups and stack those.
 No, definitely not.
 That's not what Torch does, right?
 If I have a tensor and I call as_strided on it, and then I call as_strided again, they don't stack.
-At least...
+At least..
 
 ##### **Chenyu** [[00:04:13](https://www.youtube.com/watch?v=Dm83mY6ONks&t=253)]
 I mean stack as in you know what the move needs to be done and you can figure out the underlying algebra of it.
@@ -185,7 +185,7 @@ I saw you just implement it as empty taking a shape, but I don't think that's co
 
 ##### **Geohot** [[00:06:04](https://www.youtube.com/watch?v=Dm83mY6ONks&t=364)]
 I don't think that's correct either.
-Yeah. So this is... 
+Yeah. So this is.. 
 
 ##### **Chenyu** [[00:06:06](https://www.youtube.com/watch?v=Dm83mY6ONks&t=366)]
 You can repeat, right?
@@ -194,7 +194,7 @@ Then you are allocating much bigger memory and things like that.
 ##### **Geohot** [[00:06:12](https://www.youtube.com/watch?v=Dm83mY6ONks&t=372)]
 Yes.
 So I can either do this this week or the DSP.
-And I really think... 
+And I really think.. 
 
 ##### **Chenyu** [[00:06:17](https://www.youtube.com/watch?v=Dm83mY6ONks&t=377)]
 Please do DSP that has a deadline.
@@ -326,7 +326,7 @@ But yeah, the Torch people are great.
 We're super happy to have them here.
 Yeah, yeah.
 Who landed?
-Someone landed a...
+Someone landed a..
 One of the Torch guys landed a PR today.
 It was a great PR.
 All Ben D landed a simplified C++ with PR.
@@ -446,7 +446,7 @@ And that's the next level of this.
 OK, let's get in too ahead of ourselves.
 
 ##### **Geohot** [[00:19:56](https://www.youtube.com/watch?v=Dm83mY6ONks&t=1196)]
-Well, I mean, that's... 
+Well, I mean, that's.. 
 
 ##### **Chenyu** [[00:19:56](https://www.youtube.com/watch?v=Dm83mY6ONks&t=1196)]
 I don't quite see the reason why you want to store A plus 1 if you already have A. 
@@ -491,7 +491,7 @@ Uh, yes.
 So do you have a suggestion for like tagging this in debug information or VIZ?
 
 ##### **Geohot** [[00:21:53](https://www.youtube.com/watch?v=Dm83mY6ONks&t=1313)]
-Yeah, I guess we could write like, like there's a question where...
+Yeah, I guess we could write like, like there's a question where..
 Yeah.
 Yeah.
 Like, do we want to explicitly track this concept of a long edge?
@@ -561,7 +561,7 @@ At this point, I haven't even been able to make the shape trackers work correctl
 I don't know.
 
 ##### **Geohot** [[00:25:59](https://www.youtube.com/watch?v=Dm83mY6ONks&t=1559)]
-we should focus, before we focus on that, on still trying to make the scheduler more... Right now, if I wanted to figure out which expands are being realized, how could I apply a rule to that?
+we should focus, before we focus on that, on still trying to make the scheduler more.. Right now, if I wanted to figure out which expands are being realized, how could I apply a rule to that?
 
 ##### **Qazalin** [[00:26:22](https://www.youtube.com/watch?v=Dm83mY6ONks&t=1582)]
 There's still part of the scheduler I haven't migrated, which is the
@@ -587,7 +587,7 @@ Do you have becomes map working?
 
 ##### **Qazalin** [[00:27:30](https://www.youtube.com/watch?v=Dm83mY6ONks&t=1650)]
 I had to make a compromise and add the views back.
-We can't reverse... 
+We can't reverse.. 
 
 ##### **Geohot** [[00:27:35](https://www.youtube.com/watch?v=Dm83mY6ONks&t=1655)]
 Well, the views are OK.
@@ -868,7 +868,7 @@ There's no methods to access it in a custom way.
 Yeah.
 Okay.
 Then it requires custom firmware.
-Does the firmware... Is the firmware downloaded every time to the chip, or the firmware lives in some flash on the chip?
+Does the firmware.. Is the firmware downloaded every time to the chip, or the firmware lives in some flash on the chip?
 
 ##### **Nimlgen** [[00:40:04](https://www.youtube.com/watch?v=Dm83mY6ONks&t=2404)]
 So, actually, they have, like, the third version, they have some
@@ -901,7 +901,7 @@ Maybe there's some storage, some resource storage to fortify it.
 
 ##### **Geohot** [[00:41:15](https://www.youtube.com/watch?v=Dm83mY6ONks&t=2475)]
 Yeah, or maybe there's some mode you can boot it in.
-There's some bootloader mode that's... 
+There's some bootloader mode that's.. 
 
 ##### **Nimlgen** [[00:41:26](https://www.youtube.com/watch?v=Dm83mY6ONks&t=2486)]
 Yeah, I haven't found this.
@@ -948,7 +948,7 @@ They're just only supposed to work over Thunderbolt.
 
 ##### **Nimlgen** [[00:44:05](https://www.youtube.com/watch?v=Dm83mY6ONks&t=2645)]
 So, yeah.
-Yeah, actually, I think I've just looked mostly into the, like, the way how, ...
+Yeah, actually, I think I've just looked mostly into the, like, the way how,..
 
 ##### **Geohot** [[00:44:47](https://www.youtube.com/watch?v=Dm83mY6ONks&t=2687)]
 This one supports USB 4, though, which does work for GPUs.
@@ -1023,7 +1023,7 @@ It's not strictly related, but I think it's a good way to start getting into wha
 
 ##### **Chenyu** [[00:48:31](https://www.youtube.com/watch?v=Dm83mY6ONks&t=2911)]
 That sounds good.
-OK, so webgpu Wpmed said, only enable float 16 if any of the kernel has float 16.
+OK, so WebGPU Wpmed said, only enable float 16 if any of the kernel has float 16.
 You can choose the backend for dawn and putting together a PR for blah.
 OK.
 Hooved, you have anything you want to share?
@@ -1043,11 +1043,11 @@ Is there a way that we don't touch this other bounty and find a way to finish th
 I mean, yeah.
 Let's get TinyChat merged out of tree and then think about how to move it into tree.
 I think that'd probably be the way to do it.
-If you want to get those llama changes into tree, that should be a separate PR.
+If you want to get those LLaMA changes into tree, that should be a separate PR.
 
 ##### **Hooved** [[00:50:03](https://www.youtube.com/watch?v=Dm83mY6ONks&t=3003)]
 Right, yeah.
-I mean, the llama stuff is pretty much ready.
+I mean, the LLaMA stuff is pretty much ready.
 I'm done working on that.
 If by tree, you mean like the main tinygrad directory.
 Yeah, I'm not moving anything there in this PR and this bounty.
@@ -1123,7 +1123,7 @@ So that's what I'm hoping for.
 ##### **Chenyu** [[00:53:32](https://www.youtube.com/watch?v=Dm83mY6ONks&t=3212)]
 Sounds good.
 LLVM speed?
-I don't know if this person is here, but there are... 
+I don't know if this person is here, but there are.. 
 is typing.
 Is that you?
 We can grant you speaker role.
@@ -1149,7 +1149,7 @@ And now there's still a problem with the estimation, but I think it might be in 
 So I'm kind of investigating that, but I think I'm on the right path to having this.
 
 ##### **Chenyu** [[00:55:13](https://www.youtube.com/watch?v=Dm83mY6ONks&t=3313)]
-Are you sure it's the estimation that's wrong, or is it really...
+Are you sure it's the estimation that's wrong, or is it really..
 So because Arange has its own rewrite rules that optimize the Arange and friends to the simple form, and if that's broken, there is an issue that groups can break Arange.
 But if it's applying group, then the rewrite rule doesn't apply anymore.
 Then it would degrade to the slower version of Arange.
@@ -1225,12 +1225,12 @@ You can completely separate the idea of variables from an equality constraint.
 ##### **Ttomsa** [[00:59:43](https://www.youtube.com/watch?v=Dm83mY6ONks&t=3583)]
 Yeah, so that's the pre-processing I did.
 I essentially just, I didn't actually, I tried to speed it up by just checking the equalities at the sort of necessary positions for each pattern.
-But even that, it's...
+But even that, it's..
 So, for example, there's something called the consistency automaton, which does that.
 It interweaves states with equality constraints.
 So it will have an extra sort of step.
-But I don't know if that would be much different than what I'm doing, which is sort of doing it... Because fundamentally, you would always have to do the equality constraints.
-It doesn't actually... You cannot... You can't
+But I don't know if that would be much different than what I'm doing, which is sort of doing it.. Because fundamentally, you would always have to do the equality constraints.
+It doesn't actually.. You cannot.. You can't
 put that information into the transition function.
 For example, if we have ops.const.
 
@@ -1257,7 +1257,7 @@ The equality constraint can be handled as a completely separate thing.
 That is what I'm doing.
 The bindings are not part of the state.
 In fact, they can't be part of the state.
-What we would like is to be able to... The reason why there's such a potential for speed is that the vast majority of UOPs match sets of patterns that already sort of match
+What we would like is to be able to.. The reason why there's such a potential for speed is that the vast majority of UOPs match sets of patterns that already sort of match
 Essentially, we're reusing a lot of the computation, but we're already doing that.
 
 ##### **Geohot** [[01:02:02](https://www.youtube.com/watch?v=Dm83mY6ONks&t=3722)]

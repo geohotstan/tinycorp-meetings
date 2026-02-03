@@ -9,7 +9,7 @@
 - bert, indexing
 - scheduler / viz
 - tensor core
-- webgpu
+- WebGPU
 - onnx
 - torch frontend
 - retinanet
@@ -21,7 +21,7 @@
 
 ## Highlights
 
-- **[Company Update](#geohot-000004)**: Tiny box V2 green with four 5090s is available for order, shipping in May, priced at $25,000; orders processed based on wire transfer receipt.
+- **[Company Update](#geohot-000004)**: TinyBox V2 green with four 5090s is available for order, shipping in May, priced at $25,000; orders processed based on wire transfer receipt.
 - **[AMD MI300X Support](#geohot-000337)**: First milestone achieved for MI300X support, with ongoing optimization efforts in collaboration with AMD.
 - **[Quantize DSP](#geohot-000415)**: Achieved 10.54 ms inference time on Qualcomm DSP for MobileNet v2, matching SNPE performance, with delivery planned shortly after April 1st.
 - **[Bounties Update](#nimlgen-000809)**: New bounties added: CPU Graph with Clang ($200) and 5090 support in NV backend ($300), listed at bounties.tinygraph.org.
@@ -53,7 +53,7 @@
 Let's start with company update.
 
 ##### **Geohot** [[00:00:04](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=4)]
-So the biggest thing, yes, yes, we have our first tiny box V2 green.
+So the biggest thing, yes, yes, we have our first TinyBox V2 green.
 It has four 5090s in it.
 The 5090s are really incredible.
 Uh, we're taking, so we're not going to do pre-orders this time.
@@ -64,13 +64,13 @@ Uh, I'm not gonna, I'm not gonna rug you.
 Uh, tiny corp has over $5 million in the bank.
 We've actually made money, uh,
 Comma finally paid us for the servers, so we actually have more money right now in our banks than what we raised.
-And if you want a tiny box V2, I have all the 5090s in pre-order.
+And if you want a TinyBox V2, I have all the 5090s in pre-order.
 You can buy one, send me a 25K wire, and then the orders that the wires come in is the orders that they will ship.
 We're looking at shipping the first ones in May.
 I feel comfortable doing that now that we have one.
 It has a 32-core Genoa chip, 192 gigs of RAM, four 5090s, two nice power supplies, the same four terabyte RAID array, a one terabyte boot drive.
 It's a great computer.
-And if you're looking for the best way to do machine learning at home for the best price for $25,000, you can buy a tiny box green V2.
+And if you're looking for the best way to do machine learning at home for the best price for $25,000, you can buy a TinyBox green V2.
 So you can order now and you can send the wire whenever, but the shipping order is the orders that the wires are received.
 If you place an order now and don't send the wire, I'm not going to cancel your order.
 I will just send you an email saying, hey, your box is in stock.
@@ -86,7 +86,7 @@ No AERs to the drives.
 The motherboard seems to be more solid than the motherboard in the TinyBox.
 So I'm happy about that.
 Yeah.
-Tiny box, green V2s, $25,000, place your order today.
+TinyBox, green V2s, $25,000, place your order today.
 No pre-orders, no money, just order it, send the money.
 Whatever order people send the money in is the order they'll ship in.
 
@@ -121,7 +121,7 @@ which is very similar to SNPE, and with all the generic flexibility of TinyGrad.
 There's a little bit of hand-coded stuff, but not really that much.
 The DSP fits into the Qualcomm paradigm so well.
 It fits into the TinyGrad paradigm so well, just making sure that you lay your memory out correctly, because if the DSP is bad, it is swizzling.
-But the DSP represents really the...
+But the DSP represents really the..
 GPUs burn a lot of power on hardware managed caches and on warp scheduling.
 The DSP really has a software managed cache and no warp scheduling.
 So it's kind of the ultimate machine for machine learning if you want to target something.
@@ -139,7 +139,7 @@ I now also see all the ways to make GPUs fast.
 If you can make things fast on the Qualcomm DSP, you can make things fast on GPUs.
 The Qualcomm DSP is a SIMD machine.
 GPUs are SIMT machines.
-They're similar, but GPUs have really good memory coalescers and really good... I mean, you have warp scheduling, so you have high memory latency.
+They're similar, but GPUs have really good memory coalescers and really good.. I mean, you have warp scheduling, so you have high memory latency.
 So GPUs are just DSPs with extra stuff that's totally optional to use, but it does always sit there burning power.
 So Qualcomm DSP in a branch.
 But it's a testament to the quality of what TinyGrad can do that you can get speed on that chip at all.
@@ -168,11 +168,11 @@ Uh, yeah, so yeah, so yeah, I've been working mostly on the base previously.
 So yeah, we got base big graph and, uh,
 So yeah, we've got DSP graph, we've got new memory planner.
 And let's try the DSP now.
-So still, I mean, still we might... Yeah, so actually for the memory planner, I can...
+So still, I mean, still we might.. Yeah, so actually for the memory planner, I can..
 So we use, like, an inline solution using TLSF allocator instead of, like, to solve offline problems.
 So potentially, if somebody wants, this could be improved.
 Yes.
-And also for... I don't know we want to consider this as bounty, but... So the CPU graph should actually potentially work with the Clang runtime.
+And also for.. I don't know we want to consider this as bounty, but.. So the CPU graph should actually potentially work with the Clang runtime.
 But it doesn't right now, because of some relocations which we're missing.
 So probably maybe that's a good bounty for someone.
 
@@ -237,7 +237,7 @@ And I think that's what we'll do from now on.
 They won't be ordered by money anymore.
 They'll just kind of scroll in from the top like an infinite feed.
 So yeah, CPU Graph working with CLANG LLVM, $200, 5090 support NV backend.
-And then, yeah, we're back to the...
+And then, yeah, we're back to the..
 How many more weeks do you think for the USB GPU stuff?
 
 ##### **Nimlgen** [[00:12:10](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=730)]
@@ -431,7 +431,7 @@ No, I agree.
 And that's why I think we need a constraint solver.
 I think we should just start moving to it.
 I know it sucks to add Z3 as a dependency.
-maybe the first thing to put in Z3 is the... So you said today there was a bug with the Vmin and the Vmax getting the out-of-band stuff.
+maybe the first thing to put in Z3 is the.. So you said today there was a bug with the Vmin and the Vmax getting the out-of-band stuff.
 I mean, we should be able to very easily put that index check in Z3.
 And it should also work with masks, too.
 
@@ -543,7 +543,7 @@ But yeah, so my segway into why I called everyone here.
 So tinygrad has a bit of a crisis right now.
 So you can go to stats.tinygrad.org.
 Stats.tinygrad.org is where we track
-time and you can take a look at llama uh 7b unjitted i'll post i'll post a quick screenshot of it and you can see that that time has gone one direction and not the good direction so unjitted means it's just like actually running all the python and tinygrad and you can see that it's become egregiously slow
+time and you can take a look at LLaMA uh 7b unjitted i'll post i'll post a quick screenshot of it and you can see that that time has gone one direction and not the good direction so unjitted means it's just like actually running all the python and tinygrad and you can see that it's become egregiously slow
 Like we went from like, yeah.
 It's like now two seconds a token.
 Down from it used to be 100 milliseconds a token, even when it was like 500, not that long ago.
@@ -655,7 +655,7 @@ Like buffers that have persistent state across multiple runs of the JIT.
 And then there's persistent ones that get updated, persistent ones that don't get updated.
 But I would think about how less to like treat it like like I see this comment here that says for model export, instead of treating it like a function that you're going to call into, think about how you can expose that property on the JIT and think about what that property really means.
 But I agree with you that the weight buffer should definitely expose that, or the buffers in the JIT should definitely have a way to expose that property, which is, is this something that I'm going to have to save when I export?
-I mean, that's simply...
+I mean, that's simply..
 
 ##### **Hooved** [[00:36:36](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=2196)]
 I could refactor that so it's not a helper function and it's just an attribute of the captureJIT.
@@ -704,7 +704,7 @@ Or is there a specific thing I should look at in the code?
 
 ##### **Chenyu** [[00:39:45](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=2385)]
 I think it's in some memory, memory.py or something.
-But it's more of a...
+But it's more of a..
 So in memory planner, I think the idea is more clearly expressed in terms of here is your graph for the kernels you are going to run and the buffers attached to that.
 And the problem memory planner is trying to solve is given that's the case, what's the minimum memory we need to allocate to such that this can run.
 And I think for your case, given this capture JIT, what are the states that you need to export, the state for buffers that you want to export?
@@ -732,7 +732,7 @@ It's just like, it includes allocations.
 I think you might have mentioned that.
 But it includes just like everything
 that you would use to run WebGPU in JavaScript.
-And the graph runner really maps to the command encoder, which is like some small, like a few lines of that code, honestly, out of...
+And the graph runner really maps to the command encoder, which is like some small, like a few lines of that code, honestly, out of..
 
 ##### **Geohot** [[00:41:57](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=2517)]
 Yeah.
@@ -887,9 +887,7 @@ It's not required for your first part of the bounty.
 But I would say 0.3396 definitely doesn't count as 0.34.
 
 ##### **Flata** [[00:51:16](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=3076)]
-Yeah, it was very conflicted with the .. 
-
-##### **Chenyu** [[00:51:21](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=3081)]
+Yeah, it was very conflicted with the. ##### **Chenyu** [[00:51:21](https://www.youtube.com/watch?v=7AhKAlaQWNo&t=3081)]
 It's probably some noise.
 And it's very likely that if you run it again, it would pass.
 But generally, we don't round up for accuracy.
@@ -1136,11 +1134,11 @@ I think we really want our visualizer to be as absolutely minimal as possible.
 You know, you just start adding features, and then, well, now I need design, and now this feature doesn't appear correctly in this browser.
 So what the feature was was something that was a button to copy the code, but why can't you just highlight the code and Control-C, right?
 So that's why I reverted that.
-Or if anything, the other thing to do there would be to do something like... I don't know if there's a way to do this, but to make it so you can click and then Ctrl-A and then Ctrl-C.
+Or if anything, the other thing to do there would be to do something like.. I don't know if there's a way to do this, but to make it so you can click and then Ctrl-A and then Ctrl-C.
 Make intuitive behaviors work.
 Don't add buttons.
 That's my UI philosophy.
-I really hate whenever they have a...
+I really hate whenever they have a..
 click this button to use my file explorer to upload a file.
 I'd much rather drag and drop a file there, and it works.
 But yeah, no, we should be counting the lines in the JavaScript, too.

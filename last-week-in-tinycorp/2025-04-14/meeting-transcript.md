@@ -8,7 +8,7 @@
 - bert, mlperf
 - scheduler
 - driver
-- webgpu
+- WebGPU
 - retinanet
 - torch frontend multi gpu
 - cloud scale uuuvn stuff (be concise!)
@@ -20,14 +20,14 @@
 
 ### Highlights
 
-- **[Company Update](#geohot-000010)**: Geohot discusses agreeing to overpay for 100 GPUs (5090s) due to fluctuating tariffs, impacting pricing; the price of Tiny Box V2 may increase for new orders, though two pre-paid orders will retain the original price.
+- **[Company Update](#geohot-000010)**: Geohot discusses agreeing to overpay for 100 GPUs (5090s) due to fluctuating tariffs, impacting pricing; the price of TinyBox V2 may increase for new orders, though two pre-paid orders will retain the original price.
 - **[Chip Development](#geohot-000234)**: Geohot explores the feasibility of developing a custom chip, suggesting a simple design without an L2 cache, potentially using shuttle runs for cost-effective tape-outs (e.g., $300K for 6nm).
 - **[Fast Python](#geohot-000944)**: Geohot reports a PR that reduces Python execution time by 30% by compiling UPat to Python functions, with potential for further optimization.
 - **[BERT and MLPerf](#chenyu-001312)**: Chenyu updates on BERT MLPerf runs, noting stability on MI300 and Tiny Green, but NaNs and slowness on the Red system with the AM driver; plans to improve fusion and memory handling.
 - **[Scheduler](#geohot-002106)**: Geohot explains the addition of a "kernelize" step to group operations into kernels, separating it from the scheduling toposort, alongside multi-output kernel support.
 - **[Driver Issues](#nimlgen-002211)**: Nimlgen addresses AM driver slowness (fixed ring reduce) and NaNs, plus progress on USB GPU functionality with a firmware tweak.
 - **[WebGPU](#hooved-003242)**: Hooved works on smaller PRs to learn the codebase, including fixing Viz buffer GC and memory optimizations for WebGPU.
-- **[Retinanet](#flata-003425)**: Flata notes the main PR is merged, focusing on Tiny Box FP16 runs, addressing NaNs, convergence, and slow eval speed (120% of training time).
+- **[Retinanet](#flata-003425)**: Flata notes the main PR is merged, focusing on TinyBox FP16 runs, addressing NaNs, convergence, and slow eval speed (120% of training time).
 - **[LLVM](#b1tg-003831)**: B1TG identifies slowdowns in the AMD backend due to HIP loop unrolling, optimizing with split options for speed.
 - **[Cloud Scale](#geohot-004249)**: Geohot mentions buffer changes and Cloud Graph improvements for scale-out support, recently merging the fast pattern matcher.
 - **[Bounties](#geohot-004712)**: Geohot lists open bounties: $500 for flash attention, $500 for unsigned firmware on 7800 XTX, $300 for 5090 NV backend support, and others for Torch and Llama4 Scout.
@@ -122,7 +122,7 @@ Maybe we don't need an L2 cache.
 Like, GPUs all have this L2 cache.
 If we don't need an L2 cache, if we don't need an L2 cache, Tenstorrent looks a lot more attractive.
 Maybe Tenstorrent just kind of does have it figured out.
-I mean, I still want to...
+I mean, I still want to..
 get to the point where where we can have our own chip but this this is going to be very like simple when it's time if if we could build something that just has to tile we build one simple core uh and there's no there's no l2 cache there's like global memory we can even hang it off an edge like tenstorrent um if we can do all that stuff then yeah making a chip becomes a lot simpler because the key to making chips it turns out
 is that you want to do these shuttle runs.
 So if you have a chip that's just the same design tiled over and over again, you can actually get that small design taped out quite cheaply in a shuttle run where you share the shuttle with everybody else.
@@ -174,7 +174,7 @@ The instructions themselves are pretty simple.
 It turns out that data flow, it's not like the instructions are just basically different ways of triggering ALUs, whatever.
 It's not that important.
 But what matters is your data flow.
-What matters is think of how your data is flowing through your whole network and then think of what your... So the Qualcomm DSP has this 128-wide...
+What matters is think of how your data is flowing through your whole network and then think of what your.. So the Qualcomm DSP has this 128-wide..
 vector register, and then the main instruction that gets you flops, the DSP tensor core, so to say, it's not really a tensor core, is this multiply two vectors together and then do four wide reduces, like take each chunk of four and then reduce that into N32.
 And that's like the main instruction.
 So now optimize everything to use that instruction, basically.
@@ -232,7 +232,7 @@ So it should reduce Python time 30% on everything.
 And you can try it.
 
 ##### **Chenyu** [[00:10:17](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=617)]
-Is that the case for LLAMA, like unjitted LLAMA?
+Is that the case for LLaMA, like unjitted LLaMA?
 
 ##### **Geohot** [[00:10:28](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=628)]
 It should be, yeah.
@@ -257,13 +257,13 @@ You can factor some decision tree, you can figure out what your branching factor
 Hopefully it is.
 Hopefully that's basically O(1) and not O(n). But yeah, you just got to start doing micro benchmarks.
 Diminishing returns at this point, though.
-Most of the slowness is just in... 
+Most of the slowness is just in.. 
 
 ##### **Chenyu** [[00:11:32](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=692)]
 I know you used a Python match.
 
 ##### **Geohot** [[00:11:37](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=697)]
-I used... I compile Python.
+I used.. I compile Python.
 I just generate Python.
 
 ##### **Chenyu** [[00:11:42](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=702)]
@@ -395,7 +395,7 @@ We already have to do fp32 accumulate.
 There's no fp16 accumulate.
 
 ##### **Chenyu** [[00:17:53](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=1073)]
-But for the smaller tiny box, we are bound by memory.
+But for the smaller TinyBox, we are bound by memory.
 So it's a lot slower to drop.
 
 ##### **Geohot** [[00:18:01](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=1081)]
@@ -449,7 +449,7 @@ Not really.
 I mean, I'll think about if there's a way to make it reproducible.
 For now, the thing I'm seeing is it started wrong, and all the metrics look fine.
 But an hour, two hours in, you suddenly get an app of less than that.
-So I think previously, people hacked around this by saying, you can...
+So I think previously, people hacked around this by saying, you can..
 This is how people previously do mixed precision training, that you can kind of undo your update if you have a or something like that.
 But at this point, I don't really want to change our model code.
 
@@ -554,15 +554,15 @@ You figured out how to get around the stall as well.
 
 ##### **Nimlgen** [[00:25:49](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=1549)]
 Yeah.
-Yeah, but it's currently .. I just reset the USB connection right now.
-And still, basically, I need to .. Yeah.
+Yeah, but it's currently. I just reset the USB connection right now.
+And still, basically, I need to. Yeah.
 I need to find a better way from the GPU to acknowledge the NVMe commands.
-And actually they... I figured out that they use like two... Yeah, they actually have like two values in their controller, which is like wire to the doorbell.
-So they actually like not access... They use like this as fast path to access the doorbell.
+And actually they.. I figured out that they use like two.. Yeah, they actually have like two values in their controller, which is like wire to the doorbell.
+So they actually like not access.. They use like this as fast path to access the doorbell.
 So these registers points to the specific address which is expected and we need to have.
 So yeah, I still can get this work on the GPU, but I think it's pretty close.
 And I think once this works, I think I can acknowledge the request from the GPU.
-But yeah, currently it works, but it's just not the... 
+But yeah, currently it works, but it's just not the.. 
 
 ##### **Geohot** [[00:27:08](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=1628)]
 So what do you mean, acknowledge it from the GPU?
@@ -585,7 +585,7 @@ No, I'm not.
 I mean, I just try to prepare everything before and then just send comment.
 
 ##### **Geohot** [[00:28:06](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=1686)]
-If you want to modify the firmware to... So the thing that I was really worried about, about modifying the firmware before, was that you were trying to add functionality.
+If you want to modify the firmware to.. So the thing that I was really worried about, about modifying the firmware before, was that you were trying to add functionality.
 So that's really hard.
 If all you have to do in your firmware modification is patch out like one jump, I'm okay with that.
 
@@ -606,7 +606,7 @@ Yeah.
 
 ##### **Geohot** [[00:28:59](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=1739)]
 But great.
-And then I think...
+And then I think..
 Yeah, it should be two bytes, five bytes.
 What I'm saying is not 100 bytes.
 Yeah, so then it sounds like it's just going to be a whole bunch of refactoring to support whatever that DMA size is.
@@ -712,8 +712,8 @@ OK, retinanet.
 
 ##### **Flata** [[00:34:25](https://www.youtube.com/watch?v=4p_uWDeaO_8&t=2065)]
 Hello, so I think right now the main PR has been merged, so that's step one.
-Right now, I think what Chenyu said on the Retinanet channel just mainly focused on getting the tiny box runs going, especially with FP16, because I think there's definitely inconsistent losses, one where it's NaN for the AM driver and the AMD driver.
-It was going, but...
+Right now, I think what Chenyu said on the Retinanet channel just mainly focused on getting the TinyBox runs going, especially with FP16, because I think there's definitely inconsistent losses, one where it's NaN for the AM driver and the AMD driver.
+It was going, but..
 But I think we just need to make sure that it actually converges as well.
 So I'm going to put up smaller PRs, just kind of add some sort of debugging flags to the main training script so that it's easier to figure out some of the issues there.
 And I think when Chenyu ran the eval beam, I think on the last run that converged, it worked for him.

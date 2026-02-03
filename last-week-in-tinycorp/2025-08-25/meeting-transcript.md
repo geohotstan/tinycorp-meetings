@@ -6,7 +6,7 @@
 - company updates
 - rangeify opt
 - bfloat16 alu stuff
-- mlperf llama
+- mlperf LLaMA
 - viz tool
 - drivers
 - symbolic
@@ -20,12 +20,12 @@
 
 ### Highlights
 
-- **[Company Updates](#geohot-000000)**: A major marketing campaign for the "tiny box" was launched across email, Twitter, and LinkedIn. Factories are actively building the units, and while website traffic has increased, no sales have been made yet.
+- **[Company Updates](#geohot-000000)**: A major marketing campaign for the "TinyBox" was launched across email, Twitter, and LinkedIn. Factories are actively building the units, and while website traffic has increased, no sales have been made yet.
 - **[Rangeify Opt](#geohot-000139)**: Geohot is moving `kernel.py` to a "post-opt" stage and has added access types to ranges for decentralized rule application. He is also developing a flexible Vmap implementation, similar to JAX's, with plans to treat multi-GPU operations as a Vmap, aiming to eventually replace `kernel.py` entirely.
 - **[Bfloat16 Support](#chenyu-001010)**: Chenyu is fixing issues with bfloat16 support where decomposed operations (like `exp`) lose precision, causing large diffs. The solution involves using float32 for intermediate constants. He is also addressing incorrect rounding in casting and improving Python backend support, in preparation for future FP8 integration.
-- **[MLPerf Llama](#chenyu-001535)**: The team suspects the Llama 405B MLPerf benchmark target is flawed, as it seems too easy to hit, questioning the validity of the reference conversion point (RCP). They plan to validate their evaluation script against original Llama weights and are separately investigating MMU faults that are causing runs to crash.
-- **[Viz Tool](#qazalin-002235)**: Qazalin is improving the performance and UI of the visualization tool. The team discussed setting a minimum width for small events to ensure they are always visible. The main goal is to make the profiler responsive for very large traces (e.g., 25 million events from Llama), as it currently hangs on complex graphs due to a JavaScript library limitation.
-- **[Drivers](#nimlgen-003559)**: Llama performance on MI300 has improved significantly to ~100 tokens/sec. A persistent issue is the H100 machine crashing, where GPUs fail to recover after a reset. The team will investigate more robust reset methods, like a PCI bus reset. The AQL backend has been merged and is now the default for multi-XCC GPUs.
+- **[MLPerf LLaMA](#chenyu-001535)**: The team suspects the LLaMA 405B MLPerf benchmark target is flawed, as it seems too easy to hit, questioning the validity of the reference conversion point (RCP). They plan to validate their evaluation script against original LLaMA weights and are separately investigating MMU faults that are causing runs to crash.
+- **[Viz Tool](#qazalin-002235)**: Qazalin is improving the performance and UI of the visualization tool. The team discussed setting a minimum width for small events to ensure they are always visible. The main goal is to make the profiler responsive for very large traces (e.g., 25 million events from LLaMA), as it currently hangs on complex graphs due to a JavaScript library limitation.
+- **[Drivers](#nimlgen-003559)**: LLaMA performance on MI300 has improved significantly to ~100 tokens/sec. A persistent issue is the H100 machine crashing, where GPUs fail to recover after a reset. The team will investigate more robust reset methods, like a PCI bus reset. The AQL backend has been merged and is now the default for multi-XCC GPUs.
 - **[Symbolic](#siedslykles-004253)**: Sieds is refining symbolic simplification rules, focusing on how to handle nested `div` operations to determine the optimal representation. The key challenge is to improve simplification without making the rules overly complex, with a suggestion to add failing test cases to demonstrate the need for new rules.
 - **[Cloud/Multi-Machine](#wozeparrot-004649)**: The team is working on running BERT on a two-machine setup but is facing a recurring `NaN` issue. The plan is to first validate the training on a single machine to isolate whether the problem is with the model training itself or the multi-machine communication. The team has decided not to require a special kernel driver for networking.
 - **[ONNX](#geohot-004940)**: The focus for ONNX optimization is on improving the default heuristics, as the primary use case (OpenPilot models) does not use `BEAM`. A specific OpenPilot model with a conditional branch (`if` op) that produces different output shapes is currently unsupported; the plan is to implement a clear error message for this case.
@@ -33,7 +33,7 @@
 
 ### Transcript
 ##### **Geohot** [[00:00:00](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=0)]
-Welcome to our weekly Monday meeting. Let's get started with company update. Okay, a whole bunch of marketing for the tiny box. Sent an email out.
+Welcome to our weekly Monday meeting. Let's get started with company update. Okay, a whole bunch of marketing for the TinyBox. Sent an email out.
 
 ##### **Chenyu** [[00:00:14](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=14)]
 You asked me to do the Twitter thread?
@@ -54,7 +54,7 @@ Yeah, well, the conversion rate's been zero so far since yesterday. You know, I 
 People don't make big spending decisions on Sunday.
 
 ##### **Geohot** [[00:01:21](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=81)]
-Yeah, yeah, yeah, yeah, yeah. But this week, they're going to be like, oh yes, a tiny box, oh, I want one of those.
+Yeah, yeah, yeah, yeah, yeah. But this week, they're going to be like, oh yes, a TinyBox, oh, I want one of those.
 
 ##### **Geohot** [[00:01:29](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=89)]
 Great. Okay. Okay. That's good. Let's start with Rengify up.
@@ -72,7 +72,7 @@ Yeah, so whites are loops. If you look at the red, white, and blue flash attenti
 OK. So, yeah. That works.
 
 ##### **Chenyu** [[00:03:14](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=194)]
-That's correct. The first... By the way, I was reading this. Is there a reason why every reduced axis is, like, from the largest to the smallest? What do you mean the largest? The smallest. So the first one is RDX 10. The next is RDX 8. Oh, yeah.
+That's correct. The first.. By the way, I was reading this. Is there a reason why every reduced axis is, like, from the largest to the smallest? What do you mean the largest? The smallest. So the first one is RDX 10. The next is RDX 8. Oh, yeah.
 
 ##### **Geohot** [[00:03:34](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=214)]
 Well, because it builds its bottom up, right?
@@ -105,16 +105,16 @@ The top-down one does not need children, no.
 No, by the bottom up, right? It's never wrong. Is it wrong?
 
 ##### **Chenyu** [[00:04:49](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=289)]
-Oh, I thought you were... Before you mentioned it. I thought you were saying that because it's bottom up, now some caches can be wrong.
+Oh, I thought you were.. Before you mentioned it. I thought you were saying that because it's bottom up, now some caches can be wrong.
 
 ##### **Geohot** [[00:04:57](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=297)]
-I fixed that. So, yeah, I fixed that. I finally got the children thing working properly. You just need... So it adds two UOPs. It adds one called children and two called child. And then you just have to wait to pass through children until you've seen both child.
+I fixed that. So, yeah, I fixed that. I finally got the children thing working properly. You just need.. So it adds two UOPs. It adds one called children and two called child. And then you just have to wait to pass through children until you've seen both child.
 
 ##### **Geohot** [[00:05:17](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=317)]
 It should never be wrong.
 
 ##### **Geohot** [[00:05:20](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=320)]
-But the other thing that I'm really excited about... Is the Vmap stuff. So it's really easy, like in the Rangeify world, to create ranges on the overworld. And then they just pretty much work as you'd expect. And this should be a ton more flexible. So it copies Jack's Vmap exactly. But it should be a ton more flexible. Because every tensor can have a different... Like, most of the differences between a lot of the tiny grid stuff... And the Jack stuff is... Jack's operates on a function. Like, when you compute a gradient in Jack's, you don't give it a tensor. You give it a function. So Jack's Vmap is the same thing. You don't give it a tensor. You don't say, like, where the tensor is Vmapped. You just say, here's a function. And then you have to give it a map of axes. But then you can't chain Vmap things. Like, in tiny grid, you should be able to... It should be, like... It should be really easy to do all the layers of an LLM with a couple things. You just need to slice into your weights with your layer index. And then you can just call whatever you want. Call scale... Call attention. Call gem. So... Yeah, I think that that's... When that's subsidized to work, it's going to be great. Yeah. So my plan is, first, post-opt. Which should work with all the existing stuff. So, like, the problem with... You can't do optimizations at the kernel.py layer with rangeify. Because you have ranges. So you have to do optimizations after ranges. But we could do all the normal optimizations after ranges. So that's step one. And then, yeah.
+But the other thing that I'm really excited about.. Is the Vmap stuff. So it's really easy, like in the Rangeify world, to create ranges on the overworld. And then they just pretty much work as you'd expect. And this should be a ton more flexible. So it copies Jack's Vmap exactly. But it should be a ton more flexible. Because every tensor can have a different.. Like, most of the differences between a lot of the tiny grid stuff.. And the Jack stuff is.. Jack's operates on a function. Like, when you compute a gradient in Jack's, you don't give it a tensor. You give it a function. So Jack's Vmap is the same thing. You don't give it a tensor. You don't say, like, where the tensor is Vmapped. You just say, here's a function. And then you have to give it a map of axes. But then you can't chain Vmap things. Like, in tiny grid, you should be able to.. It should be, like.. It should be really easy to do all the layers of an LLM with a couple things. You just need to slice into your weights with your layer index. And then you can just call whatever you want. Call scale.. Call attention. Call GEMM. So.. Yeah, I think that that's.. When that's subsidized to work, it's going to be great. Yeah. So my plan is, first, post-opt. Which should work with all the existing stuff. So, like, the problem with.. You can't do optimizations at the kernel.py layer with rangeify. Because you have ranges. So you have to do optimizations after ranges. But we could do all the normal optimizations after ranges. So that's step one. And then, yeah.
 
 ##### **Geohot** [[00:07:07](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=427)]
 Then ranges have optimizations. Great. I like it.
@@ -123,13 +123,13 @@ Then ranges have optimizations. Great. I like it.
 Are you going to rewrite multi with this later?
 
 ##### **Geohot** [[00:07:16](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=436)]
-Yeah. Yeah, I think so. I've been thinking about this. So I already have the color picked out. I want it to be, like, a really nice... Like, aquamarine. You know, think of it. Because there shouldn't be anything special about multi, right? If you want something to run on the 6 GPUs, you should just have, like, a 6 in the shape.
+Yeah. Yeah, I think so. I've been thinking about this. So I already have the color picked out. I want it to be, like, a really nice.. Like, aquamarine. You know, think of it. Because there shouldn't be anything special about multi, right? If you want something to run on the 6 GPUs, you should just have, like, a 6 in the shape.
 
 ##### **Chenyu** [[00:07:36](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=456)]
 Yep, yep, yep.
 
 ##### **Geohot** [[00:07:39](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=459)]
-Yeah, so we'll get there. I think I'm also going to remove... I mean, it's already kind of been done. But I'm going to remove the restriction on axes being in a certain order. Like, upcasts being in a certain place. Locals being in a certain place. We should be able to just put them... Next to the axes that created them.
+Yeah, so we'll get there. I think I'm also going to remove.. I mean, it's already kind of been done. But I'm going to remove the restriction on axes being in a certain order. Like, upcasts being in a certain place. Locals being in a certain place. We should be able to just put them.. Next to the axes that created them.
 
 ##### **Geohot** [[00:08:04](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=484)]
 Sure.
@@ -138,16 +138,16 @@ Sure.
 I mean, that sounds much better than what we have now.
 
 ##### **Geohot** [[00:08:09](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=489)]
-Yeah. I mean, it keeps them in order, right? Like, there's... I started looking at all the opt-ops. And, like, every opt-op is basically just... Except for swap. Is doing some form of...
+Yeah. I mean, it keeps them in order, right? Like, there's.. I started looking at all the opt-ops. And, like, every opt-op is basically just.. Except for swap. Is doing some form of..
 
 ##### **Geohot** [[00:08:22](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=502)]
-Like...
+Like..
 
 ##### **Chenyu** [[00:08:24](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=504)]
 Pull some number and create a new axis. And put those numbers in that axis.
 
 ##### **Geohot** [[00:08:31](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=511)]
-Yeah. But you can... So, the axis comes from an existing axis. So, you can just pull off the existing axis. If you're doing bottom, it'll just go to the right. If you're doing top, it'll go to the left. And then, like, your things will stay in order, mostly.
+Yeah. But you can.. So, the axis comes from an existing axis. So, you can just pull off the existing axis. If you're doing bottom, it'll just go to the right. If you're doing top, it'll go to the left. And then, like, your things will stay in order, mostly.
 
 ##### **Chenyu** [[00:08:44](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=524)]
 Wait, you want to do to the left?
@@ -156,7 +156,7 @@ Wait, you want to do to the left?
 If you do top, yeah.
 
 ##### **Chenyu** [[00:08:49](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=529)]
-Then it's hard to... Under... Understand if one is coming from the one before or one after.
+Then it's hard to.. Under.. Understand if one is coming from the one before or one after.
 
 ##### **Geohot** [[00:08:57](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=537)]
 Well, yeah. I mean, you'll never know.
@@ -171,25 +171,25 @@ I don't know.
 Maybe that's why.
 
 ##### **Geohot** [[00:09:04](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=544)]
-It's still... Like, it keeps things entirely in order. As they get broken down.
+It's still.. Like, it keeps things entirely in order. As they get broken down.
 
 ##### **Sieds Lykles** [[00:09:09](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=549)]
 Yeah.
 
 ##### **Geohot** [[00:09:10](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=550)]
-I mean, that's an easy change. But... It's just... Yeah, as I've been looking at it, I kind of like that. Oh, I realized, like... Yeah, yeah. So. Post-opt. This week. Then we can delete kernel.py. Well. Okay, almost. I still have kernel.py. I separated generating the optimizations from applying the optimizations.
+I mean, that's an easy change. But.. It's just.. Yeah, as I've been looking at it, I kind of like that. Oh, I realized, like.. Yeah, yeah. So. Post-opt. This week. Then we can delete kernel.py. Well. Okay, almost. I still have kernel.py. I separated generating the optimizations from applying the optimizations.
 
 ##### **Geohot** [[00:09:34](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=574)]
 Okay.
 
 ##### **Geohot** [[00:09:35](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=575)]
-But, uh... Yeah. We've got applying the optimizations to go after. I have to write simplify merge adjacent in the new world. There's progress. That's going. And we're going to have beautiful Vmap stuff. Make it all work out. Multi is going to be a Vmap.
+But, uh.. Yeah. We've got applying the optimizations to go after. I have to write simplify merge adjacent in the new world. There's progress. That's going. And we're going to have beautiful Vmap stuff. Make it all work out. Multi is going to be a Vmap.
 
 ##### **Geohot** [[00:09:57](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=597)]
-And... And... Okay. Cool, cool. Sounds good.
+And.. And.. Okay. Cool, cool. Sounds good.
 
 ##### **Chenyu** [[00:10:10](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=610)]
-Next is... So, I started to look into all the Vflow 16 supports that we have. And I found a bunch of issues. With those... I created, like, issues for these. But mostly because we decompose the X into X2 and a constant. If we do the whole thing in Vflow 16, that constant would be represented in Vflow 16. The whole thing would end up having a pretty big diff because X is exponentially big. So, for example, if we do this. So, for now, I only fix X. For now, I want the way to write this better. We should at least also fix cosine, which we now currently decompose with sine and the I over 2 shift. And another one is log. I think these three in Vflow 16, we should be, like, no different from Torch.
+Next is.. So, I started to look into all the Vflow 16 supports that we have. And I found a bunch of issues. With those.. I created, like, issues for these. But mostly because we decompose the X into X2 and a constant. If we do the whole thing in Vflow 16, that constant would be represented in Vflow 16. The whole thing would end up having a pretty big diff because X is exponentially big. So, for example, if we do this. So, for now, I only fix X. For now, I want the way to write this better. We should at least also fix cosine, which we now currently decompose with sine and the I over 2 shift. And another one is log. I think these three in Vflow 16, we should be, like, no different from Torch.
 
 ##### **Geohot** [[00:11:22](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=682)]
 Yeah, I saw the pull request for this where the guy wanted to add X. But obviously, this isn't the solution. But so the solution was just to keep precision on the Vflow const?
@@ -198,13 +198,13 @@ Yeah, I saw the pull request for this where the guy wanted to add X. But obvious
 Yeah, so for now, for X, the middle thing is converted into Vflow 32. So, like, your constants in Vflow 32, I think, last little closest.
 
 ##### **Geohot** [[00:11:44](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=704)]
-Makes sense. Yeah, it's slightly...
+Makes sense. Yeah, it's slightly..
 
 ##### **Chenyu** [[00:11:49](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=709)]
-I don't know. I feel some of these small D type things. I think we also need to prepare ourselves for FP8 anyway. I really want to get these two, like, work together without too many Vflow 16 hack. Another issue is cast. So now, we currently, when we cast into Vflow 16, we don't round correctly. So if you have, like, residual in your mentis, then it's not. Rounded correctly that I can fix. This week, eventually, I want to get Python backend for Vflow 16 support to work. Because for now, there are a lot of diff, which is really bad for, like, const folding or other pre-computed stuff on Python. Because we use Python backend for that. And if the value is slightly a little bit off, it's very annoying to debug. So... That's the goal. And after that, I really want to get FP8. There are so many different ways to get FP8.
+I don't know. I feel some of these small D type things. I think we also need to prepare ourselves for FP8 anyway. I really want to get these two, like, work together without too many Vflow 16 hack. Another issue is cast. So now, we currently, when we cast into Vflow 16, we don't round correctly. So if you have, like, residual in your mentis, then it's not. Rounded correctly that I can fix. This week, eventually, I want to get Python backend for Vflow 16 support to work. Because for now, there are a lot of diff, which is really bad for, like, const folding or other pre-computed stuff on Python. Because we use Python backend for that. And if the value is slightly a little bit off, it's very annoying to debug. So.. That's the goal. And after that, I really want to get FP8. There are so many different ways to get FP8.
 
 ##### **Geohot** [[00:12:59](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=779)]
-For the small D type stuff. So I was playing with that tiny box. I installed VLLM and I was running GPT-OSS. It's all, like, GPT-OSS was getting 150 tokens per second. Which isn't bad, but you can do 10x better.
+For the small D type stuff. So I was playing with that TinyBox. I installed VLLM and I was running GPT-OSS. It's all, like, GPT-OSS was getting 150 tokens per second. Which isn't bad, but you can do 10x better.
 
 ##### **Chenyu** [[00:13:21](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=801)]
 Oh, 10x better how?
@@ -246,7 +246,7 @@ Yeah.
 Cool.
 
 ##### **Chenyu** [[00:15:10](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=910)]
-So that's Bflow16. For LLAMA, has been helping running some runs.
+So that's bfloat16. For LLaMA, has been helping running some runs.
 
 ##### **Wozeparrot** [[00:15:21](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=921)]
 So let's see if we can get some of these things to work. So we're here. So I merged eval last week. I'm up here open for small. My long small run crashed with an MMU fault.
@@ -279,13 +279,13 @@ I mean, that makes sense. You don't want people tweaking stuff.
 So I mean, our main concern is first, we want to make sure we are not doing something obviously wrong. It might be a bug in our code or something. But we also want to make sure we are measuring or at least get this accurate. So we can just acknowledge that, okay, this is a not so good benchmark. And this number is arbitrary because there's no point to train the model to this number. Kind of.
 
 ##### **Geohot** [[00:18:00](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1080)]
-Have we tried our test procedure on real llama?
+Have we tried our test procedure on real LLaMA?
 
 ##### **Geohot** [[00:18:06](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1086)]
-What do you mean by that? Like, have we used like the real llama weights and tried our test procedure? Oh.
+What do you mean by that? Like, have we used like the real LLaMA weights and tried our test procedure? Oh.
 
 ##### **Chenyu** [[00:18:19](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1099)]
-So there's no real llama weight because for this benchmark, it's llama. But we can do that now.
+So there's no real LLaMA weight because for this benchmark, it's LLaMA. But we can do that now.
 
 ##### **Geohot** [[00:18:27](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1107)]
 Yeah, I understand the tokenizer.
@@ -294,13 +294,13 @@ Yeah, I understand the tokenizer.
 I understand the tokenizer is different, but we should do it.
 
 ##### **Wozeparrot** [[00:18:35](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1115)]
-We can run full llama because the small LLM retrain task uses the same tokenizer.
+We can run full LLaMA because the small LLM retrain task uses the same tokenizer.
 
 ##### **Qazalin** [[00:18:42](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1122)]
 Okay.
 
 ##### **Chenyu** [[00:18:43](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1123)]
-So we should be able to eval the already trained llama on the eval so that we can make sure the eval script is correct, at least for that.
+So we should be able to eval the already trained LLaMA on the eval so that we can make sure the eval script is correct, at least for that.
 
 ##### **Geohot** [[00:18:57](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1137)]
 I mean, yeah. That number should be published. We should look at the eval and see if it's right. Yeah.
@@ -315,7 +315,7 @@ It should be the same to whatever the number is. I don't know.
 We just assume it's around what the target is? Yeah.
 
 ##### **Chenyu** [[00:19:18](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1158)]
-So we should at least be close to a reasonable number and not like 10 or higher because now we have bigger . Okay. So we'll do that. Then we will see where we are training HB. Maybe we need to hit AB.
+So we should at least be close to a reasonable number and not like 10 or higher because now we have bigger. Okay. So we'll do that. Then we will see where we are training HB. Maybe we need to hit AB.
 
 ##### **Geohot** [[00:19:43](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1183)]
 And we will figure out all MMU faults separately. All right. NimbleJet, any ideas on that? Not really. I haven't looked into that.
@@ -339,7 +339,7 @@ Well, I think general domain. So I think the best directions on LLama and using 
 Oh, and thanks to B1TG.
 
 ##### **Chenyu** [[00:21:09](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1269)]
-He fixed the . I think we're going to have to do a little bit more of the AMD LLVM compiling issue on LLama. So now we can . Oh, George, you commented about reverting LLVM default to false or something?
+He fixed the. I think we're going to have to do a little bit more of the AMD LLVM compiling issue on LLama. So now we can. Oh, George, you commented about reverting LLVM default to false or something?
 
 ##### **Geohot** [[00:21:25](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1285)]
 Yeah. I mean, I don't know. Like, which one are we using?
@@ -408,7 +408,7 @@ patch set.
 The width gets smaller when you zoom in. Which is also odd.
 
 ##### **Nimlgen** [[00:24:12](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1452)]
-I mean, I added this in my patch set so you can just try to merge the kernels. But if the width is really small, you just... Yeah.
+I mean, I added this in my patch set so you can just try to merge the kernels. But if the width is really small, you just.. Yeah.
 
 ##### **Sieds Lykles** [[00:24:24](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1464)]
 Cap it.
@@ -420,10 +420,10 @@ At least something is visible. Maybe it's not the real width of these kernels, b
 I mean, to be fair, it should never get smaller as you zoom in. It can only ever get bigger. It just might not get bigger at exactly the right rate. But I think that's okay. Yeah, I would set a minimum width to
 
 ##### **Geohot** [[00:24:51](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1491)]
-a couple pixels or something. Yeah, like it is. It's kind of... I'm playing with Beautiful Emnist right now and you can kind of... It's hard to see where there are kernels.
+a couple pixels or something. Yeah, like it is. It's kind of.. I'm playing with Beautiful Emnist right now and you can kind of.. It's hard to see where there are kernels.
 
 ##### **Sieds Lykles** [[00:25:14](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1514)]
-But yeah, no, I think...
+But yeah, no, I think..
 
 ##### **Geohot** [[00:25:18](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1518)]
 I think some of it's the color too.
@@ -432,7 +432,7 @@ I think some of it's the color too.
 I don't know.
 
 ##### **Geohot** [[00:25:23](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1523)]
-I think it's... That line was probably... I don't know.
+I think it's.. That line was probably.. I don't know.
 
 ##### **Geohot** [[00:25:26](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1526)]
 I don't know. I think a minimum width fixes this. Yeah, I mean, I'm scrolling around Beautiful Emnist. It feels extremely performant. But I think Beautiful Emnist was always pretty performant. I don't know. I haven't tried any of the big ones.
@@ -453,7 +453,7 @@ It takes a couple seconds to actually run. I think. Or schedule it.
 I mean, I'm running this external test Kekak and it's very slow.
 
 ##### **Qazalin** [[00:26:19](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1579)]
-The Lama choice in total is like 25 million events.
+The LLaMA choice in total is like 25 million events.
 
 ##### **Geohot** [[00:26:24](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1584)]
 Okay.
@@ -468,7 +468,7 @@ I mean, I ran Kekak and the profile is very performant.
 I think because you skipped the very slow one.
 
 ##### **Geohot** [[00:26:48](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1608)]
-Oh, I skipped the very slow one. Okay. You mean, but you're getting it being slow on the profile or being slow? Because it is really slow on... If I click merge views, the thing is like hung.
+Oh, I skipped the very slow one. Okay. You mean, but you're getting it being slow on the profile or being slow? Because it is really slow on.. If I click merge views, the thing is like hung.
 
 ##### **Geohot** [[00:26:58](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1618)]
 If I click like one of the scheduling events, it like hangs. I don't. It shouldn't hang.
@@ -513,10 +513,10 @@ No. It hangs the layout worker. And then it should exit.
 Okay, yeah. I mean, it can hang the layout worker. But you can can you still terminate the layout worker from the draw thread?
 
 ##### **Qazalin** [[00:28:27](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1707)]
-That shouldn't happen. If it doesn't happen, that's...
+That shouldn't happen. If it doesn't happen, that's..
 
 ##### **Geohot** [[00:28:30](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1710)]
-I mean, yeah, so I ran I ran test unit test hashing and the profiler is extremely performant. I mean, merge views is... Like I would like this to be better. So if I click something, if I click like something that's really slow, it comes up with rendering new graph. And then I click away from that.
+I mean, yeah, so I ran I ran test unit test hashing and the profiler is extremely performant. I mean, merge views is.. Like I would like this to be better. So if I click something, if I click like something that's really slow, it comes up with rendering new graph. And then I click away from that.
 
 ##### **Geohot** [[00:28:55](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1735)]
 And oh, actually, it seems okay.
@@ -555,7 +555,7 @@ But there are too many rewrites and kernels.
 500 million viz represents 25 million for file viz.
 
 ##### **Geohot** [[00:30:24](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1824)]
-We shouldn't prematurely optimize anything, right? Because it is a lot easier to just... If JSON's good enough, we should leave it as JSON. It's only like, yeah, I mean, once you have 25 million profiler events, sure, that's just never going to work in JSON. But for the rewrites, if it's fast enough, I don't think we should change it. I think we should, with all of these viz improvements, we should have a very clear, like, here's a real workflow, that I want to improve. And yeah, if you're saying right now that if you have, like, Lama, and it has 25 million, and the profiler is non-responsive, okay, cool. That's like a loop. We know what we have to make faster. But just saying, like, oh, well, you know, it'd be nicer if the rewrite event sent less stuff. Is this a problem?
+We shouldn't prematurely optimize anything, right? Because it is a lot easier to just.. If JSON's good enough, we should leave it as JSON. It's only like, yeah, I mean, once you have 25 million profiler events, sure, that's just never going to work in JSON. But for the rewrites, if it's fast enough, I don't think we should change it. I think we should, with all of these viz improvements, we should have a very clear, like, here's a real workflow, that I want to improve. And yeah, if you're saying right now that if you have, like, LLaMA, and it has 25 million, and the profiler is non-responsive, okay, cool. That's like a loop. We know what we have to make faster. But just saying, like, oh, well, you know, it'd be nicer if the rewrite event sent less stuff. Is this a problem?
 
 ##### **Geohot** [[00:31:11](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1871)]
 Maybe not.
@@ -564,10 +564,10 @@ Maybe not.
 Two gigabytes of memory usage within the bounds of Chrome.
 
 ##### **Geohot** [[00:31:19](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1879)]
-I mean, it seems... I've never seen a problem with the transfer being the bottleneck. I usually see the layout be a bottleneck.
+I mean, it seems.. I've never seen a problem with the transfer being the bottleneck. I usually see the layout be a bottleneck.
 
 ##### **Qazalin** [[00:31:30](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1890)]
-Maybe... Just the strong that stuff also takes memory from what you could spend on layout caching. So I was thinking of giving myself some space to maybe have a better layout. More of this. This is just like ideas.
+Maybe.. Just the strong that stuff also takes memory from what you could spend on layout caching. So I was thinking of giving myself some space to maybe have a better layout. More of this. This is just like ideas.
 
 ##### **Geohot** [[00:31:51](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1911)]
 How are you going to make the layout better?
@@ -582,13 +582,13 @@ Cache stuff? What do you want to cache?
 So right now, the layout is completely in memory. So you just calculate it once. And then you reach where the canvas will run over, as you saw.
 
 ##### **Geohot** [[00:32:18](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1938)]
-Uh... Okay. How would you change this? What would it be instead?
+Uh.. Okay. How would you change this? What would it be instead?
 
 ##### **Qazalin** [[00:32:24](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1944)]
 It would be exactly the same. I just don't want it out of memory when that happens.
 
 ##### **Geohot** [[00:32:31](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1951)]
-Oh, I see what you're saying. Okay, you're saying that, like, you're spending a lot of memory on rewrite rules. Um... Yeah. I understand. Uh... Yeah, no, I wouldn't... I wouldn't... I wouldn't... I've never seen a problem with this. Like, we should really be focused on... on an exact use case and an exact problem. I think one of the things to revisit that I've always wanted with Viz is a better visualization of what the rewrite rule is doing. So, like, right now we have... in that, uh, rightmost panel, we have the, like, the red and the green on the UOP. I've never seen that be useful.
+Oh, I see what you're saying. Okay, you're saying that, like, you're spending a lot of memory on rewrite rules. Um.. Yeah. I understand. Uh.. Yeah, no, I wouldn't.. I wouldn't.. I wouldn't.. I've never seen a problem with this. Like, we should really be focused on.. on an exact use case and an exact problem. I think one of the things to revisit that I've always wanted with Viz is a better visualization of what the rewrite rule is doing. So, like, right now we have.. in that, uh, rightmost panel, we have the, like, the red and the green on the UOP. I've never seen that be useful.
 
 ##### **Geohot** [[00:33:15](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=1995)]
 Like this. What do you mean? What's very useful? Oh, you've used this? I read this.
@@ -600,25 +600,25 @@ Yes. Oh, I find it unreadable.
 I don't know. So, I think the less useful part is the code because the code never changed.
 
 ##### **Geohot** [[00:33:37](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2017)]
-Code is good. I like the code. Yeah, but it never changed. Oh, the code never changes. Yeah. Um... I mean, we have this, like...
+Code is good. I like the code. Yeah, but it never changed. Oh, the code never changes. Yeah. Um.. I mean, we have this, like..
 
 ##### **Chenyu** [[00:33:50](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2030)]
 I mean, I read this. Maybe it's just because lack of better tools for this kind of stuff. Because usually, for my use case, I want to see how one op might disappear from the big UOP.
 
 ##### **Geohot** [[00:34:08](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2048)]
-The other thing that I'd really like is if I click on a UOP, could it add... labels to each edge to say which input it's going to?
+The other thing that I'd really like is if I click on a UOP, could it add.. labels to each edge to say which input it's going to?
 
 ##### **Geohot** [[00:34:28](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2068)]
 Like the paths?
 
 ##### **Qazalin** [[00:34:30](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2070)]
-I like the...
+I like the..
 
 ##### **Chenyu** [[00:34:31](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2071)]
 Well, so, like, I have a problem. Some annotation to the edge, especially when your edge becomes very big, some of it might intersect or go, like, under another block or another rectangle.
 
 ##### **Geohot** [[00:34:47](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2087)]
-I'm just talking about, you know, you could have that. I mean, that'd be cool too if it lit up the parents. But I more mean, like a lot of times, like, especially for, like, a UOP, like, where. It's very important to know which argument is the... which is the third, which is the second and which is the third.
+I'm just talking about, you know, you could have that. I mean, that'd be cool too if it lit up the parents. But I more mean, like a lot of times, like, especially for, like, a UOP, like, where. It's very important to know which argument is the.. which is the third, which is the second and which is the third.
 
 ##### **Geohot** [[00:35:04](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2104)]
 It's, like, hard to know that from the graph. I mean, let's continue.
@@ -627,7 +627,7 @@ It's, like, hard to know that from the graph. I mean, let's continue.
 this feature request in the Viz channel.
 
 ##### **Geohot** [[00:35:21](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2121)]
-All right, cool. But yeah, I think we should always... I think it's good to continue to optimize the profiler so it works for Lama, but then I think we should stop optimizing unless we have a clear use case where this doesn't work right now, this is a reasonable thing people want, and this approach will make it better.
+All right, cool. But yeah, I think we should always.. I think it's good to continue to optimize the profiler so it works for LLaMA, but then I think we should stop optimizing unless we have a clear use case where this doesn't work right now, this is a reasonable thing people want, and this approach will make it better.
 
 ##### **Geohot** [[00:35:40](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2140)]
 Make sense?
@@ -639,7 +639,7 @@ Cool.
 Cool, okay. Next is drivers. Yeah, so marriage check here this week.
 
 ##### **Nimlgen** [[00:35:59](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2159)]
-So the Lama runs fine now, the My300. So it's about 100 tokens with BMICOS4. It used to be about 25 or so. So... So yeah. So yeah, this week I'll focus on the CPU threading. So I hope that Viz timeline will emerge pretty soon
+So the LLaMA runs fine now, the My300. So it's about 100 tokens with BMICOS4. It used to be about 25 or so. So.. So yeah. So yeah, this week I'll focus on the CPU threading. So I hope that Viz timeline will emerge pretty soon
 
 ##### **Geohot** [[00:36:27](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2187)]
 because I'll need it.
@@ -660,19 +660,19 @@ Well, I remember you said that it was trying to load the NVIDIA. So I'm not sure
 Yeah, I mean, I did.
 
 ##### **Geohot** [[00:37:21](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2241)]
-Okay, then why is it still causing... Why does it still have issues?
+Okay, then why is it still causing.. Why does it still have issues?
 
 ##### **Nimlgen** [[00:37:25](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2245)]
-Yeah, I mean, it's still... I don't know for what reason, but it's still doing the resets. Like in the Damask, you can see that it just did the FLR reset on the GPU. Maybe that's our driver, but I still don't understand. Maybe why it's not terminating fine.
+Yeah, I mean, it's still.. I don't know for what reason, but it's still doing the resets. Like in the Damask, you can see that it just did the FLR reset on the GPU. Maybe that's our driver, but I still don't understand. Maybe why it's not terminating fine.
 
 ##### **Geohot** [[00:37:49](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2269)]
-Well, I mean, we really need to get this to the point that it can be in any state. There has to be a way to reset this GPU. Like there can't be a way that like if we control C the process wrong, that it... If we like kill minus nine the process, that the GPU just doesn't come back.
+Well, I mean, we really need to get this to the point that it can be in any state. There has to be a way to reset this GPU. Like there can't be a way that like if we control C the process wrong, that it.. If we like kill minus nine the process, that the GPU just doesn't come back.
 
 ##### **Nimlgen** [[00:38:12](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2292)]
-Yeah. I mean, yeah, that's totally strange. But... I see this problem only with 5090s and the Blackwell and Hopper. But yeah, okay, I'll investigate this. But actually, that's the only way how I see to reset the GPU is like to do the function level reset. There is... I mean, that driver does nothing.
+Yeah. I mean, yeah, that's totally strange. But.. I see this problem only with 5090s and the Blackwell and Hopper. But yeah, okay, I'll investigate this. But actually, that's the only way how I see to reset the GPU is like to do the function level reset. There is.. I mean, that driver does nothing.
 
 ##### **Geohot** [[00:38:40](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2320)]
-Well, I mean, there's a few different types of resets you can do. You can actually like do a hard... The PCI bus can do a reset.
+Well, I mean, there's a few different types of resets you can do. You can actually like do a hard.. The PCI bus can do a reset.
 
 ##### **Nimlgen** [[00:38:50](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2330)]
 Yeah, the other one is the bus reset. Does a bus reset get it back or no? I'll test it. But actually, I've seen on the internet people complaining that bus reset had the same problem as FLR. Yeah, I can test that.
@@ -699,7 +699,7 @@ Is there any reason why it's not default on?
 Yeah, because I think the queue time on PIM4 can be better. Because there is no indirect pocket to execute AQL comments from the indirect buffer. And because of that, we should just copy all the packets every time to the queue. Because of that, the queue time is larger. Not much on MI300.
 
 ##### **Geohot** [[00:40:37](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2437)]
-Well, those CPUs are extremely fast. Yeah. I want to start moving more and more stuff to... Like, I want to use basically the CPU backend to build these packets.
+Well, those CPUs are extremely fast. Yeah. I want to start moving more and more stuff to.. Like, I want to use basically the CPU backend to build these packets.
 
 ##### **Nimlgen** [[00:40:51](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2451)]
 Yeah.
@@ -717,7 +717,7 @@ I mean, I don't know. I can benchmark AQL and queue times on BERT or other bench
 So you're talking about getting rid of it for all AMD GPUs?
 
 ##### **Nimlgen** [[00:41:36](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2496)]
-Yeah. So if the numbers are good and we don't see... Any huge performance issues, I think, yeah, we can just leave AQL as the default type and remove the PIM4 queue creation at all.
+Yeah. So if the numbers are good and we don't see.. Any huge performance issues, I think, yeah, we can just leave AQL as the default type and remove the PIM4 queue creation at all.
 
 ##### **Geohot** [[00:41:54](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2514)]
 Yeah. If it saves code, let's go with BATHs. Sounds good. Sounds good.
@@ -726,7 +726,7 @@ Yeah. If it saves code, let's go with BATHs. Sounds good. Sounds good.
 Yeah. I was planning to benchmark BERT and see if the training time is faster. But if you are interested to do that and see if we can use that for default, that's better.
 
 ##### **Geohot** [[00:42:17](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2537)]
-I mean, I do like PIM4 more because you can read the... You can read the... Like, I don't know. Maybe we should... You can read the Mac firmware for PIM4 and it shows you what it's doing on the GPU. You read the Mac firmware for AQL and it's a nightmare.
+I mean, I do like PIM4 more because you can read the.. You can read the.. Like, I don't know. Maybe we should.. You can read the Mac firmware for PIM4 and it shows you what it's doing on the GPU. You read the Mac firmware for AQL and it's a nightmare.
 
 ##### **Chenyu** [[00:42:33](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2553)]
 Yeah. So this is less about getting rid of PIM4, but just we want the default to be the default. So the BATH one we recommend people to use.
@@ -738,7 +738,7 @@ That's a good point. Sounds good. Okay. Next is symbolic.
 Yeah. So I've been working mostly on some rules for nested divs and when you want to nest a div and when you want to unnest it. And I have a lot of PRs for it. I haven't got it exactly how I want it, but I think it's one of the remaining things that's missing from symbolic for divs at least.
 
 ##### **Geohot** [[00:43:24](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2604)]
-And...
+And..
 
 ##### **Chenyu** [[00:43:28](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2608)]
 Do you have an example to show things that should be simplified but not simplified from this?
@@ -753,10 +753,10 @@ Okay.
 So I'll post something. So I'll post something. I mean, there's a rule currently that does that sometimes nests a div, but it doesn't always choose the best factor to nest it by. And ideally you want, well, ideally you don't want any nesting because it means you do two divs instead of one. But then there's some stuff with like, well, I don't know, it made when I unnested it made Winograd or Max slower.
 
 ##### **Geohot** [[00:44:23](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2663)]
-Yeah. So that... And that, I mean, it will. Yeah. Yeah.
+Yeah. So that.. And that, I mean, it will. Yeah. Yeah.
 
 ##### **Chenyu** [[00:44:31](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2671)]
-So I think usually these things, you can start it by like editing. Yeah. And then you can start it by like, oh, I just did examples that is currently not simplified into a test. Then mark it as a to-do or like expected value or. So... Yeah. It's a lot easier for other people to understand like what's not done and what can be made better.
+So I think usually these things, you can start it by like editing. Yeah. And then you can start it by like, oh, I just did examples that is currently not simplified into a test. Then mark it as a to-do or like expected value or. So.. Yeah. It's a lot easier for other people to understand like what's not done and what can be made better.
 
 ##### **Sieds Lykles** [[00:44:54](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2694)]
 Yeah. I'll add some to-do's, some examples.
@@ -765,13 +765,13 @@ Yeah. I'll add some to-do's, some examples.
 I mean, it's pretty nice that you are cleaning up these like divs and mods stuff. Yeah.
 
 ##### **Sieds Lykles** [[00:45:10](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2710)]
-I think I have an overview now of all the rules that are missing. Like I had some branch where I was doing the, I don't know, I was just printing a lot of UOPs that should simplify to the same thing. You can see the difference. And then like... I was getting pretty close to them always being the same.
+I think I have an overview now of all the rules that are missing. Like I had some branch where I was doing the, I don't know, I was just printing a lot of UOPs that should simplify to the same thing. You can see the difference. And then like.. I was getting pretty close to them always being the same.
 
 ##### **Geohot** [[00:45:42](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2742)]
 Yeah.
 
 ##### **Chenyu** [[00:45:43](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2743)]
-And I think another thing to just keep in mind is to some of these you can benchmark and some of these rules or edge cases can be, can make the code itself pretty complex. So if you feel that's going to be the case, then sometimes it needs your judgment code to say, okay, this is... I'm just getting too complicated. Maybe it's not worth it.
+And I think another thing to just keep in mind is to some of these you can benchmark and some of these rules or edge cases can be, can make the code itself pretty complex. So if you feel that's going to be the case, then sometimes it needs your judgment code to say, okay, this is.. I'm just getting too complicated. Maybe it's not worth it.
 
 ##### **Geohot** [[00:46:12](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2772)]
 Yeah.
@@ -828,7 +828,7 @@ Supposedly it's a lot faster with the kernel driver because of some NUMA node be
 Yeah, that's starting by having a script. Yeah, I'm starting with a script. So that we can reproduce the multi-machine trend and see what the next should be.
 
 ##### **Geohot** [[00:48:41](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2921)]
-It's also the NAND thing. I mean, I don't want to harp on the NAND thing if this turns out to be just like... Didn't we used to just have this problem in AMD in general? Yes.
+It's also the NAND thing. I mean, I don't want to harp on the NAND thing if this turns out to be just like.. Didn't we used to just have this problem in AMD in general? Yes.
 
 ##### **Chenyu** [[00:48:53](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=2933)]
 And I think that was caused by some driver issue. At least it was fixed by some driver change. Huh. So, I mean, I mean. If we can successfully train BERT on one machine, say for a few times, then it failed on the two machine setup, then more likely there's some problem with the two machine setup.
@@ -924,7 +924,7 @@ Yeah. Since you are in the middle, I think a general comment I would have for wr
 So I'm looking here at this change from test symbolic mean 2D axis 1. This is changing several things. This is changing one of these things has a different range now. It's from 2 to 10 instead of 1 to 10. It's changing the shape of the things. I really want nothing to change except using this new thing. This new format. I'll post the one specifically that I'm talking about. There's way too many changes to this test, it seems.
 
 ##### **Geohot** [[00:56:15](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3375)]
-Why is a 1 changing to a 2? Yeah, I don't understand this. And . I think it's because they shouldn't reshape to symbolic.
+Why is a 1 changing to a 2? Yeah, I don't understand this. And. I think it's because they shouldn't reshape to symbolic.
 
 ##### **Geohot** [[00:56:32](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3392)]
 Well, the reshape there is fine. But yeah, I don't understand why it's not just like, you keep the size the same and then you do VV2, VV like that. I think this has to be way more carefully done with like, if you want to make any. I think there's some of these changes that are just exact refactors, and those should be merged in one PR. And then if you want to make any changes to any range of any variable, that's got to be in a separate PR and discussed.
@@ -951,7 +951,7 @@ OK.
 Cool.
 
 ##### **Geohot** [[00:58:26](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3506)]
-And we'll also get B1TG access to the 350x we can see about LVM.
+And we'll also get B1TG access to the 350x we can see about LLVM.
 
 ##### **Qazalin** [[00:58:34](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3514)]
 Cool.
@@ -975,7 +975,7 @@ OK. Great.
 All right, we need to say. Say something. Was lag No.
 
 ##### **Geohot** [[00:59:12](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3552)]
-Cal道
+Cal
 
 ##### **Geohot** [[00:59:14](https://www.youtube.com/watch?v=KA0h9zmJtcs&t=3554)]
 I forget. A lot of the subtlety involves, you want store to no longer have DTYPE void. You want store to pass through the pointer to the original buffer that it's storing.

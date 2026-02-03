@@ -27,7 +27,7 @@ Here are the highlights from the meeting transcript:
 
 - **[Kernelization](#geohot-001749)**: Part 5 splits into kernels using similar logic to the old system but with improved debugging through tag numbering instead of graph rewrite maps.
 
-- **[Bug Status](#geohot-003614)**: Several known issues exist including problems with disk tensor, JIT, webGPU (ULONG support), and image dtype compatibility. These need to be addressed by specific team members.
+- **[Bug Status](#geohot-003614)**: Several known issues exist including problems with disk tensor, JIT, WebGPU (ULONG support), and image dtype compatibility. These need to be addressed by specific team members.
 
 - **[Symbolic Handling](#geohot-004724)**: Need to move reshape/expand/pad/shrink arguments from uops in args to proper graph sources for better symbolic handling and deduplication.
 
@@ -64,46 +64,46 @@ I wrote linearizer. Now range of I wrote the shape tracker. Like I worry that if
 I don't know, I think Ranger Phi is easy to understand, but the implementation is hard to understand.
 
 ##### **Geohot** [[00:03:21](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=201)]
-The implementation can definitely be worked on. The implementation is not the best code in TinyGrad yet. It was kind of my first pass at the implementation. But hopefully each part of it can be worked on individually too. The only part in Ranger Phi that actually is interesting is part 3a. Um... Part 3a lines 122 down to 196.
+The implementation can definitely be worked on. The implementation is not the best code in TinyGrad yet. It was kind of my first pass at the implementation. But hopefully each part of it can be worked on individually too. The only part in Ranger Phi that actually is interesting is part 3a. Um.. Part 3a lines 122 down to 196.
 
 ##### **Geohot** [[00:03:50](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=230)]
 That's the definition of all of the movement docs. Part 3.5 is kind of interesting too. Part 3.5 is where we'll put in the cost functions.
 
 ##### **Geohot** [[00:04:07](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=247)]
-And even the very simple cost function that I wrote that just checks the cost of the movement docs. So that basically just says duplicate... Okay. So you get a choice many times between... Do you want to duplicate compute? Or do you want to store? So say you have two... Say you have something that's reading from a and a times two. Right? And you have another kernel that's also reading from a times two. Do you want to actually compute a times two? Or do you want both compute... Uh... Uh... Kernels to compute a times two locally? And this makes the trade-off to say that whenever it's an element-wise op, always just do it locally. Whenever it does not make a stand. Um... And that heuristic turns out to be a lot better than the heuristic that we had in the old scheduler. At least by... You can try right now. You can run Ranger Phi, uh... Beautiful MNIST. And it uses a third of the memory and uh... Like 30% less kernels. It uses a lot more memory. It uses a lot more runtime now. But that's mostly just due to... Basically this stuff enforces... Uh... This stuff gets you FuseConf backwards for free. And those kernels are never fast.
+And even the very simple cost function that I wrote that just checks the cost of the movement docs. So that basically just says duplicate.. Okay. So you get a choice many times between.. Do you want to duplicate compute? Or do you want to store? So say you have two.. Say you have something that's reading from a and a times two. Right? And you have another kernel that's also reading from a times two. Do you want to actually compute a times two? Or do you want both compute.. Uh.. Uh.. Kernels to compute a times two locally? And this makes the trade-off to say that whenever it's an element-wise op, always just do it locally. Whenever it does not make a stand. Um.. And that heuristic turns out to be a lot better than the heuristic that we had in the old scheduler. At least by.. You can try right now. You can run Ranger Phi, uh.. Beautiful MNIST. And it uses a third of the memory and uh.. Like 30% less kernels. It uses a lot more memory. It uses a lot more runtime now. But that's mostly just due to.. Basically this stuff enforces.. Uh.. This stuff gets you FuseConf backwards for free. And those kernels are never fast.
 
 ##### **Geohot** [[00:05:25](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=325)]
-I'm not exactly sure why that is. Uh...
+I'm not exactly sure why that is. Uh..
 
 ##### **Chenyu** [[00:05:31](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=331)]
-Can we briefly go through... Can we briefly go through the Ranger Phi dot py and you can just say it out loud like which part are hack? Like I said, I don't know. I don't know what the DLT should be called.
+Can we briefly go through.. Can we briefly go through the Ranger Phi dot py and you can just say it out loud like which part are hack? Like I said, I don't know. I don't know what the DLT should be called.
 
 ##### **Qazalin** [[00:05:44](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=344)]
 Sure. Sure.
 
 ##### **Geohot** [[00:05:45](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=345)]
-Uh... Okay. So the first part, part zero, uh... Do some cleanup rewrites. Mostly copy from the old stuff. That's all hacks. Uh... And can all pretty much be deleted. You can see half of it's commented out. Um... That's mostly due to like bugs in the spec. I already fixed the const thing. So like there was that const hack. So then I fixed that in ops. Um... You can see there's actually a different Ranger Phi.
+Uh.. Okay. So the first part, part zero, uh.. Do some cleanup rewrites. Mostly copy from the old stuff. That's all hacks. Uh.. And can all pretty much be deleted. You can see half of it's commented out. Um.. That's mostly due to like bugs in the spec. I already fixed the const thing. So like there was that const hack. So then I fixed that in ops. Um.. You can see there's actually a different Ranger Phi.
 
 ##### **Chenyu** [[00:06:08](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=368)]
-Everything... Everything in part zero if can be removed, we should remove it. Is what you're saying?
+Everything.. Everything in part zero if can be removed, we should remove it. Is what you're saying?
 
 ##### **Geohot** [[00:06:13](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=373)]
-Yes. Yes. Okay. Um... Okay. Then part one.
+Yes. Yes. Okay. Um.. Okay. Then part one.
 
 ##### **Geohot** [[00:06:20](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=380)]
 So I've drawn a distinction between contiguous and realize.
 
 ##### **Geohot** [[00:06:31](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=391)]
-So it's still called... It's still called...
+So it's still called.. It's still called..
 
 ##### **Geohot** [[00:06:34](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=394)]
-The pattern matcher is still called add contiguous, but should be called add realize. So contiguous is a user operation that says the user... Demands this be a buffer. Realize is a system operation that says, hey, I'm going to try to make this a buffer, but you're allowed to change that later if you want. Like you're allowed to optimize this buffer out. Um... But yeah, so part one isn't really a hack. Part one is kind of just saying that like, I mean, it's a hack, but it's a longer term hack. Uh... Saying things like, okay, copy. You have to realize the parents and children have copied.
+The pattern matcher is still called add contiguous, but should be called add realize. So contiguous is a user operation that says the user.. Demands this be a buffer. Realize is a system operation that says, hey, I'm going to try to make this a buffer, but you're allowed to change that later if you want. Like you're allowed to optimize this buffer out. Um.. But yeah, so part one isn't really a hack. Part one is kind of just saying that like, I mean, it's a hack, but it's a longer term hack. Uh.. Saying things like, okay, copy. You have to realize the parents and children have copied.
 
 ##### **Geohot** [[00:07:15](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=435)]
 Okay.
 
 ##### **Sieds Lykles** [[00:07:16](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=436)]
-Um...
+Um..
 
 ##### **Geohot** [[00:07:16](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=436)]
 Anything that's in the sink, you want to realize.
@@ -112,19 +112,19 @@ Anything that's in the sink, you want to realize.
 Anything that's a sign related issues, likely this part.
 
 ##### **Geohot** [[00:07:26](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=446)]
-Uh... Anything that's a sign related.
+Uh.. Anything that's a sign related.
 
 ##### **Chenyu** [[00:07:28](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=448)]
 So there are several issues now is rectified a sign.
 
 ##### **Geohot** [[00:07:33](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=453)]
-Oh, I don't think those are in this part. Uh... I fixed most of them too, I think. At least... So the current assign and master is completely broken.
+Oh, I don't think those are in this part. Uh.. I fixed most of them too, I think. At least.. So the current assign and master is completely broken.
 
 ##### **Geohot** [[00:07:47](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=467)]
-Uh... The current assigned and master... I have... There's a test now that has an if rangeify in it because it'll only pass with rangeify. Um... So I think the assign is... Oh, you mean the assign in the diamond problem. Yep. Yeah. So the diamond problem is not caused by this. Uh... The diamond problem... This actually, you might be able to fix the diamond problem here. One solution to the diamond problem is to always make a copy before the assign and then remove the copy if you want to later. So like one way to always... Like the problem with the diamond is when you have a kernel that's going to access both the assigned and unassigned version of a buffer.
+Uh.. The current assigned and master.. I have.. There's a test now that has an if rangeify in it because it'll only pass with rangeify. Um.. So I think the assign is.. Oh, you mean the assign in the diamond problem. Yep. Yeah. So the diamond problem is not caused by this. Uh.. The diamond problem.. This actually, you might be able to fix the diamond problem here. One solution to the diamond problem is to always make a copy before the assign and then remove the copy if you want to later. So like one way to always.. Like the problem with the diamond is when you have a kernel that's going to access both the assigned and unassigned version of a buffer.
 
 ##### **Geohot** [[00:08:31](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=511)]
-But one way to fix that is just always... Yeah.
+But one way to fix that is just always.. Yeah.
 
 ##### **Qazalin** [[00:08:37](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=517)]
 Okay. Okay. Okay. Okay.
@@ -133,13 +133,13 @@ Okay. Okay. Okay. Okay.
 Okay.
 
 ##### **Geohot** [[00:08:42](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=522)]
-I'm not sure exactly what the right fix is for that, but I don't think that's because of hacks here. Okay. So then... Uh... Part two is definitely not a hack. Uh... Part two just labels all of the children. Oh well, okay.
+I'm not sure exactly what the right fix is for that, but I don't think that's because of hacks here. Okay. So then.. Uh.. Part two is definitely not a hack. Uh.. Part two just labels all of the children. Oh well, okay.
 
 ##### **Geohot** [[00:09:01](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=541)]
 Lines 106 to 108 are a hack.
 
 ##### **Geohot** [[00:09:04](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=544)]
-I gated it so that not all children show up. Okay. But that can be removed now and can be cleaned up later. But the idea of going through the graph and figuring out where children are is not a hack and is a fundamental thing. Because you want to do things differently depending on...
+I gated it so that not all children show up. Okay. But that can be removed now and can be cleaned up later. But the idea of going through the graph and figuring out where children are is not a hack and is a fundamental thing. Because you want to do things differently depending on..
 
 ##### **Chenyu** [[00:09:26](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=566)]
 What's the difference between ops-child and ops-children?
@@ -148,10 +148,10 @@ What's the difference between ops-child and ops-children?
 So ops-children is the root node and ops-child has things going off of it.
 
 ##### **Geohot** [[00:09:42](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=582)]
-So if you have like... let's say I have like a...
+So if you have like.. let's say I have like a..
 
 ##### **Geohot** [[00:09:48](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=588)]
-A child is a child of children. A child is a child of children, yes. You kind of don't need the children op. I tried it without it. And just having the child ops on the other op. But there were some annoyances there. It was better to just have them both. So yeah, it is a little bit of a... Maybe add a little wider graph with a children and then as many childs as you want on the op.
+A child is a child of children. A child is a child of children, yes. You kind of don't need the children op. I tried it without it. And just having the child ops on the other op. But there were some annoyances there. It was better to just have them both. So yeah, it is a little bit of a.. Maybe add a little wider graph with a children and then as many childs as you want on the op.
 
 ##### **Geohot** [[00:10:24](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=624)]
 So that's just us children extraction.
@@ -196,19 +196,19 @@ So yeah, it's never wrong. You can actually remove all the buffers. At any point
 That was before you have some cost function to do some least bufferize. Everything was super slow. Super slow.
 
 ##### **Geohot** [[00:15:33](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=933)]
-Well, before I had any cost function, what it was doing is it was creating lots and lots of buffers, which lots and lots of buffers can be slow, but it's a fixed overhead slower. You can really see this with two gems. You can really see this with A, like A at B at C. So if you don't do any bufferizations of the intermediate, you end up with...
+Well, before I had any cost function, what it was doing is it was creating lots and lots of buffers, which lots and lots of buffers can be slow, but it's a fixed overhead slower. You can really see this with two GEMMs. You can really see this with A, like A at B at C. So if you don't do any bufferizations of the intermediate, you end up with..
 
 ##### **Geohot** [[00:16:02](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=962)]
 Recomputing everything in the first matrix multiply n times. So you can do a full bufferize.
 
 ##### **Geohot** [[00:16:14](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=974)]
-You can do A, A at B, store that in a buffer, and then do the thing stored at C. And that's a full, normally how you do two sequential gems. But you can also do a partial bufferize. We only store one row. And this is also correct. And there's logic to do that. That's like the range of high equals two stuff, but we don't even need to get any of that stuff working yet.
+You can do A, A at B, store that in a buffer, and then do the thing stored at C. And that's a full, normally how you do two sequential GEMMs. But you can also do a partial bufferize. We only store one row. And this is also correct. And there's logic to do that. That's like the range of high equals two stuff, but we don't even need to get any of that stuff working yet.
 
 ##### **Geohot** [[00:16:42](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=1002)]
-But that's... The whole point of this is to eventually enable things like that. Let's continue with range of high four.
+But that's.. The whole point of this is to eventually enable things like that. Let's continue with range of high four.
 
 ##### **Geohot** [[00:16:52](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=1012)]
-Yep. So part four, put in buffers for bufferize. It converts the bufferize uop into super. It stores to actual buffers. It actually creates the buffer at this point. And then there's a bunch of logic for assign. Yeah, there's some hacks in there. Some stuff in there could kind of be changed. But the forced reshapes are there. I don't think we actually need those. And then... Yeah, so we'll get to that later. And then part five splits into kernels. So part five is pretty much the same logic as the old thing, which just says every store to global needs to be in its own kernel. I also added something this morning to renumber the ranges in the kernels, because all these ranges have global numbers. So in each kernel, I renumber them to be a local version of the number. And this allows the deduper to work.
+Yep. So part four, put in buffers for bufferize. It converts the bufferize uop into super. It stores to actual buffers. It actually creates the buffer at this point. And then there's a bunch of logic for assign. Yeah, there's some hacks in there. Some stuff in there could kind of be changed. But the forced reshapes are there. I don't think we actually need those. And then.. Yeah, so we'll get to that later. And then part five splits into kernels. So part five is pretty much the same logic as the old thing, which just says every store to global needs to be in its own kernel. I also added something this morning to renumber the ranges in the kernels, because all these ranges have global numbers. So in each kernel, I renumber them to be a local version of the number. And this allows the deduper to work.
 
 ##### **Geohot** [[00:17:49](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=1069)]
 This also converts the buffers into defined globals. Yeah. So I'm going to do a little bit of a test here. And then I'm going to do a little bit of a test here. And then the big function at the bottom, get range if I map.
@@ -250,7 +250,7 @@ So you can see that the Becomes map was the way we used to do this.
 Unfortunately with gravity right map. It was really annoying to figure out like what should go in and becomes map. We had some logic to do that, but it had bugs. But now with the tag numbers. At least with the tag numbers. It's super easy to debug. You can just go and visit and you can be like, oh cool. Okay, great. That's tag 87. Also like we don't have to like track this metadata through all this stuff anymore. You can see all the metadata stuff is just handled online 531 in a one liner. That just looks in the in the in the input list of you ops and says cool. You up 27. Great. You work home 2D.
 
 ##### **Geohot** [[00:23:16](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=1396)]
-Great. I'll put that in the metadata. Yeah. When you computerize the data, does it work automatically. Okay, delicious time when I could try to get constantly sitting. I'd do this корい luciana answer to that. So just go scrolling well.
+Great. I'll put that in the metadata. Yeah. When you computerize the data, does it work automatically. Okay, delicious time when I could try to get constantly sitting. I'd do this luciana answer to that. So just go scrolling well.
 
 ##### **Geohot** [[00:23:48](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=1428)]
 3a is the part that actually applies the movement ops to the ranges. So this was kind of the whole key insight of Rangeify. So Rangeify has two eyes. It has one buffer eyes. Buffer eyes takes in a data and a set of ranges, and then it creates a buffer and stores the data at each one of those ranges. So if you want to create a buffer that's like the result of a plus b, and a plus b are tensors of size 10, you'll have a plus b as the first input to buffer eyes, and then the second input to buffer eyes will be that range 10. And that says create a buffer of size 10 and store all the outputs there. Then you'll also see in map realize that it creates an index with those ranges beforehand. That tells you how to index into that buffer. That tells you where, given the range, you're going to find each thing that corresponds to that range. So when it's created, when it's realized, it's created contiguous in the same way we used to create shape trackers contiguous. But then these indexes work their way up the graph. They move to the left, and you apply the movement ops to the ranges. So like you can think like permute is very trivial, right? If I have something that takes in, you know, range zero and range one, and then I have a permute on there, where I like transpose it, I can transpose the two. Okay, cool. I just switched the position of the two ranges.
@@ -373,7 +373,7 @@ Yeah, after dot points, you basically don't have any new answers to give. Yeah. 
 Yeah.
 
 ##### **Chenyu** [[00:35:18](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2118)]
-I mean, with all things, with all the . Yeah. You're just reinserting yourself back to until it hits that many times.
+I mean, with all things, with all the. Yeah. You're just reinserting yourself back to until it hits that many times.
 
 ##### **Geohot** [[00:35:29](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2129)]
 Yeah, yeah. I think also with graph infinite loop, sometimes we can explicitly detect the infinite loop, and it'd be nice to have a better error message when we can. You can't always. I mean, you can if you use, like, there's algorithms to do it, but they're kind of complicated and slow.
@@ -423,8 +423,7 @@ Okay. So PTR cat is pointer cat. It's used in the de vectorizer for basically sa
 ##### **Geohot** [[00:39:13](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2353)]
 Pointer cat says, I want you to load four and I'm going to give you four pointers.
 
-##### **Qazalin** [[00:39:22](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2362)]
-.
+##### **Qazalin** [[00:39:22](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2362)].
 
 ##### **Geohot** [[00:39:31](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2371)]
 So basically M Stack. Yes. Similarish to M Stack. Yeah.
@@ -553,7 +552,7 @@ Yeah, it should be rewritten. That should still kind of work.
 Okay.
 
 ##### **Geohot** [[00:46:02](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2762)]
-That's fine. I think let's . Seeds, maybe you want to take this one?
+That's fine. I think let's. Seeds, maybe you want to take this one?
 
 ##### **Sieds Lykles** [[00:46:10](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=2770)]
 So what exactly was it? The problem with web GPU or three-file?
@@ -709,7 +708,7 @@ My understanding, at least for the LLVM one, is they do a lot of things for, lik
 They do.
 
 ##### **Geohot** [[00:58:07](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=3487)]
-Halide shows some, like, good examples where they show, like, how they, like, split compute, how they, like, choose to, like, recompute sub-branges. It's, you kind of need it for the DSP stuff. But for the GPU stuff, for, like, fast gems on GPUs and for flash attention on GPUs, you don't need it. Just normal rectangular.
+Halide shows some, like, good examples where they show, like, how they, like, split compute, how they, like, choose to, like, recompute sub-branges. It's, you kind of need it for the DSP stuff. But for the GPU stuff, for, like, fast GEMMs on GPUs and for flash attention on GPUs, you don't need it. Just normal rectangular.
 
 ##### **Geohot** [[00:58:30](https://www.youtube.com/watch?v=2kpAMGBbtf8&t=3510)]
 Yeah. Tiling works fine. OK. Yeah. Oh, how do you want to implement the backward and flash

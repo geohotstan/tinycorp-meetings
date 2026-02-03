@@ -9,7 +9,7 @@
 - scheduler (fusion)
 - driver
 - symbolic
-- webgpu
+- WebGPU
 - fast OLMoE
 - other bounties
 
@@ -44,7 +44,7 @@ So we're going to do a quick meeting today.
 I got a lot of comma stuff to deal with.
 Yeah, I'm back in San Diego.
 Meeting 69.
-And Tinybox Green V2s are shipping this week.
+And TinyBox Green V2s are shipping this week.
 Probably.
 If you're one of the three who already got their money in, your TinyBox V2 is either going to ship this week or next week.
 And if you get an order in soon, we sold two this morning, yours will ship by the end of the month.
@@ -56,7 +56,7 @@ Everything now goes through CodeGen init.
 I have it pre-build all of the list of graph rewrite rules, kind of like a pass manager on LLVM.
 And then it runs the rules.
 I left all the old functions in because the tests still use them, but we should take them all out.
-So if anyone's interested in picking up one of those PRs... do so.
+So if anyone's interested in picking up one of those PRs.. do so.
 Things like rewrite shape tracker with index, expand rewrite, full graph rewrite, all that stuff.
 And yeah, that's get rewrite for renderer.
 
@@ -99,11 +99,11 @@ But, um, how about multi-output?
 Uh, I just focused on fuse A range, and I don't really get to that.
 
 ##### **Geohot** [[00:03:19](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=199)]
-Uh...
+Uh..
 Yeah, I mean, you're welcome to work on DSP stuff if you feel like you can make more progress there.
 I think the schedule is in an okay place.
 Yeah, the big two things I'm going to work on the next two weeks are the rewrite of Multi to take everything from O(N) to O(1), and the warp upcast.
-And neither of those are blocking on anything, so... Yeah.
+And neither of those are blocking on anything, so.. Yeah.
 Yeah, I like this.
 We're doing a 15-minute stand-up today.
 All right, driver?
@@ -129,7 +129,7 @@ Yeah, yeah.
 I mean, yeah, yeah, I'll take a look at it.
 
 ##### **Geohot** [[00:05:11](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=311)]
-Can we just...
+Can we just..
 I mean, can we just blacklist AMD GPU on these machines?
 
 ##### **Nimlgen** [[00:05:18](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=318)]
@@ -139,10 +139,10 @@ We're on HIP.
 What do you mean, we're on HIP?
 
 ##### **Nimlgen** [[00:05:23](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=323)]
-I mean, in benchmark, we have... Oh, yeah.
+I mean, in benchmark, we have.. Oh, yeah.
 
 ##### **Geohot** [[00:05:29](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=329)]
-Because I feel like... I'm looking at dmessage now of Tiny12, and there's all this spam about, like... PCI stuff.
+Because I feel like.. I'm looking at dmessage now of Tiny12, and there's all this spam about, like.. PCI stuff.
 So I don't know.
 I guess we do still have to maintain that.
 How's boot time at the USB?
@@ -171,12 +171,12 @@ Got it.
 Yeah, so we've got to just focus on speed.
 
 ##### **Nimlgen** [[00:06:44](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=404)]
-Yeah, and actually, for NV, we still... We don't support 5090 for NV backend.
+Yeah, and actually, for NV, we still.. We don't support 5090 for NV backend.
 So do we want to support them before the launch?
 
 ##### **Geohot** [[00:07:00](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=420)]
-I think we're not in a huge... Oh, wait, we don't even support it in the... Yeah.
-I think...
+I think we're not in a huge.. Oh, wait, we don't even support it in the.. Yeah.
+I think..
 Yeah, yeah, we should do it.
 We should do it.
 It's not gonna get any easier, is it?
@@ -216,13 +216,13 @@ I mean, it is.
 It's bad?
 
 ##### **Nimlgen** [[00:09:09](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=549)]
-I mean, it's... Yeah, I mean, the CPU overhead is... Yeah.
+I mean, it's.. Yeah, I mean, the CPU overhead is.. Yeah.
 
 ##### **Geohot** [[00:09:17](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=557)]
 Yeah.
 
 ##### **Nimlgen** [[00:09:18](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=558)]
-Running Llama, it's just, yeah, significant.
+Running LLaMA, it's just, yeah, significant.
 
 ##### **Geohot** [[00:09:21](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=561)]
 How is GPT-Fast doing it better?
@@ -260,7 +260,7 @@ which doesn't happen much.
 Because, I mean, idiv is, like, in C, it's truncating the vision.
 I just, I was trying to, like, I found, I have a PR for two of them.
 The third one is in, like, the Div and Mod folding.
-And it's a little bit more complicated to...
+And it's a little bit more complicated to..
 cleanly do it without regressions because there's some rules that require like the remainder like they require like the normal remainder like the python remainder or the floored remainder but yeah 
 
 ##### **Geohot** [[00:12:19](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=739)]
@@ -299,7 +299,7 @@ So.
 
 ##### **Sied Lykles** [[00:14:58](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=898)]
 Yeah, I think you're using z3 can handle it.
-It's just you get like z3...
+It's just you get like z3..
 You can get you got to prove that it's or it can actually verify whether
 It's correct for all integers, or within your bound, for all the variables.
 But if it's I don't know.
@@ -332,7 +332,7 @@ We're trying to render the kernel graph into a different language.
 So what that does is it takes your function that returns a tensor as well as the arguments of that function, and it constructs the graph, the kernel graph, it linearizes it, and it renders the kernels and buffer names and marks which buffers have state.
 And this is all common logic, whether you want to render into JavaScript or C. And then if you're rendering into JavaScript for WebGPU, you subclass that graph renderer with WebGPU graph renderer.
 And within there, you implement the function for rendering the graph into JavaScript.
-starting from scratch here, trying to, instead of having a giant F string like I did before, just trying to have everything broken up into little understandable pieces so you could see all the operations, hopefully, and understand how they map to the webgpu runtime.
+starting from scratch here, trying to, instead of having a giant F string like I did before, just trying to have everything broken up into little understandable pieces so you could see all the operations, hopefully, and understand how they map to the WebGPU runtime.
 
 ##### **Geohot** [[00:17:29](https://www.youtube.com/watch?v=Xy3VCX7mi0o&t=1049)]
 Cool.
@@ -373,21 +373,21 @@ Great.
 Yeah, no, I thought that Arange stuff would help you with fast OLMoE.
 Um, so how fast are we doing?
 Let's give it a try.
-Uh...
+Uh..
 I also want to talk for a minute.
-I was realizing I did a stream this weekend, and you understand where the... I'm not sure if this is what the multi-level in MLIR means, but so many of these things look like... So the kernelizing collapses groups of UOPs into a kernel, and then the linearizer collapses groups into a block.
-this concept of collapsing into... The linearizer should really be replaced with the new kind of reduced stuff.
-And then you'll have... It's a multi-level graph.
+I was realizing I did a stream this weekend, and you understand where the.. I'm not sure if this is what the multi-level in MLIR means, but so many of these things look like.. So the kernelizing collapses groups of UOPs into a kernel, and then the linearizer collapses groups into a block.
+this concept of collapsing into.. The linearizer should really be replaced with the new kind of reduced stuff.
+And then you'll have.. It's a multi-level graph.
 I see everything kind of moving to this.
 And we're already doing it.
 It's not far off from what we have now.
 But right now we have this kernel UOP, and the kernel UOP has a special data structure called kernel.
-We have the...
+We have the..
 It's a block UOP, and it has a special data structure called Basic Block 2.
 That stuff should be replaced by whatever generic multilevel representation we eventually move to.
-But...
+But..
 Cool.
-So let's... I can try the Fast OLMoE offline.
+So let's.. I can try the Fast OLMoE offline.
 But yeah, that bounty's yours when we get to 76.9.
 Hopefully we're there.
 Other bounties to go over quickly.
@@ -399,7 +399,7 @@ Oh, that's the Compile stuff.
 And then GPTFast outperforming the AMD backend.
 So a lot of good bounties for people who want to sit and work on Speed stuff.
 Speed is the main focus of the year.
-And with that, unless someone has a question or a comment...
+And with that, unless someone has a question or a comment..
 quick meeting today.
 Did like a stand-up style meeting.
 Great.

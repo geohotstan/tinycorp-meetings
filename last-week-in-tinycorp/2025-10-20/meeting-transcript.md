@@ -22,10 +22,10 @@
 
 ### Highlights
 
-- **[Company Update](#geohot-000007)**: Three Tinybox orders were received over the weekend, though payment is still pending. There are seven units in stock, and a dev box with 5090s is being set up.
+- **[Company Update](#geohot-000007)**: Three TinyBox orders were received over the weekend, though payment is still pending. There are seven units in stock, and a dev box with 5090s is being set up.
 - **[Bye Bye ShapeTracker](#geohot-000129)**: ShapeTracker has been completely removed. The main remaining issue is the Torch backend, which relied on it heavily, but fixing it is low priority as it was slow and likely unused.
 - **[USB GPU](#geohot-000332)**: A new driver allows using external NVIDIA or AMD GPUs on Mac/Linux via Thunderbolt. Kernel execution speed is identical to native, with data transfer around 3 GB/s, making it a convenient tool for local development.
-- **[Multi-Output Kernels & Flash Attention](#geohot-000576)**: Work is underway to support multi-output kernels, which is crucial for optimizing models like Llama 405. This enables recomputing intermediate tensors (like in Flash Attention backward) to save memory, a task dependent on the new linearizer. A new `ops.after` has been introduced to better manage dependencies.
+- **[Multi-Output Kernels & Flash Attention](#geohot-000576)**: Work is underway to support multi-output kernels, which is crucial for optimizing models like LLaMA 405. This enables recomputing intermediate tensors (like in Flash Attention backward) to save memory, a task dependent on the new linearizer. A new `ops.after` has been introduced to better manage dependencies.
 - **[Rangeify Regressions](#chenyu-001041)**: Significant performance regressions have been observed after the rangeify merge. Openpilot models are much slower, ResNet is 3x slower, and BERT is 2-3x slower on MI300x. Fixes are dependent on the new linearizer and resolving bugs in beam search.
 - **[FUSE_OPTIM](#chenyu-001588)**: An optimization from Torch, FUSE_OPTIM merges optimizer parameters into a single tensor. It is now faster in tinygrad but has a bug in `assign` causing silent correctness issues that needs to be fixed before it can be enabled.
 - **[Code Cleanups](#geohot-001849)**: Following the removal of ShapeTracker and other major refactors, there are more opportunities for code cleanup, such as unifying buffer uops and removing unused functions from `ops.py`.
@@ -46,7 +46,7 @@ We supposedly sold three Tinyboxes this weekend.
 I don't know if we've gotten the money for any of them yet.
 
 ##### **Geohot** [[00:00:16](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=16)]
-We sold...
+We sold..
 
 ##### **Geohot** [[00:00:18](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=18)]
 No, we're not ready to announce that yet, but we sold those and we got those shipped.
@@ -229,7 +229,7 @@ so what I can do what I can do tomorrow, I can take a day and I can tighten up t
 Part of the index. Yeah, so yeah,
 
 ##### **Geohot** [[00:14:24](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=864)]
-upstart after leads to multi output and multi output and that other rule and fixing a loop ordering should be everything we need to get flash attention backwards to be good. So yeah, should be by the end of the week. And then I think by the end of this week or next I can have Llama 405 be using a reasonable amount of memory. Even if the with null equals one, even if the kernels are still unreasonable.
+upstart after leads to multi output and multi output and that other rule and fixing a loop ordering should be everything we need to get flash attention backwards to be good. So yeah, should be by the end of the week. And then I think by the end of this week or next I can have LLaMA 405 be using a reasonable amount of memory. Even if the with null equals one, even if the kernels are still unreasonable.
 
 ##### **Chenyu** [[00:14:58](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=898)]
 Okay, so no context length square basically,
@@ -286,7 +286,7 @@ I think the issue was if I just disable it, now some other model has rendering i
 Yeah, the Qualcomm compiler is really crappy. Yeah, anyway.
 
 ##### **Chenyu** [[00:18:59](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1139)]
-The other one is I think a policy model, the speed. So I think it was like 3 milliseconds and now it's 6 or something like that. And it's due to one reduced kernel, probably the reduced . So the loader is bad or something like that. The reduced kernel itself took like 2.5 milliseconds.
+The other one is I think a policy model, the speed. So I think it was like 3 milliseconds and now it's 6 or something like that. And it's due to one reduced kernel, probably the reduced. So the loader is bad or something like that. The reduced kernel itself took like 2.5 milliseconds.
 
 ##### **Geohot** [[00:19:23](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1163)]
 So fixing that should also fix the speed regression here. Otherwise, all the kernel seems to be bad.
@@ -436,7 +436,7 @@ No, muon just can't use fuseoptim because it's two-dimensional.
 Muon is shape-dependent. So what Torch does for this is it fuses all the tensors that have the same shape. Same shape, or you just need the same dimension on one of them or something like that? I'm not sure exactly what it is, but that's why fuseoptim doesn't work. Yeah.
 
 ##### **Geohot** [[00:29:23](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1763)]
-It's not a bug in fuseoptim. It's just like...
+It's not a bug in fuseoptim. It's just like..
 
 ##### **Chenyu** [[00:29:25](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1765)]
 No, no, because I tried it. It doesn't work. It doesn't work. And if I remove the assert line, it runs. It's just the outputs are different.
@@ -457,16 +457,16 @@ Yeah, but I mean, what if people use this to write a new optimizer and they are 
 Yeah, then maybe we just make it the default for like the new optimizer.
 
 ##### **Chenyu** [[00:30:16](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1816)]
-I think for the known optimizer that this works, make default for that, but globally maybe not as defined. We can decide later. Okay. Next is... So we deleted a bunch of stuff, all the scheduler, all the shape checker, whizzler, some of the views.
+I think for the known optimizer that this works, make default for that, but globally maybe not as defined. We can decide later. Okay. Next is.. So we deleted a bunch of stuff, all the scheduler, all the shape checker, whizzler, some of the views.
 
 ##### **Chenyu** [[00:30:39](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1839)]
 After rentify, is there any other known cleanups that we should be deleting?
 
 ##### **Geohot** [[00:30:49](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1849)]
-There's some minor things. There's like a .buff uop and .buff and .buff.
+There's some minor things. There's like a.buff uop and.buff and.buff.
 
 ##### **Geohot** [[00:30:59](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1859)]
-There's like three of them and they're all slightly different. I think they can be unified into one thing and understand actually what that is now. I think I'm doing a big one now with all the after stuff. And then I can... What I'll do also after I'm done with the after stuff is I'll tighten up all the specs. And then we can just go through the ops file and I bet you there's a whole bunch of functions on there that aren't used anymore. Just delete them. Oh, like I can do just like...
+There's like three of them and they're all slightly different. I think they can be unified into one thing and understand actually what that is now. I think I'm doing a big one now with all the after stuff. And then I can.. What I'll do also after I'm done with the after stuff is I'll tighten up all the specs. And then we can just go through the ops file and I bet you there's a whole bunch of functions on there that aren't used anymore. Just delete them. Oh, like I can do just like..
 
 ##### **Nimlgen** [[00:31:32](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=1892)]
 Yeah.
@@ -562,10 +562,10 @@ Probably, by the time it is ready. And I guess the main issue is, the fact that 
 over here. Right.
 
 ##### **Nimlgen** [[00:35:31](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2131)]
-Yeah. Making, by the way, a good今天的 fetch. crashes is actually a hardware error of the last level cache. And the problem here is that nothing stops Python accessing bar and this memory which is no longer valid and because of that the cache panics. I'll try to do something from the dext. I know maybe I can kill this client. So I don't know. I'll try to do something.
+Yeah. Making, by the way, a good fetch. crashes is actually a hardware error of the last level cache. And the problem here is that nothing stops Python accessing bar and this memory which is no longer valid and because of that the cache panics. I'll try to do something from the dext. I know maybe I can kill this client. So I don't know. I'll try to do something.
 
 ##### **Geohot** [[00:36:21](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2181)]
-So you're telling me when you unplug it, the kernel... Apple's slipping.
+So you're telling me when you unplug it, the kernel.. Apple's slipping.
 
 ##### **Geohot** [[00:36:33](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2193)]
 I added the MLX guy on Twitter if there's some way because at least once a day I have to reboot my computer because the Apple GPU goes into some state where it's drawing 50
@@ -580,7 +580,7 @@ Yeah. I'll still check if it's possible to do something like that because some o
 What I'm really interested in is the reset issue.
 
 ##### **Nimlgen** [[00:37:09](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2229)]
-Yeah. So for the reset issue. Um... So for the 580... Yeah. So for the 680, I think you just have to do something with the I think we need the new clang 2.0. The problem there is that NVIDIA just changes structs from version to version and they actually require the exact match of the driver, GSP and user land. And even now we do not support like the... Opsenv doesn't support like CUDA 13 of these. I don't know what they're doing. I think it's 580 driver because some structs have changed. So yeah. And I think with the new clang 2.0, we can generate them on the fly based on the version you're using. But currently, yeah, if we regenerate it, we'll break the old version. Oh, I see.
+Yeah. So for the reset issue. Um.. So for the 580.. Yeah. So for the 680, I think you just have to do something with the I think we need the new clang 2.0. The problem there is that NVIDIA just changes structs from version to version and they actually require the exact match of the driver, GSP and user land. And even now we do not support like the.. Opsenv doesn't support like CUDA 13 of these. I don't know what they're doing. I think it's 580 driver because some structs have changed. So yeah. And I think with the new clang 2.0, we can generate them on the fly based on the version you're using. But currently, yeah, if we regenerate it, we'll break the old version. Oh, I see.
 
 ##### **Geohot** [[00:38:10](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2290)]
 So it'll break with the driver. Yeah. With the real driver installed.
@@ -589,7 +589,7 @@ So it'll break with the driver. Yeah. With the real driver installed.
 Yeah. So yeah. So that's blocked on the new clang 2.0. So of course, yeah, I think with the new clang 2.0, it will be cleaner solution. Of course, I can do something maybe, but I don't know if I should spend time on this now.
 
 ##### **Geohot** [[00:38:34](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2314)]
-Well, do we have a way to... Because I want to use these... I ordered three 5060s for the comma office. And yeah, I don't want to set the model. I don't want to set the top if they're constantly going to be breaking in CI like our 5090s are.
+Well, do we have a way to.. Because I want to use these.. I ordered three 5060s for the comma office. And yeah, I don't want to set the model. I don't want to set the top if they're constantly going to be breaking in CI like our 5090s are.
 
 ##### **Geohot** [[00:38:51](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2331)]
 Do we have a way to send a reset to the dock? Yeah, probably.
@@ -601,7 +601,7 @@ I mean, there are some options to do the secondary bus reset for the thunderbolt
 I think that does work because if I turn the off switch, if I turn the switch to off and then back to on, that works.
 
 ##### **Geohot** [[00:39:24](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2364)]
-So I don't know what that's doing, but... Yeah. Okay. We'll take a look into this. Cool.
+So I don't know what that's doing, but.. Yeah. Okay. We'll take a look into this. Cool.
 
 ##### **Geohot** [[00:39:38](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2378)]
 I applied for our driver kit thing. I DMed a guy who used to work on the driver kit team. We'll see.
@@ -610,13 +610,13 @@ I applied for our driver kit thing. I DMed a guy who used to work on the driver 
 I just accepted my computer doesn't accept.
 
 ##### **Nimlgen** [[00:39:54](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2394)]
-Yeah. So that's foreign. So for QCOM, it kind of works, but actually the new thing they started to use, I don't know if it's a new compiler, maybe it's in the new hardware. So actually they started to replace some buffers with textures. And that's... So yeah, that's the main difference, which requires some refactors in QCOM.
+Yeah. So that's foreign. So for QCOM, it kind of works, but actually the new thing they started to use, I don't know if it's a new compiler, maybe it's in the new hardware. So actually they started to replace some buffers with textures. And that's.. So yeah, that's the main difference, which requires some refactors in QCOM.
 
 ##### **Geohot** [[00:40:30](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2430)]
 Interesting. So they'll just silently replace a buffer with a texture.
 
 ##### **Nimlgen** [[00:40:36](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2436)]
-Not... I mean, not silently. Just... Yeah. So it's not like a... It says this in the binary that it will be submitted as a texture and not a buffer.
+Not.. I mean, not silently. Just.. Yeah. So it's not like a.. It says this in the binary that it will be submitted as a texture and not a buffer.
 
 ##### **Geohot** [[00:40:48](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2448)]
 How does it know the length? Sorry, can you repeat? How does it know the length?
@@ -631,7 +631,7 @@ Yeah. You should submit size. But actually, it's not 2D texture. It's like a spe
 I mean, it makes sense why they do this. Only the textures have the L1 cache. And yeah, I want to do the refactor where we move away from having images exposed in the front end.
 
 ##### **Nimlgen** [[00:41:35](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2495)]
-Yeah. But still strange. They do this not for all kernels. Like, some kernels use that, and some kernels use buffer. So...
+Yeah. But still strange. They do this not for all kernels. Like, some kernels use that, and some kernels use buffer. So..
 
 ##### **Geohot** [[00:41:44](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2504)]
 You know, they wrote an if statement. They love if statements at Qualcomm.
@@ -673,10 +673,10 @@ OK.
 Anything else for driver?
 
 ##### **Nimlgen** [[00:44:34](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2674)]
-No. So probably this week also we'll do the sqtt for GFX 9.
+No. So probably this week also we'll do the SQTT for GFX 9.
 
 ##### **Geohot** [[00:44:42](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2682)]
-Yeah, I heard also that there was some issue with needing AM reset after sqtt.
+Yeah, I heard also that there was some issue with needing AM reset after SQTT.
 
 ##### **Geohot** [[00:44:52](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=2692)]
 Yeah, and probably look into that. Yeah. Cool. Next. This is Tiny Kitten.
@@ -769,10 +769,10 @@ Well, that's. What about maxing out memos on seven?
 And you just have to type into the vchr eud file to use that I did.
 
 ##### **Geohot** [[00:50:04](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3004)]
-That's all written with pre... It's all written...
+That's all written with pre.. It's all written..
 
 ##### **Geohot** [[00:50:06](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3006)]
-That example that I posted is all pre-after. But the idea is that you basically have, like, four loads in computes, and then you put the... You, like, change the order to be, like...
+That example that I posted is all pre-after. But the idea is that you basically have, like, four loads in computes, and then you put the.. You, like, change the order to be, like..
 
 ##### **Geohot** [[00:50:35](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3035)]
 But, yeah, so I have that matmall maxed out. At least as much as you can without going to assembly. Yeah, so, like, what I just posted in TinyKittens is what pipelining is.
@@ -781,13 +781,13 @@ But, yeah, so I have that matmall maxed out. At least as much as you can without
 And with after, this would be just a chain of after and this, like, specific order you want?
 
 ##### **Geohot** [[00:51:27](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3087)]
-Yeah, so sort of. I mean, what you can do with after is...
+Yeah, so sort of. I mean, what you can do with after is..
 
 ##### **Geohot** [[00:51:31](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3091)]
-No, maybe... Yeah, you can definitely do this with after. It's not really designed for it.
+No, maybe.. Yeah, you can definitely do this with after. It's not really designed for it.
 
 ##### **Geohot** [[00:51:49](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3109)]
-After more talks about... So the idea with after is buffers are mutable. So... When you're... Say your load depends on a buffer. Well, yeah, but when does it depend on the buffer? All right, so that's why you have after. After says you're doing that load after something else already happened.
+After more talks about.. So the idea with after is buffers are mutable. So.. When you're.. Say your load depends on a buffer. Well, yeah, but when does it depend on the buffer? All right, so that's why you have after. After says you're doing that load after something else already happened.
 
 ##### **Geohot** [[00:52:18](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3138)]
 What if you don't put after?
@@ -796,7 +796,7 @@ What if you don't put after?
 Is it just, like, not guaranteed?
 
 ##### **Geohot** [[00:52:23](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3143)]
-Yeah, it could go either direction. It's just a top of sort. So if you just have, like... So say you have, like... Like... Yeah, just the simplest case. You have a store to a buffer and a load from a buffer. So normally, if you have a load dependent on the buffer and a store dependent on the buffer, the top of sort does not guarantee which order it's going to put them in. But if you promise you can do both things, you can either do the load before the store by saying you want the store version of the buffer to be after the load, then you'll guarantee that the store happens after the load, vice versa.
+Yeah, it could go either direction. It's just a top of sort. So if you just have, like.. So say you have, like.. Like.. Yeah, just the simplest case. You have a store to a buffer and a load from a buffer. So normally, if you have a load dependent on the buffer and a store dependent on the buffer, the top of sort does not guarantee which order it's going to put them in. But if you promise you can do both things, you can either do the load before the store by saying you want the store version of the buffer to be after the load, then you'll guarantee that the store happens after the load, vice versa.
 
 ##### **Geohot** [[00:53:02](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3182)]
 Okay. Let's move on. The next one is for C.
@@ -808,49 +808,49 @@ Hi.
 Can you hear me? Yes.
 
 ##### **Sieds Lykles** [[00:53:26](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3206)]
-Okay. Sorry. Yeah. I mean, things I've been working on are, like, the cat range splitting and also getting the... moving the reduced collapse to the big graph. And then... Ideally, like, also replace reduced collapse with, like, a loop splitting approach,
+Okay. Sorry. Yeah. I mean, things I've been working on are, like, the cat range splitting and also getting the.. moving the reduced collapse to the big graph. And then.. Ideally, like, also replace reduced collapse with, like, a loop splitting approach,
 
 ##### **Geohot** [[00:53:56](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3236)]
-which would be very generic. But, yeah, I don't know. The cat...
+which would be very generic. But, yeah, I don't know. The cat..
 
 ##### **Sieds Lykles** [[00:54:08](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3248)]
-I mean, we were just talking... I was talking to George about... Also, sort of the algebra of... Like, when we do an upcast or, you know, reshape, whatever, you change your ranges multiplicatively. So you split them into factors. And then the thing that we don't really do at Diningrad is additive loop splitting.
+I mean, we were just talking.. I was talking to George about.. Also, sort of the algebra of.. Like, when we do an upcast or, you know, reshape, whatever, you change your ranges multiplicatively. So you split them into factors. And then the thing that we don't really do at Diningrad is additive loop splitting.
 
 ##### **Geohot** [[00:54:39](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3279)]
 So, for example, we have, like, that too.
 
 ##### **Sieds Lykles** [[00:54:51](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3291)]
-But we don't have the option to start off part of the range. So that's... One half of the range is a multiple of, like, 32. Or multiple of 2.
+But we don't have the option to start off part of the range. So that's.. One half of the range is a multiple of, like, 32. Or multiple of 2.
 
 ##### **Geohot** [[00:55:08](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3308)]
-And then... And then you have, like, the tail end of the range.
+And then.. And then you have, like, the tail end of the range.
 
 ##### **Sieds Lykles** [[00:55:18](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3318)]
 So, yeah. Playing a little bit around with that. And the main trick is getting it to render. And also to get the GPU DIMM assigned correctly to that. When you do that. Because GPU DIMM is a little bit tricky.
 
 ##### **Geohot** [[00:55:39](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3339)]
-So, I mean... So, I have an implementation of cat splitting, but it only works on CPU.
+So, I mean.. So, I have an implementation of cat splitting, but it only works on CPU.
 
 ##### **Geohot** [[00:55:47](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3347)]
-I can help you with the GPU DIMM thing. If you just get it merged for CPU. Just, like, only enable that pass on things that don't have... Like... Like... If ops local is off. It's kind of related to the stuff I'm doing. I mean, GPU DIMMs will not scale to, like... Like, GPU DIMMs is not...
+I can help you with the GPU DIMM thing. If you just get it merged for CPU. Just, like, only enable that pass on things that don't have.. Like.. Like.. If ops local is off. It's kind of related to the stuff I'm doing. I mean, GPU DIMMs will not scale to, like.. Like, GPU DIMMs is not..
 
 ##### **Geohot** [[00:56:12](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3372)]
 That needs to be upgraded a lot. Yeah. Like, right now, it's just a bunch of hacks.
 
 ##### **Sieds Lykles** [[00:56:22](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3382)]
-I mean, GPUs... You can also... We can also make, like, triangular cuts. So, with GPU DIMMs, I mean, they have to be rectangular. All the cuts you do. With...
+I mean, GPUs.. You can also.. We can also make, like, triangular cuts. So, with GPU DIMMs, I mean, they have to be rectangular. All the cuts you do. With..
 
 ##### **Geohot** [[00:56:39](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3399)]
 Yeah.
 
 ##### **Sieds Lykles** [[00:56:41](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3401)]
-On CPU, you can... I don't know. Especially with something like A-range folding. I wouldn't do... I wouldn't do any...
+On CPU, you can.. I don't know. Especially with something like A-range folding. I wouldn't do.. I wouldn't do any..
 
 ##### **Geohot** [[00:56:50](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3410)]
 I would not do any triangular stuff.
 
 ##### **Sieds Lykles** [[00:56:56](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3416)]
-I mean, yeah. I might do them in the A-range folding. And only keep it if it folds. So, you don't really have... You know. If you don't have any triangular cuts. But...
+I mean, yeah. I might do them in the A-range folding. And only keep it if it folds. So, you don't really have.. You know. If you don't have any triangular cuts. But..
 
 ##### **Geohot** [[00:57:06](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3426)]
 Oh, I see what you're saying. Oh, I see. Oh, the A-range folding is a triangular cut. I understand.
@@ -862,16 +862,16 @@ Yeah.
 Yeah. Yeah. Maybe we could always just have something that, yeah, rejects it. If after the simplification, it's left with a triangular loop.
 
 ##### **Sieds Lykles** [[00:57:28](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3448)]
-Yeah. Yeah. Yeah. Yeah. So, a triangular cut, we can just always...
+Yeah. Yeah. Yeah. Yeah. So, a triangular cut, we can just always..
 
 ##### **Geohot** [[00:57:33](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3453)]
-We're trying to... Go ahead. Go ahead. No, I want to talk about something else.
+We're trying to.. Go ahead. Go ahead. No, I want to talk about something else.
 
 ##### **Geohot** [[00:57:45](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3465)]
-Oh, I guess, like, some form of triangular cuts are okay. Yeah. But, no, I mean... GPU is just hard to optimize.
+Oh, I guess, like, some form of triangular cuts are okay. Yeah. But, no, I mean.. GPU is just hard to optimize.
 
 ##### **Geohot** [[00:57:56](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3476)]
-That's a cool... I like this language. Triangular cut. rectangular cut. That makes sense.
+That's a cool.. I like this language. Triangular cut. rectangular cut. That makes sense.
 
 ##### **Chenyu** [[00:58:04](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3484)]
 I have a comment on the reduce collapse, since you are working on that. So I was trying to, so because there are one function called reduce and parent it, and there is one that's another thing. And I was trying to remove the alignment.
@@ -886,7 +886,7 @@ Yeah, I replaced one of them with the other.
 Yeah, yeah. OK, great, because I was testing that. And also, I was trying to just comment it all rules inside p and reduce collapse. And I was trying to remove the alignment, because I was interested to know what, if any, if every one of those are used. And oftentimes, I can get all the tasks to pass. But if I look into the underlying kernels, things would be different. So if you also notice things that are working on this area, I think it would be nice to have more robusted test case against it.
 
 ##### **Sieds Lykles** [[00:59:28](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3568)]
-I mean, yeah, I fixed, like, I changed one of the rules. And then that fixed one in A range in, like, Lama. If you see on Benchmark, there's, like, a really big drop on Lama, because it had some A range. But yeah, that one is not in the test.
+I mean, yeah, I fixed, like, I changed one of the rules. And then that fixed one in A range in, like, LLaMA. If you see on Benchmark, there's, like, a really big drop on LLaMA, because it had some A range. But yeah, that one is not in the test.
 
 ##### **Chenyu** [[00:59:50](https://www.youtube.com/watch?v=rt8wGfaM1y8&t=3590)]
 Yeah, usually, there is a problem if we can remove rules and all the tests pass. But this subtly breaks something else. And I feel like let's simplify and, like, folding places, like, one of those. And this is bad, because it made it very hard to iterate and try to, like, merge rules or change stages, because these, like, hidden things. So ideally, those should be captured more explicitly.

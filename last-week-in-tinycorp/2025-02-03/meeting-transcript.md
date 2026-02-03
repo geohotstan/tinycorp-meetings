@@ -4,13 +4,13 @@
 
 **Time:** 6:00 AM San Diego time (PST) or 10pm Hong Kong time
 - company updates
-- new llvm, dsp
+- new LLVM, dsp
 - scheduler
 - mlperf resnet, bert
 - Ops.POW, rand_like
 - drivers
 - tensor cores
-- webgpu, tinychat
+- WebGPU, tinychat
 - bounties (onnx, retinanet, graph rewrite 2.0, sorting add chain)
 
 ### Audio
@@ -19,7 +19,7 @@
 
 ### Highlights
 
-- [Tinybox Reds](#geohot-000005) We have 6 tinybox reds in stock, please buy reds. (5090 boxes soon)
+- [TinyBox Reds](#geohot-000005) We have 6 TinyBox reds in stock, please buy reds. (5090 boxes soon)
 - [Need for Speed](#geohot-000323) Geohot is interested in paying out bounties that improve SPEED!
 - Everything else is moving along, DSP, scheduler, mlperf, tensorcores, etc.
 - [Graph rewirte](#geohot-004638) Geohot: "if no one does it by March, I'll start taking it seriously."
@@ -49,11 +49,11 @@ You could hire runners to go around to best buys around the country and buy up 5
 Just pay us 2,600.  
 So, yeah, we're working on getting them.  
 That's the biggest thing.  
-We're also working on a rainbow tiny box just for internal use.  
+We're also working on a rainbow TinyBox just for internal use.  
 And we have six reds in stock.  
 So someone buy reds, please.  
-Please buy tiny box reds.  
-We have lots of tiny box reds.  
+Please buy TinyBox reds.  
+We have lots of TinyBox reds.  
 
 ##### **Chenyu** [[00:01:35](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=95)]  
 Great.  
@@ -66,7 +66,7 @@ You have the most experience with that and also the DSP.
 Yes, so we merged LLVM Bounty for new LLVM.  
 New LLVM switches away from LLVM Lite and just talks directly to the library.  
 And yeah, I mean, it's a bit more lines, but it's nice to remove the LLVM Lite dependency.  
-Yeah, it also uses the ClangJit CPU program, which is... I see a way that we can unify LLVM and Clang into one CPU backend, so they could share buffers, and they're just different.  
+Yeah, it also uses the ClangJit CPU program, which is.. I see a way that we can unify LLVM and Clang into one CPU backend, so they could share buffers, and they're just different.  
 Clang and LLVM are now a lot more like CUDA and PTX.  
 Cuda and PTX have the same runtime, but different compilers.  
 So we could do the same thing with LLVM and Clang.  
@@ -84,12 +84,12 @@ stuff requires a lot of taste to do it right uh i think that yeah we're not ther
 If people can get things to be faster, I'm interested in paying out bounties for that.  
 And then figure out how to get things faster.  
 If you can add a new trick, that's what I really want.  
-I mean, we're going to have to deal with... I guess I'll talk about the DSP a little too and the tricks that are going to be required.  
+I mean, we're going to have to deal with.. I guess I'll talk about the DSP a little too and the tricks that are going to be required.  
 So the first thing that I'm working on is a DSP emulator.  
 I have that working.  
 So I'll get that merged tomorrow.  
 We'll have some CI tests for the DSP, which would be nice.  
-And then I can start working on what...  
+And then I can start working on what..  
 I don't think LLVM client actively uses SIMD.  
 They definitely use SIMD.  
 They definitely, LLVM opt will definitely enable SIMD.  
@@ -110,9 +110,9 @@ Sounds good.
 Anything else you want to add before we move on to the next item?  
 
 ##### **Geohot** [[00:05:51](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=351)]  
-You know, maybe... Okay, so there aren't any SIMD instructions while debugging LLVM and ClangJit.  
-I mean, I want to... There's some way I could... Maybe propose... UUVM, maybe propose a bounty that will capture what I'm trying to get at with this CPU speed.  
-Like, I think if...  
+You know, maybe.. Okay, so there aren't any SIMD instructions while debugging LLVM and ClangJit.  
+I mean, I want to.. There's some way I could.. Maybe propose.. UUVM, maybe propose a bounty that will capture what I'm trying to get at with this CPU speed.  
+Like, I think if..  
 It's a little bit annoying on Mac because Mac Torch CPU uses AMX, but I'd really like to be beating Torch CPU.  
 How about we can do it on the CI machines?  
 Beat Torch CPU on the CI machines for like some common models.  
@@ -120,34 +120,34 @@ I don't care if it's LLVM or Clang, but we have like a CPU backend and I want to
 so yeah let's see let's like think about what let's think about what model we want to do.  
 
 ##### **Chenyu** [[00:06:52](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=412)]  
-Llama llama everyone wants llama everyone wants llama   
+LLaMA LLaMA everyone wants LLaMA everyone wants LLaMA   
 
 ##### **Geohot** [[00:06:59](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=419)]  
-yeah that seems good okay cool $500 bounty yeah well what's the smallest llama now  
+yeah that seems good okay cool $500 bounty yeah well what's the smallest LLaMA now  
 
 ##### **Chenyu** [[00:07:11](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=431)]  
 I think there's like 1B, the one we use in chat.  
 The small one we use in chat, not a default one.  
 
 ##### **Geohot** [[00:07:23](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=443)]  
-Is the small one we use in chat a llama?  
+Is the small one we use in chat a LLaMA?  
 
 ##### **Chenyu** [[00:07:29](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=449)]  
-Not a llama?  
-It's a K6 quantized llama, right?  
+Not a LLaMA?  
+It's a K6 quantized LLaMA, right?  
 That one.  
-Anyway, the smallest llama.  
+Anyway, the smallest LLaMA.  
 
 ##### **Geohot** [[00:07:41](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=461)]  
-Well, let me... Yeah, yeah, yeah.  
+Well, let me.. Yeah, yeah, yeah.  
 
 ##### **Chenyu** [[00:07:45](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=465)]  
 Or GPT-2.  
 
 ##### **Geohot** [[00:07:46](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=466)]  
 Yeah, yeah, yeah.  
-No, let's stick with Llama 1B.  
-So Llama 1B faster than Torch on CPU in CI.  
+No, let's stick with LLaMA 1B.  
+So LLaMA 1B faster than Torch on CPU in CI.  
 No weight download needed.  
 Just model speed.  
 Cool.  
@@ -163,7 +163,7 @@ It's Qazalin is just listening.
 ##### **Geohot** [[00:08:42](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=522)]  
 Yeah, no, I think I put together some good stuff this morning.  
 Just kind of like Qazalin is doing a lot of refactors that are like getting it to the point where we can actually do this.  
-So this morning I wrote a... a scedule sync.  
+So this morning I wrote a.. a scedule sync.  
 So what schedule is going to become is it's just going to become a becomes map.  
 And then the scheduler will basically assign a kernel to the buffer.  
 And then the tensor will become an assign buffer and kernel.  
@@ -186,7 +186,7 @@ So an assign can point to another assign.
 ##### **Geohot** [[00:10:16](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=616)]  
 A sign can point to another sign, yes.  
 You can stack a sign.  
-So the buffer inputs...   
+So the buffer inputs..   
 
 ##### **Chenyu** [[00:10:20](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=620)]  
 Oh, that's versioning.  
@@ -244,7 +244,7 @@ No, I definitely agree that overfitting doesn't help, but we have to find some w
 
 ##### **Chenyu** [[00:13:39](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=819)]  
 Yeah, so I think we can talk about that in the later Tensor Core stuff.  
-I think this is definitely... Oh, sorry, go ahead.  
+I think this is definitely.. Oh, sorry, go ahead.  
 
 ##### **Geohot** [[00:13:50](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=830)]  
 Is it good with float32?  
@@ -272,7 +272,7 @@ I see.
 But also, why do we have worse numerics if we're not using Tensor Core?  
 
 ##### **Chenyu** [[00:14:50](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=890)]  
-I think it's just the ...  
+I think it's just the..  
 I am not too sure, but my belief is because we do accumulate on ACC, right?  
 And the problem is if that ACC becomes too big or too small into a negatives, then your additional add might be canceled.  
 
@@ -807,7 +807,7 @@ I can also test later.
 
 ##### **Geohot** [[00:39:52](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2392)]  
 Cool.  
-And you're waiting for iPhone before you want to start posting this link places and getting feedback and...  
+And you're waiting for iPhone before you want to start posting this link places and getting feedback and..  
 
 ##### **Hooved** [[00:39:57](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2397)]  
 Yeah, just because I only use X on my phone.  
@@ -834,7 +834,7 @@ And that's the main bottleneck is just the token embeddings when they're not qua
 And when they're in float 32, it's one gigabyte.  
 If we shrink it down, we can get it down.  
 We can quantize it to something, and it'll work.  
-We'd have to modify the Llama inference code, because that's not implemented in there yet.  
+We'd have to modify the LLaMA inference code, because that's not implemented in there yet.  
 But I'm sure we could do it.  
 I don't know what the speed cost would be.  
 But yeah, it's all doing.  
@@ -879,7 +879,7 @@ If someone uses it, I want them to not have a bad opinion about the speed.
 ##### **Geohot** [[00:43:45](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=2625)]  
 Yeah, that's reasonable.  
 We added a $500 bounty for speed.  
-Someone can get CI llama to be fast.  
+Someone can get CI LLaMA to be fast.  
 Cool, yeah.  
 Let's focus on WebGPU then.  
 Thanks.  
@@ -1055,7 +1055,7 @@ I should say more LLVM than Clang.
 I mean, everything is LLVM-based.  
 The Qualcomm shader compiler is LLVM-based.  
 Metal is LLVM.  
-It's Apple, but... Cool.  
+It's Apple, but.. Cool.  
 Thanks, everyone.  
 
 ##### **Chenyu** [[00:54:55](https://www.youtube.com/watch?v=Wf9mQ0vVcHQ&t=3295)]  

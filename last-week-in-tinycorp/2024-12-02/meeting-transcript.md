@@ -16,11 +16,11 @@
 
 ### Chapters
 
-- **00:00:00 Introductions and NEW TINYCORP EMPLOYEE!!!** New intern Wpmed joins for WEBGPU work.
+- **00:00:00 Introductions and NEW TINYCORP EMPLOYEE!!!** New intern Wpmed joins for WebGPU work.
 
-- **00:01:30 Geohot's WEBGPU Plan** How to prevent "enshittification" of the AI internet.
+- **00:01:30 Geohot's WebGPU Plan** How to prevent "enshittification" of the AI internet.
 
-- **00:05:50 WEBGPU Benchmarks** Plans for WEBGPU performance tracking.
+- **00:05:50 WebGPU Benchmarks** Plans for WebGPU performance tracking.
 
 - **00:08:02 Testing and Performance Tracking** Setting up browser performance tests.
 
@@ -42,7 +42,7 @@
 
 - **00:44:36 MTL Compiler** Discussion about Metal compilation.
 
-- **00:50:50 WGPU Compatibility Issues** Debugging WEBGPU timeout issues.
+- **00:50:50 WGPU Compatibility Issues** Debugging WebGPU timeout issues.
 
 ### Transcript
 
@@ -56,7 +56,7 @@ Sounds good.
 You can have the first one.
 
 **Geohot** [00:00:10]
-Yeah, so Wpmed has joined us as an intern to work on WEBGPU stuff, if you'd like to introduce yourself.
+Yeah, so Wpmed has joined us as an intern to work on WebGPU stuff, if you'd like to introduce yourself.
 
 **Wpmed** [00:00:21]
 Yeah, sure.
@@ -66,8 +66,8 @@ I've been working mainly in the mobile app development space doing image process
 I co-founded Vimage app.
 It's a photo animation application with around 10 million downloads in the Play Store.
 Then after five years or so, I left Vimage to work at Toptal doing freelancing.
-And while doing freelancing work at Toptal, I started picking up Tinygrad, started contributing to it, mainly for WEBGPU stuff.
-And basically after getting WEBGPU merge, we talked with George and we discussed this internship position and I was like, okay, let's try it.
+And while doing freelancing work at Toptal, I started picking up Tinygrad, started contributing to it, mainly for WebGPU stuff.
+And basically after getting WebGPU merge, we talked with George and we discussed this internship position and I was like, okay, let's try it.
 So that's pretty much it.
 
 **Geohot** [00:01:30]
@@ -89,8 +89,8 @@ Every single thing where the application is hosted on a server, the server's inc
 So I hope that by making Tinygrad, by making it really easy in Tinygrad to push things to the web in such a way that edge devices can run it, be that a laptop or be that a phone, we can, you know,
 work toward our mission of commoditizing the petaflop.
 We do not want the petaflops.
-Look, the only reason that I started this company, the only reason that I'm here is to fight against the basic... I don't want AI to suck the way the internet did.
-And I think in order to make... I think the key to making AI not suck the way... The reason I think the internet sucks is because it's so difficult to
+Look, the only reason that I started this company, the only reason that I'm here is to fight against the basic.. I don't want AI to suck the way the internet did.
+And I think in order to make.. I think the key to making AI not suck the way.. The reason I think the internet sucks is because it's so difficult to
 stand up like a database right like imagine you wanted to build decentralized google
 You can't, right?
 Like Google has so many advantages to being centralized, even to all this tooling.
@@ -108,7 +108,7 @@ Because the thing about AI is there's gonna be a thing where it's just good enou
 90% of your requests can be handled by cheap, simple models.
 And if that holds,
 then we're in for a great positive change to the internet.
-So yeah, that's why we're excited about WEBGPU.
+So yeah, that's why we're excited about WebGPU.
 That's what we want to do.
 We want to both host, make common models, not host them.
 We're not hosting shit.
@@ -117,7 +117,7 @@ And then that's from the consumer side.
 And then from the server side,
 we are going to launch our first test cloud, hopefully in a month or two.
 And that's how I'd like to see training and stuff be done, right?
-If we can...
+If we can..
 Again, so many companies are looking to rent-seek.
 So many companies, you already see the wheels turning for the rent-seeking.
 It's, oh, okay, how do we value add on top of LLMs?
@@ -137,7 +137,7 @@ Done.
 
 **Chenyu** [00:05:50]
 Yeah.
-I was thinking we would probably want to add some benchmark of WEBGPU.
+I was thinking we would probably want to add some benchmark of WebGPU.
 Is a second Mac ever set up?
 If I send it to Mac, does it go to a different runner now?
 
@@ -147,13 +147,13 @@ The second mac would totally work.
 We can check if it doesn't, but yeah, it should be fine.
 
 **Chenyu** [00:06:12]
-I think it's a good idea now we have someone looking at WEBGPU.
+I think it's a good idea now we have someone looking at WebGPU.
 It's good to track certain performance on it, especially if we want to.
 
 **Wpmed** [00:06:20]
 Yeah, I'm also interested in WebGPU performance, like how it relates to Metal, how much overhead it adds, for example, to Metal.
 I see that the wgpu Python package we're using currently, so it's a wraparound of wgpu native, it's a Rust library.
-I see that it's slower than Chrome's WEBGPU implementation, so I'm also really interested in
+I see that it's slower than Chrome's WebGPU implementation, so I'm also really interested in
 in building a sort of auto-gen style bindings for Dawn and using that instead of wgpu.
 But first, I have to look into exactly how much faster Dawn is.
 Or actually, first, let's just learn about wgpu that we currently have and then see how much Dawn is faster.
@@ -164,7 +164,7 @@ Can we just run like Selenium or Puppeteer or something on the second Mac and ru
 **Wpmed** [00:07:28]
 Yeah, yeah, we can do that.
 Actually, we do this puppeteer style of testing for EfficientNet.
-So when WEBGPU tests run, there is an EfficientNet build and it tests it in the browser.
+So when WebGPU tests run, there is an EfficientNet build and it tests it in the browser.
 So we can do stuff like that.
 
 **Geohot** [00:07:42]
@@ -284,9 +284,9 @@ It's just for stores, right?
 Yeah.
 
 **Geohot** [00:12:49]
-You know, we might be able to...
+You know, we might be able to..
 OpenCL supports Atomics.
-If OpenCL supports Atomics we could do basically the same trick we do in WEBGPU and then just not need that whole thing.
+If OpenCL supports Atomics we could do basically the same trick we do in WebGPU and then just not need that whole thing.
 
 **Chenyu** [00:13:16]
 OK, we will look into this.
@@ -348,7 +348,7 @@ So you can have,
 First, I group all ops into blocks.
 And then I stack blocks on top of each other based on what has to go inside a loop and what can't go in an if and what has to go in an if.
 It's this two-stage algorithm that first puts all the ops into blocks and then stacks all the blocks together into one long list.
-And each of those individual toposorts can be completely...
+And each of those individual toposorts can be completely..
 Well, the inside the block one can be completely arbitrary.
 The stacking the blocks have a few rules.
 But yeah, so I think this opens the door for sensible,
@@ -542,7 +542,7 @@ It doesn't work right now.
 I mean, I don't know.
 Actually, I don't know why, because we have IOMMU disabled, so everything should be pretty simple, I think.
 But yeah, I think, like, one GPU, it has no faults on the GPU, but it just writes nothing to other GPU, to system memory, so yeah.
-I'll debug this, I'll...
+I'll debug this, I'll..
 I'll bring HDMA this week as well.
 
 **Geohot** [00:25:17]
@@ -557,7 +557,7 @@ It's still not working?
 
 **Nimlgen** [00:25:30]
 Yeah, yeah.
-Yeah, I mean, it's just basically...
+Yeah, I mean, it's just basically..
 Yeah, there is a special flag called system memory on the page table entries.
 
 **Geohot** [00:25:41]
@@ -781,7 +781,7 @@ Tensor cores.
 **Ignaciosica** [00:35:56]
 Hi, hello.
 Last week I fixed the swizzle in the TensorCores, so now it's merging views the correct way.
-And I've been working on...
+And I've been working on..
 
 **Geohot** [00:36:11]
 Did you get that merged?
@@ -851,7 +851,7 @@ I can't believe I missed it.
 No, thank you.
 And one minor thing is the thing I believe that the patterns you had to try an error.
 
-**network issues...**
+**network issues..**
 
 **Chenyu** [00:40:00]
 So tar extract, you already said why it is important.
@@ -912,9 +912,9 @@ Do I have anything left from the agenda?
 
 **Geohot** [00:42:54]
 I talked a little about the cloud, too.
-Yeah, so basically for everyone who's frequently in these meetings, everyone who's developing, everyone basically who's gotten a bunch of... Everyone who's gotten pull request merch to Tinygrad, you guys will all be in the cloud beta program, which will be free access to the Tinygrad cloud.
+Yeah, so basically for everyone who's frequently in these meetings, everyone who's developing, everyone basically who's gotten a bunch of.. Everyone who's gotten pull request merch to Tinygrad, you guys will all be in the cloud beta program, which will be free access to the Tinygrad cloud.
 Again, it's a trusted thing.
-I think they'll probably be like...
+I think they'll probably be like..
 30 people here who get access to it.
 I'll send you guys all, I'll make a channel.
 I'll send you guys all API keys.
@@ -993,7 +993,7 @@ Is there a BLAKE3 that is locked?
 Is there a what that's locked?
 Oh, a black three.
 Yeah, there could be, I think.
-Um...
+Um..
 Where's the BLAKE3?
 OK.
 He's working on making it faster.
@@ -1054,7 +1054,7 @@ Oh, I think the author has a question that, do you want global ops and global me
 **Geohot** [00:49:31]
 Oh, round it to another.
 OK.
-Wait, so this is the mypy one?
+Wait, so this is the MyPy one?
 
 **Chenyu** [00:49:39]
 No, this is the 7456.
@@ -1077,7 +1077,7 @@ So it's good to know why it's slow.
 If you say it's timeout five seconds, then we want to know if it's legit reason.
 Then we see if we can modify the threshold if needed.
 Pinning version will be the last thing.
-It's like mypy, even though if we pin it, we actively want to catch up to the latest version.
+It's like MyPy, even though if we pin it, we actively want to catch up to the latest version.
 
 **Wpmed** [00:50:57]
 So I tested it today, and it still times out on my device on the latest version.

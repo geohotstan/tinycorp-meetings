@@ -6,12 +6,12 @@
 - company update
 - new ci machines, new release
 - min rectified flow example
-- amd llvm changes (with b1tg)
+- amd LLVM changes (with b1tg)
 - mlperf
 - symbolic folding, divmod, validation (with S-Lykles)
 - scheduler / DSP
 - usb driver
-- webgpu
+- WebGPU
 - LDS
 - cloud remote stuff
 - other bounties
@@ -77,7 +77,7 @@ Yeah, so on TinyBox 2s, did some optimizing of how the drives are going to go in
 We've had the demo machine up and working.
 So yeah, we got four shipping this week, and then I think we have four more sold beyond that.
 That'll ship in like three weeks, and then if you buy today, it'll ship in like four weeks.
-So yeah, buy a Tinybox V2 today.
+So yeah, buy a TinyBox V2 today.
 They look great.
 
 ##### **Chenyu** [[00:00:50](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=50)]
@@ -183,7 +183,7 @@ And the old transformer code had a contiguous at the end, and that was faster.
 And then contiguous backward made it even faster.
 
 ##### **Chenyu** [[00:04:44](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=284)]
-Interesting...
+Interesting..
 So I think it's twofold.
 One is a scheduler to be smart to do things like that.
 Another is the debugging tools to show things like this.
@@ -232,7 +232,7 @@ So something on top of rand_like should work.
 
 ##### **Geohot** [[00:06:35](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=395)]
 Yeah, yeah, yeah.
-randn_like would be... That was the only thing I felt like we were missing.
+randn_like would be.. That was the only thing I felt like we were missing.
 But overall, I mean, overall, there's so much things in Tinygrad that are just so much better.
 Like our handling of automatic casting of D-types and the fact that things all work with all D-types is so much nicer.
 
@@ -405,7 +405,7 @@ Yeah, that's the funny thing.
 You would think other people with MI300x would do BERT.
 
 ##### **Geohot** [[00:14:39](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=879)]
-I'm assuming people are doing the Lama one.
+I'm assuming people are doing the LLaMA one.
 They're doing the LoRa, yeah.
 Yeah, they're all into the LoRa.
 
@@ -472,7 +472,7 @@ Result will come, official results, sometime in June.
 
 ##### **Geohot** [[00:17:10](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=1030)]
 Great.
-I mean, we can officially say that an MI300 box is about twice as good as a Tinybox green, and about three times as good as a Tinybox red.
+I mean, we can officially say that an MI300 box is about twice as good as a TinyBox green, and about three times as good as a TinyBox red.
 
 ##### **Chenyu** [[00:17:21](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=1041)]
 And we have the fastest time for training BERT with MI300x.
@@ -526,7 +526,7 @@ Okay.
 I will review those.
 That sounds good.
 Yeah.
-I mean, yeah, if I... If I get some errors, then I can add a symbolic fuzzer as well.
+I mean, yeah, if I.. If I get some errors, then I can add a symbolic fuzzer as well.
 And the other thing I posted was maybe arguing to make givenMods actually ProDev.
 
 ##### **Chenyu** [[00:22:32](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=1352)]
@@ -563,7 +563,7 @@ And then it would take two cycles extra to go from that.
 Yeah, I don't think we worry too much about divided by variable at this point.
 Variable is most likely positive numbers because how we use it.
 So the software already have a lot of constraints.
-If the thing we come up with works with Lama, I think that's fine.
+If the thing we come up with works with LLaMA, I think that's fine.
 
 ##### **Geohot** [[00:24:37](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=1477)]
 No, I mean, we do need general correctness on this, but I am okay with changing it, as long as you're aware of what this entails.
@@ -605,7 +605,7 @@ There's a bug in Shrink, which should be pretty easy to fix, I think.
 The reason why the bugs are coming up is because it's more generic, so it's ended up actually fusing more things than before.
 So it's a good stretch, actually.
 I also worked on the DSP a little bit.
-I think we need...
+I think we need..
 Some more infrastructure in master for rendering the same intrinsics correctly.
 Right now, the benchmark is 178 off target.
 
@@ -633,7 +633,7 @@ So if you said that's good to merge, post that to the Qualcomm channel as well.
 Cool.
 
 ##### **Geohot** [[00:27:50](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=1670)]
-Yeah, no, I mean, it's just going to be a...
+Yeah, no, I mean, it's just going to be a..
 It's going to be a grind to get things in.
 What do you think we need that's not supported for the SIMD intrinsic?
 
@@ -728,7 +728,7 @@ Yeah, I just need some more factors to do.
 Did you ever post any of the notes on the firmware and stuff?
 
 ##### **Nimlgen** [[00:32:28](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=1948)]
-Yeah, I mean...
+Yeah, I mean..
 Yeah, I have a repo for some nodes, but I think not for the patch.
 So I need to write this up.
 
@@ -751,7 +751,7 @@ I mean, just say, like, imagine your download was corrupted, or that file got co
 Yeah.
 
 ##### **Nimlgen** [[00:33:20](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2000)]
-I mean, they have, like, the second flight, so it can boot if the... Yeah, but... Well... Wait, wait, wait, wait, wait, wait.
+I mean, they have, like, the second flight, so it can boot if the.. Yeah, but.. Well.. Wait, wait, wait, wait, wait, wait.
 
 ##### **Chenyu** [[00:33:29](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2009)]
 How does it know the boot from the second flash?
@@ -801,7 +801,7 @@ Is the register 64 or 32 bits?
 Oh, the address register is only 32?
 
 ##### **Nimlgen** [[00:35:28](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2128)]
-You mean... No, actually, I mean, we send currently like the TLP, like 32-bit TLPs.
+You mean.. No, actually, I mean, we send currently like the TLP, like 32-bit TLPs.
 I think we can change it.
 I mean, there is some structure changes for 60-bit, 64-bit TLPs.
 I don't know if they are supported, but yeah, we can try that.
@@ -818,7 +818,7 @@ Maybe because of the bridges.
 I don't know.
 
 ##### **Chenyu** [[00:36:32](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2192)]
-Imagine the device should support large bar regardless of... The bar is just entirely on the device.
+Imagine the device should support large bar regardless of.. The bar is just entirely on the device.
 It's just the PCIe controller registers.
 Interesting.
 
@@ -884,11 +884,11 @@ It doesn't matter where we put them.
 Yeah.
 
 ##### **Geohot** [[00:38:41](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2321)]
-Oh, apparently some people in Lama P2P were complaining the P2P driver doesn't work on the modded 4090s with the 48 gigs.
+Oh, apparently some people in LLaMA P2P were complaining the P2P driver doesn't work on the modded 4090s with the 48 gigs.
 Because it only has a 32 gig bar.
 
 ##### **Chenyu** [[00:39:00](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2340)]
-But, uh... Yeah, cool.
+But, uh.. Yeah, cool.
 Good progress.
 Excited to see it get even faster.
 8 second boot is pretty nice.
@@ -913,7 +913,7 @@ So you can see some of the changes there.
 And yeah, that's how it is.
 
 ##### **Geohot** [[00:41:07](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2467)]
-I'm looking at your change here to Llama.
+I'm looking at your change here to LLaMA.
 I mean, I don't like that assign change.
 
 ##### **Hooved** [[00:41:12](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2472)]
@@ -939,7 +939,7 @@ What I want to add is if you're inside a JIT context, I mean, you can still use 
 Yeah, I'm not using the JIT at all.
 
 ##### **Chenyu** [[00:42:12](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2532)]
-The JIT at all...
+The JIT at all..
 
 ##### **Geohot** [[00:42:17](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2537)]
 I mean, there should be some concept of like, I've specified, I mean, the JIT tells you what the inputs and outputs are to the function.
@@ -949,7 +949,7 @@ If you're not using the JIT, how do you get the inputs and outputs?
 I mean, I'm pretty confident about that.
 
 ##### **Geohot** [[00:42:33](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2553)]
-You know, I just, I have... No, no, no, but I'm saying, how do I literally specify it, right?
+You know, I just, I have.. No, no, no, but I'm saying, how do I literally specify it, right?
 
 ##### **Hooved** [[00:42:40](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2560)]
 So you have the arguments and the function, right?
@@ -968,7 +968,7 @@ I mean, that was what I was doing before, and then a couple, I think a week ago 
 No, no, no.
 Two different things here.
 So I'm saying, don't use the JIT's internal structures, which is what the original thing was.
-But from a semantic perspective, from just a...
+But from a semantic perspective, from just a..
 Like, what the syntax should be.
 Is you kind of just want it to be decorated with TinyJIT, and then it's like TinyJIT.export.
 Even if it's a totally different code path that doesn't actually run the existing JIT stuff.
@@ -1074,7 +1074,7 @@ It executes model.forward, but it never actually runs anything on the device.
 Correct.
 Yeah, correct.
 Nothing is being run when it's actually doing the stuff.
-The only thing is the state has to be realized before you do that stuff so that there's actual real buffers that you can... Yes.
+The only thing is the state has to be realized before you do that stuff so that there's actual real buffers that you can.. Yes.
 Yeah.
 
 ##### **Geohot** [[00:47:52](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2872)]
@@ -1098,7 +1098,7 @@ And it renders that or does whatever to it.
 
 ##### **Hooved** [[00:48:32](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2912)]
 Cool.
-And then one last thing, the webgpu.py and renderer slash graph, is there anything about the style there that you hate?
+And then one last thing, the WebGPU.py and renderer slash graph, is there anything about the style there that you hate?
 I basically got rid of all the function.
 I factored.
 I had all the stuff in runtime, but then I took it out because it didn't really make sense.
@@ -1118,7 +1118,7 @@ I think I'll try to get that stuff done within a day or two.
 
 ##### **Geohot** [[00:49:14](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2954)]
 But yeah, no, I think this could be a bunch of different PRs.
-I think the Lama thing needs to be its own PR.
+I think the LLaMA thing needs to be its own PR.
 
 ##### **Hooved** [[00:49:20](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=2960)]
 That's a whole separate thing I have to figure out.
@@ -1286,7 +1286,7 @@ Okay.
 Very cheap.
 
 ##### **Ignaciosica** [[00:55:56](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=3356)]
-One more thing is that I don't know if the green boxes are down or replaced, but I was trying to... I was profiling the continuation of this PR, like the swapping of the local memory, and I was using an inside compute for
+One more thing is that I don't know if the green boxes are down or replaced, but I was trying to.. I was profiling the continuation of this PR, like the swapping of the local memory, and I was using an inside compute for
 Better metrics, but I lost access and I couldn't continue that work.
 
 ##### **Geohot** [[00:56:18](https://www.youtube.com/watch?v=_FVcMAtePJ4&t=3378)]

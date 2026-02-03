@@ -7,8 +7,8 @@
 - drivers
 - image dtype
 - assembly
-- jit asserts, assign, mypy
-- llama training
+- jit asserts, assign, MyPy
+- LLaMA training
 - viz / fast gemm
 - other bounties
 
@@ -34,10 +34,10 @@
 - **[Assign correctness overhaul](#chenyu-002946)**: Builds a large test suite and fixes read-after-write/write-after-read hazards; goal is removing TODOs like “add realize/contiguous here” and cleaning up disk tensor lazy hacks by fixing root scheduling/assign behavior.
 - **[Remove disk tensor workarounds](#geohot-003357)**: Calls out disk tensor conditionals/hacks as especially desirable to delete once core correctness is fixed.
 - **[Setitem no longer forces realize](#chenyu-003453)**: With the new fixes, `setitem` doesn’t realize, which Geohot calls a big win for practical workflows.
-- **[Typed/Mypy regression: `invalid` in mixins](#geohot-003824)**: Diagnoses Mypy/type issues around `invalid` mixing tensor/UOP/const usage; wants `typed=1` to fully pass (and eventually be in CI).
-- **[Llama training: flash-attn progress](#wozeparrot-004018)**: Reports BERT training works with flash attention (though performance comparisons aren’t apples-to-apples yet); sprint goal is Llama 8B training.
-- **[Urgency: MLPerf-qualifying Llama 8B ASAP](#geohot-004112)**: Geohot is concerned Llama 8B qualifying training didn’t land last sprint; stresses performance is secondary to correctness/qualification, and wants it “as soon as possible.”
-- **[Daily iteration plan on Llama 8B](#geohot-004358)**: Expects ~2-hour runs, enabling a full training run every day; plan is to qualify first, then add tricks (grad accumulation, model splitting, checkpointing) on 8B before scaling up.
+- **[Typed/MyPy regression: `invalid` in mixins](#geohot-003824)**: Diagnoses MyPy/type issues around `invalid` mixing tensor/UOP/const usage; wants `typed=1` to fully pass (and eventually be in CI).
+- **[LLaMA training: flash-attn progress](#wozeparrot-004018)**: Reports BERT training works with flash attention (though performance comparisons aren’t apples-to-apples yet); sprint goal is LLaMA 8B training.
+- **[Urgency: MLPerf-qualifying LLaMA 8B ASAP](#geohot-004112)**: Geohot is concerned LLaMA 8B qualifying training didn’t land last sprint; stresses performance is secondary to correctness/qualification, and wants it “as soon as possible.”
+- **[Daily iteration plan on LLaMA 8B](#geohot-004358)**: Expects ~2-hour runs, enabling a full training run every day; plan is to qualify first, then add tricks (grad accumulation, model splitting, checkpointing) on 8B before scaling up.
 - **[SQTT viz: CDNA support + tie packets to PC](#geohot-004613)**: Asks for CDNA support in the unpacker but limits effort to ~1 day; prioritizes visualization work: map packets back to instructions/PC reliably, fix barrier extents, and handle “wave ready” packets.
 - **[Fast GEMM: support rectangular matrices](#geohot-005341)**: Pushes for GEMM that handles non-square shapes (M/N/K), viewing it as “free speedup” for training; suggests using Torch behavior/dumps as reference.
 - **[MLPerf: generate ELF directly](#qazalin-005440)**: Qazalin says the “ELF directly generated” work is done (had a master-merge break, then fixed); Geohot asks for cleanup/review quality before merging.
@@ -56,7 +56,7 @@ I did render an order for the middle store, but let's still start with company u
 Thanks.
 
 ##### **Geohot** [[00:00:16](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=16)]
-One, I want to emphasize how important it is, AMD contract. I think that the ideal contract is the dream thing to work on training Lama four or five V on ML turf. Not really. But two things about that is that is what everybody kind of wants. One thing that everybody wants is to be able to train large transformers. This is what Kama wants. This is what anybody who wants. This is what anybody who's trying to clone Claude code wants. So it is very useful. And then the other thing is I think that this contract is really important. Like these things are really hard to get. It's not easy to get a contract with a large company to basically do work for them on something like this. Right. And you can say that, oh, it's, you know, I bullied them on Twitter or whatever, but I think it's. It's more than that. Right. I think that we have a contract and we should really put forward everything to get it done. So really everything should be focused on either that on our other customer comma and improving their workflows because we have we have two actual. Going to pay money to use tiny grad, but one is AMD and one is comma. So everything should be focused on one of those two things. Right. So. I think that's the most important thing. And I think it's also important to think about, you know, in the context of open code being banned from Claude code. I wonder how long it is. Land traffic actually just started doing account bans. And then I'm like, OK, so if you have to run local models, what do you have to run? And then you realize that what you probably want to buy is a tiny box screen Blackwell and you want to run you want if you with six of those, you could maybe barely run the ZI model. Yeah. I think these things are going to become more and more important. I think more and more people are going to start to want to actually run models locally. They're not making money on it. So, yeah, I wonder what the real cost of that is. The real cost of that is two thousand dollars. Suddenly buying that tiny box. So it's seemed like a really good deal. So I want everything focused on either the AMD contract or the. Comma. Use cases because these are actual users.
+One, I want to emphasize how important it is, AMD contract. I think that the ideal contract is the dream thing to work on training LLaMA four or five V on ML turf. Not really. But two things about that is that is what everybody kind of wants. One thing that everybody wants is to be able to train large transformers. This is what Kama wants. This is what anybody who wants. This is what anybody who's trying to clone Claude code wants. So it is very useful. And then the other thing is I think that this contract is really important. Like these things are really hard to get. It's not easy to get a contract with a large company to basically do work for them on something like this. Right. And you can say that, oh, it's, you know, I bullied them on Twitter or whatever, but I think it's. It's more than that. Right. I think that we have a contract and we should really put forward everything to get it done. So really everything should be focused on either that on our other customer comma and improving their workflows because we have we have two actual. Going to pay money to use tiny grad, but one is AMD and one is comma. So everything should be focused on one of those two things. Right. So. I think that's the most important thing. And I think it's also important to think about, you know, in the context of open code being banned from Claude code. I wonder how long it is. Land traffic actually just started doing account bans. And then I'm like, OK, so if you have to run local models, what do you have to run? And then you realize that what you probably want to buy is a TinyBox screen Blackwell and you want to run you want if you with six of those, you could maybe barely run the ZI model. Yeah. I think these things are going to become more and more important. I think more and more people are going to start to want to actually run models locally. They're not making money on it. So, yeah, I wonder what the real cost of that is. The real cost of that is two thousand dollars. Suddenly buying that TinyBox. So it's seemed like a really good deal. So I want everything focused on either the AMD contract or the. Comma. Use cases because these are actual users.
 
 ##### **Geohot** [[00:02:59](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=179)]
 And yeah.
@@ -116,7 +116,7 @@ So let's start with drivers.
 Yeah, so I've been focusing on Mac USB GPU.
 
 ##### **Nimlgen** [[00:06:06](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=366)]
-So yeah, it's completely written. It should be a lot better user experience to install it. So it's also... I know you checked this site, but this time it was at a cost of $80000 thousand. More cettez is good for Mac USB, but just don't start using Mac USB. And for a Plus Plus support, you can check Ulna on the other side of Apple. And the Vsta has released a lot of plugins for Johnny Carr for Vsta sta, the need for cPi voltar or a lot of cybersecurity problems, all of this stuff. Now to Vsta. So, you know, we're still waiting for an authorization.
+So yeah, it's completely written. It should be a lot better user experience to install it. So it's also.. I know you checked this site, but this time it was at a cost of $80000 thousand. More cettez is good for Mac USB, but just don't start using Mac USB. And for a Plus Plus support, you can check Ulna on the other side of Apple. And the Vsta has released a lot of plugins for Johnny Carr for Vsta sta, the need for cPi voltar or a lot of cybersecurity problems, all of this stuff. Now to Vsta. So, you know, we're still waiting for an authorization.
 
 ##### **Geohot** [[00:06:58](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=418)]
 Yeah. So, we have to do the notarization every time?
@@ -365,7 +365,7 @@ Well, that's okay. So that's a different issue. That's a different issue. And if
 Yeah. Yeah. No, that, that, that makes sense to me. Um, yeah, the, the, the, the best example for why this was like a sort of not, maybe not great is, is, is where you're, you're like the only thing different is the device and the actual renderer is just doing the exact same operation.
 
 ##### **Geohot** [[00:24:53](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=1493)]
-Yeah. If you could refactor to remove that, that would be great. Like, yeah, I agree. that the CUDA, whether it's being run by the CUDA backend or the NV backend, the renderer should have no knowledge of that. Yeah. Okay. Cool. I think that actually is pretty important. I think that paying off... Okay, so in general, coming back to the stuff about why we never do fast paths, the most important thing that we do with this company is that we keep the tiny grad code simple and maintainable and bug-free. Speed doesn't matter. Features don't matter. Nothing else... All of speed, features, complexity, these things increase technical debt. And I think that in software in general, there is way, way, way too much technical debt. This doesn't exist in hardware. When someone's building a chair, they're not just going to import a 200-meg chair updater library and just be like, yeah, well, it's in there and it works. But yeah, so I think that things like the compiler-perry factor are quite important. And we should do that. I'm thinking about how to do... Now that we have that... Yeah, to get everything to work with the new program instruction. So then the lowering actually happens as a thing. Yeah, that makes sense. Image equals one in compiler-perry. Seem like good goals for the sprint.
+Yeah. If you could refactor to remove that, that would be great. Like, yeah, I agree. that the CUDA, whether it's being run by the CUDA backend or the NV backend, the renderer should have no knowledge of that. Yeah. Okay. Cool. I think that actually is pretty important. I think that paying off.. Okay, so in general, coming back to the stuff about why we never do fast paths, the most important thing that we do with this company is that we keep the tiny grad code simple and maintainable and bug-free. Speed doesn't matter. Features don't matter. Nothing else.. All of speed, features, complexity, these things increase technical debt. And I think that in software in general, there is way, way, way too much technical debt. This doesn't exist in hardware. When someone's building a chair, they're not just going to import a 200-meg chair updater library and just be like, yeah, well, it's in there and it works. But yeah, so I think that things like the compiler-perry factor are quite important. And we should do that. I'm thinking about how to do.. Now that we have that.. Yeah, to get everything to work with the new program instruction. So then the lowering actually happens as a thing. Yeah, that makes sense. Image equals one in compiler-perry. Seem like good goals for the sprint.
 
 ##### **Chrism** [[00:26:19](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=1579)]
 All right.
@@ -374,7 +374,7 @@ All right.
 Next is George, your assembly stuff.
 
 ##### **Geohot** [[00:26:30](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=1590)]
-Yeah, so pretty good progress. You know, I should have started with the XML stuff and not the PDF stuff. The biggest thing that the XML has that the PDFs don't... So AMD publishes these XML files that explain all the instructions. And the biggest thing the XML has is it explains the type of every operand. That turned out to be annoying. In everything. But I switched to the XML. So now everything is type-checked. So when you're doing a global load, the global load has to have the right number of registers for each argument. It has to be a VGPR if it's a VGPR, an SGPR if it's an SGPR. The offsets and stuff always were checked correctly. But yeah, now it checks the... If it has to be a pair of registers, it's a pair of registers. Even though that's not actually encoded anywhere. It's not anywhere in the instruction type. Because the instruction just specifies the base register. And you have to just know that it's two. But I checked all that from the XML. So yeah, all that works. I cut the stuff that was doing the LLVM to our bytecode. So it can't function as an assembler. But all the disassembler stuff works. Disassembler and round trip work for CDNA, RDNA3, and VB4. And I'm going to do that. Quaslint, I saw you have that one MFMA instruction that doesn't work. We should fix that. If the hardware supports it, we should be able to express it. Yeah, and then what I've been working on for the last couple days is the emulator. I have an emulator now that compiles everything to actual TinyGrid programs. I think we can extend it to just do basic blocks. So we can just take a basic block of AMD instruction, and then we can just do basic blocks. As you can recognize, that's not happening here in the actual environment. and then do some clean-up mph as Körper mod imminent Airport MRI. But that's only the process. So I've got what's called behavior, not emulators, I've got the opposite, the supuesto cái equals the boundary logic. So I've hide them down one by one. I like that. Yeah. a nice development environment and a foundation that we can start to build on as we hand write the kernels for the ml perf contract. Yeah, so I think it is going to take the rest of the sprint also to make the code really clean. You know, a lot of it is written with Claude, but I'm aggressively going through it line by line. I think the code quality by the time this gets merged into TinyGradMaster will be on par with everything else that's in there.
+Yeah, so pretty good progress. You know, I should have started with the XML stuff and not the PDF stuff. The biggest thing that the XML has that the PDFs don't.. So AMD publishes these XML files that explain all the instructions. And the biggest thing the XML has is it explains the type of every operand. That turned out to be annoying. In everything. But I switched to the XML. So now everything is type-checked. So when you're doing a global load, the global load has to have the right number of registers for each argument. It has to be a VGPR if it's a VGPR, an SGPR if it's an SGPR. The offsets and stuff always were checked correctly. But yeah, now it checks the.. If it has to be a pair of registers, it's a pair of registers. Even though that's not actually encoded anywhere. It's not anywhere in the instruction type. Because the instruction just specifies the base register. And you have to just know that it's two. But I checked all that from the XML. So yeah, all that works. I cut the stuff that was doing the LLVM to our bytecode. So it can't function as an assembler. But all the disassembler stuff works. Disassembler and round trip work for CDNA, RDNA3, and VB4. And I'm going to do that. Quaslint, I saw you have that one MFMA instruction that doesn't work. We should fix that. If the hardware supports it, we should be able to express it. Yeah, and then what I've been working on for the last couple days is the emulator. I have an emulator now that compiles everything to actual TinyGrid programs. I think we can extend it to just do basic blocks. So we can just take a basic block of AMD instruction, and then we can just do basic blocks. As you can recognize, that's not happening here in the actual environment. and then do some clean-up mph as Körper mod imminent Airport MRI. But that's only the process. So I've got what's called behavior, not emulators, I've got the opposite, the supuesto cái equals the boundary logic. So I've hide them down one by one. I like that. Yeah. a nice development environment and a foundation that we can start to build on as we hand write the kernels for the ml perf contract. Yeah, so I think it is going to take the rest of the sprint also to make the code really clean. You know, a lot of it is written with Claude, but I'm aggressively going through it line by line. I think the code quality by the time this gets merged into TinyGradMaster will be on par with everything else that's in there.
 
 ##### **Geohot** [[00:29:28](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=1768)]
 Well, I won't merge it if it's not. Sounds good. Next is my stuff.
@@ -398,7 +398,7 @@ Set item with my fix? No.
 Oh, that's great. Yeah. If you've said item doesn't realize now that's a big win.
 
 ##### **Chenyu** [[00:35:04](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2104)]
-Yeah, you shouldn't realize or I guess the first thing cloud would do is find a place and add realize for you. But no, but the idea is how do you capture this dependency in? And now address action that you have but already mapped. ent. Yes. And I think 1 goes through the guy's browser and accept it often to the object asking 줘. And here it is, so it's. It's actually compile grabbing time for the last few things as well. Because there are a lot of things that we might or may not want to do right. So you could just pick one directly from the API connection and maybe edit something, remove it or delete. Yeah. So we probably should do that by disrupting de utilities. Yeah.
+Yeah, you shouldn't realize or I guess the first thing cloud would do is find a place and add realize for you. But no, but the idea is how do you capture this dependency in? And now address action that you have but already mapped. ent. Yes. And I think 1 goes through the guy's browser and accept it often to the object asking. And here it is, so it's. It's actually compile grabbing time for the last few things as well. Because there are a lot of things that we might or may not want to do right. So you could just pick one directly from the API connection and maybe edit something, remove it or delete. Yeah. So we probably should do that by disrupting de utilities. Yeah.
 
 ##### **Geohot** [[00:35:49](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2149)]
 Yeah, that seems right.
@@ -467,19 +467,19 @@ Yeah.
 Next.
 
 ##### **Chenyu** [[00:40:16](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2416)]
-So Lama training.
+So LLaMA training.
 
 ##### **Wozeparrot** [[00:40:18](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2418)]
-So last week, we have a birch training with flash attention now. It's pretty good. It is slower than normal attention, but it's also not really comparable, because none of the two runs were beamed. We'll look into that. And then the goal of this sprint is mainly just to get Lama 8 training. And that should be fairly doable. And then I can start landing performance improvements. The backwards kernels are currently, there's three kernels, and it really should only be one kernel.
+So last week, we have a birch training with flash attention now. It's pretty good. It is slower than normal attention, but it's also not really comparable, because none of the two runs were beamed. We'll look into that. And then the goal of this sprint is mainly just to get LLaMA 8 training. And that should be fairly doable. And then I can start landing performance improvements. The backwards kernels are currently, there's three kernels, and it really should only be one kernel.
 
 ##### **Geohot** [[00:40:55](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2455)]
-So yeah, I'm not worried about performance. I am worried that two people had on their sprint last week that we were going to have Lama 8b training, and we don't have Lama 8b training.
+So yeah, I'm not worried about performance. I am worried that two people had on their sprint last week that we were going to have LLaMA 8b training, and we don't have LLaMA 8b training.
 
 ##### **Geohot** [[00:41:10](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2470)]
 Yeah.
 
 ##### **Geohot** [[00:41:12](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2472)]
-Yeah, so we need, regardless of performance, we need to get an MLPerf qualifying Lama 8b training as soon as possible.
+Yeah, so we need, regardless of performance, we need to get an MLPerf qualifying LLaMA 8b training as soon as possible.
 
 ##### **Wozeparrot** [[00:41:21](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2481)]
 OK. I'll focus on that this week then.
@@ -488,7 +488,7 @@ OK. I'll focus on that this week then.
 Cool. Yeah. And then, so yeah, Burt works with flash attention. Did you run it with null and see how much RAM it uses?
 
 ##### **Wozeparrot** [[00:41:34](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2494)]
-For Lama 8b?
+For LLaMA 8b?
 
 ##### **Geohot** [[00:41:36](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2496)]
 Yeah, with the A192 context.
@@ -497,7 +497,7 @@ Yeah, with the A192 context.
 I haven't yet.
 
 ##### **Geohot** [[00:41:48](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2508)]
-But yeah, no, this is, I mean, we have to get, if by the end of this sprint we don't have a Lama 8b qualifying training, I'm very worried.
+But yeah, no, this is, I mean, we have to get, if by the end of this sprint we don't have a LLaMA 8b qualifying training, I'm very worried.
 
 ##### **Geohot** [[00:42:04](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2524)]
 Yeah. Yeah, is there anything that anyone can help with?
@@ -521,19 +521,19 @@ and gradient checkpointing. I'm definitely not worried about gradient checkpoint
 I think maybe just in general, it's just we don't quite yet understand the extra memories we need for computation now. So.
 
 ##### **Geohot** [[00:43:39](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2619)]
-We can also start adding these tricks to Lama 8b. Like, we have to get a qualifying Lama 8b. Run as soon as possible. How long do we expect Lama 8b to take to train?
+We can also start adding these tricks to LLaMA 8b. Like, we have to get a qualifying LLaMA 8b. Run as soon as possible. How long do we expect LLaMA 8b to take to train?
 
 ##### **Chenyu** [[00:43:52](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2632)]
 They have two hours, right? Or a meg of that.
 
 ##### **Geohot** [[00:43:58](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2638)]
-Yeah, so something we can comfortably iterate on and have a Lama 8b training every single day.
+Yeah, so something we can comfortably iterate on and have a LLaMA 8b training every single day.
 
 ##### **Chenyu** [[00:44:07](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2647)]
 That makes sense.
 
 ##### **Geohot** [[00:44:09](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2649)]
-Yeah, so if we have a Lama 8b training, like, every day, we can start adding these tricks. We can definitely do gradient accumulation, modeling. We can start doing model splitting on Lama 8b. And then not worry about scaling up to 405b and not worry about performance. Just make sure that we have this thing training. It's MLPerf qualifying. And we start to add the tricks to it.
+Yeah, so if we have a LLaMA 8b training, like, every day, we can start adding these tricks. We can definitely do gradient accumulation, modeling. We can start doing model splitting on LLaMA 8b. And then not worry about scaling up to 405b and not worry about performance. Just make sure that we have this thing training. It's MLPerf qualifying. And we start to add the tricks to it.
 
 ##### **Nimlgen** [[00:44:29](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2669)]
 Yep, sounds good.
@@ -548,10 +548,10 @@ Was being Anyway awesome. Think I won't be running into problems with being
 ally exhausting.
 
 ##### **Geohot** [[00:45:11](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2711)]
-mentioned. maintenance check, something like that make getting months. PA verschiedene assignments from NOCA. PA something I really dig into. is this and gem and yes. So we have the sqtt timeline now. And for I think this week, I'm gonna add support to our reverse
+mentioned. maintenance check, something like that make getting months. PA verschiedene assignments from NOCA. PA something I really dig into. is this and GEMM and yes. So we have the SQTT timeline now. And for I think this week, I'm gonna add support to our reverse
 
 ##### **Qazalin** [[00:45:42](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2742)]
-reverse engineers unpacker for ctna. Currently, it's only works on our j three. I looked into a little a little bit for our journey for the packet structures different timestamps are different. It'll be fun to see what you think is out of it.
+reverse engineers unpacker for CDNA. Currently, it's only works on our j three. I looked into a little a little bit for our journey for the packet structures different timestamps are different. It'll be fun to see what you think is out of it.
 
 ##### **Geohot** [[00:46:04](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2764)]
 Yeah, cloud should be cloud should be pretty good at that.
@@ -560,7 +560,7 @@ Yeah, cloud should be cloud should be pretty good at that.
 So all that we're on it. Spend an hour on this.
 
 ##### **Geohot** [[00:46:13](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2773)]
-Yeah, I mean, you have to get it. So the way that I got this stuff for our DNA three was I disassembled rock em trace decoder in Ghidra. And then I pasted that C code into chad to take. Then I also did a bunch of GDB stuff to dump to jump the tables. I dumped all the stuff out of rock practice decoder. If you don't get this, like within like a day, don't spend a ton of time on it, because I can do it very quickly. I think it's more important that that you spend time on the on the visualization side of things, making sure that we can tie every packet back to an instruction. And then also things like making sure the barriers like right now, barriers just hard coded to have length 100 or whatever, making sure the barriers actually go to the end of the barriers. And then there's also the mystery of the wave ready packet. If you could figure out how to show those in a good way. But yeah, no, we've done that. We've done that. We've done that. We definitely need to add cDNA. But don't spend a ton of time on it. If you find yourself spending more than a day on it. I think I can do it really quickly.
+Yeah, I mean, you have to get it. So the way that I got this stuff for RDNA3 was I disassembled rocprof trace decoder in Ghidra. And then I pasted that C code into ChatGPT. Then I also did a bunch of GDB stuff to dump to jump the tables. I dumped all the stuff out of rocprof TraceDecoder. If you don't get this, like within like a day, don't spend a ton of time on it, because I can do it very quickly. I think it's more important that that you spend time on the on the visualization side of things, making sure that we can tie every packet back to an instruction. And then also things like making sure the barriers like right now, barriers just hard coded to have length 100 or whatever, making sure the barriers actually go to the end of the barriers. And then there's also the mystery of the wave ready packet. If you could figure out how to show those in a good way. But yeah, no, we've done that. We've done that. We've done that. We definitely need to add CDNA. But don't spend a ton of time on it. If you find yourself spending more than a day on it. I think I can do it really quickly.
 
 ##### **Geohot** [[00:47:55](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2875)]
 I'll continue working on this stuff.
@@ -578,19 +578,19 @@ Did you see my my work specialized stuff?
 Oh, yeah, the works are doing different colors. Yeah, you have different colors. See it?
 
 ##### **Geohot** [[00:48:26](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2906)]
-Yeah, you can like like, I think that that's all you. Yeah, we should get this word for cDNA because we can lock I think that the one from is AMD is one work specialized. I think the one from the mojo is work specialized.
+Yeah, you can like like, I think that that's all you. Yeah, we should get this word for CDNA because we can lock I think that the one from is AMD is one work specialized. I think the one from the mojo is work specialized.
 
 ##### **Geohot** [[00:48:47](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2927)]
-Fast jam. Oh, the fast jam. I don't know. Honestly, I haven't heard that.
+fast GEMM. Oh, the fast GEMM. I don't know. Honestly, I haven't heard that.
 
 ##### **Geohot** [[00:48:57](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2937)]
-Um, be in a don't don't try a little with with with cDNA. But if it's like totally different. Yeah, I can do it real fast. But yeah, I want to be able to click on any uh, instruction either. Like we need to tie the exact to the the NQ.
+Um, be in a don't don't try a little with with with CDNA. But if it's like totally different. Yeah, I can do it real fast. But yeah, I want to be able to click on any uh, instruction either. Like we need to tie the exact to the the NQ.
 
 ##### **Geohot** [[00:49:25](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2965)]
 Do you think it's actually possible to do it? Like, accurately? Of course, it's all in order. At least RDNA three is all in order.
 
 ##### **Geohot** [[00:49:42](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2982)]
-So the order in which the NQ packets appear in the sqtt stream is the order in which the exact packets appear.
+So the order in which the NQ packets appear in the SQTT stream is the order in which the exact packets appear.
 
 ##### **Geohot** [[00:49:54](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=2994)]
 Have you seen anything to think that's not true?
@@ -608,13 +608,13 @@ What are all the actual values in the registers for?
 I see what an emulator with?
 
 ##### **Geohot** [[00:51:06](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3066)]
-Wow, I mean, it just didn't make a request for like, what were the registers at this time stamp? But yeah. No, much less important. More important is to get these things reliably tied back to PC and then start using this to improve the speed of things. Yeah, spend a day on the cDNA thing. See if you can get it. But yeah, I think the right way to do it, did you see my test that compared it to RockProft TraceDecoder?
+Wow, I mean, it just didn't make a request for like, what were the registers at this time stamp? But yeah. No, much less important. More important is to get these things reliably tied back to PC and then start using this to improve the speed of things. Yeah, spend a day on the CDNA thing. See if you can get it. But yeah, I think the right way to do it, did you see my test that compared it to rocprof TraceDecoder?
 
 ##### **Qazalin** [[00:51:38](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3098)]
 I did, yeah, the SKTD examples.
 
 ##### **Geohot** [[00:51:42](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3102)]
-Yeah, if you're just, what I would do, here's what I would do. Make a generator for those examples. I just generated those examples by hand, but make a script that auto regenerates the examples and add the same set of examples for cDNA, RDNA3, and RDNA4. And then, yeah, tell Claude to get them to pass for cDNA3 and RDNA4. See if you can do it.
+Yeah, if you're just, what I would do, here's what I would do. Make a generator for those examples. I just generated those examples by hand, but make a script that auto regenerates the examples and add the same set of examples for CDNA, RDNA3, and RDNA4. And then, yeah, tell Claude to get them to pass for CDNA3 and RDNA4. See if you can do it.
 
 ##### **Qazalin** [[00:52:12](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3132)]
 Yeah, I did this for RDNA4. I generated exactly the same things. It spends like two hours on it, and then just it's hopeless. I see. You'll see it.
@@ -623,7 +623,7 @@ Yeah, I did this for RDNA4. I generated exactly the same things. It spends like 
 But yeah, either way.
 
 ##### **Qazalin** [[00:52:30](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3150)]
-Like it writes a lot of code and .
+Like it writes a lot of code and.
 
 ##### **Geohot** [[00:52:34](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3154)]
 Yeah, no, it can't run. My experience with it is it can run for about two minutes autonomously without me having to. So I'm just going to say don't do that.
@@ -635,7 +635,7 @@ Superb. It's like, oh.
 Yeah, like I'm pretty aggressively in the loop. But yeah, what would help me to work on this is if you write something to generate all those pickle examples and generate them for all three. And then add to that test and say, you know,
 
 ##### **Geohot** [[00:53:04](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3184)]
-should work for cDNA, should work for RDNA4, but expected failure. Yeah. It sounds weird.
+should work for CDNA, should work for RDNA4, but expected failure. Yeah. It sounds weird.
 
 ##### **Chrism** [[00:53:17](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3197)]
 But I don't have time for that. Because I think people would learn much
@@ -647,16 +647,16 @@ Do you have anything related to running a fast sham in training? No. The current
 and the bulk needs like any m and k. Hello.
 
 ##### **Geohot** [[00:53:41](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3221)]
-What you글goldblk So, do you want to do that? Where do you get a gem from that only works for square matrices? Torch. How does Torch do not square matrices? Use other kernels. Hey.
+What yougoldblk So, do you want to do that? Where do you get a GEMM from that only works for square matrices? Torch. How does Torch do not square matrices? Use other kernels. Hey.
 
 ##### **Geohot** [[00:54:01](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3241)]
-It doesn't seem like a lot to ask. It doesn't seem like a lot to ask for to have a gem that supports rectangles.
+It doesn't seem like a lot to ask. It doesn't seem like a lot to ask for to have a GEMM that supports rectangles.
 
 ##### **Qazalin** [[00:54:07](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3247)]
 Yes, it is. I have a script for it. I have a, like, I can get the full dump of Torch. It will take me like an hour to get this.
 
 ##### **Geohot** [[00:54:17](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3257)]
-All right, cool. Yeah, I think that's another good goal for the sprint. Because yeah, fast gems is just free speed up for training. The other thing too, I saw you had a PR that's half done with the removing the MLPerf, having MLPerf just directly generate.
+All right, cool. Yeah, I think that's another good goal for the sprint. Because yeah, fast GEMMs is just free speed up for training. The other thing too, I saw you had a PR that's half done with the removing the MLPerf, having MLPerf just directly generate.
 
 ##### **Qazalin** [[00:54:40](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3280)]
 Yeah, having the ELF directly generated. It's fully done. I mean, like, I upstream, I merged it, and then I merged master, and it broke. Yeah. Today I fixed it.
@@ -692,13 +692,13 @@ Yeah, I did.
 I might have. Yeah, this looks pretty good. This is pretty minimal.
 
 ##### **Chrism** [[00:56:19](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3379)]
-What's this supposed to be? Not CP-E. Not API? Not ECU. STORMFUL-ство? Well, we're fine.
+What's this supposed to be? Not CP-E. Not API? Not ECU. STORMFUL-? Well, we're fine.
 
 ##### **Geohot** [[00:56:38](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3398)]
 I'm fine. Where's levant gıyoruz?
 
 ##### **Qazalin** [[00:56:39](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3399)]
-fixes for cDNA DSL is in the same branch as my failing test. It's by Claude, but I reviewed it a lot. I think it's correct. Like it's some sort of like bit field issue with FP4 that you don't have four. You don't have seven SGPRs. You have four SGPRs or whatever.
+fixes for CDNA DSL is in the same branch as my failing test. It's by Claude, but I reviewed it a lot. I think it's correct. Like it's some sort of like bit field issue with FP4 that you don't have four. You don't have seven SGPRs. You have four SGPRs or whatever.
 
 ##### **Chrism** [[00:57:04](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3424)]
 I don't know if it's smaller.
@@ -719,7 +719,7 @@ Oh, no. It just has the biggest one.
 Yeah, that's how FP4 works. Based on the modifier.
 
 ##### **Geohot** [[00:57:40](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3460)]
-Got it. Yeah. Got it. Just . Yes. It's all in there. Cool. I'm wondering what I read before. Yeah, this looks good. The ELF pack looks good. I did. I just.
+Got it. Yeah. Got it. Just. Yes. It's all in there. Cool. I'm wondering what I read before. Yeah, this looks good. The ELF pack looks good. I did. I just.
 
 ##### **Chrism** [[00:58:03](https://www.youtube.com/watch?v=vQY3NbmWoJw&t=3483)]
 OK.

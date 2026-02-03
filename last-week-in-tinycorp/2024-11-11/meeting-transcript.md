@@ -4,11 +4,11 @@
 
 **Time:** 8 PM Hong Kong Time
 - Company update
-- Llvm, block, cloud
+- LLVM, block, cloud
 - Real_strides, hcopt, beam slower than torch MPS
 - Big graph and lazybuffer
 - AM drivers, QCOM issues
-- Active bounties (webgpu, FSDP?, tensor cores, match speed)
+- Active bounties (WebGPU, FSDP?, tensor cores, match speed)
 
 ### Audio
 
@@ -16,7 +16,7 @@
 
 ### Chapters
 
-- **00:00:00 Introductions and Tiny Box Sales Update** Overview of Tiny Box sales, shipping improvements, and agenda.
+- **00:00:00 Introductions and TinyBox Sales Update** Overview of TinyBox sales, shipping improvements, and agenda.
 
 - **00:02:48 LLVM Rewrite and Optimization Goals** Geohot discusses LLVM rewrite, PTX optimization bounty, and block structure improvements.
 
@@ -36,7 +36,7 @@
 
 - **00:41:18 Removing ULONG Emulation and NaN Handling** Alternatives to ULONG emulation and NaN handling for streamlined WebGPU performance.
 
-- **00:46:17 Tiny Box Hardware Plans and Future GPU Integration** Discussion on PCIe5, potential 5090 GPU integration, and power requirements.
+- **00:46:17 TinyBox Hardware Plans and Future GPU Integration** Discussion on PCIe5, potential 5090 GPU integration, and power requirements.
 
 - **00:55:20 USB to PCIe for AMD GPUs** Exploring USB connections for AMD GPUs in Comma devices and TinyGrad.
 
@@ -44,7 +44,7 @@
 
 - **01:01:11 PCIe5 Feasibility and AMD Driver Support** Feasibility of PCIe5, NVMe, and AMD driver support over USB.
 
-- **01:11:28 Cloud Access for Tiny Box Users** Demonstration of Tiny Box compatibility with TinyGrad cloud access.
+- **01:11:28 Cloud Access for TinyBox Users** Demonstration of TinyBox compatibility with TinyGrad cloud access.
 
 - **01:13:50 TinyGrad Book Idea** Brief discussion on publishing TinyGrad source code as a book.
 
@@ -59,20 +59,20 @@ Yeah, I @-ed everyone.
 Maybe 1 to 1 for the meeting.
 I think there's.
 You know, I did a stream today.
-So It'll be on Georgehotz archive so there's gonna whole bunch of good tinygrad stuff in the stream.
+So It'll be on GeorgeHotz Archive so there's gonna whole bunch of good tinygrad stuff in the stream.
 I, without preparing at all, launched the new cloud stuff on my phone, on my literal Android running Samsung Z Fold 5, and everything just worked.
 So that was really cool.
 And the new cloud stuff also allows, it hides latency pretty well.
 So you're pretty much just making one round trip per step, which is still too much, but at least that's a start.
 Then the way around that is gonna be With things like stunning mnist we sold like four tiny boxes this week.
-So it's a good week for tiny box sales And it turns out one person got shipped a tiny box and didn't pay for it So, uh, yeah, you better pay for it or I will uh
+So it's a good week for TinyBox sales And it turns out one person got shipped a TinyBox and didn't pay for it So, uh, yeah, you better pay for it or I will uh
 and my goons and they will come get the money.
 We will make sure this never happens again.
-You have to pay before we ship the tiny box.
+You have to pay before we ship the TinyBox.
 But yeah, we sold like four this week, so that's a good week.
-We're building 28 tiny box pros.
+We're building 28 TinyBox pros.
 We have a couple of pre-orders for those.
-If you want a pre-order for a tiny box pro, I think we have like three left.
+If you want a pre-order for a TinyBox pro, I think we have like three left.
 So it's $2,000.
 That's a pre-order for a $40,000 TinyBox Pro, which has everything in it that you need.
 If you want to discuss in general stuff, or there is a chat for the Reds only VC, but I kind of like it better in general.
@@ -554,7 +554,7 @@ Yeah.
 So for QCOM, I'm just looking into this.
 It's just, you know, registers looks correct.
 I think we just got a pretty big kernel, which has 25 textures and I
-And I think Q-com, I mean, GPU OpenCL Q-com also executes all them with one kernel, but it's... I don't know, I think... I don't know where it puts all the last nine textures.
+And I think Q-com, I mean, GPU OpenCL Q-com also executes all them with one kernel, but it's.. I don't know, I think.. I don't know where it puts all the last nine textures.
 Because, like, the buffer it uploads, it just contains only 16 textures.
 At least the size, like, they use just only for 16 textures.
 So I think that's what Misen and I investigated.
@@ -579,7 +579,7 @@ And why is that so slow?
 Why is it taking five milliseconds to copy a kilobyte?
 
 **Nimlgen** [00:31:17]
-Yeah, we... Like the raw Carpus right now is a bit slower on QCOM compared to the OpenCL.
+Yeah, we.. Like the raw Carpus right now is a bit slower on QCOM compared to the OpenCL.
 Like, OpenCL Carpus at seven gigs a second and we do five gigs a second.
 And that's because the caching, I mean, we use, I think, the wrong caching scheme.
 
@@ -677,7 +677,7 @@ I see you've moved away a lot from these style of stuff.
 
 **Wpmed** [00:37:17]
 Yeah.
-So a lot of better mature stuff you see is this bool stuff, bool hacks and...
+So a lot of better mature stuff you see is this bool stuff, bool hacks and..
 You carry short acts, things like that.
 Yeah, I check if I can, I can merge more with C-style.
 So I feel like there are some lines that you still can be cut off.
@@ -711,7 +711,7 @@ I mean, before we converge this, there's way too many of these string rewrite ru
 Like I don't understand why the normal infinity rewrite rules from C style don't work.
 
 **Wpmed** [00:39:29]
-Because infinity is a weird new webGPU spec.
+Because infinity is a weird new WebGPU spec.
 So there's a lot of bug there that I have to work around.
 If you look at it, there is a special isnan because in any other languages you do A not because A and this basically means you want to know if it's nan, but that doesn't work.
 in WebGPU.
@@ -781,7 +781,7 @@ I see.
 Yeah.
 I mean,
 I don't know.
-Half of me wants to say that TinyGrad doesn't support Nans and... Yeah, me.
+Half of me wants to say that TinyGrad doesn't support Nans and.. Yeah, me.
 Half of me wants to say that TinyGrad just doesn't support Nans and Infinity.
 
 **Chenyu** [00:42:24]
@@ -891,7 +891,7 @@ Yeah, and I promise you a cleanup and export it to stable diffusion.
 **Geohot** [00:46:32]
 Sounds good.
 I'll answer this question quickly.
-You made a preorder for a tiny box, but now you want to buy a green one.
+You made a preorder for a TinyBox, but now you want to buy a green one.
 Your preorder does not specify a color.
 And no, there's no EU headquarters.
 There's no resellers.
@@ -901,7 +901,7 @@ If there's a reseller, they're paying the import tax, right?
 You're always welcome, by the way, to ship it to somewhere in the United States and figure out how to get it into the EU yourself and not have to pay any duties and tariffs.
 I don't know.
 Yeah.
-Also, if you want a green tiny box, buy quickly.
+Also, if you want a green TinyBox, buy quickly.
 There will be more, but they may be out of stock for a month.
 You know, just due to 4090 supply.
 So, yeah.
@@ -936,22 +936,22 @@ T.J. Becker doesn't happen to be here.
 He's making good progress on the big DFA for pattern matcher.
 I did a whole bunch of clean up work to make everything faster.
 It was nice to see it reflected in stats.tinygrad.org when I run it up on stream.
-You can see how like...
+You can see how like..
 It's running down again.
 Yeah, that's good.
 Good things are moving in the right direction.
-Well, things are turning a little bit back off, but...
+Well, things are turning a little bit back off, but..
 
 **Chenyu** [00:48:36]
 Yes.
-It's hard to believe there was once for Unjitted Llama.
+It's hard to believe there was once for Unjitted LLaMA.
 It was once below 100 milliseconds.
 
 **Geohot** [00:48:48]
-Uh, never on a tiny box.
+Uh, never on a TinyBox.
 
 **Chenyu** [00:48:50]
-Yeah, but there's no tiny box when that was fenced.
+Yeah, but there's no TinyBox when that was fenced.
 
 **Geohot** [00:48:56]
 Yeah.
@@ -995,7 +995,7 @@ It can share some stuff with the scheduler.
 But other than that, there's some other cleanups.
 
 **Ignaciosica** [00:51:10]
-The thing with the... Sorry.
+The thing with the.. Sorry.
 For the views, is that here the parent view is replaced the child view?
 That was the question I had like two weeks ago.
 That difference from the schedule where the child view has preference over the parent view.
@@ -1033,15 +1033,15 @@ I mean, I think I gave that more as a contract to TJ Becker and I think he's mak
 So yeah, I don't know.
 I don't know if we have numbers of the speed, but it's a very fun standalone problem.
 If P2P hack is patched on 5090, will it delay the upgrade of tiny boxes to 5090?
-There's currently no plan really to do a 5090 tiny box.
-There will probably be a 5090 tiny box pro, but
+There's currently no plan really to do a 5090 TinyBox.
+There will probably be a 5090 TinyBox pro, but
 One of the problems with the 5090 is it draws 600 watts.
 You're just running into a real problem.
 Whereas how many power supplies do we want to put in this thing?
 Is it going to be a three power supply machine?
 I mean, it might have to be.
-We have some stuff for a tiny box with PCIe 5.
-We've played with the new Asrock motherboard, but yeah, there's no rush to go to 5090s and go to PCIe5 for the tiny box.
+We have some stuff for a TinyBox with PCIe 5.
+We've played with the new Asrock motherboard, but yeah, there's no rush to go to 5090s and go to PCIe5 for the TinyBox.
 It's going to be if you're banking on that anytime soon, don't.
 We're going to be selling basically the same tiny boxes for a year.
 We have a lot of those motherboards.
@@ -1061,13 +1061,13 @@ But I think for the next year, it's going to be 4090s.
 I'm not playing with MSRP and scalpers, right?
 I'm waiting until I can go to a supplier and say, I want 200 of these.
 So yeah, it's not like we have something like on day one when the 5090 comes out.
-Oh, site guys, it's the tiny box too.
+Oh, site guys, it's the TinyBox too.
 We have a prototype with the PCIe5 motherboard just so we could update the case.
 But at 600 watts, there's no way.
 We're going to be able to do it quickly.
 Maybe we'll put four GPUs in it.
 Would you be happy with that?
-Would four GPUers be happy with four GPUs in the tiny box town?
+Would four GPUers be happy with four GPUs in the TinyBox town?
 All right.
 Any other tiny grad related questions?
 If you want to just buy a normal, buy a normal, buy a normal computer.
@@ -1159,7 +1159,7 @@ So that's why I've been looking at the 5090s.
 They have 32 gigs of VRAM each so that I can fit more layers onto each device before having to do some stupid shit like FSDP or deep speed, something like that.
 
 **Geohot** [01:01:11]
-Wait, so are you... I see six lanes there.
+Wait, so are you.. I see six lanes there.
 I see six slots there.
 
 **Bghira** [01:01:20]
@@ -1242,7 +1242,7 @@ Yeah, but I can't get an external GPU on an M4 device, even though I'd love to.
 **Geohot** [01:04:15]
 Where one of the things we've talked about for comma a bit is building a, it's obviously not going to have bandwidth, but building a USB to PCI adapter.
 And then we can sell AMD GPUs connected to MacBooks.
-You'll be able to just buy a 7900 XTX, plug it in using one of the... You can use those NVMe to PCI, NVMe to USB things, plug it in with that.
+You'll be able to just buy a 7900 XTX, plug it in using one of the.. You can use those NVMe to PCI, NVMe to USB things, plug it in with that.
 And then if TinyGrad has a complete driver, we can actually run it.
 By the way, Nimlgen, if you're still here, this is probably where the AM driver is eventually going.
 I want to be able to run GPUs over USB in order to, for the next gen Comma devices, get, plug in the AMD GPU.
@@ -1351,8 +1351,8 @@ Um, you can just like just SSH channel a port that'll actually work right now wi
 You watch me do it.
 You watch me do it.
 I just did it live on stream.
-Um, so if you just on your tiny box, if you run, uh, the Python tiny grad runtime ops cloud, uh, and then you forward port 6667 to your computer, just run with cloud=1 in middle work.
-Um, see it can hit your tiny box.
+Um, so if you just on your TinyBox, if you run, uh, the Python tiny grad runtime ops cloud, uh, and then you forward port 6667 to your computer, just run with cloud=1 in middle work.
+Um, see it can hit your TinyBox.
 Will there ever be a tiny book?
 No.
 No.
@@ -1406,7 +1406,7 @@ So that's kind of that.
 I think the first chip we're going to do hopefully is a chip the comma can use in like the comma five or something.
 
 **Chenyu** [01:13:50]
-Oh, now we are on 3.10, we also need to upgrade the... I believe one of the CI machines is on 3.9.
+Oh, now we are on 3.10, we also need to upgrade the.. I believe one of the CI machines is on 3.9.
 
 **Geohot** [01:13:59]
 Oh, is it failing?
@@ -1501,7 +1501,7 @@ Is assembly LLVM actually vectorized?
 Yeah.
 Yeah, LLVM will vectorize for you.
 Oh, I added also you can do LLVM opt equals one and it'll run an LLVM optimizer, but it didn't get as much speed as I thought it would.
-I don't exactly understand why the gem Vs are as slow as they are.
+I don't exactly understand why the GEMM Vs are as slow as they are.
 I don't know.
 Now I'm trying like gemm on my entry max and they're slower than I thought.
 OK, cool.

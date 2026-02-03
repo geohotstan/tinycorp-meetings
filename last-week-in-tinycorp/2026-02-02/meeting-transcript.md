@@ -4,10 +4,10 @@
 
 **Time:** new meeting #5, 9am Monday San Diego time
 - company update
-- jit asserts, assign, mypy
+- jit asserts, assign, MyPy
 - viz / fast gemm
 - drivers
-- llama training
+- LLaMA training
 - decomp int64
 - assembly
 - other issues / bounties
@@ -19,12 +19,12 @@
 ### Highlights
 
 - **[USB eGPU board plan](#geohot-000009)**: Received a Common Events box with two USB GPUs; custom firmware is progressing for USB 3/USB 4; plan is to sell the board (an eGPU) for ~$150–$200.
-- **[Tinybox + JIT asserts](#geohot-000042)**: FTDI breakout for easy access; Tinybox sales unexpectedly strong; JIT asserts considered finished.
+- **[TinyBox + JIT asserts](#geohot-000042)**: FTDI breakout for easy access; TinyBox sales unexpectedly strong; JIT asserts considered finished.
 - **[Move Tensor methods into mix-ins/UOPs](#geohot-000157)**: Discussed reducing Tensor surface area by moving methods to UOPs/mix-ins; idea to have Tensor intercept/unwrap UOPs and call UOP functions directly.
 - **[Typing status + lambda-heavy rewrites](#chenyu-000359)**: MyPy report suggests ~half the code isn’t fully typed; lots of lambda-based rewrite rules aren’t being type-checked well.
 - **[Assign is “super broken”](#chenyu-000556)**: Assign refactor is blocked by incorrect dependency/order tracking and confusing “disk” device semantics (device can’t compute + buffer contiguity assumptions).
 - **[Dtype spec + “range of fire” simplification](#geohot-001005)**: Proposed dtype should be “buffer dtype + number of elements” before range-of-fire; after range-of-fire it becomes plain dtype; goal is to unify concepts like index/jit.
-- **[Flash-attention kernel priority](#geohot-001157)**: After merging “1.4 payoffs” using Llama, top priority is finding a good flash-attention kernel; plan to email “Jim” about open-sourcing; pursue multiple approaches in parallel.
+- **[Flash-attention kernel priority](#geohot-001157)**: After merging “1.4 payoffs” using LLaMA, top priority is finding a good flash-attention kernel; plan to email “Jim” about open-sourcing; pursue multiple approaches in parallel.
 - **[ASMGEM memory issue at long seq](#geohot-001300)**: ASMGEM hits OOM at larger sequence lengths; suspected extra copies/contiguous conversions; suggested using this as a path to replace custom kernel with `call`.
 - **[Replace custom kernel with `call`](#geohot-001412)**: `call` enables removing graph function from custom curves; `define_global` becomes an alias for `param`; kernel/custom-kernel refactor should move UOPs out of args into source0.
 - **[AMD fault recovery without reboot](#nimlgen-001915)**: Driver can now handle/print all issues; on non-MI machines can recover from faults without rebooting GPU; AQL reset has an XCC sync issue; current recovery path relies on polling.
@@ -32,7 +32,7 @@
 - **[Qualcomm box coherency issue](#nimlgen-002420)**: Investigating CPU/GPU cache/coherency behavior as a likely root cause; marked as priority #1.
 - **[NVIDIA trace status](#nimlgen-002458)**: Tracing works with the NVIDIA driver on 4090 and 5090; decoder script parses the format; still investigating odd driver behavior (possibly power/perf-state related).
 - **[Apple driver approval mismatch](#geohot-002705)**: Apple validated submitted items, but granted entitlements don’t match; “vendor ID issue” persists; considered low priority.
-- **[Llama training shape constraints](#wozeparrot-002755)**: Have a 1496 sequence-length model trained at BS16; expect BS8 @ 8192 to be similar by tokens/step, but 8192 doesn’t fit due to SMGEM constraints.
+- **[LLaMA training shape constraints](#wozeparrot-002755)**: Have a 1496 sequence-length model trained at BS16; expect BS8 @ 8192 to be similar by tokens/step, but 8192 doesn’t fit due to SMGEM constraints.
 - **[Flash attention throughput + kernel mix](#geohot-002806)**: Flash attention reported at ~330 TFLOPs; 8192 context is “very small” and workload is dominated by GEMM (~70%).
 - **[FFN/output GEMM is wildly slow](#geohot-002906)**: FFN/output GEMM reported ~300ms / ~26 TFLOPs—described as “50x off”; likely a bug or wrong path; plan to benchmark specific GEMM dimensions and verify ASMGEM usage.
 - **[Int64 long decomp status](#chrism-003156)**: Long decomp works broadly except where shift support/PTX interactions break; fallback to multiplication is acceptable; denormals aren’t a priority.
@@ -47,7 +47,7 @@
 - **[x86 backend direction](#geohot-004635)**: Critique of doing instruction selection post-linearization; prefer instruction selection pre-linearization and register-pressure-aware linearization for better codegen.
 - **[USB firmware sprint](#geohot-004829)**: Firmware reflashing workflow is smooth; USB enumeration is close; next is getting PCIe working—goal is fast USB 3 once both USB+PCIe are solid.
 - **[Call chains + autodiff + reduce→scan](#geohot-005053)**: Envisions chains of `call` enabling GPU command buffers (and cleaner WebGPU export); also wants `call` to work with derivatives and to replace `reduce` with a more general `scan`.
-- **[Llama startup time is too slow](#geohot-005208)**: Llama script spin-up taking ~3 minutes is called out as a major annoyance and sprint goal to fix.
+- **[LLaMA startup time is too slow](#geohot-005208)**: LLaMA script spin-up taking ~3 minutes is called out as a major annoyance and sprint goal to fix.
 - **[“Zeros” masking bugs](#geohot-005316)**: Some paths return zeros so failures can pass silently; plan is to return NaNs or wrong shapes to surface issues.
 - **[GLM flash bounty](#geohot-005340)**: Mentioned a “GLM flash 50 tokens/sec” bounty; hoping it motivates a usable contribution.
 - **[Claude/git-history workflow + PR hygiene](#chenyu-005404)**: Using Claude to traverse git history/context is productive; reinforces importance of small, well-written PRs to avoid “CI spiral” fixes.
@@ -62,7 +62,7 @@ Welcome everyone to this meeting. So let's start with company update.
 Yeah, I got my box from Common Events. We have two USB GPUs. I think that's the most exciting thing. Progress is being made on our custom firmware for them. We should be able to make it work really well over both USB 3 and USB 4. Our plan is to sell a board. The company is just going to be the board that's in the Common GPU. It's an eGPU for sale for everybody. It'll be like 150, 200 bucks or something.
 
 ##### **Geohot** [[00:00:42](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=42)]
-Broken out FTDI so you can access the chat. That's the main thing. Tinybox sales won't quit this week. I don't know why. You gotta get Kimi running on something. I don't want Kimi. Next is my stuff. So I think I finished the JIT asserts.
+Broken out FTDI so you can access the chat. That's the main thing. TinyBox sales won't quit this week. I don't know why. You gotta get Kimi running on something. I don't want Kimi. Next is my stuff. So I think I finished the JIT asserts.
 
 ##### **Chenyu** [[00:01:22](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=82)]
 Or maybe I actually finished it last week already, but I don't plan to add more asserts now. I think obviously I'm happy with.
@@ -71,19 +71,19 @@ Or maybe I actually finished it last week already, but I don't plan to add more 
 For my Pi, we discussed this last week. I fixed all the self-type stuff in mixing.
 
 ##### **Chenyu** [[00:01:40](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=100)]
-And also the boundary between Tensor and UUP is clean up. There were like some something that was just using the UUP directly instead of like wrapping in a Tensor first, then do the AOU.
+And also the boundary between Tensor and UOp is clean up. There were like some something that was just using the UOp directly instead of like wrapping in a Tensor first, then do the ALU.
 
 ##### **Chenyu** [[00:01:56](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=116)]
 So those are all clean up.
 
 ##### **Geohot** [[00:01:57](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=117)]
-I've been thinking about this. Why do we want mix-ins? Why don't we want Tensor to just recall the method on UUPs?
+I've been thinking about this. Why do we want mix-ins? Why don't we want Tensor to just recall the method on UOps?
 
 ##### **Geohot** [[00:02:06](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=126)]
-Why don't we just move all those methods to UUPs? Oh, because U-Pet also uses those? U-Pet uses a few of them. Yeah, I guess. I mean, I guess you could keep mix-ins for U-Pet.
+Why don't we just move all those methods to UOps? Oh, because UPat also uses those? UPat uses a few of them. Yeah, I guess. I mean, I guess you could keep mix-ins for UPat.
 
 ##### **Geohot** [[00:02:26](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=146)]
-That's totally fine too. I'm just saying like move them off of Tensor. Add like a meta call on Tensor that intercepts them and unwraps the UUPs and then calls the UUP function.
+That's totally fine too. I'm just saying like move them off of Tensor. Add like a meta call on Tensor that intercepts them and unwraps the UOps and then calls the UOp function.
 
 ##### **Geohot** [[00:02:39](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=159)]
 Oh, that's probably fine. Oh, yeah. I mean, it's not, it's not very different.
@@ -92,10 +92,10 @@ Oh, that's probably fine. Oh, yeah. I mean, it's not, it's not very different.
 I think we can actually leave the mix-ins too, just for structural purposes. You know, we don't want like one dude to class.
 
 ##### **Geohot** [[00:02:48](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=168)]
-But yeah, I mean, I'd kind of like to like move everything off of Tensor into mix-ins. I saw you have a comment on the gen stuff. You also want a UUP.gen? Yeah, I mean, I want everything to just like work on UUPs and Tensor as equivalent like.
+But yeah, I mean, I'd kind of like to like move everything off of Tensor into mix-ins. I saw you have a comment on the gen stuff. You also want a UOp.gen? Yeah, I mean, I want everything to just like work on UOps and Tensor as equivalent like.
 
 ##### **Chenyu** [[00:03:13](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=193)]
-So, what Tensor is just this class that has less kind of mutable because the underlying UUP can be different?
+So, what Tensor is just this class that has less kind of mutable because the underlying UOp can be different?
 
 ##### **Geohot** [[00:03:21](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=201)]
 Exactly.
@@ -104,7 +104,7 @@ Exactly.
 Okay.
 
 ##### **Geohot** [[00:03:23](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=203)]
-The only difference, yeah, the only thing that I, I mean, UUPs are immutable and Tensor is immutable.
+The only difference, yeah, the only thing that I, I mean, UOps are immutable and Tensor is immutable.
 
 ##### **Geohot** [[00:03:28](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=208)]
 That's the only difference.
@@ -146,7 +146,7 @@ And it's annoying if your output is not UOPS.
 Yeah, that kind of shouldn't exist. Yeah.
 
 ##### **Chenyu** [[00:05:56](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=356)]
-That's kind of the, unless we have a really big bench on that. I don't think MyPy can do any better. And the rest is probably some like minor thing. Like there are like some of the helpers that obviously returns like bullying. We can have a pass or can have a pass to add all the output types to those. So that's like less important. Then the final thing that I was most excited about was assign. Because assign is super broken. And by, so this started first when I tried to do the make this assign, make this assign lazy. And the thing is, if you ask Cloud to do it, Cloud will happily go hitting the wall and make 10 different changes in different places until the test pass. And when I read it, it doesn't make sense at all. Then you're, and then you will start to realize so many things are hacked around assign and this. So I'm making progress on that. I probably keep working on this for this week, unless I find something I can help with low Lama training. But overall, I find this workflow of using Cloud to go through Git history and to find a context around certain items very useful. I think that shows the. Importance of writing good PR and make it small. But my previous biggest issue working on the scheduler part was I just don't quite understand what certain UOP is supposed to be because it can be very different from the actual implementation. Having like this, you can certainly read Git history and context a lot better than how I would do this, like with the git blame and stuff like that. So you can see my change. I isolated bunch of like arrows and bugs and fix some of it. I think the clear are two major issues for assign. One is the odor is not actually right. So that's, that's the main reason intentionally level. We need to do a lot of realize in places as kind of we manually making sure the dependency is tracked correctly. And then. Which is not right now. Another is like desk. So desk, we used to have a check for desk in the tensor level to say this device is desk. Let's logic is not complete. What we mean by desk is actually a device that cannot do compute. And we kind of always guarantee the underlying buffer is contiguous. So that's the, that's the actual thing we need to. Make our like in different layers. And I think there's a better way to do it because there's not really difference between like a desk memory to your CPU buffer. If it's like a one big memory. If you can do big cast on desk, you should be able to do that on your contiguous memory as well. Things like that. So, yeah, I think there's a huge potential. I think, I think we're in jafi indexing is too long. So I don't know how it will be able to like be cleaner.
+That's kind of the, unless we have a really big bench on that. I don't think MyPy can do any better. And the rest is probably some like minor thing. Like there are like some of the helpers that obviously returns like bullying. We can have a pass or can have a pass to add all the output types to those. So that's like less important. Then the final thing that I was most excited about was assign. Because assign is super broken. And by, so this started first when I tried to do the make this assign, make this assign lazy. And the thing is, if you ask Cloud to do it, Cloud will happily go hitting the wall and make 10 different changes in different places until the test pass. And when I read it, it doesn't make sense at all. Then you're, and then you will start to realize so many things are hacked around assign and this. So I'm making progress on that. I probably keep working on this for this week, unless I find something I can help with low LLaMA training. But overall, I find this workflow of using Cloud to go through Git history and to find a context around certain items very useful. I think that shows the. Importance of writing good PR and make it small. But my previous biggest issue working on the scheduler part was I just don't quite understand what certain UOP is supposed to be because it can be very different from the actual implementation. Having like this, you can certainly read Git history and context a lot better than how I would do this, like with the git blame and stuff like that. So you can see my change. I isolated bunch of like arrows and bugs and fix some of it. I think the clear are two major issues for assign. One is the odor is not actually right. So that's, that's the main reason intentionally level. We need to do a lot of realize in places as kind of we manually making sure the dependency is tracked correctly. And then. Which is not right now. Another is like desk. So desk, we used to have a check for desk in the tensor level to say this device is desk. Let's logic is not complete. What we mean by desk is actually a device that cannot do compute. And we kind of always guarantee the underlying buffer is contiguous. So that's the, that's the actual thing we need to. Make our like in different layers. And I think there's a better way to do it because there's not really difference between like a desk memory to your CPU buffer. If it's like a one big memory. If you can do big cast on desk, you should be able to do that on your contiguous memory as well. Things like that. So, yeah, I think there's a huge potential. I think, I think we're in jafi indexing is too long. So I don't know how it will be able to like be cleaner.
 
 ##### **Geohot** [[00:09:31](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=571)]
 You ready to file should be able to be cleaner. I agree. Yeah.
@@ -194,10 +194,10 @@ Yeah. No, but I see the potential there.
 Okay.
 
 ##### **Chenyu** [[00:11:45](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=705)]
-Yeah. So I think my next sprint would be to see if there's anything I can help with Lama. Otherwise, I will continue with my happy refactor of the D type. I've got a lot of things that I want to add to my schedule.
+Yeah. So I think my next sprint would be to see if there's anything I can help with LLaMA. Otherwise, I will continue with my happy refactor of the D type. I've got a lot of things that I want to add to my schedule.
 
 ##### **Geohot** [[00:11:57](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=717)]
-That's me. Next we have a question. As Jim has merged 1.4 payoffs, and it's using Lama. Great. I'm going to find a flash attention kernel next. Are there good flash attention kernels? I don't know. Yeah. I mean, I think we should pursue both strategies in parallel.
+That's me. Next we have a question. As Jim has merged 1.4 payoffs, and it's using LLaMA. Great. I'm going to find a flash attention kernel next. Are there good flash attention kernels? I don't know. Yeah. I mean, I think we should pursue both strategies in parallel.
 
 ##### **Chrism** [[00:12:33](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=753)]
 Getting errors to be faster than trying to find one.
@@ -233,10 +233,10 @@ So, we're going to have to do a little bit of work on that. It's a little bit of
 What can't be used?
 
 ##### **Qazalin** [[00:13:29](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=809)]
-Asm. The assembly gem memory issue.
+Asm. The assembly GEMM memory issue.
 
 ##### **Geohot** [[00:13:34](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=814)]
-Oh, the assembly gem memory issue. Does that just have to do with the fact that there's contiguouses?
+Oh, the assembly GEMM memory issue. Does that just have to do with the fact that there's contiguouses?
 
 ##### **Qazalin** [[00:13:39](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=819)]
 I think so.
@@ -245,7 +245,7 @@ I think so.
 Yeah. I think we can clean that up. Oh, another thing if you're interested. So, I added call. We should be able to remove the graph function off of custom curves.
 
 ##### **Geohot** [[00:14:12](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=852)]
-So, that allows me to just remove some of the grid data that was we hadち to replace both kernel, custom kernel, and custom kernel with call.
+So, that allows me to just remove some of the grid data that was we had to replace both kernel, custom kernel, and custom kernel with call.
 
 ##### **Qazalin** [[00:14:44](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=884)]
 Yeah, I see. I saw you made define global also a param. It's just an alias now.
@@ -260,19 +260,19 @@ Those uups should actually just be in source 0. Yeah, uups in args are 0.
 Oh yeah, I don't know if you're interested in that. This project is great. But I think priority one is looking for flash attention kernel. And priority two is refactoring kernel and custom kernel to actually just be call.
 
 ##### **Geohot** [[00:15:32](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=932)]
-Is there any value in running AMD's benchmark? Oh, AMD's real benchmark? Yeah. I don't know how much of our things that we can . Yeah, we know what they're doing. I mean, we just got to get a breakdown of how actually things are. We need to figure out where our time is going. Oh, sorry. You were saying something?
+Is there any value in running AMD's benchmark? Oh, AMD's real benchmark? Yeah. I don't know how much of our things that we can. Yeah, we know what they're doing. I mean, we just got to get a breakdown of how actually things are. We need to figure out where our time is going. Oh, sorry. You were saying something?
 
 ##### **Qazalin** [[00:16:14](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=974)]
 So to be clear, I'm not going to work on the memory stuff. Just the general memory stuff. Oh, okay. Yeah. Yeah.
 
 ##### **Geohot** [[00:16:22](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=982)]
-I think... I think that memory stuff.. Yeah, the memory stuff is Kn Know. was very related to replacing custom kernel with call.
+I think.. I think that memory stuff. Yeah, the memory stuff is Kn Know. was very related to replacing custom kernel with call.
 
 ##### **Qazalin** [[00:16:31](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=991)]
 Because then I can't put the assembly in the kernel?
 
 ##### **Geohot** [[00:16:37](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=997)]
-Yeah. You should just be able to...? My theory about what's happening is that it's making extra copies. There's extra contribute existence. And if you look at the code... Custom kernel is kind of a hack. But if you can reduce its南梓 iンStesso foruluntà depths ...
+Yeah. You should just be able to..? My theory about what's happening is that it's making extra copies. There's extra contribute existence. And if you look at the code.. Custom kernel is kind of a hack. But if you can reduce its iStesso foruluntà depths..
 
 ##### **Geohot** [[00:16:51](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1011)]
 replace custom kernel with call and only do the contiguous if you need to. I think that'll fix the memory thing, though. See? So it doesn't use contiguous in call.
@@ -281,10 +281,10 @@ replace custom kernel with call and only do the contiguous if you need to. I thi
 Let me see if it does. If it's, like, permuted or something. If the kernel is expecting a different type or drive in the input buffer, then yeah, it needs a contiguous. So I don't
 
 ##### **Geohot** [[00:17:23](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1043)]
-know what your fast gem is expecting. Maybe it has to do a transpose, or maybe, I don't know. Yeah, I would look into that and use that as a gateway to replacing custom kernel with call. Okay. And for this, I don't really have much work planned since we're left with sqtt. I mean, yeah, it's pretty good. I'm pretty happy with where it is on sqtt. Yeah, I think it's pretty usable. And I think once we start to do RTA3 assembly back end, we can try to see if it's going to work. I gotta focus and rel speed for it. So this worked. This already helped me get from 53 to 55 T trabajar on Amdy gegoutat. Amdy.
+know what your fast GEMM is expecting. Maybe it has to do a transpose, or maybe, I don't know. Yeah, I would look into that and use that as a gateway to replacing custom kernel with call. Okay. And for this, I don't really have much work planned since we're left with SQTT. I mean, yeah, it's pretty good. I'm pretty happy with where it is on SQTT. Yeah, I think it's pretty usable. And I think once we start to do RTA3 assembly back end, we can try to see if it's going to work. I gotta focus and rel speed for it. So this worked. This already helped me get from 53 to 55 T trabajar on Amdy gegoutat. Amdy.
 
 ##### **Qazalin** [[00:18:25](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1105)]
-It was written by .
+It was written by.
 
 ##### **Geohot** [[00:18:38](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1118)]
 Yeah.
@@ -308,7 +308,7 @@ I mean, we still have this issue that we need something else to reset for the AQ
 So I'm running the external GPU crash now. It's pretty slow. Does it have to do a full reset in between or not?
 
 ##### **Nimlgen** [[00:20:20](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1220)]
-Oh no, I just start recovery. Basically we have... Yeah, the recovery should be really fast. So basically because we don't use interrupts right now, I mean, we don't have VFIO enabled.
+Oh no, I just start recovery. Basically we have.. Yeah, the recovery should be really fast. So basically because we don't use interrupts right now, I mean, we don't have VFIO enabled.
 
 ##### **Geohot** [[00:20:37](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1237)]
 Oh, you're polling for that.
@@ -329,7 +329,7 @@ But yeah, I can remove that. Yeah, I don't think. I mean, two seconds, sure. May
 Yeah, okay.
 
 ##### **Geohot** [[00:21:17](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1277)]
-Yeah. I mean, I would also wouldn't like... Don't poll in a tight loop.
+Yeah. I mean, I would also wouldn't like.. Don't poll in a tight loop.
 
 ##### **Geohot** [[00:21:21](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1281)]
 Just poll in like a sleep or like poll one third millisecond or something. Okay. Cool. Yeah, I think interrupts are not something we need. I'm totally fine with polling. Yeah.
@@ -374,7 +374,7 @@ Potentially we can.
 I know. I'll try that. I mean, the only thing we can do is just try to recreate the, just recreate the queue. And that should work. But I'm not sure actually what will happen with AMD GPU, if it will disconnect our client or not. Yeah, I'll test this. Because actually we need to reset Mac at some point if there are some faults.
 
 ##### **Geohot** [[00:23:41](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1421)]
-Got it. But yeah, no, this is cool. It's great. Yeah, I'm running test with your crash right now. It looks good. I wonder if there's... So it all just comes through this, everything is through these SQ interrupts.
+Got it. But yeah, no, this is cool. It's great. Yeah, I'm running test with your crash right now. It looks good. I wonder if there's.. So it all just comes through this, everything is through these SQ interrupts.
 
 ##### **Nimlgen** [[00:23:55](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1435)]
 Yeah, yeah. So that's the only place where all hardware sends the interrupts to, including all files.
@@ -383,10 +383,10 @@ Yeah, yeah. So that's the only place where all hardware sends the interrupts to,
 Right.
 
 ##### **Geohot** [[00:24:05](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1445)]
-By the way, Divya, I'll use the speaker if you want to talk. You have to exit and leave the meeting. About the... Oh, yeah. This, did you see this box? This Qualcomm box?
+By the way, Divya, I'll use the speaker if you want to talk. You have to exit and leave the meeting. About the.. Oh, yeah. This, did you see this box? This Qualcomm box?
 
 ##### **Nimlgen** [[00:24:20](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1460)]
-Yeah, yeah. I started to take a look into this. There is something about caches. I think it's just the caches and coherency, I think with the CPU and GPU side. So I know I just... Yeah, I'll fix that as soon as I can. Yeah, that's priority number one.
+Yeah, yeah. I started to take a look into this. There is something about caches. I think it's just the caches and coherency, I think with the CPU and GPU side. So I know I just.. Yeah, I'll fix that as soon as I can. Yeah, that's priority number one.
 
 ##### **Chrism** [[00:24:41](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1481)]
 Yeah.
@@ -443,25 +443,25 @@ So, I think that's it.
 So, we have a 1496 sequence length model trained at BS16. I would expect a BS8 8192 sequence length to train about the same just because the token
 
 ##### **Geohot** [[00:28:06](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1686)]
-counts per step match. 8192 doesn't fit because of SMGEM. I do wonder if there's value in finding a fused Swigloo kernel. That does like all the... Yeah, it does the full FFN in one kernel and it doesn't... Yeah. How fast do you think you can get our flash attention to it? I'm at 330 TFLOPs right now. Okay. And then do you know what percentage of the TFLOPs that are at 3,000?
+counts per step match. 8192 doesn't fit because of SMGEM. I do wonder if there's value in finding a fused Swigloo kernel. That does like all the.. Yeah, it does the full FFN in one kernel and it doesn't.. Yeah. How fast do you think you can get our flash attention to it? I'm at 330 TFLOPs right now. Okay. And then do you know what percentage of the TFLOPs that are at 3,000?
 
 ##### **Wozeparrot** [[00:28:55](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1735)]
-It's quite small. 8192 is very small context length. I think like 70% is gem.
+It's quite small. 8192 is very small context length. I think like 70% is GEMM.
 
 ##### **Geohot** [[00:29:06](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1746)]
-Our gems are so fast. So, currently with ASMGEM, the output gem is still quite slow. Really? Yeah. Wrong. Okay. So, what's the FFN? It's like 300 milliseconds. 26 TFLOPs. 26. 26? Yeah.
+Our GEMMs are so fast. So, currently with ASMGEM, the output GEMM is still quite slow. Really? Yeah. Wrong. Okay. So, what's the FFN? It's like 300 milliseconds. 26 TFLOPs. 26. 26? Yeah.
 
 ##### **Qazalin** [[00:29:38](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1778)]
 Is it even using ASMGEM?
 
 ##### **Geohot** [[00:29:42](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1782)]
-I think it does get ASMGEM because I see the custom kernel running. Oh, yeah. Let's get the... Get the dimensions of that. We should test that.
+I think it does get ASMGEM because I see the custom kernel running. Oh, yeah. Let's get the.. Get the dimensions of that. We should test that.
 
 ##### **Qazalin** [[00:29:54](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1794)]
-We should fix it. I tested every single gem and it's way far fast.
+We should fix it. I tested every single GEMM and it's way far fast.
 
 ##### **Geohot** [[00:30:02](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1802)]
-Yeah. Okay. It sounds like there's some bug here or something. Also, I found that AMD3 is slower than AMD4. Is it powered? I don't think so. But like flash attention is 330 on AMD4. I think it's 300 on AMD3. AMD4 also has the...
+Yeah. Okay. It sounds like there's some bug here or something. Also, I found that AMD3 is slower than AMD4. Is it powered? I don't think so. But like flash attention is 330 on AMD4. I think it's 300 on AMD3. AMD4 also has the..
 
 ##### **Qazalin** [[00:30:33](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1833)]
 AMD4 has the RM mod. It doesn't have the RM mod in GPU. I don't know if that's different in time mix.
@@ -470,7 +470,7 @@ AMD4 has the RM mod. It doesn't have the RM mod in GPU. I don't know if that's d
 Maybe. All my testing is done with AM. That doesn't seem that significant.
 
 ##### **Geohot** [[00:30:55](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1855)]
-The 20 TFLOP thing sounds like... 26 TFLOP sounds like a major problem. It sounds like it's 50x off from where things should be. Yeah. If you could benchmark the output of a breakdown, where would you guys go? Yeah. I think the experience is pretty obvious. Yeah. That's close to the AMDs. Okay.
+The 20 TFLOP thing sounds like.. 26 TFLOP sounds like a major problem. It sounds like it's 50x off from where things should be. Yeah. If you could benchmark the output of a breakdown, where would you guys go? Yeah. I think the experience is pretty obvious. Yeah. That's close to the AMDs. Okay.
 
 ##### **Geohot** [[00:31:20](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1880)]
 So, I'm going to test it. Okay. So, we're talking about a short period of time.
@@ -485,7 +485,7 @@ Okay.
 So, you guys will be in that situation. We'll talk about it later. But we're talking about a short period of time.
 
 ##### **Flata** [[00:31:40](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1900)]
-It's the same as...
+It's the same as..
 
 ##### **Geohot** [[00:31:42](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1902)]
 Yeah. So, you guys are in that situation, right?
@@ -497,7 +497,7 @@ Yeah.
 Yeah. Yeah. uh so next we have the decom
 
 ##### **Chrism** [[00:31:56](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1916)]
-yeah um so yeah so i mean in uh the long decomp um is done it's uh i mean it's running on everything except for if there's no shift support or uh ptx um yeah i mean obviously we can just do uh multiplication when we don't have shift support um i don't know yeah the reason i ended up yet is because it's i feel like a lot of the decomp stuff is like already hard enough to read and then like kind of multiplying by you know two to the whatever you're dividing by two to the whatever makes it even harder to read but i can just write a little helper that but you know
+yeah um so yeah so i mean in uh the long decomp um is done it's uh i mean it's running on everything except for if there's no shift support or uh PTX um yeah i mean obviously we can just do uh multiplication when we don't have shift support um i don't know yeah the reason i ended up yet is because it's i feel like a lot of the decomp stuff is like already hard enough to read and then like kind of multiplying by you know two to the whatever you're dividing by two to the whatever makes it even harder to read but i can just write a little helper that but you know
 
 ##### **Geohot** [[00:32:34](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1954)]
 that's that so that's not it's not a blocker i'm a repo blocker do we remove pdx i'm probably moving pdx i'm second it doesn't do anything for us yeah i mean yeah
@@ -506,7 +506,7 @@ that's that so that's not it's not a blocker i'm a repo blocker do we remove pdx
 i don't think we use px for anything right and it's also not faster
 
 ##### **Geohot** [[00:32:59](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1979)]
-yeah so i would either delete it or if there's some i mean it's only really one thing that causes this problem right i actually think that this might not be worth deleting ptx over because like it's because you're doing decomp to the wrong order if the shift thing is the same problem too right that ptx address rewrite should be the absolute last thing that happens
+yeah so i would either delete it or if there's some i mean it's only really one thing that causes this problem right i actually think that this might not be worth deleting PTX over because like it's because you're doing decomp to the wrong order if the shift thing is the same problem too right that PTX address rewrite should be the absolute last thing that happens
 
 ##### **Chrism** [[00:33:21](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2001)]
 yeah i mean the shift thing
@@ -530,7 +530,7 @@ Enough for your conversation um
 yeah
 
 ##### **Geohot** [[00:33:57](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2037)]
-um like the ptx thing for the addresses looks a lot more like instruction selection decom
+um like the PTX thing for the addresses looks a lot more like instruction selection decom
 
 ##### **Geohot** [[00:34:20](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2060)]
 But either way,
@@ -587,7 +587,7 @@ Yeah, wait, I saw that message about you tried deleting those, and it was slower
 So I don't know if you have tried this, but if you just delete that five rules for three fry,
 
 ##### **Chenyu** [[00:36:47](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2207)]
-and let the long, like emulate that, you will see the output kernel is like 10% longer. I just guessed it maybe on the AOU counts. So that means those rules are useful in some way, right? Yeah. It's like, it's better, the output kernel is better with those rules than with that. But those rules are also only applied to the N32 and N64. N64? Yeah, N64. Imagine the same rules could be generic to, say, N16 to N32. There's like some relationship that is always true between certain D types, but it's either, so the conclusion here is either our D comp can in general be made better, the way that it's always like fit into 232, maybe there's like missing opportunity, then we should be able to fully mimic this hack. Or, there are something that's just generically true, and we can apply that to smaller ints or like other D types. That was my whole point.
+and let the long, like emulate that, you will see the output kernel is like 10% longer. I just guessed it maybe on the ALU counts. So that means those rules are useful in some way, right? Yeah. It's like, it's better, the output kernel is better with those rules than with that. But those rules are also only applied to the N32 and N64. N64? Yeah, N64. Imagine the same rules could be generic to, say, N16 to N32. There's like some relationship that is always true between certain D types, but it's either, so the conclusion here is either our D comp can in general be made better, the way that it's always like fit into 232, maybe there's like missing opportunity, then we should be able to fully mimic this hack. Or, there are something that's just generically true, and we can apply that to smaller ints or like other D types. That was my whole point.
 
 ##### **Chrism** [[00:38:00](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2280)]
 I see. Okay. Yeah. Yeah, I mean, it should be
@@ -641,7 +641,7 @@ Cool. Yeah, no, but that seems like a good fix.
 Oh, yeah. It's really good. Is the old plan thing fixed?
 
 ##### **Chrism** [[00:40:39](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2439)]
-Yes, that is fixed. So that's the same bug as the, it's not fixed, it's just skipped. It's the issue is the same bug as that metal compiler thing where when you load metal compiler, it loads its own LLVM and then because the dynamic micro on Mac OS is not smart enough to reload LLVM, it doesn't, it breaks when you try to open .
+Yes, that is fixed. So that's the same bug as the, it's not fixed, it's just skipped. It's the issue is the same bug as that metal compiler thing where when you load metal compiler, it loads its own LLVM and then because the dynamic micro on Mac OS is not smart enough to reload LLVM, it doesn't, it breaks when you try to open.
 
 ##### **Chenyu** [[00:41:04](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2464)]
 When I try to fix it. For me locally, cloud also suggests you just load the LLVM into some global or scope so that it will link to the same object.
@@ -707,7 +707,7 @@ Yeah, some good progress. I mean, last sprint I got, the big thing I did was I s
 The startup time of LLM is way too slow. But basically I'll work on that. Any quick comments on the x86?
 
 ##### **Geohot** [[00:46:35](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2795)]
-This new one's a lot better. My big complaint about the first one is that it was doing instruction selection after linearization. And at that point you're just rewriting LLVM. But the really interesting thing that we can do in tiny grad is do instruction selection before linearization. And then we can intelligently keep up. And then we can do it in a way that's linearized based on register pressure. So yeah, I think there's something there. I guess maybe this week I'll also start on the RDNA3 assembly backend. LLVM is very good at compiling x86 code. It's terrible at RDNA3. The things that I did with AMD UOP MatMall are totally doable with tiny grad transfer. And that code is almost 2x faster than the AMD UOP MatMall, which uses LLVM. It's very possible to get real speed out of these things because of how GPUs are. They're a lot simpler. They're just very different. The scheduling is very different between CPUs and GPUs. And then if I also... If I also do warp specialization, I think that actually the scheduling... I think everything just becomes a lot easier if you can warp specialize. Because you can independently optimize your GMEM to SMEM and then your SMEM to ALU kernels.
+This new one's a lot better. My big complaint about the first one is that it was doing instruction selection after linearization. And at that point you're just rewriting LLVM. But the really interesting thing that we can do in tiny grad is do instruction selection before linearization. And then we can intelligently keep up. And then we can do it in a way that's linearized based on register pressure. So yeah, I think there's something there. I guess maybe this week I'll also start on the RDNA3 assembly backend. LLVM is very good at compiling x86 code. It's terrible at RDNA3. The things that I did with AMD UOP MatMall are totally doable with tiny grad transfer. And that code is almost 2x faster than the AMD UOP MatMall, which uses LLVM. It's very possible to get real speed out of these things because of how GPUs are. They're a lot simpler. They're just very different. The scheduling is very different between CPUs and GPUs. And then if I also.. If I also do warp specialization, I think that actually the scheduling.. I think everything just becomes a lot easier if you can warp specialize. Because you can independently optimize your GMEM to SMEM and then your SMEM to ALU kernels.
 
 ##### **Chrism** [[00:48:19](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2899)]
 You can optimize those warps and then one of them is going to be your limiting factor. But you can work on them independently.
@@ -719,7 +719,7 @@ Yeah, so a combination of that stuff. The other thing I want to do this week is 
 Which is the feature that COM1 wanted for a while.
 
 ##### **Geohot** [[00:49:12](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2952)]
-And when Photoshop could do this, the promise and resolution would be totally just pretty. So yeah, that's everything in general, but I hope to get all my CPU run out within the next 20 days. But, yeah. I guess I'd like�전 fountain a bowl with you, Daniel. Or maybe check the blog or chat if they've turned on their streams because I think I want to work on that out too. But I just thought it'd be really cool to even chat back with you about that stream talking and the. kernel that crashed my GPU until I added a contiguous. So yeah, that's kind of why I didn't post the music app. It's actually a pretty bad example of pedigree. Because it just concatenates all the nodes together. And it's like I concatenate with like 160 tensors.
+And when Photoshop could do this, the promise and resolution would be totally just pretty. So yeah, that's everything in general, but I hope to get all my CPU run out within the next 20 days. But, yeah. I guess I'd like� fountain a bowl with you, Daniel. Or maybe check the blog or chat if they've turned on their streams because I think I want to work on that out too. But I just thought it'd be really cool to even chat back with you about that stream talking and the. kernel that crashed my GPU until I added a contiguous. So yeah, that's kind of why I didn't post the music app. It's actually a pretty bad example of pedigree. Because it just concatenates all the nodes together. And it's like I concatenate with like 160 tensors.
 
 ##### **Chenyu** [[00:49:51](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=2991)]
 And that sounds familiar.
@@ -746,10 +746,10 @@ Oh, yeah. I mean, the outer range stuff is super broken. We have to basically ge
 So yeah, replace reduce with a scan. Yeah. Yeah.
 
 ##### **Geohot** [[00:51:57](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=3117)]
-But the main thing that I want done at the end of this sprint is a faster Lama. How am I going to go about that? It shouldn't take so long to run. I mean, the Python time.
+But the main thing that I want done at the end of this sprint is a faster LLaMA. How am I going to go about that? It shouldn't take so long to run. I mean, the Python time.
 
 ##### **Geohot** [[00:52:08](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=3128)]
-Like it shouldn't take three minutes to spin up the Lama script. It's annoying. Sounds good.
+Like it shouldn't take three minutes to spin up the LLaMA script. It's annoying. Sounds good.
 
 ##### **Chenyu** [[00:52:20](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=3140)]
 Okay. What are your issues, Monty? I see Flotta here. Are you trying anything with Flotta? Does it work?
@@ -776,10 +776,10 @@ Yes, that's the annoying part. Yeah, I'll fix that. I'll have it return Nans or 
 Oh, I have the GLM flash, 50 tokens per second bounty.
 
 ##### **Geohot** [[00:53:46](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=3226)]
-That's pretty motivated. We'll see if he comes through with anything. I think the... I don't know. We'll see if we can get good things out of this. I think for...
+That's pretty motivated. We'll see if he comes through with anything. I think the.. I don't know. We'll see if we can get good things out of this. I think for..
 
 ##### **Chenyu** [[00:54:04](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=3244)]
-This is to the bug you posted earlier and the two PRs immediately after. It's like, if you ask Cloud to do it, it would give you that two solutions. I know. Then you can try to... I think for other people who want to try this workflow, a lot of it really is you really need to understand why certain things
+This is to the bug you posted earlier and the two PRs immediately after. It's like, if you ask Cloud to do it, it would give you that two solutions. I know. Then you can try to.. I think for other people who want to try this workflow, a lot of it really is you really need to understand why certain things
 
 ##### **Geohot** [[00:54:35](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=3275)]
 work a certain way and what spec is good or not.

@@ -8,7 +8,7 @@
 - Block
 - Stable Diffusion speed, pad fusion, block const
 - AM driver, QCOM speed
-- bounties: webgpu, tensor cores, simpler ptx, onnx, tar_extract
+- bounties: WebGPU, tensor cores, simpler PTX, onnx, tar_extract
 
 ### Audio
 
@@ -16,7 +16,7 @@
 
 ### Chapters
 
-- **00:00:00 Introductions and Tiny Box Sales Update** Updates on Tiny Box sales, inventory, and future hardware plans.
+- **00:00:00 Introductions and TinyBox Sales Update** Updates on TinyBox sales, inventory, and future hardware plans.
 
 - **00:01:51 Pro V1 Shipping Updates** Progress on Pro V1 production and December pre-order delivery.
 
@@ -73,8 +73,8 @@ Yeah.
 Yeah.
 No, I don't know.
 I'm hoping for rapid growth next year.
-I think that if the 5090 is good, we have a chance to sell a lot of 5090 tinybox pros.
-Or if the 5090 is bad, we have a chance to sell a lot of 4090 tinybox pros.
+I think that if the 5090 is good, we have a chance to sell a lot of 5090 TinyBox pros.
+Or if the 5090 is bad, we have a chance to sell a lot of 4090 TinyBox pros.
 
 **Chenyu** [00:00:50]
 I heard it's hard to buy 4090 these days, or more expensive.
@@ -229,7 +229,7 @@ Because now if the test failed, the last time I broke everything on my PR.
 
 **Geohot** [00:06:58]
 How do you break everything?
-Yeah, process replay shouldn't... You shouldn't need process replay.
+Yeah, process replay shouldn't.. You shouldn't need process replay.
 We have a lot of explicit tests for the scheduler and stuff that should test the number of kernels and stuff.
 So I would think that if you get a regression of the number of kernels, you should add a new test to test schedule.
 And then not worry about trying to, like, process replay is never going to handle this.
@@ -566,7 +566,7 @@ We've probably discussed this about locals before.
 It almost feels like for these optimizations, you have tiers, like orders you want to apply.
 You have pad2 that changes the whole shape of thing.
 Then you have local that splits global and local.
-Then you have...
+Then you have..
 
 **Geohot** [00:23:47]
 Local is easy.
@@ -736,7 +736,7 @@ So yeah, I mean, still, like the main problem right now is the copy speed.
 I mean, currently we're just right into VRAM.
 and it's a lot slower than AMD.
 So, and potentially for this, I'll double check some flags.
-So, but basically it's like uncacheable memory and basically because we do some... So yeah, I'll just check the flags, but
+So, but basically it's like uncacheable memory and basically because we do some.. So yeah, I'll just check the flags, but
 
 **Geohot** [00:34:56]
 Um, are you using the GPU to copy it or the CPU?
@@ -982,7 +982,7 @@ Yeah, but now we can do it for sure.
 
 **Geohot** [00:45:35]
 Great.
-Yeah, no, that's... I definitely would prefer things like that to be in TinyGrad because actually you might even realize... it might even be faster to do the fusion.
+Yeah, no, that's.. I definitely would prefer things like that to be in TinyGrad because actually you might even realize.. it might even be faster to do the fusion.
 right, to never even unpack the things, to just load them as packed uint16s and then upcast them to float32 in the same kernel or access element.
 
 **Wpmed** [00:45:54]
@@ -1067,7 +1067,7 @@ I wonder if it's similar things.
 So I would test M4.
 
 **Geohot** [00:48:19]
-WEBGPU is a completely different pipeline than the JIT.
+WebGPU is a completely different pipeline than the JIT.
 
 **Chenyu** [00:48:24]
 Yeah, but if it's a driver issue, it still goes to same.
@@ -1188,7 +1188,7 @@ All the other reshapes and permutes are performed over the shape tracker itself.
 And that's how it's done now.
 It's the tensor core swizzle, it's performed over the shape tracker.
 But with a true swizzle, it's not only performed over that shape tracker, but also adding the previous shape tracker.
-It's like...
+It's like..
 
 **Geohot** [00:55:49]
 I don't, I don't exactly know what it is.

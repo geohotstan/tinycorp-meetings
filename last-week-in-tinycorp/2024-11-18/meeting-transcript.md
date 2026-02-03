@@ -63,8 +63,8 @@ Any company update?
 **Geohot** [00:00:07]
 Yeah.
 Tinyboxes have still been selling well.
-We got some press for the Tinybox Pro.
-We got two more pre-orders in for Tinybox Pros.
+We got some press for the TinyBox Pro.
+We got two more pre-orders in for TinyBox Pros.
 So those are paid pre-orders, which is nice.
 We actually have $2,000 for most people.
 And they're non-cancelable.
@@ -485,7 +485,7 @@ I mean, it gives you the whole UOp, right?
 So you can either just, yeah, right?
 Like you can either use the UOp, which will be the output, and it'll be duplicated, it'll be dedupped with the one above it.
 Won't even be dedupped, it's the same UOp.
-Or you can use .src, so it should be the inputs to that.
+Or you can use.src, so it should be the inputs to that.
 
 **Chenyu** [00:22:48]
 Okay, let's move on to the next point.
@@ -813,10 +813,10 @@ I think we're definitely getting close on that.
 We can find you some lines.
 
 **Chenyu** [00:43:26]
-Delete ptx.
+Delete PTX.
 
 **Geohot** [00:43:29]
-Well, we just got a beautiful refactor of ptx merged.
+Well, we just got a beautiful refactor of PTX merged.
 And there's clearly 20 lines that can go from that refactor.
 He didn't delete them because he wanted to make process preplay match.
 So you say there's still a bit more you want to do to clean up the PR for WebGPU?
@@ -982,7 +982,7 @@ What's wrong with just merging it?
 That's what Qazalin said, that it's replacing and not actually swissling.
 
 **Qazalin** [00:53:21]
-Oh, I mean... Recall, just call it replace.
+Oh, I mean.. Recall, just call it replace.
 
 **Geohot** [00:53:27]
 Yeah, well maybe we should change the name of it to replace and then merge it because it looks better than what's in there.
@@ -1122,7 +1122,7 @@ I mean, anyone who wants to claim those, there's three speed boundaries availabl
 I think I'll let TJbecker.
 
 **Chenyu** [01:01:17]
-I think we should probably should probably should do the speed on one of the tinybox or something like that that's more easy to benchmark 
+I think we should probably should probably should do the speed on one of the TinyBox or something like that that's more easy to benchmark 
 
 **Geohot** [01:01:26]
 Uh yeah it just doesn't really matter what it is 
@@ -1144,7 +1144,7 @@ If you get a 20% speed up on one machine, you get a 20% speed up on another mach
 
 **Chenyu** [01:02:16]
 Yeah.
-Ptx renderer so I think the consensus is the bounty is to save the like obviously can be removed lines the ones that was kept because the process replaced things like that 
+PTX renderer so I think the consensus is the bounty is to save the like obviously can be removed lines the ones that was kept because the process replaced things like that 
 
 **Geohot** [01:02:37]
 yeah yeah i think i think there's definitely there's definitely 20 obvious lines to remove there's 13 lines doing define_acc which should just be the same thing as const

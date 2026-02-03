@@ -8,7 +8,7 @@
 - bert, mlperf, hcopt
 - scheduler kernalize
 - driver
-- webgpu
+- WebGPU
 - retinanet
 - onnx
 - cloud scale uuuvn stuff
@@ -82,7 +82,7 @@ But the new one is just O(1) graph rewrites.
 So that's pretty nice.
 It's a bit faster.
 And none of the slowness is in the linearizer itself.
-The thing I'm going to work on this week is...
+The thing I'm going to work on this week is..
 I'm going to write a whole set of micro benchmarks for things like UOP creation and tuplize and toposort and like the UOP children stuff.
 I think if I could get speed up there, that's like the biggest place that all the time is being spent now.
 But yeah, overall, I'm pretty happy with the Python speed.
@@ -92,7 +92,7 @@ You're also interested in the multi-scheduling speed?
 
 ##### **Geohot** [[00:02:16](https://www.youtube.com/watch?v=-ayeO_SKx70&t=136)]
 Yeah, so that one, the multi-speed is mostly going to just be rewriting multi.
-And that's... Well, so...
+And that's.. Well, so..
 It's not really Python, no.
 I mean, Python speed should translate to multispeed, but only in a linear way.
 But the real thing for multi is just to go from O(n) to O(1).
@@ -166,7 +166,7 @@ yeah sure eventually we'll get to like like uh heterogeneous like like yeah but 
 That sounds good.
 
 ##### **Geohot** [[00:07:11](https://www.youtube.com/watch?v=-ayeO_SKx70&t=431)]
-But no, I still have... I'm still going to work this week on... Well, the other big thing that I want to do now that kernelize is merged is I want to do the... I want to refactor the JIT.
+But no, I still have.. I'm still going to work this week on.. Well, the other big thing that I want to do now that kernelize is merged is I want to do the.. I want to refactor the JIT.
 I want to refactor the JIT to not have all those stupid classes anymore and just basically capture a kernelized thing.
 
 ##### **Chenyu** [[00:07:33](https://www.youtube.com/watch?v=-ayeO_SKx70&t=453)]
@@ -201,7 +201,7 @@ Like, think about doing, like, ReLU in place.
 I mean, in TinyGrad this stuff's a little bit different because it's not, like, really an assign.
 Like, assign doesn't always mean that it's going to be assigned.
 But I don't think treating it like detach is right.
-Like, if you think about, like, a normal, like, uh...
+Like, if you think about, like, a normal, like, uh..
 gradient flow, if I have assigns, why should that affect anything?
 
 ##### **Qazalin** [[00:10:33](https://www.youtube.com/watch?v=-ayeO_SKx70&t=633)]
@@ -313,7 +313,7 @@ So yeah, we could put it in the graph such that it's not this out of band thing 
 Because I find it pretty annoying when I'm working inside a tensor if I want to change the optimizations on something.
 
 ##### **Chenyu** [[00:17:29](https://www.youtube.com/watch?v=-ayeO_SKx70&t=1049)]
-You need to print the AST then do... 
+You need to print the AST then do.. 
 
 ##### **Geohot** [[00:17:35](https://www.youtube.com/watch?v=-ayeO_SKx70&t=1055)]
 I mean, I can schedule it and then hand create the kernel object and then optimize it.
@@ -399,7 +399,7 @@ Maybe there's something wrong with this.
 So you can reproduce it, and you think its the version?
 If I want to do a run now, what would you advise me to do?
 I pick a machine.
-How do I...
+How do I..
 Maybe you can post that in BERT Channel or somewhere for instructions for me to making sure I'm using the correct or your advice version.
 
 ##### **Nimlgen** [[00:23:39](https://www.youtube.com/watch?v=-ayeO_SKx70&t=1419)]
@@ -515,7 +515,7 @@ Well, then it might be wrong.
 That definition might be wrong.
 And I don't know if we're distinguishing overwritten completely versus not overwritten at all, but we definitely know that from the compute.
 My problem with this way of doing it is it depends on really state that's completely arbitrary, when all of this state can be determined from what the computation is itself.
-You shouldn't be asking the question what...
+You shouldn't be asking the question what..
 Yeah, you shouldn't be asking the question, what buffers are allocated?
 You should be asking the question, what bytes are being read from that are not written to by me, or being read to before they're written to by me?
 
@@ -529,7 +529,7 @@ Yeah.
 You can look at just the shape tracker and the output will tell you if something's going to be completely overwritten or not.
 If it's a mask store, it won't be.
 But that's like one line check.
-It's not a...
+It's not a..
 
 ##### **Hooved** [[00:33:17](https://www.youtube.com/watch?v=-ayeO_SKx70&t=1997)]
 Yeah, I'll look at that.
@@ -542,7 +542,7 @@ If you want to start playing with that, go ahead.
 Similar to the prevent Viz from blocking the GC of buffers PR, I commented on this.
 PRs like this are never going to be merged.
 A PR that explicitly adds 30 lines of code to work around something that's fundamentally wrong.
-When I see a function...
+When I see a function..
 you have a function called something like yeah restore original buff uops that just shows something's wrong right that's that's like i would never merge something like that um because it's not yes i understand it may fix the problem but it's not about fixing today's problem it's about building the right thing for for five years from now 
 
 ##### **Hooved** [[00:34:26](https://www.youtube.com/watch?v=-ayeO_SKx70&t=2066)]
@@ -672,7 +672,7 @@ OK.
 That's good.
 
 ##### **Chenyu** [[00:40:53](https://www.youtube.com/watch?v=-ayeO_SKx70&t=2453)]
-And if you have anything, you can just post it in the Fast Llama channel or something.
+And if you have anything, you can just post it in the Fast LLaMA channel or something.
 discover or anything you tried but didn't work.
 I think those are helpful in some way.
 OK, let's move on to UUVN stuff.
@@ -712,7 +712,7 @@ Is that where we are?
 Yeah.
 Yeah, yeah, yeah.
 That's the old implementation that is in cloud.
-It's just like two processes that... Two processes, a bunch of changes in the data loader.
+It's just like two processes that.. Two processes, a bunch of changes in the data loader.
 And inside of the step, average of the gradient.
 So I exchange the gradients between two machines, average them.
 
@@ -788,7 +788,7 @@ So you are saying you can revert something that still does what you want it to d
 You can revert part of that PR and still does what you want.
 
 ##### **Uuvn** [[00:46:28](https://www.youtube.com/watch?v=-ayeO_SKx70&t=2788)]
-Yeah, so I just forgot to... That's great.
+Yeah, so I just forgot to.. That's great.
 Okay.
 
 ##### **Geohot** [[00:46:33](https://www.youtube.com/watch?v=-ayeO_SKx70&t=2793)]

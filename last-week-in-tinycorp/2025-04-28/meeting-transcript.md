@@ -9,9 +9,9 @@
 - scheduler
 - driver
 - tensor cores
-- webgpu
+- WebGPU
 - unrolled arange div
-- cpu graph / llvm graph
+- cpu graph / LLVM graph
 - sdxl speed
 - other bounties
 
@@ -71,7 +71,7 @@ You want to talk about a new reduced fuser, the rewrite for Arange thing?
 Yeah, so I wrote a rewrite rule.
 The new one's even better.
 The one that's pending the unroll div thing is even better.
-It doesn't...
+It doesn't..
 It doesn't match a rule and remove the Arange all at once.
 It does some transformations to simplify it, and then things can be really, really simple.
 With adds and muls and stuff.
@@ -192,7 +192,7 @@ So, yeah, I think now I'm just focused on rewriting the post-processing step int
 Which, uh, which computer?
 
 ##### **Flata** [[00:08:22](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=499)]
-Uh, the tiny box screen.
+Uh, the TinyBox screen.
 
 ##### **Geohot** [[00:08:24](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=499)]
 Green, OK.
@@ -224,10 +224,10 @@ Oh, that's interesting if we have a simple AM failing repro, like a simple place
 ##### **Chenyu** [[00:10:06](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=606)]
 Yeah, so I think that's part of the short term to do is that we like to be fixed.
 But anyway, we have retinanet.
-I think the final time is I made a big...
+I think the final time is I made a big..
 All the slowness is coming from we copied a very big tensor for eval from
 from GPU to CPU, and for the numpy process on that big CPU tensor, it's also slow.
-I called it slow, so I think the only tricks I did to make it faster was moving the... 
+I called it slow, so I think the only tricks I did to make it faster was moving the.. 
 For now, when we reassemble multi-tensor into one, that's default down on CPU, and if it's really big, it's very slow.
 So I move that to gpu0, and that saves like two hours.
 
@@ -279,7 +279,7 @@ It's hard to reason about it.
 ##### **Geohot** [[00:13:13](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=788)]
 Well, let's take a minute and first talk about the emulator stuff.
 So I think it really is worth it to get that other emulator running.
-Any... You look at that at all?
+Any.. You look at that at all?
 
 ##### **Qazalin** [[00:13:32](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=788)]
 I didn't try to hook it up to TinyGrad.
@@ -301,7 +301,7 @@ Like, it's not in any updates for three years, right?
 
 ##### **Geohot** [[00:14:25](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=865)]
 Well, it does look like an abandoned project.
-But no, I'm saying if their baseline plays... I mean, it's also a speed question, right?
+But no, I'm saying if their baseline plays.. I mean, it's also a speed question, right?
 We could quickly benchmark their emulator against Remu.
 And if it turns out to have bugs and be slower, then okay, forget about it.
 But if it turns out to not have bugs and be faster, then we might want to switch.
@@ -323,7 +323,7 @@ But yeah, that's all I got on that.
 OK, yeah.
 I'll go into scheduler work, because I know that we have multi-output.
 And I also want to do, after multi-output, fuse arange default.
-I know there's bugs with padding that makes llama fuse arange not work.
+I know there's bugs with padding that makes LLaMA fuse arange not work.
 The problem is basically that if you have two Aranges on different dimensions, you can't put them in one kernel.
 Or if you can, you have to pad one Arange.
 It's a little tricky because it's not local.
@@ -362,7 +362,7 @@ We do not.
 There's a merge dict helper that's specifically for asserting that.
 
 ##### **Geohot** [[00:18:08](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=1088)]
-Well, whatever happened, I wrote this, it clearly... Yeah, so I think there's two acceptable things to do here.
+Well, whatever happened, I wrote this, it clearly.. Yeah, so I think there's two acceptable things to do here.
 One is to make it work as intended, or the other is to assert.
 The current behavior is it just takes the second bind and just uses that one.
 So that's just wrong.
@@ -399,7 +399,7 @@ See, yeah, it should definitely do that.
 
 ##### **Geohot** [[00:19:41](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=1181)]
 Yeah, I'm much more excited about these things being fixed than multi output.
-Yeah, bug fixes first, and then...
+Yeah, bug fixes first, and then..
 That's good.
 
 ##### **Chenyu** [[00:19:55](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=1195)]
@@ -435,7 +435,7 @@ Is that using Torch Compile?
 I'm sure.
 I think it's all using Torch Compile.
 With Flash Attention, we're not that far off.
-So we're getting...
+So we're getting..
 Yeah, I don't know.
 Feeb is doing something.
 I don't know what he's doing to get times that are really bad.
@@ -465,7 +465,7 @@ We don't have any Beam CIs for any conv-y stuff.
 We have one conv let's being beam.
 
 ##### **Geohot** [[00:22:28](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=1348)]
-Well, yeah, the one conf in the conv speed test...
+Well, yeah, the one conf in the conv speed test..
 It's also not in the chart!
 
 ##### **Chenyu** [[00:22:37](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=1357)]
@@ -529,7 +529,7 @@ Like this size over here.
 
 ##### **Geohot** [[00:26:32](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=1592)]
 I mean, the PSP bypass would be even better.
-I think it's worth putting... First step is getting this merged into master.
+I think it's worth putting.. First step is getting this merged into master.
 Before you put a ton of time into optimizing the speed and the firmware order, spend a day seeing if there's some way to just not use the PSP, which is great for many reasons.
 And then, if that works, you don't even need SDMA.
 You can just write your own
@@ -640,7 +640,7 @@ WebGPU?
 ##### **Hooved** [[00:34:15](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=2055)]
 I'm working on a PR to get the WebGPU graph broken out of the other stuff and see if we can merge that.
 As part of that, I think I spotted potential more speed gains that won't come with much complexity.
-In terms of, at least for Llama, for example, most of the command queue doesn't change.
+In terms of, at least for LLaMA, for example, most of the command queue doesn't change.
 It's not dependent on symbolic variables.
 But it's currently all being computed dynamically.
 So that's one thing that could be improved even without the graph.
@@ -661,7 +661,7 @@ The real solution to this problem is to use the compiler, is to use the tinygrad
 Do you see what I mean by that?
 
 ##### **Hooved** [[00:35:58](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=2158)]
-I am talking about... I'm not talking about JavaScript at all.
+I am talking about.. I'm not talking about JavaScript at all.
 I'm talking about everything I just said.
 Right.
 Sorry.
@@ -671,7 +671,7 @@ So you're talking deeper at the level of UOps and stuff.
 
 ##### **Geohot** [[00:36:14](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=2174)]
 What I'm always saying is if the thing that you're looking to do looks like adding complexity in exchange for speed, it's never worth it.
-You should instead ask...
+You should instead ask..
 You should instead ask, why is this slow?
 And how can I rewrite this whole thing so that it just doesn't matter?
 
@@ -714,7 +714,7 @@ No, it's like, 0.5x, 50%.
 
 ##### **Geohot** [[00:37:44](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=2264)]
 Yeah, maybe worth it, but like, probably not.
-The thing that I want to see come out of the WeBGPU project is I want to make it, like, for example, the whisper thing.
+The thing that I want to see come out of the WebGPU project is I want to make it, like, for example, the whisper thing.
 Some guy posted, hey, can we get whisper?
 
 ##### **Hooved** [[00:38:00](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=2280)]
@@ -785,7 +785,7 @@ I've studied it.
 ##### **Geohot** [[00:40:46](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=2413)]
 Yeah, you might want to approach this whole thing like that, right?
 Like, just don't use the JIT.
-Don't use the JIT for webGPU export.
+Don't use the JIT for WebGPU export.
 There's no reason that you have to.
 There's no reason that you have to use the JIT for export.
 You can just not use it.
@@ -805,13 +805,13 @@ That's the way to do it.
 
 ##### **Hooved** [[00:42:03](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=2523)]
 Right, so the one thing that doesn't make sense is what does co-realizing mean?
-Like in the Llama, you do a realize every time you write to the KV cache, so you'll have like 16 realizes in a Llama.
+Like in the LLaMA, you do a realize every time you write to the KV cache, so you'll have like 16 realizes in a LLaMA.
 And then they're separated through time.
-You can replace those realizes in the Lama with kernelize.
+You can replace those realizes in the LLaMA with kernelize.
 Yeah.
 I think so.
 It should work.
-You can't use realize...
+You can't use realize..
 Yeah, but you can do kernelize multiple times.
 
 ##### **Hooved** [[00:42:35](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=2555)]
@@ -844,7 +844,7 @@ All right, I'll try that, and I'll see if it makes sense.
 
 ##### **Geohot** [[00:43:18](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=2598)]
 Cool, and I would even merge that.
-If you can fix Lama to have the same speed but not use those realizes and use kernelize, I would merge that.
+If you can fix LLaMA to have the same speed but not use those realizes and use kernelize, I would merge that.
 
 ##### **Hooved** [[00:43:25](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=2605)]
 All right, I think that'll be my highest priority.
@@ -992,7 +992,7 @@ I don't want to merge this.
 There's way too much, like, custom crap in here for FP8, and I really think it doesn't have to be like that.
 Like, that one I know doesn't have to be like that, because I asked for it.
 And I spent time thinking about how to actually do this.
-And the right way to do it is, when you're doing an ALU, you check...
+And the right way to do it is, when you're doing an ALU, you check..
 Yeah, right?
 This isn't even with FP8 handling.
 No, exec ALU should just do this.
@@ -1021,7 +1021,7 @@ It shouldn't be spammed all over the code base.
 Yeah, that's for sure.
 Cool.
 Any suggestion for how to make this merge-able?
-I mean, we definitely don't merge this, but I also don't...
+I mean, we definitely don't merge this, but I also don't..
 OK, I'll think about it.
 
 ##### **Geohot** [[00:52:53](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=3173)]
@@ -1032,7 +1032,7 @@ And these should be refactors and not spammed everywhere in the code base.
 ##### **Chenyu** [[00:53:03](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=3183)]
 Yeah, I think a good approach might be we just find a way to support the BF16 and say similar to that.
 Maybe that's easier.
-Because I think from...
+Because I think from..
 We want to find more contributors, and it's better if we can give them the good things to follow.
 
 ##### **Geohot** [[00:53:27](https://www.youtube.com/watch?v=9_7IhCYt1Kw&t=3207)]

@@ -5,7 +5,7 @@
 **Time:** 9am Monday San Diego time
 - company updates
 - rangeify
-- mlperf llama (dataloader / eval / MP / grad_acc mem)
+- mlperf LLaMA (dataloader / eval / MP / grad_acc mem)
 - viz tool
 - drivers
 - cloud
@@ -19,13 +19,13 @@
 
 ### Highlights
 
-- **[Company Update](#geohot-000014)**: Tinybox shipping is slightly behind schedule, but the three pending orders will be shipped this week. Delays are due to rigorous quality testing to ensure the PCIe comes up at 16x.
+- **[Company Update](#geohot-000014)**: TinyBox shipping is slightly behind schedule, but the three pending orders will be shipped this week. Delays are due to rigorous quality testing to ensure the PCIe comes up at 16x.
 - **[rangeify](#geohot-000143)**: Significant progress is being made, including a `RewriteNotReady` exception to handle bottom-up rewrites for fusions like FlashAttention. It might be merged this week, after which optimizations like tensor cores will be re-integrated.
-- **[mlperf llama / eval](#chenyu-000530)**: Training loss is decreasing, but the team needs a reliable evaluation script to confirm they are meeting the 5.6 eval loss target. Wozeparrot will focus on building the correct eval script this week.
-- **[mlperf llama / Model Parallel](#chenyu-000746)**: Model parallel code has been implemented and works for the 8B model but is hitting a compiler error on the MI300X for the 70B model, which is now under investigation.
-- **[mlperf llama / Gradient Accumulation](#chenyu-000849)**: The gradient accumulation implementation is causing memory usage to increase with more accumulation steps, contrary to expectations. Geohot suggests JITing a single mini-batch loop instead of the entire accumulation sequence to manage memory and scheduling.
+- **[mlperf LLaMA / eval](#chenyu-000530)**: Training loss is decreasing, but the team needs a reliable evaluation script to confirm they are meeting the 5.6 eval loss target. Wozeparrot will focus on building the correct eval script this week.
+- **[mlperf LLaMA / Model Parallel](#chenyu-000746)**: Model parallel code has been implemented and works for the 8B model but is hitting a compiler error on the MI300X for the 70B model, which is now under investigation.
+- **[mlperf LLaMA / Gradient Accumulation](#chenyu-000849)**: The gradient accumulation implementation is causing memory usage to increase with more accumulation steps, contrary to expectations. Geohot suggests JITing a single mini-batch loop instead of the entire accumulation sequence to manage memory and scheduling.
 - **[viz tool](#qazalin-001834)**: A performance-improving PR for the timeline view is ready, which will make CPU traces faster and fix zooming issues. A new feature to add vertical markers from Python to the timeline was also requested for easier debugging and will be implemented.
-- **[drivers](#nimlgen-003141)**: The CPU has become a bottleneck for data loading in Llama. The proposed solution is to implement multithreading for CPU kernels to improve performance.
+- **[drivers](#nimlgen-003141)**: The CPU has become a bottleneck for data loading in LLaMA. The proposed solution is to implement multithreading for CPU kernels to improve performance.
 - **[cloud](#wozeparrot-003750)**: The multi-machine setup will be tested this week to validate the associated bounty and prepare the scripts for MLPerf multi-machine submissions.
 - **[symbolic](#sieds-lykles-003823)**: A bug in the Z3 renderer has been fixed, and progress is being made on constant folding. An investigation is ongoing for a hang that occurs during parallel beam search.
 - **[symbolic / Deleting View](#geohot-004503)**: A new project is to enhance the symbolic engine to handle all logic currently in the `view` module (e.g., merging reshapes), which will allow `view` to be removed in preparation for rangeify.
@@ -40,16 +40,16 @@ Start with Company Update.
 So yeah, we've been working on the secret project for Kama. In the office we have the secret picture of the secret project.
 
 ##### **Geohot** [[00:00:14](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=14)]
-Yeah, that's nice. I think we're a little bit behind right now on Tinybox shipping. We'll definitely get those out this week. I think we have three pending orders right now. But yeah, we have a bunch.
+Yeah, that's nice. I think we're a little bit behind right now on TinyBox shipping. We'll definitely get those out this week. I think we have three pending orders right now. But yeah, we have a bunch.
 
 ##### **Geohot** [[00:00:31](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=31)]
-I don't know, we had some issues with bad CPUs or something. Oh no, we do a lot of tests to make sure the PCIe comes up at 16x. There's a lot of things that can prevent the PCIe from being 16x. Loose cable, not seated in the GPU, bad CPU, bad CPU seating, bad mother... motherboard. So we want to make sure that all the Tinyboxes are really good before shipping. Yeah. And oh, since you guys have all been using the Tinyboxes more in the Tinyroom, they're getting too hot in there. So I bought some fans, some HEPA filters,
+I don't know, we had some issues with bad CPUs or something. Oh no, we do a lot of tests to make sure the PCIe comes up at 16x. There's a lot of things that can prevent the PCIe from being 16x. Loose cable, not seated in the GPU, bad CPU, bad CPU seating, bad mother.. motherboard. So we want to make sure that all the Tinyboxes are really good before shipping. Yeah. And oh, since you guys have all been using the Tinyboxes more in the Tinyroom, they're getting too hot in there. So I bought some fans, some HEPA filters,
 
 ##### **Geohot** [[00:01:18](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=78)]
 and we'll go in there with some duct tape. Put it all together.
 
 ##### **Chenyu** [[00:01:23](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=83)]
-Yeah, it's okay. Use Tinybox more. Oh yeah, yeah, use it.
+Yeah, it's okay. Use TinyBox more. Oh yeah, yeah, use it.
 
 ##### **Geohot** [[00:01:27](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=87)]
 Oh, by all means, use it. It's not going to break nothing. Right now we just have the windows open, which is fine. But I don't want to get dust in the room.
@@ -58,52 +58,52 @@ Oh, by all means, use it. It's not going to break nothing. Right now we just hav
 Okay. Sounds good. RangerFi?
 
 ##### **Geohot** [[00:01:43](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=103)]
-Yeah, so I think we're finally seeing some good progress on RangerFi. I got the stuff merged yesterday to handle children in a coherent way. So this isn't a problem, really, when you're doing a top. down rewrite, but when you're doing a bottom-up rewrite, you can get to a node that has two children. And what usually happens, the bottom-up rewrite is basically DFS. So it will go through, and it will process the parents before it processes the other branch of the children, which is, in most cases, totally fine. Eventually what happens is that the child branch just... eventually gets processed. It sees that the parent was already rewritten, and it grabs the parent from the cache. So it's not like it processes it twice or anything. But if you have a context, technically any time you have a context for a rewrite, the cache can be wrong. Because the rewrite rule can be context-dependent. So if the context changes, technically the cache is invalid. But it would be way too slow if we actually did that. So I found a better way to do this, which is you can raise an exception called rewriteNotReady. So if you're on that path, if you're on that path going through and you see that you're about to go to the parent node, you just raise rewriteNotReady in the child, and then it will add that node to the back of the queue. So it'll process up the other thing, and that way you can process both branches before you get back to the parent node. So this is needed for the child. And this is needed for the FlashAttention fusion, where you want to make sure you've processed until you have both indexes ready. And then you can see what you have to close for the indexes. So that's one of the rules. And then I have two other rules. One is about closing ranges inside of... Basically the ranges have to be a tree. The ranges are not a DAG. Loops cannot be a DAG. Because you can't have anything where... where you... like, reconnect them. You can't have diamonds, basically. So it has to be a tree. So one rule is dealing with that, and the other rule is dealing with... So convolutions, what happens is you have an axis that has two ranges. It's not having two ranges that's bad, but the two ranges are overlapping. So that overlapping is doing recomputation, and you just want to end that axis as soon as you see that there's recomputation about to be done. You don't have to, but... Like, that's the... The heuristics that I'm trying to put in rangeify say do not do recomputation, basically.
+Yeah, so I think we're finally seeing some good progress on RangerFi. I got the stuff merged yesterday to handle children in a coherent way. So this isn't a problem, really, when you're doing a top. down rewrite, but when you're doing a bottom-up rewrite, you can get to a node that has two children. And what usually happens, the bottom-up rewrite is basically DFS. So it will go through, and it will process the parents before it processes the other branch of the children, which is, in most cases, totally fine. Eventually what happens is that the child branch just.. eventually gets processed. It sees that the parent was already rewritten, and it grabs the parent from the cache. So it's not like it processes it twice or anything. But if you have a context, technically any time you have a context for a rewrite, the cache can be wrong. Because the rewrite rule can be context-dependent. So if the context changes, technically the cache is invalid. But it would be way too slow if we actually did that. So I found a better way to do this, which is you can raise an exception called rewriteNotReady. So if you're on that path, if you're on that path going through and you see that you're about to go to the parent node, you just raise rewriteNotReady in the child, and then it will add that node to the back of the queue. So it'll process up the other thing, and that way you can process both branches before you get back to the parent node. So this is needed for the child. And this is needed for the FlashAttention fusion, where you want to make sure you've processed until you have both indexes ready. And then you can see what you have to close for the indexes. So that's one of the rules. And then I have two other rules. One is about closing ranges inside of.. Basically the ranges have to be a tree. The ranges are not a DAG. Loops cannot be a DAG. Because you can't have anything where.. where you.. like, reconnect them. You can't have diamonds, basically. So it has to be a tree. So one rule is dealing with that, and the other rule is dealing with.. So convolutions, what happens is you have an axis that has two ranges. It's not having two ranges that's bad, but the two ranges are overlapping. So that overlapping is doing recomputation, and you just want to end that axis as soon as you see that there's recomputation about to be done. You don't have to, but.. Like, that's the.. The heuristics that I'm trying to put in rangeify say do not do recomputation, basically.
 
 ##### **Geohot** [[00:04:33](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=273)]
 Uh, yeah. So that's rangeify. There's a chance we'll get it merged this week.
 
 ##### **Geohot** [[00:04:39](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=279)]
-Uh... Maybe. I mean, there's a lot of stuff. I gotta put tensor cores back, and I gotta put optimizations back. But I think I have decent ways to do that.
+Uh.. Maybe. I mean, there's a lot of stuff. I gotta put tensor cores back, and I gotta put optimizations back. But I think I have decent ways to do that.
 
 ##### **Chenyu** [[00:04:50](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=290)]
-And this kind of rips out... And you also need a new spec. Do you have a new spec for specifying optimization for multireduce?
+And this kind of rips out.. And you also need a new spec. Do you have a new spec for specifying optimization for multireduce?
 
 ##### **Geohot** [[00:04:57](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=297)]
-Yeah, so that one, the way that I'm dealing with, is just gonna be, uh... It's gonna just put all the axes in a list. And, like, right now, if you have multireduce, you say unroll 0, and you have, like, two reduces in parallel. Serial reduces already does this for it, but if you have parallel reduces, that 0 will apply to both. But in the new case, it's just gonna be a different axis.
+Yeah, so that one, the way that I'm dealing with, is just gonna be, uh.. It's gonna just put all the axes in a list. And, like, right now, if you have multireduce, you say unroll 0, and you have, like, two reduces in parallel. Serial reduces already does this for it, but if you have parallel reduces, that 0 will apply to both. But in the new case, it's just gonna be a different axis.
 
 ##### **Geohot** [[00:05:22](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=322)]
-It's a pretty simple spec. Cool. Sounds good. Uh... Yeah, so...
+It's a pretty simple spec. Cool. Sounds good. Uh.. Yeah, so..
 
 ##### **Chenyu** [[00:05:30](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=330)]
-Next is Lama. I've posted a new picture for what we have. Uh... So the place I put a date is I can train that thing so that the training loss reduced to, uh, 7, or something like that. So training is training. We have to get to 5.6? Yeah, it's 5.6 for eval loss. Have we hit anything at 5.6? Yes. Oh, really? If you train the 7 once for longer, the training loss hits 5.6, but that goes to the... my usual question for World's Pirates, that we want to see the correct eval script.
+Next is LLaMA. I've posted a new picture for what we have. Uh.. So the place I put a date is I can train that thing so that the training loss reduced to, uh, 7, or something like that. So training is training. We have to get to 5.6? Yeah, it's 5.6 for eval loss. Have we hit anything at 5.6? Yes. Oh, really? If you train the 7 once for longer, the training loss hits 5.6, but that goes to the.. my usual question for World's Pirates, that we want to see the correct eval script.
 
 ##### **Wozeparrot** [[00:06:17](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=377)]
-Yeah. This week I'll work on eval so that... Yes. ...we can actually have...
+Yeah. This week I'll work on eval so that.. Yes.. we can actually have..
 
 ##### **Chenyu** [[00:06:22](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=382)]
-Because now it's sketchily fast how we hit 5.6. Because we train from, like, random weight, right? We don't... We are not even from, like, a pre-trained weight. Oh, not totally random weight.
+Because now it's sketchily fast how we hit 5.6. Because we train from, like, random weight, right? We don't.. We are not even from, like, a pre-trained weight. Oh, not totally random weight.
 
 ##### **Wozeparrot** [[00:06:35](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=395)]
 The only thing is our LR is very high.
 
 ##### **Chenyu** [[00:06:37](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=397)]
-No, but that's... LR is, uh... Okay. It's probably not a hyperparameter, but you... I don't think this benchmark is that bad.
+No, but that's.. LR is, uh.. Okay. It's probably not a hyperparameter, but you.. I don't think this benchmark is that bad.
 
 ##### **Geohot** [[00:06:49](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=409)]
-Well, but we're not... Okay, we're not starting from random weights. We're starting from random weights. We're starting from weights or we're just changing one layer, right? Uh, for the 1B...
+Well, but we're not.. Okay, we're not starting from random weights. We're starting from random weights. We're starting from weights or we're just changing one layer, right? Uh, for the 1B..
 
 ##### **Geohot** [[00:06:57](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=417)]
-No, for... No, no. For the current thing we put, it's front-render, right? Oh. Seems like a bug. Yeah, that's what I mean. Uh, so...
+No, for.. No, no. For the current thing we put, it's front-render, right? Oh. Seems like a bug. Yeah, that's what I mean. Uh, so..
 
 ##### **Chenyu** [[00:07:07](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=427)]
-So, I post a few things I can think of. It's most likely we might have some issue in our thing, or our training laws and eval laws are very different. We are not actually training, or this benchmark is bad. So, we want to rule out our fault first and decide. It's not like we would change anything, because for MLPerf, we cannot change learning rate for this one. We need to be exactly the same. So...
+So, I post a few things I can think of. It's most likely we might have some issue in our thing, or our training laws and eval laws are very different. We are not actually training, or this benchmark is bad. So, we want to rule out our fault first and decide. It's not like we would change anything, because for MLPerf, we cannot change learning rate for this one. We need to be exactly the same. So..
 
 ##### **Geohot** [[00:07:37](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=457)]
 Well, I mean, yeah, let's just get an eval up and check it. I mean, there's lots of things that can do this with training laws. Like, for example, say you're showing the same example over and over again. Yes. That'll get your training laws through really well.
 
 ##### **Chenyu** [[00:07:46](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=466)]
-Uh, I have even worse hypothesis, but... Okay. Yeah. Yeah, so let's eval. Uh, but the hello there seems fine. It's good. Yeah, model parallel... That's... I put the code in, and for 8B, it seems to be correct. But for 70B on MI300X, I got the compile error from... com... GR? Com... Yeah, from the compiler. So, I will find what's the problem with... with the kernel. I mean, those kernels are really big, so I'll... I'll find that and see what the issue is, and see if we need to update the compiler version or anything like that. By model parallel, you mean you're putting a bunch of layers on each? Yeah, just split every layer on the A machine. Yeah.
+Uh, I have even worse hypothesis, but.. Okay. Yeah. Yeah, so let's eval. Uh, but the hello there seems fine. It's good. Yeah, model parallel.. That's.. I put the code in, and for 8B, it seems to be correct. But for 70B on MI300X, I got the compile error from.. com.. GR? Com.. Yeah, from the compiler. So, I will find what's the problem with.. with the kernel. I mean, those kernels are really big, so I'll.. I'll find that and see what the issue is, and see if we need to update the compiler version or anything like that. By model parallel, you mean you're putting a bunch of layers on each? Yeah, just split every layer on the A machine. Yeah.
 
 ##### **Wozeparrot** [[00:08:37](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=517)]
 Have you tested if it works with LLVM? Because on MI300, it should work with LLVM, I think.
@@ -115,7 +115,7 @@ Oh, sure, I can test that. So I haven't really seen what the error is.
 Okay.
 
 ##### **Chenyu** [[00:08:49](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=529)]
-So that's what I will do. That... And that also... It's either a compile... No, it's not a compile. So the... I think scheduling or something around that is also very slow. But I will find a better report before I complain too much. The last one is gradient accumulation memory. So gradient accumulation, I also put the code in. I stare for it for a while, and my expectation is... If you increase the accumulation numbers, the input to the training function will proportionally be bigger because now we are feeding a bigger batch. But because internally, for every mini-batch, I realize all the gradients, so in my imagination, if we don't have lingering buffer and memory planner works correctly, it should not use more memory between mini-batches. Hence, I let gradients die. But for now, I can see... Not everything is free, and the memory usage increases if you increase gradient accumulation numbers. You should just be jitting one mini-batch and then... No, that doesn't work.
+So that's what I will do. That.. And that also.. It's either a compile.. No, it's not a compile. So the.. I think scheduling or something around that is also very slow. But I will find a better report before I complain too much. The last one is gradient accumulation memory. So gradient accumulation, I also put the code in. I stare for it for a while, and my expectation is.. If you increase the accumulation numbers, the input to the training function will proportionally be bigger because now we are feeding a bigger batch. But because internally, for every mini-batch, I realize all the gradients, so in my imagination, if we don't have lingering buffer and memory planner works correctly, it should not use more memory between mini-batches. Hence, I let gradients die. But for now, I can see.. Not everything is free, and the memory usage increases if you increase gradient accumulation numbers. You should just be jitting one mini-batch and then.. No, that doesn't work.
 
 ##### **Geohot** [[00:10:02](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=602)]
 Why? How does that work? Jit one mini-batch.
@@ -127,7 +127,7 @@ Okay.
 Then what's your training function?
 
 ##### **Geohot** [[00:10:11](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=611)]
-Do you jit that too? Uh... On the outside? Yeah. So we need... We need real-life to happen for forward and backward, right?
+Do you jit that too? Uh.. On the outside? Yeah. So we need.. We need real-life to happen for forward and backward, right?
 
 ##### **Chenyu** [[00:10:26](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=626)]
 Okay. So that thing, if you want to jit, you jit together? No, I wouldn't jit it together.
@@ -142,7 +142,7 @@ and have it store the gradients. No, how do you have backward before in your min
 Backward. Not optimizer, just backward. Okay.
 
 ##### **Geohot** [[00:10:50](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=650)]
-Okay, so you have one... You have a jit which does a forward and a backward. Okay. That's a mini-batch.
+Okay, so you have one.. You have a jit which does a forward and a backward. Okay. That's a mini-batch.
 
 ##### **Geohot** [[00:10:56](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=656)]
 Okay.
@@ -154,7 +154,7 @@ Then you call that jit however many times you want a gradient to accumulate.
 Okay.
 
 ##### **Geohot** [[00:11:01](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=661)]
-You have to... You might have to pre-initialize the gradients outside of the jit.
+You have to.. You might have to pre-initialize the gradients outside of the jit.
 
 ##### **Chenyu** [[00:11:05](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=665)]
 You might have to do like zeroes, contiguous, and all the gradients. Okay. So for every other stuff, it's not jitting?
@@ -163,7 +163,7 @@ You might have to do like zeroes, contiguous, and all the gradients. Okay. So fo
 What other stuff? Well, then you can jit the optimizer separately. Okay.
 
 ##### **Sieds Lykles** [[00:11:18](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=678)]
-So you have the jit in the front, the jit in the back, and then...
+So you have the jit in the front, the jit in the back, and then..
 
 ##### **Geohot** [[00:11:22](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=682)]
 Then you just have a for loop in Python, which calls that jit in mini-batch a hundred times, or however many times you're calling it. And then you have another jit-ed thing that's the optimizer. Okay. Yeah. Maybe. Oh, yeah, yeah, no. Whoa, whoa, whoa. It's going to take absolutely forever to schedule and stuff if you try to run all the mini-batches
@@ -175,19 +175,19 @@ and put that in one jit. Okay. Maybe. That makes sense. That's just very hard to
 I think this is hard to use. I mean, you might want a helper function on the optimizer, which actually zeroes the gradients
 
 ##### **Geohot** [[00:12:03](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=723)]
-and creates those... I don't know what you're saying. No, then...
+and creates those.. I don't know what you're saying. No, then..
 
 ##### **Geohot** [[00:12:13](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=733)]
 How do you put the input to the mini-batch?
 
 ##### **Chenyu** [[00:12:16](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=736)]
-Anyway, there are... Oh, yeah. There are hard-to-use parts of this.
+Anyway, there are.. Oh, yeah. There are hard-to-use parts of this.
 
 ##### **Geohot** [[00:12:23](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=743)]
 Unless I'm missing something, this doesn't seem that hard. It's probably not hard. It's just annoying.
 
 ##### **Chenyu** [[00:12:31](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=751)]
-But anyway...
+But anyway..
 
 ##### **Geohot** [[00:12:32](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=752)]
 Well, I'm not sure what you want it to be. What do you mean? You want to run all the mini-batches inside of a single jit?
@@ -196,10 +196,10 @@ Well, I'm not sure what you want it to be. What do you mean? You want to run all
 Yeah. Is there a reason that it wouldn't work?
 
 ##### **Chenyu** [[00:12:46](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=766)]
-Uh... I don't know. So for now, it's working.
+Uh.. I don't know. So for now, it's working.
 
 ##### **Geohot** [[00:12:49](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=769)]
-I mean, it would work. It'll just... Like, how many mini-batches are we talking? If it's like two, sure, whatever. Who cares? But if it's like 100? It can take forever. For 4 or 5B, I think it's 1,000. It's 1,100 or something. Yeah, exactly. So we're definitely going to put that in an outer Python loop. No... Okay, anyway. Maybe... But there's no way you can run 1,100 and ask it to schedule.
+I mean, it would work. It'll just.. Like, how many mini-batches are we talking? If it's like two, sure, whatever. Who cares? But if it's like 100? It can take forever. For 4 or 5B, I think it's 1,000. It's 1,100 or something. Yeah, exactly. So we're definitely going to put that in an outer Python loop. No.. Okay, anyway. Maybe.. But there's no way you can run 1,100 and ask it to schedule.
 
 ##### **Geohot** [[00:13:12](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=792)]
 No. They are all the same. Yeah, but it doesn't know that.
@@ -208,16 +208,16 @@ No. They are all the same. Yeah, but it doesn't know that.
 Yeah, but it doesn't know that. Yeah, but it doesn't know that.
 
 ##### **Chenyu** [[00:13:18](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=798)]
-Sure, I mean, that's trading capability to user experience. The real thing here is that it shouldn't be any of this. The real thing here is that it should be a range. Yeah, but it's not going to be a range soon, so...
+Sure, I mean, that's trading capability to user experience. The real thing here is that it shouldn't be any of this. The real thing here is that it should be a range. Yeah, but it's not going to be a range soon, so..
 
 ##### **Geohot** [[00:13:28](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=808)]
-Yeah, but it's not going to be a... Well, but no, I think, yeah, for now, just... Okay, I was thinking... I'll write a simple example if I'm missing something about why this is hard. You are going to need one either helper function or a one-line forward loop that actually creates
+Yeah, but it's not going to be a.. Well, but no, I think, yeah, for now, just.. Okay, I was thinking.. I'll write a simple example if I'm missing something about why this is hard. You are going to need one either helper function or a one-line forward loop that actually creates
 
 ##### **Geohot** [[00:13:44](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=824)]
 the gradients as zeros. Okay. Because otherwise, your first mini batch is different, right? Yeah. Which might even still work with the JIT.
 
 ##### **Geohot** [[00:14:01](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=841)]
-And the JIT is pretty good about that. Like the JIT... No, our JIT is very janky about weird... No, but it won't capture the first run. It'll only capture the second run. It might just work.
+And the JIT is pretty good about that. Like the JIT.. No, our JIT is very janky about weird.. No, but it won't capture the first run. It'll only capture the second run. It might just work.
 
 ##### **Sieds Lykles** [[00:14:11](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=851)]
 Okay, sure.
@@ -226,7 +226,7 @@ Okay, sure.
 Then you can write an example to your beautiful MNIST or something. Yeah, yeah, yeah, yeah.
 
 ##### **Geohot** [[00:14:17](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=857)]
-I mean, I'm not sure if it's going to work or not, but... You want a gradient accumulation example? Yeah.
+I mean, I'm not sure if it's going to work or not, but.. You want a gradient accumulation example? Yeah.
 
 ##### **Chenyu** [[00:14:19](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=859)]
 Okay. But regardless, I'm still interested to know why the current implementation have memory issue, and that's the specific questions I have I post in viz. I think it's nice if our tools can show that.
@@ -235,34 +235,34 @@ Okay. But regardless, I'm still interested to know why the current implementatio
 Probably because it's not inserting contiguouses. Yeah. I also want to know where.
 
 ##### **Chenyu** [[00:14:46](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=886)]
-Yeah. In the gradients, right? Like... If I already realize all the gradients.
+Yeah. In the gradients, right? Like.. If I already realize all the gradients.
 
 ##### **Geohot** [[00:14:54](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=894)]
 Oh, it's still doing it? Yeah. Oh, okay. That's your note.
 
 ##### **Chenyu** [[00:14:57](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=897)]
-Okay. Anyway. Yeah. So other stuff I think people can talk when it's their term still wants. The faster MI thing, whether it's the AQL sync or AM driver or... Whatever. That. We have eval. Then we have... We want this to work. For now, it's struggling if I have like a few millions of rewrites. And so I think I post the current thing that we have. So for anything 7TB, I should get... Once I fix the compile issue, we should get the 512 one working. That one fits into memory. For anything with bigger context, we need the rentify or flash attention like stuff to start not creating too many context. Too many buffers with context square. Nice.
+Okay. Anyway. Yeah. So other stuff I think people can talk when it's their term still wants. The faster MI thing, whether it's the AQL sync or AM driver or.. Whatever. That. We have eval. Then we have.. We want this to work. For now, it's struggling if I have like a few millions of rewrites. And so I think I post the current thing that we have. So for anything 7TB, I should get.. Once I fix the compile issue, we should get the 512 one working. That one fits into memory. For anything with bigger context, we need the rentify or flash attention like stuff to start not creating too many context. Too many buffers with context square. Nice.
 
 ##### **Sieds Lykles** [[00:16:04](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=964)]
 Yeah.
 
 ##### **Chenyu** [[00:16:07](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=967)]
-So we'll see where we are. I also follow up with the 8B thing. So they are supposed to merge everything and have a documentation ready. Like last week, but it's not ready yet. So we'll see if we got that this week. Once that is ready, we can... We should also prepare the data loader for that. And that one, we should really be like training regardless of other optimization.
+So we'll see where we are. I also follow up with the 8B thing. So they are supposed to merge everything and have a documentation ready. Like last week, but it's not ready yet. So we'll see if we got that this week. Once that is ready, we can.. We should also prepare the data loader for that. And that one, we should really be like training regardless of other optimization.
 
 ##### **Geohot** [[00:16:31](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=991)]
 Do we know what the context size is? A192? Oh, wow.
 
 ##### **Wozeparrot** [[00:16:36](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=996)]
-But it uses the original LLAMA tokenizer. So the vocab size is way larger.
+But it uses the original LLaMA tokenizer. So the vocab size is way larger.
 
 ##### **Chenyu** [[00:16:42](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1002)]
-Yeah, but we have fused ARANGE or whatever. So... I don't know. We will see.
+Yeah, but we have fused ARANGE or whatever. So.. I don't know. We will see.
 
 ##### **Geohot** [[00:16:48](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1008)]
 That's crazy that they went from BERT and their replacement for BERT is an 8B with an 8192 context.
 
 ##### **Chenyu** [[00:16:55](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1015)]
-Yeah, because that's everyone using now. So...
+Yeah, because that's everyone using now. So..
 
 ##### **Wozeparrot** [[00:16:59](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1019)]
 8192 context? Really?
@@ -277,19 +277,19 @@ I mean, 8192 is small now.
 Yeah.
 
 ##### **Chenyu** [[00:17:06](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1026)]
-I don't know. Another thing that I'm interested in, maybe we can talk later, is multi-machine. So we previously said... We want to try the multi-machine on BERT, but BERT is gone. So for 8B, I still want to see like a script or some easy to use thing that I can try like multi-machine BERT, training BERT. But we also... Because our contract also has a multi-machine part. So for the 8B, we might as well just also run the two machine 8B on it and submit like this one.
+I don't know. Another thing that I'm interested in, maybe we can talk later, is multi-machine. So we previously said.. We want to try the multi-machine on BERT, but BERT is gone. So for 8B, I still want to see like a script or some easy to use thing that I can try like multi-machine BERT, training BERT. But we also.. Because our contract also has a multi-machine part. So for the 8B, we might as well just also run the two machine 8B on it and submit like this one.
 
 ##### **Geohot** [[00:17:42](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1062)]
-Yeah. Well, it's pretty... Have you been following what UVM stuff is? I don't know why a kernel driver got involved. I think it's fine to just use the AMD.
+Yeah. Well, it's pretty.. Have you been following what UVM stuff is? I don't know why a kernel driver got involved. I think it's fine to just use the AMD.
 
 ##### **Wozeparrot** [[00:17:52](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1072)]
-Yeah. So supposedly the AMD thing had some bug, but I think he thinks it's just scheduling related. I think it hits the... Well, he says that it hits the target if you just use the AMD driver.
+Yeah. So supposedly the AMD thing had some bug, but I think he thinks it's just scheduling related. I think it hits the.. Well, he says that it hits the target if you just use the AMD driver.
 
 ##### **Geohot** [[00:18:04](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1084)]
 Yeah. You want to test it and tell me when to pay out that bounty? Yeah.
 
 ##### **Geohot** [[00:18:08](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1088)]
-I'll test it this week. Okay. Yeah. So...
+I'll test it this week. Okay. Yeah. So..
 
 ##### **Chenyu** [[00:18:13](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1093)]
 So I want to see some tutorial easy to use or ready to pay for the Cloud Bounty because we also need that for MLPerf. Yep. I think that's everything I have now.
@@ -322,13 +322,13 @@ Okay.
 But yeah, again, is there a fundamental reason why it's harder to make the memory fast or you just need to do it?
 
 ##### **Qazalin** [[00:20:27](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1227)]
-I don't think so. I think it's...
+I don't think so. I think it's..
 
 ##### **Nimlgen** [[00:20:30](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1230)]
 I mean, it's n squared right now. And I think if we kind of want to draw like the same thing, we can do it. If we draw right now, we can do better. I mean, we can also try to optimize, like not draw all buffers, but what's the reason for the such visualization?
 
 ##### **Geohot** [[00:20:51](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1251)]
-Yeah, I mean, if it's n squared, we got to just fix that. There's no reason that algorithm has to be n squared. What algorithm? Whatever we're using to draw the memory, like those... All those things?
+Yeah, I mean, if it's n squared, we got to just fix that. There's no reason that algorithm has to be n squared. What algorithm? Whatever we're using to draw the memory, like those.. All those things?
 
 ##### **Geohot** [[00:21:05](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1265)]
 Yeah, yeah, yeah. I don't even know how it's n squared.
@@ -337,7 +337,7 @@ Yeah, yeah, yeah. I don't even know how it's n squared.
 Okay.
 
 ##### **Geohot** [[00:21:11](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1271)]
-Okay, cool. Yeah, but no, it sounds like this stuff could be improved. I mean, you see, like the minute you put something behind a toggle, even if it's default true, it's like... It's just an excuse to make it not performant. I don't know, we need to... There's lots of places in TinyGrab where this is bad. Like we need to move away in general from... Oh, just stick it behind an environment variable. Oh, it works some of the time. Oh, you just have to know. So. But cool. Good to see the performance stuff coming back. Yeah, and then optimizing for the thinking about the 8 GPU case. I wonder if we can have like a... Do we have like a mock 8 GPU thing? Which will draw a viz for us? Like we have 8 null devices?
+Okay, cool. Yeah, but no, it sounds like this stuff could be improved. I mean, you see, like the minute you put something behind a toggle, even if it's default true, it's like.. It's just an excuse to make it not performant. I don't know, we need to.. There's lots of places in TinyGrab where this is bad. Like we need to move away in general from.. Oh, just stick it behind an environment variable. Oh, it works some of the time. Oh, you just have to know. So. But cool. Good to see the performance stuff coming back. Yeah, and then optimizing for the thinking about the 8 GPU case. I wonder if we can have like a.. Do we have like a mock 8 GPU thing? Which will draw a viz for us? Like we have 8 null devices?
 
 ##### **Geohot** [[00:21:58](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1318)]
 Yeah.
@@ -346,7 +346,7 @@ Yeah.
 Null devices don't have timing. It's just instant.
 
 ##### **Geohot** [[00:22:04](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1324)]
-You just don't have... Wait, null devices totally have... Yeah. It's instant. It's not instant. Nothing's instant.
+You just don't have.. Wait, null devices totally have.. Yeah. It's instant. It's not instant. Nothing's instant.
 
 ##### **Qazalin** [[00:22:14](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1334)]
 I mean, like, I would have to put sleep in the call.
@@ -361,7 +361,7 @@ It's not going to be very informative, but okay, yeah.
 I mean, I have like a real run on the 8 GPUs.
 
 ##### **Geohot** [[00:22:34](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1354)]
-No, I mean, I agree that it totally... Like, it's not like the null device is going to give you any sort of real stuff, but it should at least have some timing information.
+No, I mean, I agree that it totally.. Like, it's not like the null device is going to give you any sort of real stuff, but it should at least have some timing information.
 
 ##### **Chenyu** [[00:22:48](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1368)]
 Yeah, I think it was already working.
@@ -385,7 +385,7 @@ I mean, everything should be an ACQ device, I think.
 Then what's an ACQ device? Is it just not a device?
 
 ##### **Geohot** [[00:23:31](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1411)]
-It's just a device, yeah, I think so. I think we've got to get there, get there eventually. But yeah, no, so I'm running, I'm running with... The null device has memory, but it doesn't have timings, and it should. Okay. Wait, but metal's not an ACQ device, and metal has timings.
+It's just a device, yeah, I think so. I think we've got to get there, get there eventually. But yeah, no, so I'm running, I'm running with.. The null device has memory, but it doesn't have timings, and it should. Okay. Wait, but metal's not an ACQ device, and metal has timings.
 
 ##### **Qazalin** [[00:23:53](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1433)]
 Hmm, I think NullGen added the profiling for metal and ACQ.
@@ -394,7 +394,7 @@ Hmm, I think NullGen added the profiling for metal and ACQ.
 See. Yeah, now CPUs are ACQ devices, okay, that makes sense. Yeah, I think, I think null is the best way to do it. Yeah, I think Null needs timing, too. And then we can, and then we can like test stuff with, with 8 GPUs pretty nicely.
 
 ##### **Chenyu** [[00:24:16](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1456)]
-Oh, and a, and a Python marker idea is for... Because I want to plant a marker somewhere before to debug my great ACC. So that should replace the usage of printing stuff in Python, then read the debug equals to log in between. Do you want a marker, or do you want like a width? No, I want the, I don't, I don't know which one is better.
+Oh, and a, and a Python marker idea is for.. Because I want to plant a marker somewhere before to debug my great ACC. So that should replace the usage of printing stuff in Python, then read the debug equals to log in between. Do you want a marker, or do you want like a width? No, I want the, I don't, I don't know which one is better.
 
 ##### **Geohot** [[00:24:43](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1483)]
 I, I think it'd be cool to have like a, like a, like a width. You could say like width, and then you put your training in a width, and you put your test in a width, and then it shows like training, test. Maybe we should support both, but, I mean, the problem with just a marker is what's the start and stop? Like we don't really have that.
@@ -403,7 +403,7 @@ I, I think it'd be cool to have like a, like a, like a width. You could say like
 No, but I would imagine. I would imagine marker is the primitive you want, and your width is just planting two markers, something like that.
 
 ##### **Geohot** [[00:25:11](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1511)]
-How is this stuff done now? Do we have like a start and an end, or do we have... Oh, we don't have this.
+How is this stuff done now? Do we have like a start and an end, or do we have.. Oh, we don't have this.
 
 ##### **Chenyu** [[00:25:17](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1517)]
 I just print.
@@ -424,7 +424,7 @@ No, I mean, we can just create an event that starts and ends are the same.
 We do, for the buffer allocation and the allocation, those are point events.
 
 ##### **Geohot** [[00:25:45](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1545)]
-Those are point events, okay. And then do we have anything...
+Those are point events, okay. And then do we have anything..
 
 ##### **Qazalin** [[00:25:48](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1548)]
 Like I would imagine, Chen, you wanted horizontal line in the timeline, right? Or sorry, like vertical line on like the entire span of the screen. Yes. Like a red line. With like a two pixel.
@@ -445,10 +445,10 @@ How much effort will this be?
 Not a lot. I'll add it.
 
 ##### **Geohot** [[00:26:39](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1599)]
-Cool. Yeah, I like kind of both things. I like kind of the... I mean, also we should think about how we can track these things back to like the Python. Like especially with this event thing, it'd be cool if it just said, oh, here's the, you know, the file and line number. With like, I don't know if we have like universal infrastructure for like the VS Code links. I've never used it. But okay, cool. So you want like a whole, you want like a whole line. From all the way. A whole vertical line.
+Cool. Yeah, I like kind of both things. I like kind of the.. I mean, also we should think about how we can track these things back to like the Python. Like especially with this event thing, it'd be cool if it just said, oh, here's the, you know, the file and line number. With like, I don't know if we have like universal infrastructure for like the VS Code links. I've never used it. But okay, cool. So you want like a whole, you want like a whole line. From all the way. A whole vertical line.
 
 ##### **Chenyu** [[00:27:05](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1625)]
-Basically a way for me to... It's like debugger. Like you advance, advance, advance, and you stop somewhere and see, okay, what's the buffer on every...
+Basically a way for me to.. It's like debugger. Like you advance, advance, advance, and you stop somewhere and see, okay, what's the buffer on every..
 
 ##### **Geohot** [[00:27:18](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1638)]
 Yeah, you're looking at that line and you're seeing what's allocated and stuff. Yeah, cool.
@@ -457,19 +457,19 @@ Yeah, you're looking at that line and you're seeing what's allocated and stuff. 
 Cool. Okay.
 
 ##### **Qazalin** [[00:27:25](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1645)]
-Okay. You mentioned sqtt too. I did my work on just like the Python. Just decoding it. So right now the status is that it can decode the raw stuff. I have a feeling that they're going to open source the other decoder with closed source. I didn't spend time reverse engineering it. But yeah.
+Okay. You mentioned SQTT too. I did my work on just like the Python. Just decoding it. So right now the status is that it can decode the raw stuff. I have a feeling that they're going to open source the other decoder with closed source. I didn't spend time reverse engineering it. But yeah.
 
 ##### **Geohot** [[00:27:45](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1665)]
 I really can ask.
 
 ##### **Geohot** [[00:27:49](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1669)]
-Just yeah, write up an AMD hardware what you want open source. And I'll forward that to our contacts at AMD. Also, the thing is, I think it's a good idea to have a source code. You can have things where it's like... Wait, so you're talking about this RockProf trace decoder that's not open source?
+Just yeah, write up an AMD hardware what you want open source. And I'll forward that to our contacts at AMD. Also, the thing is, I think it's a good idea to have a source code. You can have things where it's like.. Wait, so you're talking about this RockProf trace decoder that's not open source?
 
 ##### **Sieds Lykles** [[00:28:07](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1687)]
 Yeah.
 
 ##### **Geohot** [[00:28:10](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1690)]
-Wait, it's... What?
+Wait, it's.. What?
 
 ##### **Geohot** [[00:28:14](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1694)]
 It's closed source and they just have an SO file?
@@ -490,7 +490,7 @@ That's the only thing that's fetching.
 Yeah. Yeah, I see. So what's the API to this thing? It's just an SO file? It doesn't even have a header?
 
 ##### **Qazalin** [[00:28:45](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1725)]
-Nothing. Nothing. I...
+Nothing. Nothing. I..
 
 ##### **Geohot** [[00:28:48](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1728)]
 Where's this tool that they're talking about? Oh, it's a plugin library for the RockProfiler SDK, which is retired. We should use the RockM systems repository. Oh.
@@ -502,10 +502,10 @@ Okay.
 But yeah, I mean, it works.
 
 ##### **Geohot** [[00:29:07](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1747)]
-And it's correct. I think... It's just burn cycles and it looks great. Cool.
+And it's correct. I think.. It's just burn cycles and it looks great. Cool.
 
 ##### **Geohot** [[00:29:20](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1760)]
-Yeah, and then I see you using... I see that in the disassembler, you're using Co-Manager. Any reason to use Co-Manager and not LLVM? Oh, I don't know.
+Yeah, and then I see you using.. I see that in the disassembler, you're using Co-Manager. Any reason to use Co-Manager and not LLVM? Oh, I don't know.
 
 ##### **Sieds Lykles** [[00:29:27](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1767)]
 I don't know if you can see it.
@@ -562,7 +562,7 @@ Yeah. Top priority is Viz, Viz performance, Viz features. It's kind of where we 
 And then yeah, second priority is getting into the micro scheduling. Yeah. Next transformer. Yeah.
 
 ##### **Nimlgen** [[00:31:41](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1901)]
-So, yeah, so for the CPU and the Lama floating thing. variance. For the CPU and the Lama floating thing, I just get my eyes on the profile. So let me just give you a quick bit I can hydro 그것 and actually the whole speed is 5 temai мо, which is spent in just CPU kernels. So they currently overlapped. I mean, the transfers overlapped with the kernels on the GPU, so that looks fine. But yeah, CPU takes a lot. So the next thing is threading.
+So, yeah, so for the CPU and the LLaMA floating thing. variance. For the CPU and the LLaMA floating thing, I just get my eyes on the profile. So let me just give you a quick bit I can hydro and actually the whole speed is 5 temai, which is spent in just CPU kernels. So they currently overlapped. I mean, the transfers overlapped with the kernels on the GPU, so that looks fine. But yeah, CPU takes a lot. So the next thing is threading.
 
 ##### **Geohot** [[00:32:13](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1933)]
 Is actual threading on the CPU.
@@ -586,7 +586,7 @@ It's like everything up to GFX is AM-MI300. It's ready in the PHP and the firmwa
 And yeah, then how about the FastSync?
 
 ##### **Nimlgen** [[00:33:08](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=1988)]
-Yeah, I mean, I actually haven't seen any disassembler, but both of you. Yeah, I can do AQL. I mean, yes, I've said we're going to have some problems with the synchronization because AQL has only one way to synchronize. It's just the atomic decrement while we just use... Well, yeah, but yeah, we can...
+Yeah, I mean, I actually haven't seen any disassembler, but both of you. Yeah, I can do AQL. I mean, yes, I've said we're going to have some problems with the synchronization because AQL has only one way to synchronize. It's just the atomic decrement while we just use.. Well, yeah, but yeah, we can..
 
 ##### **Geohot** [[00:33:32](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2012)]
 AQL has a PM4 backdoor you can use.
@@ -601,10 +601,10 @@ I think that might be fine.
 Yeah, I hope that's fast, yeah.
 
 ##### **Geohot** [[00:33:40](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2020)]
-Yeah, I think it'll be fast. I've read the code for it, and it's very short, the AQL backdoor. The problem... The thing that we can't... do with PM4 is like the code to launch the kernel and synchronize the kernel is all in this one big AQL method. But yeah, I think for our normal synchronization, like our between GPU synchronization, we could just use a PM4 backdoor and it'll be fast.
+Yeah, I think it'll be fast. I've read the code for it, and it's very short, the AQL backdoor. The problem.. The thing that we can't.. do with PM4 is like the code to launch the kernel and synchronize the kernel is all in this one big AQL method. But yeah, I think for our normal synchronization, like our between GPU synchronization, we could just use a PM4 backdoor and it'll be fast.
 
 ##### **Geohot** [[00:34:12](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2052)]
-Yeah, and also another thing... I'm not sure...
+Yeah, and also another thing.. I'm not sure..
 
 ##### **Nimlgen** [[00:34:17](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2057)]
 I don't remember any method or any plugin. to get an AQL to execute in direct buffers. And that could cost us a loss on the CPU speed. We can't just execute in direct buffers.
@@ -628,19 +628,19 @@ We're done with the QA. We're done with the QA. Yeah.
 Yeah. I think we're done with the QA.
 
 ##### **Geohot** [[00:35:04](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2104)]
-I mean, that's been my dream for the drivers for a while, like to the point that they're... The drivers were actually written in tinygrad. The MMIO is tensors. And yeah. I think one of the things we'll work through in Hong Kong is... I think one of the goals for Hong Kong is merging... Oh, yeah. ...the merging device and HCQ device and thinking about like which of these things we can unify
+I mean, that's been my dream for the drivers for a while, like to the point that they're.. The drivers were actually written in tinygrad. The MMIO is tensors. And yeah. I think one of the things we'll work through in Hong Kong is.. I think one of the goals for Hong Kong is merging.. Oh, yeah.. the merging device and HCQ device and thinking about like which of these things we can unify
 
 ##### **Geohot** [[00:35:28](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2128)]
-into like a smaller set of primitive abstractions. But yeah. Yeah, for now. Yeah, I think...
+into like a smaller set of primitive abstractions. But yeah. Yeah, for now. Yeah, I think..
 
 ##### **Nimlgen** [[00:35:39](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2139)]
-Actually, yeah, I thought about that. Yeah, I think GPU... I mean, GPU backend is... The one is the hardest to adopt for the HCQ.
+Actually, yeah, I thought about that. Yeah, I think GPU.. I mean, GPU backend is.. The one is the hardest to adopt for the HCQ.
 
 ##### **Geohot** [[00:35:50](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2150)]
-Wait, sorry. Say that again? Figure it out. I mean, the...
+Wait, sorry. Say that again? Figure it out. I mean, the..
 
 ##### **Nimlgen** [[00:35:57](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2157)]
-I mean, the GPU backend, it doesn't follow the... Like the rules, which I'm seeking in HCQ right now. But...
+I mean, the GPU backend, it doesn't follow the.. Like the rules, which I'm seeking in HCQ right now. But..
 
 ##### **Geohot** [[00:36:06](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2166)]
 The GPU like OpenCL.
@@ -655,22 +655,22 @@ The GPU backend.
 Yeah, yeah. I mean, OpenCL has this other problem with the sub buffers are annoying.
 
 ##### **Geohot** [[00:36:20](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2180)]
-I mean, there's a reason no one likes OpenCL. But, uh... Cool. Yeah, yeah.
+I mean, there's a reason no one likes OpenCL. But, uh.. Cool. Yeah, yeah.
 
 ##### **Geohot** [[00:36:29](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2189)]
-I think, yeah, per for the... Per for the CPU offloading and getting rid of that. It's like 10... It's like 10 microseconds, it seems like for kernel synchronization.
+I think, yeah, per for the.. Per for the CPU offloading and getting rid of that. It's like 10.. It's like 10 microseconds, it seems like for kernel synchronization.
 
 ##### **Geohot** [[00:36:43](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2203)]
-Yeah, that seems...
+Yeah, that seems..
 
 ##### **Nimlgen** [[00:36:45](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2205)]
 I mean, that seems a lot.
 
 ##### **Geohot** [[00:36:47](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2207)]
-But...
+But..
 
 ##### **Geohot** [[00:36:50](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2210)]
-Yeah, I mean, it's a full... It's a full atomic... It's a full atomic to memory. It's a lot better than it was, but still, I think we got to go to... The AQL thing is using like this secret... There's like a bunch of like secret MMIO on the mechs that synchronize them all. And the quickest way to do this is just use AQL. I mean, then also the advantage to using AQL is we can start... Like, we can make it a perfect copy of what HIP is doing.
+Yeah, I mean, it's a full.. It's a full atomic.. It's a full atomic to memory. It's a lot better than it was, but still, I think we got to go to.. The AQL thing is using like this secret.. There's like a bunch of like secret MMIO on the mechs that synchronize them all. And the quickest way to do this is just use AQL. I mean, then also the advantage to using AQL is we can start.. Like, we can make it a perfect copy of what HIP is doing.
 
 ##### **Geohot** [[00:37:17](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2237)]
 And I will continue to prod AMD and tell them AQL is stupid. Yeah, okay. So yeah, going to finish AM, then AQL, I think, is faster to implement and then CPU holding. Cool.
@@ -703,13 +703,13 @@ So, I can hear him.
 A little bit of background noise, but yeah, I can hear.
 
 ##### **Sieds Lykles** [[00:38:29](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2309)]
-Okay. So I fixed a bug in the Z3 render where it's like if you're doing floating point load, costing that to int and using that in the index, that was giving problems. So that fixed part of the hang that you posted an issue about. I'm going to go ahead and start. Z3 is still hanging somewhere else in the beam search. And this time it's not an exception that it's throwing. And it's only hanging if you do parallel equals greater than zero. So, I'm still trying to get to the bottom of that. It's... Sorry.
+Okay. So I fixed a bug in the Z3 render where it's like if you're doing floating point load, costing that to int and using that in the index, that was giving problems. So that fixed part of the hang that you posted an issue about. I'm going to go ahead and start. Z3 is still hanging somewhere else in the beam search. And this time it's not an exception that it's throwing. And it's only hanging if you do parallel equals greater than zero. So, I'm still trying to get to the bottom of that. It's.. Sorry.
 
 ##### **Geohot** [[00:39:24](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2364)]
-Parallel should be multi-processed. It should be...
+Parallel should be multi-processed. It should be..
 
 ##### **Sieds Lykles** [[00:39:27](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2367)]
-Yeah. That's also... Well, I mean...
+Yeah. That's also.. Well, I mean..
 
 ##### **Geohot** [[00:39:32](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2372)]
 Well, no. I mean, libraries can be not thread safe, but I don't know a library that's not process safe. Maybe it's an initialization issue.
@@ -727,19 +727,19 @@ Yeah. Chrome is looking a lot nicer. Also, like, most of the more than equal to 
 Great. Yeah. I think we always have some subtle bugs in there. Hopefully, they're gone now. Yeah.
 
 ##### **Sieds Lykles** [[00:40:20](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2420)]
-I tried to move, like, there's a flag. So, there are the correct different vault folding flag. And it's a big one-on-one, I thought, because there's something in OpenPilot that really expects division and modules to be, like, floor division. And if I remove that flag, then it... Well, it's basically the flag causes division to be rewritten using four diff rules, which is more or less the same if the numerate is negative. But it, like, really needs it for correctness. I thought it was just... It needed to simplify the gates. But it was actually, like, producing different rules. So, I don't know if it's gonna be the same if I re-simplify it using C, which is a bit weird.
+I tried to move, like, there's a flag. So, there are the correct different vault folding flag. And it's a big one-on-one, I thought, because there's something in OpenPilot that really expects division and modules to be, like, floor division. And if I remove that flag, then it.. Well, it's basically the flag causes division to be rewritten using four diff rules, which is more or less the same if the numerate is negative. But it, like, really needs it for correctness. I thought it was just.. It needed to simplify the gates. But it was actually, like, producing different rules. So, I don't know if it's gonna be the same if I re-simplify it using C, which is a bit weird.
 
 ##### **Chenyu** [[00:41:24](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2484)]
-So, not entirely sure what that is. But I think the general principle for dealing with OpenPilot is you have enough things on benchmark. And any rewrite you want to test or... We have a lot of, like, image-related rewrites. So, you can see the rules. It's fine if the kernel number or read image, write image load counts are slightly off. I think as long as the ones that run on benchmark is similar speed, it's okay to change.
+So, not entirely sure what that is. But I think the general principle for dealing with OpenPilot is you have enough things on benchmark. And any rewrite you want to test or.. We have a lot of, like, image-related rewrites. So, you can see the rules. It's fine if the kernel number or read image, write image load counts are slightly off. I think as long as the ones that run on benchmark is similar speed, it's okay to change.
 
 ##### **Sieds Lykles** [[00:42:02](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2522)]
-And it probably goes from, like, 20 gated loads to, like, 120. And when... I mean, I tried to use, like... I don't know. I can't... The simple implications for the gates also become quite tricky because you have to do... Like, all the simplex we do now is... You have A plus B. And then it's greater than zero. So, either A or B is greater than zero. But then you can see the case to the How để hogy một kąc 젤 is greater than two or greater than three. So, then you have to try like... like, it re-blows up. So those gates are really hard to simplify with the method we use currently. So I wrote a Z3 gate simplifier, and that also caused incorrectness because of the ZDF thing.
+And it probably goes from, like, 20 gated loads to, like, 120. And when.. I mean, I tried to use, like.. I don't know. I can't.. The simple implications for the gates also become quite tricky because you have to do.. Like, all the simplex we do now is.. You have A plus B. And then it's greater than zero. So, either A or B is greater than zero. But then you can see the case to the How để hogy một kąc is greater than two or greater than three. So, then you have to try like.. like, it re-blows up. So those gates are really hard to simplify with the method we use currently. So I wrote a Z3 gate simplifier, and that also caused incorrectness because of the ZDF thing.
 
 ##### **Chenyu** [[00:43:09](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2589)]
-Yeah, so I cannot give you specific suggestions now because I know I don't... I think there are multiple issues here, but again, I think the general idea is open-padded speed is important, and a lot of simplification rules is pretty much built for that. And we want that to be correct, of course. I think maybe some of it for now is practically correct.
+Yeah, so I cannot give you specific suggestions now because I know I don't.. I think there are multiple issues here, but again, I think the general idea is open-padded speed is important, and a lot of simplification rules is pretty much built for that. And we want that to be correct, of course. I think maybe some of it for now is practically correct.
 
 ##### **Sieds Lykles** [[00:43:39](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2619)]
-The annoying thing is that the incorrect rule is also causing it to be faster. I mean, I think the easiest way to fix it might be... I mean, I still want to change idiv to be floridiv, and at some point, but then I need to work on the fast idiv. I need that to be complete.
+The annoying thing is that the incorrect rule is also causing it to be faster. I mean, I think the easiest way to fix it might be.. I mean, I still want to change idiv to be floridiv, and at some point, but then I need to work on the fast idiv. I need that to be complete.
 
 ##### **Chenyu** [[00:44:10](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2650)]
 Because otherwise it can be a problem. Yeah, I think this is probably better discussed somewhere in the PR order issue. If you need to take a look, just let me know. But the high-level thing, as I said, is we need to keep the open-padded fast, because now they are all like, we could be using the latest block claim for upgrading but aside from that, do the correct thing, do the simplification.
@@ -751,13 +751,13 @@ I have one other symbolic project to think about. You got to get a different mic
 Okay, sorry.
 
 ##### **Geohot** [[00:45:03](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2703)]
-No, you're good. The other project is... So right now we have logic in reshape, in view to merge reshape. I want to delete view entirely. So we... Do you know where those tests are, Claire? Where the current symbolic can't do the same things, like reshape window?
+No, you're good. The other project is.. So right now we have logic in reshape, in view to merge reshape. I want to delete view entirely. So we.. Do you know where those tests are, Claire? Where the current symbolic can't do the same things, like reshape window?
 
 ##### **Chenyu** [[00:45:32](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2732)]
 Oh, yeah. Oh, yeah. Can I connect? Can I? Yeah.
 
 ##### **Geohot** [[00:45:38](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2738)]
-Can I connect? I think this is... We got to upgrade symbolic to pass all these tests. Because range of fire is going to delete view.
+Can I connect? I think this is.. We got to upgrade symbolic to pass all these tests. Because range of fire is going to delete view.
 
 ##### **Sieds Lykles** [[00:45:48](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2748)]
 Yeah. Yeah, I mean, I know a couple of rules that are missing.
@@ -769,7 +769,7 @@ Yeah. Yeah, I mean, you see what I'm talking about, about the reshape, all that 
 Yeah. Yeah.
 
 ##### **Geohot** [[00:46:08](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2768)]
-Then the other thing is that you might run into problems with, is right now we have vmin and vmax. Vmax. And vmin and vmax, it can't simplify if you have something that's basically like define var A minus A. That may not have the right range. You know, this one with... Like right now, vmin and vmax are recording an int and not a uop. And that might be something that you want to change.
+Then the other thing is that you might run into problems with, is right now we have vmin and vmax. Vmax. And vmin and vmax, it can't simplify if you have something that's basically like define var A minus A. That may not have the right range. You know, this one with.. Like right now, vmin and vmax are recording an int and not a uop. And that might be something that you want to change.
 
 ##### **Sieds Lykles** [[00:46:40](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2800)]
 Yeah.
@@ -778,16 +778,16 @@ Yeah.
 But A minus A is something else. It's not about you having different range. But it's like the same thing. So if you have A that's a range from 0 to 5, and you have b that's a range from 0 to 5, then A minus B obviously shouldn't cancel out. Yeah. But A minus A should cancel out? Well, A minus A can cancel out.
 
 ##### **Geohot** [[00:47:08](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2828)]
-But you can have a bunch of... All right, you got to... Your microphone is actually real bad, dude.
+But you can have a bunch of.. All right, you got to.. Your microphone is actually real bad, dude.
 
 ##### **Geohot** [[00:47:17](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2837)]
 Okay, anyway. Okay. Yeah.
 
 ##### **Geohot** [[00:47:24](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2844)]
-So sure, if you just have A minus A, that should cancel out. But sometimes you can have like... Say you have like A plus 3 minus A. I mean...
+So sure, if you just have A minus A, that should cancel out. But sometimes you can have like.. Say you have like A plus 3 minus A. I mean..
 
 ##### **Chenyu** [[00:47:37](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2857)]
-That's a different problem. That's like an ad group of ad that can cancel each other. Yeah. I mean, yeah. One way to decide... Changing the vmin and vmax won't solve the case for A plus 3 minus A should be 3. Yeah.
+That's a different problem. That's like an ad group of ad that can cancel each other. Yeah. I mean, yeah. One way to decide.. Changing the vmin and vmax won't solve the case for A plus 3 minus A should be 3. Yeah.
 
 ##### **Geohot** [[00:47:54](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2874)]
 Why wouldn't changing vmin and vmax solve that? How? It's not a min-max problem.
@@ -796,7 +796,7 @@ Why wouldn't changing vmin and vmax solve that? How? It's not a min-max problem.
 It's because A should cancel out with A, right? Now you replace A with B with the same min and max. It shouldn't cancel out.
 
 ##### **Geohot** [[00:48:09](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2889)]
-Well, yeah, I know. But I'm saying, okay, so like if you have it for... If you ask it what the max, the min is of A plus B, A plus 3, you can say that the min is A plus 3 and the max is A plus 3, right? Maybe it doesn't work. No. I don't know. I don't know. This is hard to think about. Okay. Anyway. Anyway, we should make sure that we're dealing with all those cases, too. Maybe it's actually just through simplification. We have to look at add chains better and stuff.
+Well, yeah, I know. But I'm saying, okay, so like if you have it for.. If you ask it what the max, the min is of A plus B, A plus 3, you can say that the min is A plus 3 and the max is A plus 3, right? Maybe it doesn't work. No. I don't know. I don't know. This is hard to think about. Okay. Anyway. Anyway, we should make sure that we're dealing with all those cases, too. Maybe it's actually just through simplification. We have to look at add chains better and stuff.
 
 ##### **Chenyu** [[00:48:35](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2915)]
 Yeah. Okay.
@@ -811,7 +811,7 @@ Okay.
 Next.
 
 ##### **Geohot** [[00:48:43](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2923)]
-On next, I think... Yeah, we are waiting for... Oh, yeah. Okay.
+On next, I think.. Yeah, we are waiting for.. Oh, yeah. Okay.
 
 ##### **Chenyu** [[00:48:56](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=2936)]
 So, we have a branch for Comma people to test their new OpenPython model with the, like, if op support and cubic support. I just merged the cubic implementation in TinyGrid proper, and we will do the refactor first before we merge the if support, because if support, otherwise, is a little bit hacky, and we don't want that.
@@ -976,7 +976,7 @@ I don't know how hard it is. It's a model. Also, supposedly should work in like 
 Probably like that.
 
 ##### **Geohot** [[00:57:13](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=3433)]
-Mixture of experts. Wow. We really need to just work on our mixture of experts stuff. I don't know. Maybe we should just have it. Just let's get this one first. Okay. Hopefully there's... I think there's progress on the Thunderbolt thing. That guy's still been posted on Twitter.
+Mixture of experts. Wow. We really need to just work on our mixture of experts stuff. I don't know. Maybe we should just have it. Just let's get this one first. Okay. Hopefully there's.. I think there's progress on the Thunderbolt thing. That guy's still been posted on Twitter.
 
 ##### **Chenyu** [[00:57:28](https://www.youtube.com/watch?v=QmGmVAMdxwE&t=3448)]
 Oh, I thought he stopped. No. No, he's still working. Okay. So I think he's still working. I think he's still working. Oh, wow. Wolf Parrot, can you find a way to merge Mewon? Okay. Okay.

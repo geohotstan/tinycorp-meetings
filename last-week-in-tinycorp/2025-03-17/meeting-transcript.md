@@ -10,10 +10,10 @@
 - gpu on usb, driver
 - tensor core
 - onnx, bitonic sort, jit moe
-- webgpu
+- WebGPU
 - torch frontend (test_ops, nano gpt, multi gpu training)
 - retinanet
-- AMD comgr -> llvm
+- AMD comgr -> LLVM
 
 ### Audio
 
@@ -110,7 +110,7 @@ I think you're talking about like six minutes to just actually get all the terms
 
 ##### **Chenyu** [[00:03:16](https://www.youtube.com/watch?v=jn3no5UZLmI&t=196)]
 Yes.
-If we do pickle JIT if it only directly wrong from the ExecItem...
+If we do pickle JIT if it only directly wrong from the ExecItem..
 Yeah, I imagine we can save those five minutes, six minutes.
 
 ##### **Geohot** [[00:03:37](https://www.youtube.com/watch?v=jn3no5UZLmI&t=217)]
@@ -623,7 +623,7 @@ Do you have failing tests?
 ##### **Ignaciosica** [[00:28:23](https://www.youtube.com/watch?v=jn3no5UZLmI&t=1703)]
 No, but I think I can write.
 Like, for example, with the TensorCores, with three, if I don't add the TensorCores, hand coded optimizations, like the extra upcast and the extra locals.
-There is failings with the... 
+There is failings with the.. 
 
 ##### **Geohot** [[00:28:42](https://www.youtube.com/watch?v=jn3no5UZLmI&t=1722)]
 I rewrote the Vectorizer.
@@ -631,7 +631,7 @@ We have a whole new vectorizer now that's like brand new.
 So I mean the best I can do when I write things like that is pass all the tests.
 If you give me failing tests that are the vectorizer failing, I will fix them right away.
 Like I can't do better than the tests passed, right?
-Like I could try, but... Yeah no, so failing tests would be great.
+Like I could try, but.. Yeah no, so failing tests would be great.
 and I will fix them right away.
 I've seen some issues in the vectorizer with the DSP stuff.
 I had to rewrite it for the DSP stuff.
@@ -766,7 +766,7 @@ My ideal test that it is good is that you write the web GPU one and then it is i
 Okay.
 
 ##### **Geohot** [[00:35:42](https://www.youtube.com/watch?v=jn3no5UZLmI&t=2142)]
-I mean, yeah, there should be like, yeah, like an obvious like way to do it when you've written this code, I think in a way that's...
+I mean, yeah, there should be like, yeah, like an obvious like way to do it when you've written this code, I think in a way that's..
 That's correct.
 There's a bunch of, you're right, it's the JIT cache.
 And then there's a bunch of different things that you want to map.
@@ -945,7 +945,7 @@ Next, RetinaNet.
 ##### **Flata** [[00:43:03](https://www.youtube.com/watch?v=jn3no5UZLmI&t=2583)]
 Hello.
 So for RetinaNet, I was able to integrate float16.
-So the tiny box screen benchmark that I did, I think it's sub 20 hours, so it's like 19 hours.
+So the TinyBox screen benchmark that I did, I think it's sub 20 hours, so it's like 19 hours.
 for training time.
 So there's that.
 Currently I'm trying to fix a small bug on just the beaming on the eval.
@@ -955,7 +955,7 @@ And then in the meantime, I'm starting to split up the big PR into smaller PR.
 So I'm going to introduce, I think one for data loader and then another one for the model eval changes just to make sure everything is good.
 And then
 I just kind of get it down so that the main PR just has the training loop itself.
-And I think what I'm planning to do after all this is done, and Chenyu, you can reproduce it, is actually just focus on getting the tiny box set to be a bit better.
+And I think what I'm planning to do after all this is done, and Chenyu, you can reproduce it, is actually just focus on getting the TinyBox set to be a bit better.
 Even though it's sub 30 hours, it's still not under 24 hours.
 So there's also that that I want to tackle as well.
 So that's kind of like what I'm envisioning in this week.
@@ -1093,7 +1093,7 @@ Well, that doesn't sound good.
 Who wants to be in charge of memory leaks here?
 
 ##### **Chenyu** [[00:49:50](https://www.youtube.com/watch?v=jn3no5UZLmI&t=2990)]
-I think one is QCOM...
+I think one is QCOM..
 only, and one affects every backend for JIT.
 
 ##### **Geohot** [[00:50:15](https://www.youtube.com/watch?v=jn3no5UZLmI&t=3015)]
@@ -1140,7 +1140,7 @@ It's correct.
 It's just 182 milliseconds.
 Yeah, I'll do PRs tomorrow, and then get back to it.
 I think this got it.
-LVM is just generating bad code.
+LLVM is just generating bad code.
 Yeah, Qualcomm wrote all this stuff in assembly, it seems.
 
 ##### **Chenyu** [[00:51:47](https://www.youtube.com/watch?v=jn3no5UZLmI&t=3107)]
@@ -1186,7 +1186,7 @@ And mixtral without JIT is like three times.
 
 ##### **Geohot** [[00:53:20](https://www.youtube.com/watch?v=jn3no5UZLmI&t=3200)]
 I know, I know.
-Lama used to run at 100 milliseconds.
+LLaMA used to run at 100 milliseconds.
 
 ##### **Chenyu** [[00:53:25](https://www.youtube.com/watch?v=jn3no5UZLmI&t=3205)]
 That was almost two years ago.

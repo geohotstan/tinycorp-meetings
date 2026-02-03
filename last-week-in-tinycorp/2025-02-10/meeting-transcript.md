@@ -4,13 +4,13 @@
 
 **Time:** 6am Monday San Diego time (10pm HK time)
 - company update
-- ci speed, llvm speed, dsp speed
+- ci speed, LLVM speed, dsp speed
 - Ops.POW, gated load/store to where, resnet
 - scheduler
 - drivers
 - tensor cores
 - onnx
-- bounties (webgpu fp16, tinychat, retinanet, graph rewrite 2.0, flatten add chain, hevc decoder)
+- bounties (WebGPU fp16, tinychat, retinanet, graph rewrite 2.0, flatten add chain, hevc decoder)
 
 ### Audio
 
@@ -70,7 +70,7 @@ But we can use more Linux runners to pretty much do whatever.
 So it hasn't really made CI that much faster.
 But now a lot of CI completes faster.
 It's pretty much just like NV that's still slow.
-And I think there's...
+And I think there's..
 
 ##### **Chenyu** [[00:02:47](https://www.youtube.com/watch?v=sMxM41tpijc&t=167)]
 The Linux NV=1 is probably still bottleneck.
@@ -107,7 +107,7 @@ It keeps it vectorized.
 It's really annoying in the DSP.
 So I wrote this, like, re-vectorization thing, and then I was like, this is stupid and super slow, because it, like, de-vectorizes to 128, and then it re-vectorizes.
 I think we'll try to keep it de-vectorized, so that'll be fast for the DSP.
-The trick to making the DSP good is that you have to do things... It's an 124-bit... vector machine.
+The trick to making the DSP good is that you have to do things.. It's an 124-bit.. vector machine.
 So you have to do things in 128-byte chunks.
 And that's an upcast of 128.
 So that's a lot bigger than the other ones we've been seeing.
@@ -120,7 +120,7 @@ What's that's a limit for that.
 
 ##### **Geohot** [[00:05:50](https://www.youtube.com/watch?v=sMxM41tpijc&t=350)]
 The theoretical limit supposedly is three terafops.
-But it seems like... It seems like SMPE gets about 80 gigaflops.
+But it seems like.. It seems like SMPE gets about 80 gigaflops.
 So that might pretty much just be what we've been doing plus two cores.
 
 ##### **Chenyu** [[00:06:09](https://www.youtube.com/watch?v=sMxM41tpijc&t=369)]
@@ -275,7 +275,7 @@ So that's a main issue.
 I was trying to see if there's a way to get around this.
 
 ##### **Geohot** [[00:14:01](https://www.youtube.com/watch?v=sMxM41tpijc&t=841)]
-All I can say about this, for 100% certain, is that you can't just have a where on the output of the load, because...
+All I can say about this, for 100% certain, is that you can't just have a where on the output of the load, because..
 But if you also put a where on the index to give it a poison value, this kind of fixes it.
 Also, the thing I like about that where with the poison value is it kind of specifies how to do those, like, you know those index folds you do?
 The index folds where it's, like, based on the gate, you can not compute some things?
@@ -721,14 +721,14 @@ Well, I try this week on focusing solely on that.
 Great.
 Yeah.
 $1,000.
-We need...
+We need..
 Like, TinyGrad's a combination of stuff that's all breadth first and depth first.
 Let's go depth first, and let's make that AMX fast.
 Do you see sort of how to do it?
 It's not kernel.py.
 
 ##### **Ignaciosica** [[00:38:26](https://www.youtube.com/watch?v=sMxM41tpijc&t=2306)]
-Yes, I mean, hand coding the kernel, it's... I have an idea.
+Yes, I mean, hand coding the kernel, it's.. I have an idea.
 
 ##### **Geohot** [[00:38:36](https://www.youtube.com/watch?v=sMxM41tpijc&t=2316)]
 Cool.
@@ -815,13 +815,13 @@ So the first part of the bounty was auto-generating the Dawn engine, and that's 
 And the second part is also ready for review, which is actually adding their F16 support.
 
 ##### **Chenyu** [[00:43:36](https://www.youtube.com/watch?v=sMxM41tpijc&t=2616)]
-I see now it's D-type supported, support half, and...
+I see now it's D-type supported, support half, and..
 
 ##### **Wpmed** [[00:43:45](https://www.youtube.com/watch?v=sMxM41tpijc&t=2625)]
 Yeah.
 Yeah.
 And I added a bitcast a string rewrite?
-Because so there's no short and ushort, in a webGPU.
+Because so there's no short and ushort, in a WebGPU.
 We only have u32 and that made this special handling.
 So it's six line overall in core.
 
@@ -830,7 +830,7 @@ That's probably fine.
 Do you have a, uh, do you have a link to stable diffusion that you previously deployed by float16?
 
 ##### **Wpmed** [[00:44:15](https://www.youtube.com/watch?v=sMxM41tpijc&t=2655)]
-Yeah, it's in the webGPU channel.
+Yeah, it's in the WebGPU channel.
 
 ##### **Chenyu** [[00:44:15](https://www.youtube.com/watch?v=sMxM41tpijc&t=2655)]
 Oh, OK.
@@ -843,7 +843,7 @@ On my list to test tomorrow is this one.
 And the AMX one.
 And I think they both look good.
 And I will test them tomorrow and get you guys the bounties.
-Do you have other suggestions for new webGPU bounties?
+Do you have other suggestions for new WebGPU bounties?
 
 ##### **Wpmed** [[00:45:00](https://www.youtube.com/watch?v=sMxM41tpijc&t=2700)]
 Can you repeat the question?
@@ -884,11 +884,11 @@ Similar speed to, I think, five tokens per second.
 ##### **Hooved** [[00:47:31](https://www.youtube.com/watch?v=sMxM41tpijc&t=2851)]
 Cool.
 Glad to hear that.
-Yeah, so I'm pretty happy with some progress I made in the past few days where I was able to get webGPU to work, at least on my phone.
+Yeah, so I'm pretty happy with some progress I made in the past few days where I was able to get WebGPU to work, at least on my phone.
 And I think on maybe hopefully on newer phones, or at least on my phone, that seems to work very smoothly.
 Rarely crashes on load.
 I only ever get crashes on load.
-But the webGPU load seems to be very stable.
+But the WebGPU load seems to be very stable.
 Loading the WASM version.
 It's less stable.
 I'm still figuring it out.
@@ -921,7 +921,7 @@ if you're interested in it if you're interested in it too i am happy to uh
 I'm definitely happy to split the bounty or you guys, you guys figure it out, uh, how you want to like, like I see this being kind of a big effort.
 Um, and I think it's really valuable and I'm down to, I'm down to incentivize it more.
 Like I'm down to pay a thousand dollars for that bounty, a thousand dollars for export model.
-if there's like another thousand dollar bounty here, like webGPU is worth several thousand dollars to us, probably not 10,000, but something like 5,000 total is, is probably, uh, like for like a really clean way to export things to web GPU.
+if there's like another thousand dollar bounty here, like WebGPU is worth several thousand dollars to us, probably not 10,000, but something like 5,000 total is, is probably, uh, like for like a really clean way to export things to web GPU.
 Um, so, I mean, yeah, we run into the, we run into sort of the, the issues with the, with the exactly what's a clear bounty here.
 Uh, you know, especially anything that's a refactor.
 Uh, but, uh,
@@ -983,10 +983,10 @@ But if you're doing float16, aren't you downloading double the size?
 No.
 So here's what I do.
 When I compile, before anything ever goes to Hugging Face or the browser or anything, just when I'm compiling and preparing everything, I take the float16 weights into TinyGrad, I quantize them, and then I save them to disk, the quantized weights to disk.
-it like split up into chunks and then i host those so the only thing that's going to... 
+it like split up into chunks and then i host those so the only thing that's going to.. 
 
 ##### **Geohot** [[00:55:02](https://www.youtube.com/watch?v=sMxM41tpijc&t=3302)]
-quantized to float16 but it is still double the size of the...
+quantized to float16 but it is still double the size of the..
 
 ##### **Hooved** [[00:55:06](https://www.youtube.com/watch?v=sMxM41tpijc&t=3306)]
 no no no i uh one thing i don't think i mentioned it but i i used the the the quantization of the linear layers that was already implemented and i implemented my own um int8 embedding quantization and tinygrad and so
@@ -1055,7 +1055,7 @@ Yeah.
 From other teams.
 
 ##### **Flata** [[00:59:34](https://www.youtube.com/watch?v=sMxM41tpijc&t=3574)]
-Okay, because I was using... Go ahead.
+Okay, because I was using.. Go ahead.
 
 ##### **Chenyu** [[00:59:38](https://www.youtube.com/watch?v=sMxM41tpijc&t=3578)]
 I think there are a lot of people that use very big batch size and maybe very aggressive schedule, like learning rate and stuff.
@@ -1088,7 +1088,7 @@ I don't know why.
 
 ##### **Chenyu** [[01:01:04](https://www.youtube.com/watch?v=sMxM41tpijc&t=3664)]
 I would check that.
-And...
+And..
 Finally, the decoder for NV driver.
 I think you already commented on that.
 
@@ -1097,7 +1097,7 @@ Yeah, so they wrote one in using the Cuvid API, using NV Cuvid.
 They'll have to rewrite it in the NV driver, but NV cuvid is the first step anyway.
 Just look at the I.O. controls, figure out how to send the I.O. controls.
 It's overall very simple.
-If they see this in the replay, no need to worry about...
+If they see this in the replay, no need to worry about..
 Raw bitstreams are fine.
 The user can do demultiplexing of the bitstream.
 That's all pretty easy.

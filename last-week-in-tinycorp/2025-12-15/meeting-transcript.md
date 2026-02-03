@@ -4,7 +4,7 @@
 
 **Time:** 9am Monday San Diego time
 - company update
-- llama training priority
+- LLaMA training priority
 - grad acc, jit
 - flash attention
 - mi300/350 stability
@@ -20,7 +20,7 @@
 ### Highlights
 
 - **[Company Update](#nimlgen-000016)**: Sold two more Blackwell boxes.
-- **[Tinybox Shipping Reliability](#geohot-000021)**: Tinybox Red was down; adding “fragile” drop-indicator stickers that change color if mishandled.
+- **[TinyBox Shipping Reliability](#geohot-000021)**: TinyBox Red was down; adding “fragile” drop-indicator stickers that change color if mishandled.
 - **[Hardware Vision: “Pay-to-flop” GPU Racks](#geohot-000044)**: Long-term plan is to sell racks of GPUs (no full computers), abstracting away GPU/vendor details and optimizing cost-per-$ across components (GPUs, PCI switches, enclosures, networking).
 - **[LLaMA/Lava Training Priorities & Deadline](#chenyu-000214)**: Two targets—an ~8B model (trainable on 1 GPU) and a much larger model for 8× MI350; mid-May deadline; needs flash attention (8K context) and correct gradient accumulation.
 - **[Gradient Accumulation Should Match Exactly](#geohot-000404)**: Expect accumulation to be equivalent to non-accumulation (aside from numeric differences), so discrepancies indicate a bug.
@@ -55,10 +55,10 @@ Okay, welcome everyone to our, I think, conference meeting. So next week will be
 We sold two more Blackwell boxes, so we're selling a lot of those.
 
 ##### **Geohot** [[00:00:21](https://www.youtube.com/watch?v=_mJIF112c5k&t=21)]
-But Tinybox Red was down, we've been skipping. So we're going to put fragile stickers on the box that change color if the boxes drop.
+But TinyBox Red was down, we've been skipping. So we're going to put fragile stickers on the box that change color if the boxes drop.
 
 ##### **Nimlgen** [[00:00:31](https://www.youtube.com/watch?v=_mJIF112c5k&t=31)]
-So that was the main thing we had to deal with there. Yeah, I don't think things are going pretty well on the Tinybox front.
+So that was the main thing we had to deal with there. Yeah, I don't think things are going pretty well on the TinyBox front.
 
 ##### **Geohot** [[00:00:44](https://www.youtube.com/watch?v=_mJIF112c5k&t=44)]
 I mean, I posted that thing about the new hardware. That's eventually what I want to sell. I just want to sell racks of GPUs, no computers. Just GPUs. Racks, PCI switches, Ethernet cards, you know, a pay-to-flop, an exo-flop that you can control from a single computer. That's kind of where our hardware is going. And we can switch out pieces with our own pieces, figure out what we're overpaying for. Are we overpaying for GPUs? Are we overpaying for PCI switches? Are we overpaying for metal boxes? Just drive the cost of everything as well as possible. Come on, that's a pay-to-flop. Let's sell interchangeable contracts. I bought this. I can have any GPU in them. And it's just a question of, you know, cost per dollar, gigabytes per second per dollar, gigabytes per dollar. You know, reduce these things to the raw specs. But I think in order to reduce the things to the raw specs, we have to get it to the point that this is actually abstracted. Nobody wants it abstracted. AMD doesn't want it abstracted. Nvidia doesn't want it abstracted. They want you to think about what kind of computer you're using. And we want to make sure that you do not have to think about what kind of computer you're using. So that is the long-term vision of TinyCraft and TinyCore to sell boxes that you never have to think about what type of GPU is not.
@@ -76,7 +76,7 @@ Let's move on to Lava training. We can talk about prioritization. So two main ta
 We should be able to compare it perfectly, right? Like gradient accumulation, if you're not using Batstorm, it should be exactly equal, except for numeric instability.
 
 ##### **Chenyu** [[00:04:13](https://www.youtube.com/watch?v=_mJIF112c5k&t=253)]
-Yes. So for very small tests, it all works. Very weird. So any, any smaller tests, it's going to be a little bit of a challenge. I mean, you can 의�hairin this just to be I mean, you can extend the line so I guess you can just let them be around어왓ável in kind of match. That's why it's very weird. But anyway, I I updated the backward behavior to use a sign. That's the. Meep. So that's one.
+Yes. So for very small tests, it all works. Very weird. So any, any smaller tests, it's going to be a little bit of a challenge. I mean, you can �hairin this just to be I mean, you can extend the line so I guess you can just let them be aroundável in kind of match. That's why it's very weird. But anyway, I I updated the backward behavior to use a sign. That's the. Meep. So that's one.
 
 ##### **Geohot** [[00:04:46](https://www.youtube.com/watch?v=_mJIF112c5k&t=286)]
 When you're testing it without the accumulation, are you just setting the accumulation to one, or are you testing a totally different code path? Because it could be something like this.
@@ -97,7 +97,7 @@ Oh, wait. We're using float16? We're not using bfloat16?
 We don't. Bert was training fine with float16.
 
 ##### **Geohot** [[00:05:28](https://www.youtube.com/watch?v=_mJIF112c5k&t=328)]
-I mean, yeah, but float16 is . No, no, no.
+I mean, yeah, but float16 is. No, no, no.
 
 ##### **Chenyu** [[00:05:32](https://www.youtube.com/watch?v=_mJIF112c5k&t=332)]
 So it cannot. I understand that there are somewhere divided by the gradient accumulation number. Right. So it's a bit worse. But it should only affect convergence a bit and not having eval basically being 0. Eval being 0 is just wrong, I think.
@@ -139,19 +139,19 @@ It's just tricky if you want to do the bird training. I tried that without JIT, 
 Okay.
 
 ##### **Geohot** [[00:08:37](https://www.youtube.com/watch?v=_mJIF112c5k&t=517)]
-Yeah, I'll look into that. I'll look into seeing if we can do... I mean, I'd really like to do it at the schedule cast level, because if the JIT is capturing two different schedule casts, it should not accept the JIT. Like, it shouldn't JIT if they're...
+Yeah, I'll look into that. I'll look into seeing if we can do.. I mean, I'd really like to do it at the schedule cast level, because if the JIT is capturing two different schedule casts, it should not accept the JIT. Like, it shouldn't JIT if they're..
 
 ##### **Chenyu** [[00:08:48](https://www.youtube.com/watch?v=_mJIF112c5k&t=528)]
 Yeah, I think that makes sense.
 
 ##### **Geohot** [[00:08:50](https://www.youtube.com/watch?v=_mJIF112c5k&t=530)]
-If the schedule cast is not changing. Yeah, and that's kind of like an ironclad way to do it. Like, that's... It guarantees if there's different schedule casts, the JIT can never be correct. If they're the same schedule cast, it can still be wrong. But... At least we can detect all of them, so...
+If the schedule cast is not changing. Yeah, and that's kind of like an ironclad way to do it. Like, that's.. It guarantees if there's different schedule casts, the JIT can never be correct. If they're the same schedule cast, it can still be wrong. But.. At least we can detect all of them, so..
 
 ##### **Nimlgen** [[00:09:09](https://www.youtube.com/watch?v=_mJIF112c5k&t=549)]
 Cool.
 
 ##### **Chenyu** [[00:09:10](https://www.youtube.com/watch?v=_mJIF112c5k&t=550)]
-Yeah. Yeah. The goal here is we have BERT working. I think this is similar to the strategy for float8. We first make it work on this much smaller thing. Then once we understand all the Fugong training lemmas should be, like, easier than BERT. BERT is slightly annoying with some, like, encoder, decoder stuff. I should... Yeah. Once we fix these, lemma should be good. And I think we can talk about flash attention next. I think that's, like, very big to unlock some memory thing for 8K Windows.
+Yeah. Yeah. The goal here is we have BERT working. I think this is similar to the strategy for float8. We first make it work on this much smaller thing. Then once we understand all the Fugong training lemmas should be, like, easier than BERT. BERT is slightly annoying with some, like, encoder, decoder stuff. I should.. Yeah. Once we fix these, lemma should be good. And I think we can talk about flash attention next. I think that's, like, very big to unlock some memory thing for 8K Windows.
 
 ##### **Wozeparrot** [[00:09:52](https://www.youtube.com/watch?v=_mJIF112c5k&t=592)]
 So for flash attention, it's mostly there. I showed how to get it in today. Gradient for Q and V are working, and K is just being annoying because it's the most complicated gradient to do.
@@ -184,7 +184,7 @@ Cool.
 And does it use the memory? Does it use the last memory? It should. Okay. I mean, it has to, yeah. That was the whole point of this. It's explicitly doing the buffering, so there's no way it can use. Yeah, that's good to check.
 
 ##### **Geohot** [[00:11:09](https://www.youtube.com/watch?v=_mJIF112c5k&t=669)]
-Did the thing I was talking about work with the backward? Where you store the other tensor and, like, a tensor empty, and then...
+Did the thing I was talking about work with the backward? Where you store the other tensor and, like, a tensor empty, and then..
 
 ##### **Nimlgen** [[00:11:14](https://www.youtube.com/watch?v=_mJIF112c5k&t=674)]
 Yeah, that works fine.
@@ -196,13 +196,13 @@ Great.
 Oh, speaking of empty, I think I list in the test, I think JIT has some weird behavior with respect to the empty input, just because empty is represented differently or something like that. It's minor annoyance, not a real issue. Yeah.
 
 ##### **Geohot** [[00:11:37](https://www.youtube.com/watch?v=_mJIF112c5k&t=697)]
-And any test you can give me, I will work on... I'm here to, like, support this as best as I can. I think that's probably my best role. So I'm here to work on JIT foot guns this week. Yeah, I'll do the JIT schedule test, kind of quasi-merger, which should be a pretty universal way to catch a lot of bugs.
+And any test you can give me, I will work on.. I'm here to, like, support this as best as I can. I think that's probably my best role. So I'm here to work on JIT foot guns this week. Yeah, I'll do the JIT schedule test, kind of quasi-merger, which should be a pretty universal way to catch a lot of bugs.
 
 ##### **Chenyu** [[00:11:56](https://www.youtube.com/watch?v=_mJIF112c5k&t=716)]
 Great.
 
 ##### **Geohot** [[00:11:59](https://www.youtube.com/watch?v=_mJIF112c5k&t=719)]
-Any tests you want to give me that are failing, anything you're like, I don't know how to deal with this, hopefully I was helpful with that other one about the... It's basically, you have to realize the buffers on the batch norm. That's why the MLS broke.
+Any tests you want to give me that are failing, anything you're like, I don't know how to deal with this, hopefully I was helpful with that other one about the.. It's basically, you have to realize the buffers on the batch norm. That's why the MLS broke.
 
 ##### **Chenyu** [[00:12:12](https://www.youtube.com/watch?v=_mJIF112c5k&t=732)]
 Yeah, that I understand. And let's also cloud code figure out. So that was pretty cool.
@@ -241,7 +241,7 @@ Agreed. Yeah. It's an absolutely wonderful playtester. Cool. TinyGrad. So good. 
 Yeah.
 
 ##### **Geohot** [[00:15:05](https://www.youtube.com/watch?v=_mJIF112c5k&t=905)]
-So yeah, I don't know how much better... I don't know what would happen if I tried to get it to fix an issue or dork.
+So yeah, I don't know how much better.. I don't know what would happen if I tried to get it to fix an issue or dork.
 
 ##### **Nimlgen** [[00:15:12](https://www.youtube.com/watch?v=_mJIF112c5k&t=912)]
 I'm not even sure what it would do. Would it build dork?
@@ -253,7 +253,7 @@ Just sit there and compile dork? I don't know about that.
 I don't know. I feel my Cloud Code wastes a lot of tokens just trying to install dork.
 
 ##### **Geohot** [[00:15:33](https://www.youtube.com/watch?v=_mJIF112c5k&t=933)]
-Yeah. I think we also need... Yeah. I do want to work on tests. Like PyTest. You should just be able to type PyTest and auto and that's it. It's like under a minute on your computer.
+Yeah. I think we also need.. Yeah. I do want to work on tests. Like PyTest. You should just be able to type PyTest and auto and that's it. It's like under a minute on your computer.
 
 ##### **Nimlgen** [[00:15:47](https://www.youtube.com/watch?v=_mJIF112c5k&t=947)]
 I think it's under a minute on Macs. I think it's like two minutes on my computer. That doesn't sound correct, but sure.
@@ -262,10 +262,10 @@ I think it's under a minute on Macs. I think it's like two minutes on my compute
 Yeah. Everyone should test that. We have that channel for it now. Test failure. All the tests should be passing locally on your computer because that's what's really important for these Cloud Code things to work. If we can make a small test leak, a small repo, it would be very judgmental, judicious about what we let in.
 
 ##### **Nimlgen** [[00:16:25](https://www.youtube.com/watch?v=_mJIF112c5k&t=985)]
-Opinionated. Opinionated, yeah. But I have...
+Opinionated. Opinionated, yeah. But I have..
 
 ##### **Geohot** [[00:16:32](https://www.youtube.com/watch?v=_mJIF112c5k&t=992)]
-I don't know. Something happened last week and I feel like I've... I don't know.
+I don't know. Something happened last week and I feel like I've.. I don't know.
 
 ##### **Nimlgen** [[00:16:35](https://www.youtube.com/watch?v=_mJIF112c5k&t=995)]
 I don't know.
@@ -274,7 +274,7 @@ I don't know.
 We've kind of seen the future and accept that, like, the identics coding workflows are going to really be here to stay.
 
 ##### **Chenyu** [[00:16:43](https://www.youtube.com/watch?v=_mJIF112c5k&t=1003)]
-Great. So, yeah. Encourage everyone to give it a test. Yeah, if any... You'd be really fast.
+Great. So, yeah. Encourage everyone to give it a test. Yeah, if any.. You'd be really fast.
 
 ##### **Geohot** [[00:16:54](https://www.youtube.com/watch?v=_mJIF112c5k&t=1014)]
 DM me if you want to buy it and you don't have access to it, and I will give you a credit card number.
@@ -328,13 +328,13 @@ Yeah. So, no, our obstructions are not really good to implement this as easy as 
 Yeah. Is it because of the PCI link that they all need to be reset together or what's the issue?
 
 ##### **Nimlgen** [[00:20:20](https://www.youtube.com/watch?v=_mJIF112c5k&t=1220)]
-Yeah. Actually, because with these XGMI systems, you have to reset all of these. Yeah. Also, I want to try XGMI. I mean, actually, it's like all GPUs without any extension sees the physical addresses, all of other GPUs. So, I don't know. It would be really easy to replace PCI addresses, like to do P2P with the XGMI addresses. I know. Oh, yeah. This would...
+Yeah. Actually, because with these XGMI systems, you have to reset all of these. Yeah. Also, I want to try XGMI. I mean, actually, it's like all GPUs without any extension sees the physical addresses, all of other GPUs. So, I don't know. It would be really easy to replace PCI addresses, like to do P2P with the XGMI addresses. I know. Oh, yeah. This would..
 
 ##### **Geohot** [[00:20:53](https://www.youtube.com/watch?v=_mJIF112c5k&t=1253)]
 How does this work? Do they show up as different addresses once over XGMI? Like, if I just have it mapped in, can I, like, set a flag in the page table and say whether it goes over XGMI or PCI?
 
 ##### **Nimlgen** [[00:21:05](https://www.youtube.com/watch?v=_mJIF112c5k&t=1265)]
-I mean, every GPU sees the whole... all other physical addresses of all other GPUs. Like, it's the unified space. You just have the outside.
+I mean, every GPU sees the whole.. all other physical addresses of all other GPUs. Like, it's the unified space. You just have the outside.
 
 ##### **Geohot** [[00:21:17](https://www.youtube.com/watch?v=_mJIF112c5k&t=1277)]
 If I do an access, is that access over XGMI or is it over PCI?
@@ -349,22 +349,22 @@ Got it. Okay. So, the system flag is a flag on the page table entry.
 Yeah. Yeah.
 
 ##### **Geohot** [[00:21:45](https://www.youtube.com/watch?v=_mJIF112c5k&t=1305)]
-Yeah. I mean, I think we just want to start playing with, like, making sure we can get high... Just do, like, the same way you did the test for the copy in and copy out. Just start doing tests on the all-reduce to make sure we're getting the full all-reduce bandwidth. I don't know if it's... I know they're connected differently. I mean, they're not really connected in a ring, so we might need a different kind of all-reduce for them.
+Yeah. I mean, I think we just want to start playing with, like, making sure we can get high.. Just do, like, the same way you did the test for the copy in and copy out. Just start doing tests on the all-reduce to make sure we're getting the full all-reduce bandwidth. I don't know if it's.. I know they're connected differently. I mean, they're not really connected in a ring, so we might need a different kind of all-reduce for them.
 
 ##### **Nimlgen** [[00:22:08](https://www.youtube.com/watch?v=_mJIF112c5k&t=1328)]
 Yeah. All-reduce, whatever that is.
 
 ##### **Nimlgen** [[00:22:15](https://www.youtube.com/watch?v=_mJIF112c5k&t=1335)]
-Yeah. Okay. After fixing everything and adding in my 350, yeah, I'll... I'll look into XGMI.
+Yeah. Okay. After fixing everything and adding in my 350, yeah, I'll.. I'll look into XGMI.
 
 ##### **Geohot** [[00:22:25](https://www.youtube.com/watch?v=_mJIF112c5k&t=1345)]
-Yeah. I mean, just basically, like, all-reduce bandwidth should be... I don't think... Yeah. I don't think we have to worry about, like, XGMI versus non-XGMI yet, but just getting all-reduce bandwidth. Although, falling back from XGMI would be nice for making the tests work on my computer.
+Yeah. I mean, just basically, like, all-reduce bandwidth should be.. I don't think.. Yeah. I don't think we have to worry about, like, XGMI versus non-XGMI yet, but just getting all-reduce bandwidth. Although, falling back from XGMI would be nice for making the tests work on my computer.
 
 ##### **Nimlgen** [[00:22:42](https://www.youtube.com/watch?v=_mJIF112c5k&t=1362)]
 Yeah.
 
 ##### **Geohot** [[00:22:45](https://www.youtube.com/watch?v=_mJIF112c5k&t=1365)]
-Yeah. I mean, I think we should kind of implement the same thing that HIP does, which is just, if it can't open the XGMI, it doesn't fail. It just... It's just... It's a flag saying XGMI not supported, and then we just go over CCIE.
+Yeah. I mean, I think we should kind of implement the same thing that HIP does, which is just, if it can't open the XGMI, it doesn't fail. It just.. It's just.. It's a flag saying XGMI not supported, and then we just go over CCIE.
 
 ##### **Nimlgen** [[00:22:59](https://www.youtube.com/watch?v=_mJIF112c5k&t=1379)]
 And then if CCIE is not supported, too bad.
@@ -379,31 +379,31 @@ I mean, not CCIE, but with a kernel. Okay.
 Cool. Yeah.
 
 ##### **Geohot** [[00:23:17](https://www.youtube.com/watch?v=_mJIF112c5k&t=1397)]
-My priority is my 300, my 350, and the AM driver, but we're getting that to work. Very exciting. Yeah. Well, it sounds like... Okay. Now it's one less piece of AMD.
+My priority is my 300, my 350, and the AM driver, but we're getting that to work. Very exciting. Yeah. Well, it sounds like.. Okay. Now it's one less piece of AMD.
 
 ##### **Nimlgen** [[00:23:29](https://www.youtube.com/watch?v=_mJIF112c5k&t=1409)]
 We just need to tape out our own at my freezer. I tweeted this a few days ago.
 
 ##### **Geohot** [[00:23:40](https://www.youtube.com/watch?v=_mJIF112c5k&t=1420)]
-I really think that once we get through all of this, that they're going to be really stable with just tiny grads. The hardware of these things is so simple compared to this software. Yeah. When you think about the actual chip design. Like, if you're like, George, you need to design a CPU. Forget it. I can't design a CPU. That's impossible. But design an accelerator for a neural network? I mean, the Tesla people did it in... The Tesla people designed the first Tesla FSD chip. It was like a three-month project. And then they struggled for the next four years into getting anything to run. On the chip. So. We do that the other way. We struggle for four years to get things to run on other people's chips. And then we spend three months and we tape out the chip. Whatever it is. But first we have to be thinking about, you know, the long-term vision of these drivers. And this is what I always emphasize when I talk about, like, making the drivers run in tiny grads. Is that we can move all of this stuff off of the host machine. So basically the... Whether we're using the CPU as a PCIe. Bridge or not doesn't matter. But we are able to configure the GPUs in a remote machine. Basically over the network card. And then eventually just replace that CPU with a PCI switch.
+I really think that once we get through all of this, that they're going to be really stable with just tiny grads. The hardware of these things is so simple compared to this software. Yeah. When you think about the actual chip design. Like, if you're like, George, you need to design a CPU. Forget it. I can't design a CPU. That's impossible. But design an accelerator for a neural network? I mean, the Tesla people did it in.. The Tesla people designed the first Tesla FSD chip. It was like a three-month project. And then they struggled for the next four years into getting anything to run. On the chip. So. We do that the other way. We struggle for four years to get things to run on other people's chips. And then we spend three months and we tape out the chip. Whatever it is. But first we have to be thinking about, you know, the long-term vision of these drivers. And this is what I always emphasize when I talk about, like, making the drivers run in tiny grads. Is that we can move all of this stuff off of the host machine. So basically the.. Whether we're using the CPU as a PCIe. Bridge or not doesn't matter. But we are able to configure the GPUs in a remote machine. Basically over the network card. And then eventually just replace that CPU with a PCI switch.
 
 ##### **Nimlgen** [[00:25:03](https://www.youtube.com/watch?v=_mJIF112c5k&t=1503)]
-Does that seem... Are there any reasons this doesn't work? No, like, theoretically, this should work.
+Does that seem.. Are there any reasons this doesn't work? No, like, theoretically, this should work.
 
 ##### **Geohot** [[00:25:18](https://www.youtube.com/watch?v=_mJIF112c5k&t=1518)]
-Also, did you check out... Did you check out the... The firmware repo at all?
+Also, did you check out.. Did you check out the.. The firmware repo at all?
 
 ##### **Nimlgen** [[00:25:26](https://www.youtube.com/watch?v=_mJIF112c5k&t=1526)]
-Not really deep enough. I just skimmed through the...
+Not really deep enough. I just skimmed through the..
 
 ##### **Geohot** [[00:25:31](https://www.youtube.com/watch?v=_mJIF112c5k&t=1531)]
-Yeah, no, I mean, this is mostly... I think we've handed this mostly off to Kama. But I now have the full... I have an emulator for the firmware too. So I'm emulating the firmware. I'm emulating it to the point that the E4 and E5 commands work in the emulator. And now I'm building the replacement firmware and making sure that the commands work in the replacement firmware. I'm going to test more and more. This is like a fun way I've found to like... Do all this reverse engineering. Or rather, have Cloud Code do the reverse engineering. In such a way that it's reliable. Like, build the emulator. Don't touch the emulator. Work on the code. Work on the emulator on the original firmware. The loop.
+Yeah, no, I mean, this is mostly.. I think we've handed this mostly off to Kama. But I now have the full.. I have an emulator for the firmware too. So I'm emulating the firmware. I'm emulating it to the point that the E4 and E5 commands work in the emulator. And now I'm building the replacement firmware and making sure that the commands work in the replacement firmware. I'm going to test more and more. This is like a fun way I've found to like.. Do all this reverse engineering. Or rather, have Cloud Code do the reverse engineering. In such a way that it's reliable. Like, build the emulator. Don't touch the emulator. Work on the code. Work on the emulator on the original firmware. The loop.
 
 ##### **SPEAKER_05** [[00:26:12](https://www.youtube.com/watch?v=_mJIF112c5k&t=1572)]
 Yeah.
 
 ##### **Geohot** [[00:26:12](https://www.youtube.com/watch?v=_mJIF112c5k&t=1572)]
-Now that's the full... That's what we've done with the USB 3. Full dominance over the chip. If you make it work over USB 3.
+Now that's the full.. That's what we've done with the USB 3. Full dominance over the chip. If you make it work over USB 3.
 
 ##### **Nimlgen** [[00:26:21](https://www.youtube.com/watch?v=_mJIF112c5k&t=1581)]
 Yeah. Yeah. Yeah. Cool. Okay.
@@ -412,28 +412,28 @@ Yeah. Yeah. Yeah. Cool. Okay.
 Next we have Viz. And the FastGem. For the Viz.
 
 ##### **Qazalin** [[00:26:36](https://www.youtube.com/watch?v=_mJIF112c5k&t=1596)]
-Viz has some quality of life improvements. There is a kernel scoreboard that you can see at the first graph. It's basically all the kernels in one place with all the counters. It's been really useful. I'm just... Mostly... Mostly... Spending time with hip kittens. And benchmarking those stuff against our code.
+Viz has some quality of life improvements. There is a kernel scoreboard that you can see at the first graph. It's basically all the kernels in one place with all the counters. It's been really useful. I'm just.. Mostly.. Mostly.. Spending time with hip kittens. And benchmarking those stuff against our code.
 
 ##### **Nimlgen** [[00:27:02](https://www.youtube.com/watch?v=_mJIF112c5k&t=1622)]
-And also, like, Viz right now starts fast. We're complaining about the LM.c speed that's fast now. Yeah. What did the gem work?
+And also, like, Viz right now starts fast. We're complaining about the LM.c speed that's fast now. Yeah. What did the GEMM work?
 
 ##### **Qazalin** [[00:27:19](https://www.youtube.com/watch?v=_mJIF112c5k&t=1639)]
-The gem... Isn't correct. Yeah.
+The GEMM.. Isn't correct. Yeah.
 
 ##### **Wozeparrot** [[00:27:24](https://www.youtube.com/watch?v=_mJIF112c5k&t=1644)]
-That's what I experienced. Because I've tried adding their gem into our repo too. And I could just not get it to get correct answers.
+That's what I experienced. Because I've tried adding their GEMM into our repo too. And I could just not get it to get correct answers.
 
 ##### **Geohot** [[00:27:34](https://www.youtube.com/watch?v=_mJIF112c5k&t=1654)]
 So, yeah. I mean, I tried it in their repo and it gave wrong answer. I had to comment out a few of their, like, their, like, work specialization stuff. And, like, eventually I got it to work. But I think that their thing is not correct. And it just happened to work with whatever version of the repo.
 
 ##### **Nimlgen** [[00:27:51](https://www.youtube.com/watch?v=_mJIF112c5k&t=1671)]
-I didn't have a copy of the version of the compiler that they had. Another interesting...
+I didn't have a copy of the version of the compiler that they had. Another interesting..
 
 ##### **Geohot** [[00:28:00](https://www.youtube.com/watch?v=_mJIF112c5k&t=1680)]
 So, you could also look at the Mojo kernel. The Mojo kernel gets about a pay-to-flop. And seems reliable.
 
 ##### **Nimlgen** [[00:28:08](https://www.youtube.com/watch?v=_mJIF112c5k&t=1688)]
-I'm not sure what they're doing. But... Sure. Yeah.
+I'm not sure what they're doing. But.. Sure. Yeah.
 
 ##### **Qazalin** [[00:28:17](https://www.youtube.com/watch?v=_mJIF112c5k&t=1697)]
 I think that that would be my approach. Like, find a fast kernel that I can read. Not in raw assembly, something I can read and then profile it.
@@ -466,10 +466,10 @@ What's hard to read?
 For me, the jumps are really hard to reason about. Like I had this problem with the emulator too. Like, okay, where did it jump? With SQTT, it's nicer. Because you can see the instrument. Instruction stream. But still.
 
 ##### **Nimlgen** [[00:29:56](https://www.youtube.com/watch?v=_mJIF112c5k&t=1796)]
-Yeah. You almost want a...
+Yeah. You almost want a..
 
 ##### **Geohot** [[00:29:59](https://www.youtube.com/watch?v=_mJIF112c5k&t=1799)]
-Like, you almost want a dialect somewhere between C and assembly. Where the loops look like C loops. And you can still do... So another thing that I found annoying in the assembly is it just puts all these instructions. That are just like sequentially adding the registers. Which could totally be a loop. But then not have... Like, still be a perfect... Like, assembly is a perfect one-to-one to machine code. Whereas C is not. It would be interesting to think about what, like, an intermediate dialect would look like. I don't know. If there's some way we could just kind of like... Or, have you ever seen, like, the... Have you ever seen, like, Aida?
+Like, you almost want a dialect somewhere between C and assembly. Where the loops look like C loops. And you can still do.. So another thing that I found annoying in the assembly is it just puts all these instructions. That are just like sequentially adding the registers. Which could totally be a loop. But then not have.. Like, still be a perfect.. Like, assembly is a perfect one-to-one to machine code. Whereas C is not. It would be interesting to think about what, like, an intermediate dialect would look like. I don't know. If there's some way we could just kind of like.. Or, have you ever seen, like, the.. Have you ever seen, like, Aida?
 
 ##### **Nimlgen** [[00:30:43](https://www.youtube.com/watch?v=_mJIF112c5k&t=1843)]
 You know, like, Aida the contemplator? No. No. Look it up.
@@ -481,13 +481,13 @@ We may want to do like that for the assembly. So do you know what a basic block 
 Sure, yeah.
 
 ##### **Geohot** [[00:31:02](https://www.youtube.com/watch?v=_mJIF112c5k&t=1862)]
-Yeah, I mean, it may be worth breaking... If you're finding the loops hard to read. I find this hard to read, too. Like, the way that objgum outputs the assembly with just having, like, L jump 12. Okay, that's 12.
+Yeah, I mean, it may be worth breaking.. If you're finding the loops hard to read. I find this hard to read, too. Like, the way that objgum outputs the assembly with just having, like, L jump 12. Okay, that's 12.
 
 ##### **Qazalin** [[00:31:12](https://www.youtube.com/watch?v=_mJIF112c5k&t=1872)]
 Where's 12? Where's 12?
 
 ##### **Geohot** [[00:31:14](https://www.youtube.com/watch?v=_mJIF112c5k&t=1874)]
-I'm looking for 12, right? So what you could do... And this is all a visualization thing. And I think it's worth doing. is you can break the code into basic blocks like IDOC.
+I'm looking for 12, right? So what you could do.. And this is all a visualization thing. And I think it's worth doing. is you can break the code into basic blocks like IDOC.
 
 ##### **Nimlgen** [[00:31:27](https://www.youtube.com/watch?v=_mJIF112c5k&t=1887)]
 Let me show you. If you search for IDOC, you'll see what it looks like.
@@ -601,13 +601,13 @@ No,
 No, I don't exactly follow this. It's making an iOctal? What is KFDIOC runtime-enabled now?
 
 ##### **B1tg** [[00:36:25](https://www.youtube.com/watch?v=_mJIF112c5k&t=2185)]
-This is taken from the KFDIOC code. Like if you create a tensor to do real... OpenTensor on GPU, this will be called. I just put here as a simple repo.
+This is taken from the KFDIOC code. Like if you create a tensor to do real.. OpenTensor on GPU, this will be called. I just put here as a simple repo.
 
 ##### **Nimlgen** [[00:36:54](https://www.youtube.com/watch?v=_mJIF112c5k&t=2214)]
 I mean, our code that's crashing clearly isn't doing that. What?
 
 ##### **Geohot** [[00:37:05](https://www.youtube.com/watch?v=_mJIF112c5k&t=2225)]
-I mean, our code that's crashing clearly isn't... I don't understand exactly how... If I run this, I'll get the MMU crash.
+I mean, our code that's crashing clearly isn't.. I don't understand exactly how.. If I run this, I'll get the MMU crash.
 
 ##### **Nimlgen** [[00:37:16](https://www.youtube.com/watch?v=_mJIF112c5k&t=2236)]
 Yes. I'm trying it now. And then what if I comment out the iOctal? It'll crash or not?
@@ -622,7 +622,7 @@ I'm trying it now.
 Yeah.
 
 ##### **Nimlgen** [[00:37:37](https://www.youtube.com/watch?v=_mJIF112c5k&t=2257)]
-You can see the... I can see the log in the T message. Yeah. I mean, I definitely see the crash in D method.
+You can see the.. I can see the log in the T message. Yeah. I mean, I definitely see the crash in D method.
 
 ##### **Geohot** [[00:38:08](https://www.youtube.com/watch?v=_mJIF112c5k&t=2288)]
 What happens if I comment out the iOctal?
@@ -640,34 +640,34 @@ Yeah.
 Okay.
 
 ##### **B1tg** [[00:38:45](https://www.youtube.com/watch?v=_mJIF112c5k&t=2325)]
-I don't know how the GPU multi-user works. So...
+I don't know how the GPU multi-user works. So..
 
 ##### **Geohot** [[00:38:52](https://www.youtube.com/watch?v=_mJIF112c5k&t=2332)]
 If I comment out the iOctal and I run this two times, is that gonna cause a problem?
 
 ##### **B1tg** [[00:39:00](https://www.youtube.com/watch?v=_mJIF112c5k&t=2340)]
-No. If you run the train on a multi-tpu and... Then in another terminal, you develop a tiny grad, run some test, it can trigger the bug.
+No. If you run the train on a multi-tpu and.. Then in another terminal, you develop a tiny grad, run some test, it can trigger the bug.
 
 ##### **Nimlgen** [[00:39:21](https://www.youtube.com/watch?v=_mJIF112c5k&t=2361)]
-It is okay on the... Which machine?
+It is okay on the.. Which machine?
 
 ##### **B1tg** [[00:39:31](https://www.youtube.com/watch?v=_mJIF112c5k&t=2371)]
 AMD 300. 300 is old.
 
 ##### **Geohot** [[00:39:36](https://www.youtube.com/watch?v=_mJIF112c5k&t=2376)]
-I'm reproducing this for you. It's right now on the 300. I commented out all of the... I commented out the iOctal, and I'm just running two copies of that.
+I'm reproducing this for you. It's right now on the 300. I commented out all of the.. I commented out the iOctal, and I'm just running two copies of that.
 
 ##### **Nimlgen** [[00:39:47](https://www.youtube.com/watch?v=_mJIF112c5k&t=2387)]
 And it's causing the fault.
 
 ##### **Geohot** [[00:39:54](https://www.youtube.com/watch?v=_mJIF112c5k&t=2394)]
-I took your MMU crash script, I commented out the iOctal, and I just ran it in two different Tmoxes, and I see the crash. Yeah. So... Yeah, Nimilden. Is this something we're doing? Is this something we're doing wrong? Or is this something that...
+I took your MMU crash script, I commented out the iOctal, and I just ran it in two different Tmoxes, and I see the crash. Yeah. So.. Yeah, Nimilden. Is this something we're doing? Is this something we're doing wrong? Or is this something that..
 
 ##### **Nimlgen** [[00:40:12](https://www.youtube.com/watch?v=_mJIF112c5k&t=2412)]
 Is broken in the AMD driver?
 
 ##### **B1tg** [[00:40:19](https://www.youtube.com/watch?v=_mJIF112c5k&t=2419)]
-The iOctal is basically what we do in the... When we open the AMD GPU, we have this code.
+The iOctal is basically what we do in the.. When we open the AMD GPU, we have this code.
 
 ##### **Geohot** [[00:40:32](https://www.youtube.com/watch?v=_mJIF112c5k&t=2432)]
 Oh, but yeah, exactly.
@@ -676,10 +676,10 @@ Oh, but yeah, exactly.
 Yes. Yes.
 
 ##### **Geohot** [[00:40:36](https://www.youtube.com/watch?v=_mJIF112c5k&t=2436)]
-What I'm saying is... I commented out the... Yeah, I commented out the iOctal, and I just ran normal TinyGrad in two processes, and I get the crash. Now it looks like I broke the whole computer. Yeah, I mean, and Nimilden, is there anything we're doing wrong?
+What I'm saying is.. I commented out the.. Yeah, I commented out the iOctal, and I just ran normal TinyGrad in two processes, and I get the crash. Now it looks like I broke the whole computer. Yeah, I mean, and Nimilden, is there anything we're doing wrong?
 
 ##### **Nimlgen** [[00:40:59](https://www.youtube.com/watch?v=_mJIF112c5k&t=2459)]
-Actually, I mean, no idea about that. I mean, I haven't reported it with, like, a lot of people. But it's weird. I've seen, like, two parallel pits, but... Actually, what I've seen before, it was pretty strange, and I think it's something related to the... Maybe... Something preemption or something like that, because it was non-deterministic in different kernels, and I know, I can look into that. That's definitely easy example to follow. But actually, for B1TG, have you tried this with heap?
+Actually, I mean, no idea about that. I mean, I haven't reported it with, like, a lot of people. But it's weird. I've seen, like, two parallel pits, but.. Actually, what I've seen before, it was pretty strange, and I think it's something related to the.. Maybe.. Something preemption or something like that, because it was non-deterministic in different kernels, and I know, I can look into that. That's definitely easy example to follow. But actually, for B1TG, have you tried this with heap?
 
 ##### **B1tg** [[00:41:36](https://www.youtube.com/watch?v=_mJIF112c5k&t=2496)]
 Oh, I didn't.
@@ -694,7 +694,7 @@ Previously, when I hit MMU fold, I tried it with hip, and hip was fine. I don't 
 Yeah, I mean, this could also just be a totally different issue. I don't know. I think the real strategy here is just use our driver. We'll just wait for our driver and really debug it if we can reproduce it there. And if we can't reproduce it there, AMD is multi. Anything stops just doesn't really seem to work. If it ever tries to do one of these CSWRs, I've never seen that actually work.
 
 ##### **Nimlgen** [[00:42:23](https://www.youtube.com/watch?v=_mJIF112c5k&t=2543)]
-Or it's so full of race conditions. Okay. So we will follow up on... this to make sure...
+Or it's so full of race conditions. Okay. So we will follow up on.. this to make sure..
 
 ##### **Chenyu** [[00:42:35](https://www.youtube.com/watch?v=_mJIF112c5k&t=2555)]
 I think everyone can reproduce this now.
@@ -712,10 +712,10 @@ So I don't know.
 Okay.
 
 ##### **Nimlgen** [[00:43:14](https://www.youtube.com/watch?v=_mJIF112c5k&t=2594)]
-So...
+So..
 
 ##### **B1tg** [[00:43:15](https://www.youtube.com/watch?v=_mJIF112c5k&t=2595)]
-And for the MP... FP8, I add some continuous before and after the linear. There's a step time reduced, like, cut behind. I think this is the regression we have before. I see the last time we submit the MLPath train, we have the speed like half.
+And for the MP.. FP8, I add some continuous before and after the linear. There's a step time reduced, like, cut behind. I think this is the regression we have before. I see the last time we submit the MLPath train, we have the speed like half.
 
 ##### **Chenyu** [[00:43:51](https://www.youtube.com/watch?v=_mJIF112c5k&t=2631)]
 I'm 85% sure it's Renderfy. Where did you add the contiguous? Maybe you can open the PR for that.
@@ -724,13 +724,13 @@ I'm 85% sure it's Renderfy. Where did you add the contiguous? Maybe you can open
 Okay.
 
 ##### **B1tg** [[00:44:02](https://www.youtube.com/watch?v=_mJIF112c5k&t=2642)]
-So, like, after linear, if we don't add the continuous, some ops fused and the kernel slow. Yeah, I think it's... It's a little bit of an issue.
+So, like, after linear, if we don't add the continuous, some ops fused and the kernel slow. Yeah, I think it's.. It's a little bit of an issue.
 
 ##### **Chenyu** [[00:44:19](https://www.youtube.com/watch?v=_mJIF112c5k&t=2659)]
 Yeah. It takes too much time or something like that.
 
 ##### **Geohot** [[00:44:23](https://www.youtube.com/watch?v=_mJIF112c5k&t=2663)]
-I know when you're doing the gate thing, the gate... This is like a known... I had to fix this in Apps.LLM, too. When you do a gate, it's multiple. It multiplies the .LU linear times the other linear, and it will fuse those two together. And you want to put a continuous there. Otherwise, the exogenous fuses no longer uses the tensor core.
+I know when you're doing the gate thing, the gate.. This is like a known.. I had to fix this in Apps.LLM, too. When you do a gate, it's multiple. It multiplies the.LU linear times the other linear, and it will fuse those two together. And you want to put a continuous there. Otherwise, the exogenous fuses no longer uses the tensor core.
 
 ##### **B1tg** [[00:44:45](https://www.youtube.com/watch?v=_mJIF112c5k&t=2685)]
 Yes, yes. It even uses the tensor core. It backheats it slower.
@@ -742,13 +742,13 @@ Yeah, no, there's one fusion, the gate fusion. When you're multiplying the outpu
 It's a code generation. It's a long term.
 
 ##### **B1tg** [[00:45:25](https://www.youtube.com/watch?v=_mJIF112c5k&t=2725)]
-Okay. And after this, I found the...
+Okay. And after this, I found the..
 
 ##### **Nimlgen** [[00:45:30](https://www.youtube.com/watch?v=_mJIF112c5k&t=2730)]
 Back to the code.
 
 ##### **B1tg** [[00:45:31](https://www.youtube.com/watch?v=_mJIF112c5k&t=2731)]
-I made the... I write the custom kernel to add the three mat mail in the linear or happened in the FP8. And now it's 10% fast and like a 7% memory. Then the half. That's a custom backward function not work with mouse.
+I made the.. I write the custom kernel to add the three mat mail in the linear or happened in the FP8. And now it's 10% fast and like a 7% memory. Then the half. That's a custom backward function not work with mouse.
 
 ##### **Nimlgen** [[00:46:07](https://www.youtube.com/watch?v=_mJIF112c5k&t=2767)]
 So I didn't try to with like a six or a GPU. Is this something we should support?
@@ -814,7 +814,7 @@ Yeah, I think it's good enough here that we can use FP8 for some of these memos.
 Okay.
 
 ##### **Nimlgen** [[00:50:37](https://www.youtube.com/watch?v=_mJIF112c5k&t=3037)]
-Yeah, I mean, 7% memory save is... Yeah. Looks pretty good. Okay. Thank you so much.
+Yeah, I mean, 7% memory save is.. Yeah. Looks pretty good. Okay. Thank you so much.
 
 ##### **Chenyu** [[00:50:52](https://www.youtube.com/watch?v=_mJIF112c5k&t=3052)]
 Next we have the C-type and image D-type stuff.
@@ -1024,7 +1024,7 @@ That makes sense. Yeah. I think that's it. So that's everything we have on the a
 It just had the log taken. Oh, no.
 
 ##### **Nimlgen** [[01:03:24](https://www.youtube.com/watch?v=_mJIF112c5k&t=3804)]
-Oh, now it's fixed? I just need to run that script next time? I mean, it looks like it was just a .
+Oh, now it's fixed? I just need to run that script next time? I mean, it looks like it was just a.
 
 ##### **Nimlgen** [[01:03:36](https://www.youtube.com/watch?v=_mJIF112c5k&t=3816)]
 Yeah. So there was a style pit. And we see this from time to time on the right as well. But on the right, we have a script to kill selling pits. And sometimes it helps. But I don't know. I mean, ideally, GitHub runner should just kill all the child pits. But it doesn't do that. I know.

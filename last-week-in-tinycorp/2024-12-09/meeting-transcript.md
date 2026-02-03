@@ -71,7 +71,7 @@ I don't know.
 **Geohot** [00:00:58]
 Yeah, I mean, it's not obvious.
 I don't have an obvious solution either.
-I think...
+I think..
 What we can try now is we can just ref count the tensors to know if a UOP is referenced by a tensor.
 And if a UOP is not referenced by a tensor, at the end of the schedule run, we should free all of the ones that have the buffers.
 The buffers of the UOP with ref count zero.
@@ -190,7 +190,7 @@ Okay.
 You work on optimization.
 I'll work on GC.
 I mean, the GC is all just poorly tested.
-Everything is just kind of like... So, I'll leave it at that.
+Everything is just kind of like.. So, I'll leave it at that.
 Also, the first thing I'm going to do this morning is get rid of compile tool as well.
 So, yeah, I agree that that thing that it was doing there is weird.
 But also, any small PRs that you can pull out and get merged would be great.
@@ -249,17 +249,17 @@ And indexing.
 
 **Geohot** [00:08:06]
 Yeah.
-We got to figure out why our LLAMA is slow later.
+We got to figure out why our LLaMA is slow later.
 
 **Chenyu** [00:08:10]
-We need to first... Measure it? is it really slower?
+We need to first.. Measure it? is it really slower?
 
 **Geohot** [00:08:16]
 I think it is.
 I don't think it slops either.
 
 **Chenyu** [00:08:23]
-Because our LLAMA 7B for the first 10 tokens is faster.
+Because our LLaMA 7B for the first 10 tokens is faster.
 But we never test things like 200 tokens or something.
 And that's noticeable slower once you start to use TinyChat.
 Yes.
@@ -278,7 +278,7 @@ Well, we'll get AM driver merged this week.
 
 **Chenyu** [00:08:52]
 Okay.
-I don't... Let's... Okay, Nimlgen can start with AM driver, then we can talk about merging that later.
+I don't.. Let's.. Okay, Nimlgen can start with AM driver, then we can talk about merging that later.
 Yeah.
 How's AM driver going?
 
@@ -297,10 +297,10 @@ You have to, yeah.
 It's not that much more.
 How many more lines is AMD?
 Like, if we were to rip out the thing that interfaces with the kernel driver.
-I'm not saying we're going to do it, but... 
+I'm not saying we're going to do it, but.. 
 
 **Nimlgen** [00:09:42]
-So, no, I mean, AMD is... So, currently it's, like, plus 100 lines, but that's actually... Like, the interface to communicate with GPU directly and interface with KPD, each of them is 100 lines.
+So, no, I mean, AMD is.. So, currently it's, like, plus 100 lines, but that's actually.. Like, the interface to communicate with GPU directly and interface with KPD, each of them is 100 lines.
 
 **Geohot** [00:10:05]
 Wait.
@@ -312,10 +312,10 @@ Yeah, yeah, yeah.
 
 **Geohot** [00:10:17]
 Yeah.
-I want to get the hardware interface stuff merged too, where we can abstract out... I don't want to abstract.
+I want to get the hardware interface stuff merged too, where we can abstract out.. I don't want to abstract.
 I don't want to test at the layer.
 I want to test at the syscall or memory layer more than I want to test at this abstraction layer.
-But by syscalls, I mean open-close kind of thing, not like...
+But by syscalls, I mean open-close kind of thing, not like..
 whatever function you've defined that's shared between the kernel driver and the direct driver.
 
 **Nimlgen** [00:10:51]
@@ -324,7 +324,7 @@ So we want to keep this, not to keep, just to bring this, like, file interface, 
 **Geohot** [00:11:06]
 I think so.
 Yeah, I think that's the right place to test.
-I mean, I'm open to, if you think something else, I'm open to, I'm not sure, but... 
+I mean, I'm open to, if you think something else, I'm open to, I'm not sure, but.. 
 
 **Nimlgen** [00:11:17]
 Yeah, okay.
@@ -354,7 +354,7 @@ Like, I would like whatever this hardware interface or file interface abstractio
 Like, I want all of the Linux, Mac, or Windows-specific stuff abstracted into a class.
 And then, like, I want the test to work on all of them.
 And then the Direct stuff.
-The biggest thing that I'm excited about about the Direct stuff is... So, Comma has a Snapdragon 845, and we want to plug an AMD GPU into that.
+The biggest thing that I'm excited about about the Direct stuff is.. So, Comma has a Snapdragon 845, and we want to plug an AMD GPU into that.
 We have a USB port.
 
 **Nimlgen** [00:13:03]
@@ -455,7 +455,7 @@ So it's supported anywhere except for the wgpu lib we are using currently.
 And there is a PR for it that's open for about seven months now.
 So I don't see it getting supported in the near future.
 So I think it's just easier to switch to this Dawn engine.
-And then...
+And then..
 The YOLOv8 be faster and also a stable diffusion will load faster and will be faster.
 We don't have to do the decompression stuff and things like that.
 Yeah.
@@ -471,12 +471,12 @@ as we do for other libs, like this autogen style I think will work.
 
 **Geohot** [00:18:41]
 I see.
-So we can use autogen basically on their webgpu.c.
+So we can use autogen basically on their WebGPU.c.
 
 **Wpmed** [00:18:44]
 Yeah.
 That's what I'm planning to do.
-I think it's ...
+I think it's..
 
 **Geohot** [00:18:52]
 This project's well-maintained, this Dawn project?
@@ -506,7 +506,7 @@ So, yeah.
 Cool.
 Yeah, I like that move.
 I think also, like, two goals for the WebGPU project.
-One is...
+One is..
 to minify the export code as much as possible.
 That export needs to be as seamless as possible.
 And then if anyone else in this channel is interested, who wants to deploy something to the web?
@@ -514,12 +514,12 @@ I think a victory is if you get other people to actually use this.
 
 **Wpmed** [00:20:12]
 Yeah.
-And then...
+And then..
 Yeah, I totally agree.
 So like my goal would be if we can show that, hey, you can export stable diffusion to really complex model in like 10 lines of code or something like that.
 I think that's really like a good selling point.
 And once we have that, we can link these examples in the readme and link the compile scripts and stuff.
-Yeah, so like...
+Yeah, so like..
 
 **Geohot** [00:20:42]
 Yeah, I mean, the more we could move out of extra, the more we can try to get upstreamed into main TinyGrad and make very clean and have an API that we're going to maintain for a long time, I think is important.
@@ -567,7 +567,7 @@ I think ONNX is doing fine, I'm just learning all the weird things while reviewi
 Oh, I add, I remove, I remove several exclude from the tests because now we support those.
 The bitwise stuff and I think another one is if you do a power on the integer that we should also support.
 I think it's doing fine.
-We definitely... 
+We definitely.. 
 
 **Geohot** [00:23:08]
 Wait, do we support POW on integers in Tinygrad?
@@ -590,10 +590,10 @@ POW should probably be an op.
 
 **Geohot** [00:23:22]
 I think POW should be an op and rewritten.
-Yeah, well, I mean, because like POW is the... There's like a math term for that.
+Yeah, well, I mean, because like POW is the.. There's like a math term for that.
 Like what ADD becomes MUL, it's like MUL becomes POW.
-Like operator...
-yeah but it's called like it's called like operator weakening when you go from like i don't know maybe this is just like MUL to SHIFT or something but either way it's like ADD is to MUL is MUL is to POW uh and then...
+Like operator..
+yeah but it's called like it's called like operator weakening when you go from like i don't know maybe this is just like MUL to SHIFT or something but either way it's like ADD is to MUL is MUL is to POW uh and then..
 
 **Chenyu** [00:23:50]
 yeah you see you see that in the const's folding we fold the prod into like one so. 
@@ -625,7 +625,7 @@ Proper int pow, not x2 log2.
 Yeah.
 Okay, and I don't know if you have anything to add for ONNX, but I think it's moving fine.
 It's starting to look a little bit complex for, maybe we can use more documents for like different modes for the pad and stuff like that.
-But... 
+But.. 
 
 **Geohot** [00:24:48]
 You mean, like documentation?
@@ -658,13 +658,13 @@ I didn't make a PR yet, because it's kind of modified the views, the pushing the
 And I didn't want to add a work to Qazalin right now.
 So once the lazy is merged, I may open the PR.
 The thing is that it not only pushes the shape, but also if the shape is the same, it permutes.
-Right now, it only...
+Right now, it only..
 which only reshapes the views.
 But in order to swizzle the TensorCores, we need to also permute the shape.
 So that's it.
 And once we can swizzle the store, we can follow the documentation for the swizzles.
 And I've been adding shapes for TensorFlow support for int8.
-unsigned int8 and also yes now that if you can switch to the store it's pretty easy to add like all the TensorCores because it's straightforward you no longer have to guess the pattern and I... 
+unsigned int8 and also yes now that if you can switch to the store it's pretty easy to add like all the TensorCores because it's straightforward you no longer have to guess the pattern and I.. 
 
 **Geohot** [00:27:01]
 Can you document this in a way I can understand that yeah
@@ -768,7 +768,7 @@ So that reordering used to be used in the linearizer, but it's not with the new 
 **Siedslykles** [00:32:06]
 Ah, okay.
 Because part of the problem was, like, I just wrote my own order, because when you're in an ad chain, like, multiplication by constant is special, because you want those to end up next to each other.
-But if I can change the order of... Like, I was trying to change the order of all the ops.
+But if I can change the order of.. Like, I was trying to change the order of all the ops.
 
 **Chenyu** [00:32:34]
 Yeah, so the bottom line is it's fine to change the orders as long as you have a good principle reasons to do so, and it doesn't cause regressions in other parts.

@@ -5,7 +5,7 @@
 **Time:** meeting #75, 9am Monday San Diego time
 - company update
 - TestGrad / scheduler
-- MLPerf Llama 405b, BERT grad accumulation, Llama 405b inference
+- MLPerf LLaMA 405b, BERT grad accumulation, LLaMA 405b inference
 - viz tooling
 - drivers
 - cloud, hash, tinyfs
@@ -22,7 +22,7 @@
 
 - **[Company Update](#geohot-000005)**: AMD contract discussions are complicated; uncertain if AMD is serious. If not finalized soon, might discontinue negotiations by next Monday.
 
-- **[Tiny Box Cases](#geohot-000420)**: Tiny box cases shipped via DHL and FedEx, some expected shortly. Additional shipment arriving July 5th by sea. Boxes will start shipping this week.
+- **[TinyBox Cases](#geohot-000420)**: TinyBox cases shipped via DHL and FedEx, some expected shortly. Additional shipment arriving July 5th by sea. Boxes will start shipping this week.
 
 - **[Red Box Sales](#geohot-000620)**: Two red boxes sold likely to a government-related buyer, only two remaining. Green V2 has more than double the flops of Red.
 
@@ -32,7 +32,7 @@
 
 - **[BERT Gradient Accumulation](#chenyu-001753)**: Adding gradient accumulation to BERT and investigating 3x memory usage issue; aiming to test and submit multi-machine training for next MLPerf run.
 
-- **[Llama 405B Inference](#chenyu-001933)**: Plans to run inference tests on AMD MI300X; downloading weights in progress.
+- **[LLaMA 405B Inference](#chenyu-001933)**: Plans to run inference tests on AMD MI300X; downloading weights in progress.
 
 - **[Visualization Tooling](#qazalin-002018)**: Perfetto replacement nearly ready for merge, significantly faster and simpler. Still reviewing necessary features to ensure parity.
 
@@ -70,10 +70,10 @@ Okay.
 ##### **Geohot** [[00:00:28](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=28)]
 Yeah, I mean, I don't know.
 We'll see if that happens.
-But yeah, I don't think we should spend too much time thinking about... The contract would be for 405B Llama on AMD's new hardware.
+But yeah, I don't think we should spend too much time thinking about.. The contract would be for 405B LLaMA on AMD's new hardware.
 You know, if they come through with it.
-But it's just so... It's so like... You don't know anything about what's true.
-They don't show you any of their... Now it's in legal review.
+But it's just so.. It's so like.. You don't know anything about what's true.
+They don't show you any of their.. Now it's in legal review.
 
 ##### **Geohot & Chenyu** [[00:00:53](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=53)]
 Like, what?
@@ -86,7 +86,7 @@ Geohot: Why?
 We're not getting anything.
 
 ##### **Geohot** [[00:01:13](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=73)]
-Something I'm really concerned about in general is you never want to... You see so many people... This is how I feel about using React and Kubernetes.
+Something I'm really concerned about in general is you never want to.. You see so many people.. This is how I feel about using React and Kubernetes.
 If you use these things, you become Meta or Google.
 The app's a [Trojan horse](https://en.wikipedia.org/wiki/Trojan_Horse).
 And this sort of mentality is a Trojan horse too.
@@ -99,7 +99,7 @@ And then you just become this.
 I think having a lawyer looking over your contract makes sense.
 
 ##### **Geohot & Chenyu** [[00:01:50](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=110)]
-Yeah, sure, but like...
+Yeah, sure, but like..
 Oh, you know, I'd say legally, I don't know.
 I don't know.
 So I'm lowering to a 50% chance this contract goes through.
@@ -117,14 +117,14 @@ Okay, anyway, we should we should get we should see if this is happening anyway 
 Again, I'm this close to saying, no, when you guys are serious, come back and, you know.
 
 ##### **Geohot** [[00:02:31](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=151)]
-Yeah, but that's... I don't know.
+Yeah, but that's.. I don't know.
 
 ##### **Geohot & Chenyu** [[00:02:36](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=156)]
 Like, actually, when you're serious, come back to me with something.
 When you're serious, here's my wiring info.
 Wire me the money.
 Chenyu: Yeah.
-Geohot: No, it's just like, you don't want to start... We don't need the money.
+Geohot: No, it's just like, you don't want to start.. We don't need the money.
 You don't want to start letting this behavior into your company.
 Chenyu:I mean, it's not like we are doing legal review.
 I understand.
@@ -167,10 +167,10 @@ No, I'm going to say, if this isn't signed, if the money's not in our bank accou
 ##### **Chenyu** [[00:04:03](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=243)]
 Okay.
 Yeah.
-Did we get tiny box cases?
+Did we get TinyBox cases?
 
 ##### **Geohot** [[00:04:10](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=250)]
-No, we didn't get the tiny box cases yet either.
+No, we didn't get the TinyBox cases yet either.
 
 ##### **Chenyu** [[00:04:16](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=256)]
 I heard it's in the mail.
@@ -240,10 +240,10 @@ Only two left, yeah, and then that's it.
 ##### **Chenyu & Geohot** [[00:07:28](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=448)]
 I just realized Green V2 has exactly double the flops than Red.
 Geohot: It's exactly double?
-Chenyu: That's what we... No, more than double, I guess.
+Chenyu: That's what we.. No, more than double, I guess.
 
 ##### **Geohot & Chenyu** [[00:07:40](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=460)]
-Yeah, I mean, the Green V2, like, originally I had a smaller number for the flops because I was going off of NVIDIA's datasheet, but NVIDIA's datasheet is just... It's just funny that... Like, I've never seen a company underpublish what the card is capable of so much.
+Yeah, I mean, the Green V2, like, originally I had a smaller number for the flops because I was going off of NVIDIA's datasheet, but NVIDIA's datasheet is just.. It's just funny that.. Like, I've never seen a company underpublish what the card is capable of so much.
 The 4090 too is actually what it tests at.
 Chenyu: Uh-huh.
 Geohot: I don't know if it's like boost clocks or what it is.
@@ -331,7 +331,7 @@ So everything can be in one kernel, presumably, but then for different reasons, 
 Yeah.
 
 ##### **Geohot** [[00:13:51](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=831)]
-There's a distinction between a global... So we still have the GBarrier instruction.
+There's a distinction between a global.. So we still have the GBarrier instruction.
 The GBarrier UOP is the same as the barrier UOP, except it applies on a global level.
 So for the GPU, GBarrier means a new kernel.
 For the CPU, all it means is close all the loops.
@@ -352,7 +352,7 @@ Right now it still has the same logic, but I can write whatever as the logic.
 There's advantages to kernel splitting because of deduping.
 So right now the deduping still occurs at the kernel level, and it might always occur there.
 Yeah, if you're calling the same layer, right?
-Because imagine rendering a transformer, it's going to render literally every layer as separate code instead of calling into the same thing, so...
+Because imagine rendering a transformer, it's going to render literally every layer as separate code instead of calling into the same thing, so..
 There's advantages to this hierarchical structure, but really what you want to do is you want to put a range UOP in the overgraph to deal with the layers.
 
 ##### **Geohot** [[00:15:14](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=914)]
@@ -403,7 +403,7 @@ Sounds good.
 
 ##### **Chenyu** [[00:17:53](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1073)]
 Okay, let's move on.
-We may or may not have Llama-405B.
+We may or may not have LLaMA-405B.
 Something I already tried before was to add grad accumulation to BERT.
 I think we are interested in making sure this works anyway.
 I plan to add that to BERT and to test that, which means something about BERT needs to be fixed.
@@ -415,7 +415,7 @@ Or at least to understand what's causing that and see if it's effective.
 ##### **Geohot & Chenyu** [[00:18:34](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1114)]
 We definitely have to fix BERT.
 I mean, it's just a question.
-Look, if we don't get the AMD contract... 
+Look, if we don't get the AMD contract.. 
 Chenyu: We are still going to work on BERT and submit BERT next run anyway.
 Geohot: Absolutely.
 And what I'd really like to submit for BERT next run is training on multiple machines.
@@ -441,7 +441,7 @@ Chenyu: I don't know.
 We'll see if that goes through.
 
 ##### **Chenyu** [[00:19:33](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1173)]
-On a separate note, I want to see if we can run Llama 405B inference.
+On a separate note, I want to see if we can run LLaMA 405B inference.
 So I think Wozeparrot was helping me download the weight on MI300X machine.
 I was hoping, I don't know if the memory bug is there, but it should be fairly easy for us to like split into eight GPUs and just run a few tokens.
 
@@ -455,7 +455,7 @@ It's in a good spot.
 I tested on a full BERT run and it was pretty responsive.
 I'm thinking we can merge it.
 It's a little more lines than the UOPs viz is because I'm not using any libraries and stuff.
-It's just literally... 
+It's just literally.. 
 
 ##### **Geohot** [[00:20:41](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=1241)]
 So, I mean, to ask the question if we can merge it, right?
@@ -751,7 +751,7 @@ I think the question mark is green, though I do see some crashes sometimes.
 I see some seg faults in ONNX, and I don't know why.
 
 ##### **Chenyu & Geohot** [[00:35:21](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2121)]
-I also see that ONNX Runner... I think sometimes maybe out of memory or something.
+I also see that ONNX Runner.. I think sometimes maybe out of memory or something.
 Geohot: I see this PR that says ONNX Runner file as an input.
 Do we still need this?Need true spec parsing.
 
@@ -790,8 +790,7 @@ Hi.
 Hello.
 Yes, I've been mostly working on, still, the masking problem for shared buffers.
 I kind of identified three different issues.
-One, for example, being when you want to promote something to shared memory, you want to keep the access ..
-Broadcast it.
+One, for example, being when you want to promote something to shared memory, you want to keep the access. Broadcast it.
 You don't want to expand it and to share the repeated elements.
 So that right now is only hinted in shared_permute.
 But in process_acc, there is a test in process_acc.
@@ -808,7 +807,7 @@ It shouldn't change much.
 I mean, sure, the actual implementation will change, but the tests won't.
 Whatever logic you put in there, if the logic is good, I'll just copy and paste the logic into TestGrad.
 It's the same thing with TensorCores.
-Like, TensorCores and Locals will not be in... So right now we have this function called getModifiedAST, which is basically like a hacky form of a graph rewrite.
+Like, TensorCores and Locals will not be in.. So right now we have this function called getModifiedAST, which is basically like a hacky form of a graph rewrite.
 Um, what I'm going to do for TestGrad is just move everything that's in getModifiedAST into rewrite rules.
 But like, it's not like the logic will change.
 So like getting locals working in, in Tinygrad does not have to wait for TestGrad.
@@ -867,19 +866,19 @@ We'd need a way to say that, yeah, the search hits just as well, and it searches
 Just saying they're equivalent, therefore we should only do it one way,
 Yeah.
 I mean, you can't assume that you have a perfect search algorithm.
-Yeah, but we .
+Yeah, but we.
 Chneyu: I think it's more.
 So we had been doing this for a while.
 
 ##### **Chenyu** [[00:43:50](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2630)]
 If you can show that it's not off by too much and it indeed reduced the search space, I think that's more preferred.
-Yeah, I mean... It's not like we're on the line of, like, we have a frontier of search thing that we want to maintain.
-As long as the memo looks fine, the batch size one transformer looks fine, like... 
+Yeah, I mean.. It's not like we're on the line of, like, we have a frontier of search thing that we want to maintain.
+As long as the memo looks fine, the batch size one transformer looks fine, like.. 
 
 ##### **Geohot** [[00:44:20](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2660)]
 Yeah, yeah, yeah.
 That's what I mean by a test suite, right?
-Like, we should just make sure that we're doing fine on...
+Like, we should just make sure that we're doing fine on..
 On all of those.
 But yeah, no, I would think that what you actually most of the time want to do is you want to like you have a global dim, you first want to local it and then you want to upcast again on top of that.
 Because the best way to memory coalesce is across the locals.
@@ -984,7 +983,7 @@ Fancat, you're added as a speaker if you have to exit and reenter the voice chat
 You don't have to talk, it's totally up to you.
 
 ##### **Wozeparrot & Geohot** [[00:49:53](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=2993)]
-SGLang is...Quite different.
+SGLang is..Quite different.
 Their prompt is different, but it seems they're prompting for a reasoning model.
 It seems a little unclear.
 Geohot: Oh, I tried to use Ollama this weekend for a project I'm working on.
@@ -1007,12 +1006,12 @@ What is this doing?
 How many tokens is my file?
 How come it doesn't tell me this?
 Like, yeah.
-So I think there's actually...
+So I think there's actually..
 Wozeparrot: Ollama is pretty bad.
-If you use just base llama.cpp, it's better.
+If you use just base LLaMA.cpp, it's better.
 It's just more annoying to work with.
-Base llama.cpp?
-Yeah, because Ollama is just llama.cpp.
+Base LLaMA.cpp?
+Yeah, because Ollama is just LLaMA.cpp.
 Oh, I didn't realize that.
 It's the same thing.
 
@@ -1030,7 +1029,7 @@ But it's called DeepSeek-Coder.
 Geohot: What do you mean the 8B?
 It fetches the 8B version.
 Oh, the 8 billion weights?
-Distilled into like... Yeah, yeah, yeah, yeah.
+Distilled into like.. Yeah, yeah, yeah, yeah.
 Yeah.
 I don't know.
 I think that we can do a lot better with this and we could become, if someone wants to put effort into this, the default way.
@@ -1119,7 +1118,7 @@ Yeah, okay, great.
 I'll just remove it.
 Wozeparrot: CPUGraph breaks some stuff.
 Geohot: There's a special rule in remote for CPUGraph.
-It's just not... It doesn't look like the other graphs.
+It's just not.. It doesn't look like the other graphs.
 WozeparrotL There's an open issue right now.
 A lot of stuff, when you try to run it on CPU, without J=2, it just doesn't work.
 Geohot: Oh, great.
@@ -1145,7 +1144,7 @@ It'd be a threading dispatcher, right?
 It's not like multi-GPUs, because the CPU does have a unified memory space.
 But it would be the same way the GPU, when you have a G dimension, how it dispatches them to all the compute units on the GPU.
 Well, we can write basically that on a CPU, and that will also be the answer to CPUGraph.
-We have to basically write a PM4 parser for CPU, or determine whatever...
+We have to basically write a PM4 parser for CPU, or determine whatever..
 That's the thing we want to use.
 And then we have a CPU command queue.
 And then the CPU command queue is parsed by something that's running on every thread.
@@ -1193,7 +1192,7 @@ Yeah, that's what I mean.
 Geohot: That's actually super nice with the *.
 Okay.
 Yeah, I like it.
-I mean, how else are you going to say that there's... Yeah.
+I mean, how else are you going to say that there's.. Yeah.
 
 ##### **Wozeparrot** [[00:58:03](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3483)]
 Right?
@@ -1208,7 +1207,7 @@ It's like you don't actually have to specify how many devices are on it.
 You just specify the hosts.
 
 ##### **Wozeparrot & Geohot** [[00:58:13](https://www.youtube.com/watch?v=MXDfAfrJmrQ&t=3493)]
-Like, no, I don't see any other multi-framework that... 
+Like, no, I don't see any other multi-framework that.. 
 Geohot: Well, no, but I actually do kind of like that, because you could say, like, I want to put on four GPUs there and four GPUs there.
 Yeah, I like this better.
 I like it better, specifying on the client.

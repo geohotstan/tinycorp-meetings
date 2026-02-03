@@ -19,10 +19,10 @@
 
 ### Highlights
 
-- **[Company Updates](#geohot-000009)**: Tinybox "green" units are selling as fast as they can be built (four sold last week). The company is working on the AMD contract and needs to establish clear timelines and deliverables.
+- **[Company Updates](#geohot-000009)**: TinyBox "green" units are selling as fast as they can be built (four sold last week). The company is working on the AMD contract and needs to establish clear timelines and deliverables.
 - **[Compiler/GEMM Optimizations](#geohot-000157)**: `define_reg` has been unified with `define_local` and `define_global`, simplifying UOPs. Work is progressing on generating advanced GEMM kernels ("kernel 3") for AMD GPUs, with a long-term goal of unifying the scheduler and optimizer to support techniques like double buffering and "mega-kernels".
 - **[UOP Refactoring (Expand/Reduce)](#geohot-000952)**: Geohot proposed refactoring the `expand` UOP to be a proper inverse of `reduce` by adding new dimensions with stride zero at the end. This change aims to simplify the graph representation and eliminate dimensions of size one.
-- **[MLPerf Llama](#wozeparrot-001851)**: A data loader for the validation set is ready, but the NVIDIA Nemo reference implementation is complex and difficult to follow. The team will need to reverse-engineer its data processing behavior to ensure a compliant submission.
+- **[MLPerf LLaMA](#wozeparrot-001851)**: A data loader for the validation set is ready, but the NVIDIA Nemo reference implementation is complex and difficult to follow. The team will need to reverse-engineer its data processing behavior to ensure a compliant submission.
 - **[Viz Tool](#qazalin-002226)**: A new disassembly view has been merged. Work is underway to add RDNA3 instruction timings. Metal performance counter support is available in a branch but has an undesirable dependency on a full Xcode installation. The primary focus is on robust AMD profiling tools.
 - **[AMD Drivers & HCQ](#nimlgen-003411)**: CPU-to-GPU copies are now faster by being integrated into the HCQ graph using pinned memory. Fixing beam search issues on the MI350 is a high priority, and there are plans to add these machines to the CI pipeline for driver testing.
 - **[Disk I/O Performance](#geohot-004141)**: Benchmarking shows disk-to-GPU copy speeds are around 9.8 GB/s. This is below the hardware's potential, likely due to single-threaded limitations; achieving full speed will require a multi-threaded approach.
@@ -32,7 +32,7 @@
 
 ### Transcript
 ##### **Chenyu** [[00:00:00](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=0)]
-Okay, can we get started? Sounds good. Let's start with company updates. I see a bunch of folders for Tinybox.
+Okay, can we get started? Sounds good. Let's start with company updates. I see a bunch of folders for TinyBox.
 
 ##### **Geohot** [[00:00:09](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=9)]
 Yeah, the green boxes are really moving. We sold four last week. We have three outstanding orders right now that we're just waiting on wires for. So yeah, they're moving as fast as we can build them right now. We're working on expanding build capacity. We have all the cases built. They're all sitting there. We got like 40 cases sitting there that we just need to put the stuff in. But, you know, it's shared resources with commas production. But yeah, we're definitely keeping up with orders. And I'd like to get ahead to the point that we send the mailing list. But if we're selling, if we're selling for a week, we're making so much money.
@@ -95,7 +95,7 @@ It's not that many. Yeah, there's the primitives. And then there's this whole co
 And then you're left with registers. And that's it. Yeah. So progress.
 
 ##### **Geohot** [[00:09:22](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=562)]
-I don't know. I mean, I think that this is my main contribution. This is going to be my main contribution. To the AMD contract, which is going to be I'm going to make the flash attention kernel and the gem faster than anything else on that on that card.
+I don't know. I mean, I think that this is my main contribution. This is going to be my main contribution. To the AMD contract, which is going to be I'm going to make the flash attention kernel and the GEMM faster than anything else on that on that card.
 
 ##### **Geohot** [[00:09:40](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=580)]
 Right.
@@ -149,10 +149,10 @@ You think refactoring?
 Yeah. So might be making up to a new problem if this is fit. So sayiltan? Sophie like do you want.
 
 ##### **Chenyu** [[00:13:57](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=837)]
-Maybe not use the到 아니야, Elina. illustration? All right. I'm just, this is obviously going to be a spoil test. Yeah, sure. Yeah, sure. That's how this should look. We also want the diamond shelf here for reference science. So, they've probably also been built on comment our growing masculine streak in only
+Maybe not use the, Elina. illustration? All right. I'm just, this is obviously going to be a spoil test. Yeah, sure. Yeah, sure. That's how this should look. We also want the diamond shelf here for reference science. So, they've probably also been built on comment our growing masculine streak in only
 
 ##### **Geohot** [[00:14:10](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=850)]
-have виw misery. Oh my god. So good Growth Tolerance. dimensions are compact. Because we have all the normal dimensions followed by all the reduced dimensions, instead of having a special get contraction with reduce, we could just have basically two get contractions.
+have w misery. Oh my god. So good Growth Tolerance. dimensions are compact. Because we have all the normal dimensions followed by all the reduced dimensions, instead of having a special get contraction with reduce, we could just have basically two get contractions.
 
 ##### **Geohot** [[00:14:33](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=873)]
 Yeah.
@@ -218,7 +218,7 @@ I don't do that. And there's also a problem.
 Like, yeah, we have our function to invert it. But I don't know. I think that those transformations are like NP. And you can do them, but yeah. Yeah. OK.
 
 ##### **Chenyu** [[00:18:41](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1121)]
-Anyway. Cool. OK, sounds good. Lama. I don't know. What do you have? Any update?
+Anyway. Cool. OK, sounds good. LLaMA. I don't know. What do you have? Any update?
 
 ##### **Wozeparrot** [[00:18:51](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1131)]
 I have a bin IDX loader, so we can load those.
@@ -329,7 +329,7 @@ I'm sorry. There's absolutely no way. They don't ship the binary as a standalone
 Do I really need this binary? What's it doing?
 
 ##### **Qazalin** [[00:23:11](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1391)]
-It's recording GPU counters, I guess. AMD documents this stuff and open source system, but metal is... Yeah.
+It's recording GPU counters, I guess. AMD documents this stuff and open source system, but metal is.. Yeah.
 
 ##### **Geohot** [[00:23:21](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1401)]
 For AMD, I mean, we're just setting the registers to do the sqgt logging, but yeah, we should figure out what this is and avoid Xcode.
@@ -356,7 +356,7 @@ Got it.
 Yeah. Yeah.
 
 ##### **Geohot** [[00:23:51](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1431)]
-Yeah. Oh, it's on your...
+Yeah. Oh, it's on your..
 
 ##### **Qazalin** [[00:23:53](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1433)]
 You can fetch this hash. It will go there.
@@ -389,7 +389,7 @@ Profile equals two.
 Oh, profile equals two. Oh, I see. All right. There we go.
 
 ##### **Geohot** [[00:24:24](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1464)]
-I paste it. And then I say forget it and unkk. It's called...
+I paste it. And then I say forget it and unkk. It's called..
 
 ##### **Geohot** [[00:24:29](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1469)]
 All right.
@@ -416,7 +416,7 @@ no you really want to do it just make that directory that templates directory an
 all right all right so I make this directory it's do I need sudo to make that directory and I didn't look like it all right all right profile equals to viz I'd start recording with the okay okay parsing time info parsing GPU counter info parsing GPU counter value okay took a while but whoa all right we got some stuff
 
 ##### **Geohot** [[00:26:17](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1577)]
-this is box tiny when I click on it OMG I can't figure out what happens when I click on this kernel when I click on this I check the送 run I did I'm only at 1%,
+this is box tiny when I click on it OMG I can't figure out what happens when I click on this kernel when I click on this I check the run I did I'm only at 1%,
 
 ##### **Qazalin** [[00:26:44](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1604)]
 yes, I got it I'm done I see that right now I can finally let it run my because I have aält camera you can see the you can actually set up AOL tables you can test it if you need to.
@@ -443,7 +443,7 @@ Yeah, I'll post a screenshot. Yeah, okay, cool. I don't know, maybe we shouldn't
 I think I'm gonna do that on the fly. Like, the way I generate the disassembly on the fly, it just makes me keep the kernels and sample it.
 
 ##### **Geohot** [[00:27:54](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1674)]
-Yeah, I mean, it would just be it would just be great, it would make the workflow so much better if we could just, you know, we're gonna be probably in about a week or two, I'm going to be ready to start really just optimizing the gem. And to see where all the all the hotspots are. are we great.
+Yeah, I mean, it would just be it would just be great, it would make the workflow so much better if we could just, you know, we're gonna be probably in about a week or two, I'm going to be ready to start really just optimizing the GEMM. And to see where all the all the hotspots are. are we great.
 
 ##### **Qazalin** [[00:28:15](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1695)]
 Right, yeah. So pretty.
@@ -473,7 +473,7 @@ Oh, like rerunning the kernel. Oh, interesting.
 Yeah. So you just want instruction level type, right? You don't want full GPU state. Yeah, I guess. You want the entire state.
 
 ##### **Geohot** [[00:30:28](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1828)]
-Yeah, I mean, the only problem with that is, if you recreate the buffers, everything's not going to be in the same L2 position. Right? Like, you don't know which buffers are going to be hot in your L2. Because if you got a VostegRO Л Salut cémmm Either way, I think there's a lot to do here. Getting to the point where we can view, just the infrastructure that view an annotated disassembly. Oh, well, yeah. OK, yeah. I think there's probably some light weight stuff we can get. Anything we can get that's light weight should work that way. could be invisible one, like, yeah, if we can just read performance counters. But if we need actual tracing, that's probably going to have to be behind the flag.
+Yeah, I mean, the only problem with that is, if you recreate the buffers, everything's not going to be in the same L2 position. Right? Like, you don't know which buffers are going to be hot in your L2. Because if you got a VostegRO Salut cémmm Either way, I think there's a lot to do here. Getting to the point where we can view, just the infrastructure that view an annotated disassembly. Oh, well, yeah. OK, yeah. I think there's probably some light weight stuff we can get. Anything we can get that's light weight should work that way. could be invisible one, like, yeah, if we can just read performance counters. But if we need actual tracing, that's probably going to have to be behind the flag.
 
 ##### **Qazalin** [[00:31:27](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=1887)]
 The instruction level tracing is pretty heavy. Yeah. Yeah, cool. I can merge metal. I've merged all the general stuff to master already. The diff is just standalone.
@@ -611,10 +611,10 @@ Yeah, there's some thread about that. I don't know if this will get pulled out, 
 So yeah, I want to be able to load that in like 10 seconds. And then I'm going to have to do a little bit of testing. Actually, yeah, how are we doing right now?
 
 ##### **Geohot** [[00:41:41](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2501)]
-What's our copy speed from the rate array on a tiny box?
+What's our copy speed from the rate array on a TinyBox?
 
 ##### **Geohot** [[00:41:49](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2509)]
-To the GPU? On the tiny box, I think it's about like 10 gigs a second.
+To the GPU? On the TinyBox, I think it's about like 10 gigs a second.
 
 ##### **Nimlgen** [[00:42:00](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2520)]
 Why isn't it 20? Yeah, I mean, for the disk, we're still limited. But the disk is still limited. So we're going to have to do it on the CPU. Oh.
@@ -626,7 +626,7 @@ What do you mean by the CPU?
 Basically, because we do two copies, we just. But actually, no, I need to check that. Maybe it's better now. But yeah, actually, because if we go through the system memory, it's still. No, we don't do any mem copies on CPU, but yeah.
 
 ##### **Geohot** [[00:42:35](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2555)]
-Yeah. All right. So I'm running. I'm on tiny R9, and I'm running Python 3 examples, Lama 3.
+Yeah. All right. So I'm running. I'm on tiny R9, and I'm running Python 3 examples, LLaMA 3.
 
 ##### **Geohot** [[00:42:46](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2566)]
 Let's see what our time is.
@@ -653,19 +653,19 @@ What's a good way to measure the speed, then? I mean, but that's the one we real
 Yeah, I think some of it is that we're realizing them individually.
 
 ##### **Geohot** [[00:44:03](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2643)]
-My . . . Yeah. I think that's a good way to measure the speed. I think it's a little better.
+My.. Yeah. I think that's a good way to measure the speed. I think it's a little better.
 
 ##### **Wozeparrot** [[00:44:12](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2652)]
 That's going to take forever.
 
 ##### **Geohot** [[00:44:15](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2655)]
-But yeah, no, we should make that fast, make the whole Lama 3 thing fast. There's a flag to the loader to not have things realized individually if you're saying that that's what's slow.
+But yeah, no, we should make that fast, make the whole LLaMA 3 thing fast. There's a flag to the loader to not have things realized individually if you're saying that that's what's slow.
 
 ##### **Geohot** [[00:44:30](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2670)]
 OK, OK, I see.
 
 ##### **Nimlgen** [[00:44:31](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2671)]
-We have, actually, external benchmark . I should . . .
+We have, actually, external benchmark. I should..
 
 ##### **Chenyu** [[00:44:36](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2676)]
 I'm not sure if there was speech.
@@ -674,7 +674,7 @@ I'm not sure if there was speech.
 What was this one with some permuted stuff? Which community stuff?
 
 ##### **Chenyu** [[00:44:49](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2689)]
-I think. I don't know if it's this example, but some Lama code, some Lama model has permuted answer on the disk.
+I think. I don't know if it's this example, but some LLaMA code, some LLaMA model has permuted answer on the disk.
 
 ##### **Geohot** [[00:44:56](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2696)]
 So it's calling, like, permute as part of a loading process.
@@ -695,10 +695,10 @@ I first got a segfault. And then I got a copy at 0.5 gigabytes per second. And t
 Yeah, I know. Do you have any idea why these are so slow?
 
 ##### **Nimlgen** [[00:46:01](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2761)]
-Yeah, because CPU doesn't . . . I mean, just copy to GPU. Like, CPU doesn't support that. I mean, CPU doesn't support fast copies from disk.
+Yeah, because CPU doesn't.. I mean, just copy to GPU. Like, CPU doesn't support that. I mean, CPU doesn't support fast copies from disk.
 
 ##### **Geohot** [[00:46:11](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2771)]
-Why is it not . . . oh, I see. Why is it not copying to GPU? Oh, failed to take . . . oh, is someone on this machine?
+Why is it not.. oh, I see. Why is it not copying to GPU? Oh, failed to take.. oh, is someone on this machine?
 
 ##### **Geohot** [[00:46:23](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2783)]
 No. Oh, I see. This process has a lock. Somebody.
@@ -722,22 +722,22 @@ Yeah, I find that it's actually very hard to saturate this without multiple thre
 Without multiple threads copying.
 
 ##### **Wozeparrot** [[00:47:37](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2857)]
-Yeah. Like, on this array, I had to use 16 to actually get . . .
+Yeah. Like, on this array, I had to use 16 to actually get..
 
 ##### **Geohot** [[00:47:44](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2864)]
-Oh, you had to use 16 threads to get the full . . . OK, cool.
+Oh, you had to use 16 threads to get the full.. OK, cool.
 
 ##### **Geohot** [[00:47:47](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2867)]
 So we're going to have to support multi-threaded. I mean, so this is going through system RAM still? Yeah. There's no way to tell the disk, the DMA to the GPU? I mean, with IORink, I don't think so.
 
 ##### **Nimlgen** [[00:48:12](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2892)]
-Or maybe . . . I know. Maybe we can use this DMA . . . Yeah, I think we can use the buffer thing, but not for AM for now, at least. Not for AM.
+Or maybe.. I know. Maybe we can use this DMA.. Yeah, I think we can use the buffer thing, but not for AM for now, at least. Not for AM.
 
 ##### **Geohot** [[00:48:22](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2902)]
 Yeah, no, we talked about this. We'll have to write our own NVMe driver if we want to do that.
 
 ##### **Geohot** [[00:48:28](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2908)]
-But . . . OK, cool.
+But.. OK, cool.
 
 ##### **Geohot** [[00:48:34](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2914)]
 I mean, at least, like, yeah, 9 point something is not terrible. Yeah, well, that one was 12, but that's good some RAM.
@@ -758,7 +758,7 @@ Let's move on to cloud and hash. Oh, I did a bunch of hash filling up and stuff 
 I think what's happening is you cannot have an internal representation that grows in the size of your data. That simply won't work.
 
 ##### **Chenyu** [[00:49:27](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2967)]
-You could argue that one MB is a const, but it's too big of a const for our UOP and device rewrite. So for now, FDC runs, and its value is correct compared to the . . . That's good.
+You could argue that one MB is a const, but it's too big of a const for our UOP and device rewrite. So for now, FDC runs, and its value is correct compared to the.. That's good.
 
 ##### **Geohot** [[00:49:54](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=2994)]
 You have thoughts on.
@@ -767,13 +767,13 @@ You have thoughts on.
 I mean, I merged the InfiniBand P2P one. That's fine. I was messaging you, Vien, and he said that something regressed. Or it might be slower. At least for beautiful MNIST, but that's pretty small. The overhead is, like, 3x. It's a little bit more than 3x, but it's not that bad.
 
 ##### **Geohot** [[00:50:15](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3015)]
-It's not that bad. It's . . . I see. I mean, we should just test this and pay out the bounty if it's good. Yeah. Yeah. I mean, if we're training on . . .
+It's not that bad. It's.. I see. I mean, we should just test this and pay out the bounty if it's good. Yeah. Yeah. I mean, if we're training on..
 
 ##### **Wozeparrot** [[00:50:28](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3028)]
 I'll start a run today, and then if it's good.
 
 ##### **Geohot** [[00:50:32](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3032)]
-Cool. Yeah, sounds good. I mean, we should also . . . on next MLPerf, I want to get a . . . I mean, I think our real goal for next MLPerf is going to be if we can get a 405B on a single machine, and we can get a multi-machine anything else. Okay. That's pretty good.
+Cool. Yeah, sounds good. I mean, we should also.. on next MLPerf, I want to get a.. I mean, I think our real goal for next MLPerf is going to be if we can get a 405B on a single machine, and we can get a multi-machine anything else. Okay. That's pretty good.
 
 ##### **Wozeparrot** [[00:50:50](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3050)]
 Is Burt still in the next one?
@@ -782,10 +782,10 @@ Is Burt still in the next one?
 Yes. Okay. Sweet. Oh, I think so. What about the ResNet part?
 
 ##### **Geohot** [[00:51:02](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3062)]
-Uh . . . Yeah, Burt is fine. Just Burt is fine. Just Burt is fine. If it's some weird . . . Just Burt is fine. Yeah, yeah, yeah. We're cool paying out the bounty for just Burt, but I do want to figure out what this regression was. Okay.
+Uh.. Yeah, Burt is fine. Just Burt is fine. Just Burt is fine. If it's some weird.. Just Burt is fine. Yeah, yeah, yeah. We're cool paying out the bounty for just Burt, but I do want to figure out what this regression was. Okay.
 
 ##### **Chenyu** [[00:51:23](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3083)]
-Yeah, so let's . . . for ONNX, I will just summarize a bunch of stuff for comma. I think the script issue was fixed. I also added the div equals support for the flag, their favorite flag, so hopefully we are happy now.
+Yeah, so let's.. for ONNX, I will just summarize a bunch of stuff for comma. I think the script issue was fixed. I also added the div equals support for the flag, their favorite flag, so hopefully we are happy now.
 
 ##### **Geohot** [[00:51:46](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3106)]
 Oh, we have dev? We can set the device with dev?
@@ -809,34 +809,32 @@ Generally, just need more cleanups. Cool.
 Yeah.
 
 ##### **Geohot** [[00:52:35](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3155)]
-Yeah. How close do you think we are to that? I mean, depends on . . . This week? . . . quality.
+Yeah. How close do you think we are to that? I mean, depends on.. This week?.. quality.
 
 ##### **Chenyu** [[00:52:45](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3165)]
 If you just want to merge it. You want it to be clean up then merged.
 
 ##### **Geohot** [[00:52:52](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3172)]
-It's different. Yeah. I mean . . . I definitely don't want to change the API after we merge it. It depends what you mean by cleanups.
+It's different. Yeah. I mean.. I definitely don't want to change the API after we merge it. It depends what you mean by cleanups.
 
 ##### **Chenyu** [[00:53:05](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3185)]
-API is fine. I mean, if you say this week, then this week it is. Did we ever figure out what . . . . . .
-
-##### **Geohot** [[00:53:15](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3195)]
+API is fine. I mean, if you say this week, then this week it is. Did we ever figure out what... ##### **Geohot** [[00:53:15](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3195)]
 Did we ever figure out what the seg faults were? I feel like there's some race condition in disk or something.
 
 ##### **Chenyu** [[00:53:30](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3210)]
 Yeah.
 
 ##### **Geohot** [[00:53:34](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3214)]
-Maybe like something's getting closed and it's trying to read . . . . . . I can also sense a bug in the environment as well. I don't know. It's not a blocker, that's an independent bug anyway. Got it. Yeah. I mean, it's moving. We move.
+Maybe like something's getting closed and it's trying to read... I can also sense a bug in the environment as well. I don't know. It's not a blocker, that's an independent bug anyway. Got it. Yeah. I mean, it's moving. We move.
 
 ##### **Chenyu** [[00:54:01](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3241)]
-I think it's very close. It's just like there are some . . . There are some weird and . . . test case that's always there.
+I think it's very close. It's just like there are some.. There are some weird and.. test case that's always there.
 
 ##### **Chenyu** [[00:54:10](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3250)]
 Oh, I also remove a strenum thing that was only introduced in 3.11 or 12. So it's not compatible with 3.10. So I remove that. And I think two training tests have some issue. I just skip that because it's fairly minor. But we also want to fix that. And I also add this to the CI. So it should be linked by 3.10.
 
 ##### **Chenyu** [[00:54:41](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3281)]
-So this won't happen again. Cool. In general, more stuff that can make emerging on that .
+So this won't happen again. Cool. In general, more stuff that can make emerging on that.
 
 ##### **Chenyu** [[00:54:57](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3297)]
 Other bounties.
@@ -911,7 +909,7 @@ Yeah, but I mean, it's like, it is way too maintain. Yeah.
 And if we have to install something, we have to install something. And we still have to install something for it. We still install TensorFlow to test Lion or whatever.
 
 ##### **Chenyu** [[00:59:18](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3558)]
-Yeah. Yes, and it's pinned to a much older version because .
+Yeah. Yes, and it's pinned to a much older version because.
 
 ##### **Geohot** [[00:59:26](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3566)]
 Yeah.
@@ -941,7 +939,7 @@ I mean, it's kind of hard. All of this refactor stuff is really hard to make bou
 Yeah.
 
 ##### **Geohot** [[01:00:32](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3632)]
-Maybe, I mean, I've been working on, maybe we'll be able to have a bunch of bounties once I have this intermediate UOP syntax. We could just, I don't know. But no one ever does those bounties either, the ones where it's like, get the gem to be fast. LAMMIT kind of does them. But yeah.
+Maybe, I mean, I've been working on, maybe we'll be able to have a bunch of bounties once I have this intermediate UOP syntax. We could just, I don't know. But no one ever does those bounties either, the ones where it's like, get the GEMM to be fast. LAMMIT kind of does them. But yeah.
 
 ##### **Geohot** [[01:00:54](https://www.youtube.com/watch?v=wZ5Ch0ODRv8&t=3654)]
 Anyway.

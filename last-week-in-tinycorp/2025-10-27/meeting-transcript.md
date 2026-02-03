@@ -33,7 +33,7 @@
 Anyway, welcome everyone to our Monday meeting. I think I started with a company update. We sold a bunch of tiny boxes this week. Money came through for two of them.
 
 ##### **Geohot** [[00:00:24](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=24)]
-Email, if you order a tiny box and you didn't send the money, you don't get a tiny box. Yeah, we sold two tiny boxes this week. We've regressed. Well, I guess we'll talk about that soon. But yeah, we have to get back in the good graces of our only customer.
+Email, if you order a TinyBox and you didn't send the money, you don't get a TinyBox. Yeah, we sold two tiny boxes this week. We've regressed. Well, I guess we'll talk about that soon. But yeah, we have to get back in the good graces of our only customer.
 
 ##### **Geohot** [[00:00:47](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=47)]
 Yes. We can move on to next slide.
@@ -216,7 +216,7 @@ So I think this segues into a no Jen, your top priority this week is to get thes
 Yeah. Yeah. Actually, that was my question. If we want this because this cutity is merged. Yeah. Okay.
 
 ##### **Geohot** [[00:18:03](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1083)]
-Oh, we definitely want the counters. So the reason we want the counters is sqtt can never be free. Sqtt will always have to be behind a flag. But I think these counters can be free.
+Oh, we definitely want the counters. So the reason we want the counters is SQTT can never be free. SQTT will always have to be behind a flag. But I think these counters can be free.
 
 ##### **Geohot** [[00:18:24](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1104)]
 True. Yeah.
@@ -225,10 +225,10 @@ True. Yeah.
 Yeah. Almost free. We need just some overhead to copy these. I mean, I think we. Yeah. We just need some pockets to copy these data. After you. Each kind of execution. But, yeah, I think it's it's almost free.
 
 ##### **Geohot** [[00:18:46](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1126)]
-Yeah. I'm I'm I'm okay with this taking like a 10 or 20% hit, but there's no way we could ever enable sqtt by this equals one. But I think we should be able to enable these counters with this equals one.
+Yeah. I'm I'm I'm okay with this taking like a 10 or 20% hit, but there's no way we could ever enable SQTT by this equals one. But I think we should be able to enable these counters with this equals one.
 
 ##### **Nimlgen** [[00:19:00](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1140)]
-Yeah. Also for sqtt currently like the design of sqtt initially was that we flush the buffers from the device only once. When we. So destruction of python. So maybe we can do this manage this a bit better and flush buffers after each kernel. So maybe this will require less VRM.
+Yeah. Also for SQTT currently like the design of SQTT initially was that we flush the buffers from the device only once. When we. So destruction of python. So maybe we can do this manage this a bit better and flush buffers after each kernel. So maybe this will require less VRM.
 
 ##### **Geohot** [[00:19:30](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1170)]
 That'd be cool.
@@ -321,7 +321,7 @@ We will bring you one later. while I could write basically.
 So I double-double-double-double. And it still only gets like 60, 70-ish? So there's also Warp Group that might help you. Is that on the 4090s?
 
 ##### **Geohot** [[00:25:24](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1524)]
-Yeah, so Warp Group is not anything special about the 4090s. Warp Group just means that you use a that you use 128. 128. So you basically use right now, this is only using a local size of 32, which is only using one Warp. But if you use Warp Group, that'll use basically four Warps. The Thundercat writes it pretty simply. So it'll use four Warps so it'll be able to overlap loads and MMAs in the single in the same CU. Like right now, even though it's double-buffered, you're not being able to keep the tensor cores constantly fed because you only have one Warp occupancy in the CU. But with Warp Group, you'll get four Warps of occupancy. And I think that'll... I think that and double-buffering alone should get you pretty good numbers.
+Yeah, so Warp Group is not anything special about the 4090s. Warp Group just means that you use a that you use 128. 128. So you basically use right now, this is only using a local size of 32, which is only using one Warp. But if you use Warp Group, that'll use basically four Warps. The Thundercat writes it pretty simply. So it'll use four Warps so it'll be able to overlap loads and MMAs in the single in the same CU. Like right now, even though it's double-buffered, you're not being able to keep the tensor cores constantly fed because you only have one Warp occupancy in the CU. But with Warp Group, you'll get four Warps of occupancy. And I think that'll.. I think that and double-buffering alone should get you pretty good numbers.
 
 ##### **Geohot** [[00:26:17](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1577)]
 Okay, yeah. I'll try that. And I should also be able to get the Flash Attention example running.
@@ -330,16 +330,16 @@ Okay, yeah. I'll try that. And I should also be able to get the Flash Attention 
 Cool.
 
 ##### **Geohot** [[00:26:26](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1586)]
-I think the thing to do here is to first achieve some... first get their fast examples running, and then figure out how to implement these in TinyGrad.
+I think the thing to do here is to first achieve some.. first get their fast examples running, and then figure out how to implement these in TinyGrad.
 
 ##### **Nimlgen** [[00:26:38](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1598)]
 Yeah.
 
 ##### **Geohot** [[00:26:39](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1599)]
-In the low-level UOP stuff. Also, even with their stuff, we should be able to still get it working with our run times. We should be able to see all these counters and stuff. This is why we're getting all the counters working. It's time to really push on performance. But cool. I'm glad the map all got merged today. Yeah, check out Warp Group. I actually really like how they do it with the warp colon colon thing, which is like it's clear that that thing... is running on the whole warp. And then Warp Group is like, yeah, it's like the four. So I wonder if you literally just change
+In the low-level UOP stuff. Also, even with their stuff, we should be able to still get it working with our run times. We should be able to see all these counters and stuff. This is why we're getting all the counters working. It's time to really push on performance. But cool. I'm glad the map all got merged today. Yeah, check out Warp Group. I actually really like how they do it with the warp colon colon thing, which is like it's clear that that thing.. is running on the whole warp. And then Warp Group is like, yeah, it's like the four. So I wonder if you literally just change
 
 ##### **Geohot** [[00:27:11](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1631)]
-that, if that would fix. That probably doubled the perf. Well, now we also have the FP8 memo that you can test. Wait, how is this example double buffered? Not the one that I merged. I have a...
+that, if that would fix. That probably doubled the perf. Well, now we also have the FP8 memo that you can test. Wait, how is this example double buffered? Not the one that I merged. I have a..
 
 ##### **Geohot** [[00:27:33](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1653)]
 Oh, you have another one. It didn't get faster. Okay.
@@ -360,16 +360,16 @@ Yeah, so I got A-range folding in the big graph merged last week. It's nice. I f
 Cool.
 
 ##### **Sieds Lykles** [[00:28:51](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1731)]
-And then, you know, we'll figure out how to render that for GPU DIMMs as well. And then... Yeah, once it's merged for CPU, we can go over that tomorrow. Yeah. Yeah. So, yeah, I think that's all. And I've also been trying to move the merge adjacent to the big graph. But I realized that the merge adjacent is like, it's only merging, like, reshapes, but it's not merging permuted ranges. Because you have to try to merge the ranges also in permuted order. Yeah. Yeah. So I was just wondering how much, I was just playing around, see how much was to be gained by that. Because if you remember the example of, like, a transposed matrix and then summing the whole matrix, like, that one still doesn't work.
+And then, you know, we'll figure out how to render that for GPU DIMMs as well. And then.. Yeah, once it's merged for CPU, we can go over that tomorrow. Yeah. Yeah. So, yeah, I think that's all. And I've also been trying to move the merge adjacent to the big graph. But I realized that the merge adjacent is like, it's only merging, like, reshapes, but it's not merging permuted ranges. Because you have to try to merge the ranges also in permuted order. Yeah. Yeah. So I was just wondering how much, I was just playing around, see how much was to be gained by that. Because if you remember the example of, like, a transposed matrix and then summing the whole matrix, like, that one still doesn't work.
 
 ##### **Geohot** [[00:29:59](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1799)]
 I see.
 
 ##### **Geohot** [[00:30:01](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1801)]
-But yeah, that's... Yeah. Yeah. So you want to, I saw your thing about that should, that's because that's on a reduce, right? You can try the reduces in any order.
+But yeah, that's.. Yeah. Yeah. So you want to, I saw your thing about that should, that's because that's on a reduce, right? You can try the reduces in any order.
 
 ##### **Sieds Lykles** [[00:30:07](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1807)]
-Yeah. Yeah. But, well, yeah, the reduces, yeah, you can...
+Yeah. Yeah. But, well, yeah, the reduces, yeah, you can..
 
 ##### **Geohot** [[00:30:13](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1813)]
 Well, the transpose matrix summing the whole thing would be a reduce, right?
@@ -384,7 +384,7 @@ Yeah.
 Yeah. The stores you can only do adjacent.
 
 ##### **Geohot** [[00:30:26](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1826)]
-Yeah. I mean, the stores, like, it's easier for me to think about this stuff while it's still in buffer. Yeah. It's like enjoy your level of error, right? Yeah. So it gives you a little bit of a Spider you can it yani. Absolutely. If it does come to this, it doesn't need a small spot there. But it gives it full alignment with the Educom looks like that. Fee design around that. Yeah. Yeah. I think one of the things I wanted was the web site and後 Do not take advantage of it. Done. why you can merge adjacent ones.
+Yeah. I mean, the stores, like, it's easier for me to think about this stuff while it's still in buffer. Yeah. It's like enjoy your level of error, right? Yeah. So it gives you a little bit of a Spider you can it yani. Absolutely. If it does come to this, it doesn't need a small spot there. But it gives it full alignment with the Educom looks like that. Fee design around that. Yeah. Yeah. I think one of the things I wanted was the web site and Do not take advantage of it. Done. why you can merge adjacent ones.
 
 ##### **Geohot** [[00:31:05](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1865)]
 And yeah, not adjacent ones. Yeah, and I mean, I think also
@@ -396,10 +396,10 @@ you want to try the split-reduce-opt after merging all the reduce ranges. I thin
 Yeah, we definitely want to first merge the ranges
 
 ##### **Geohot** [[00:31:35](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1895)]
-before we do that. Yeah. I mean, the split-reduce-opt is... Sorry?
+before we do that. Yeah. I mean, the split-reduce-opt is.. Sorry?
 
 ##### **Geohot** [[00:31:47](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1907)]
-The split-reduce-opt is like a really basic thing. The code's kind of confusing to me, but the only time you want to do that, what that basically means is it's the same thing as group-reduce, but on globals. So we can think about how, like, to...
+The split-reduce-opt is like a really basic thing. The code's kind of confusing to me, but the only time you want to do that, what that basically means is it's the same thing as group-reduce, but on globals. So we can think about how, like, to..
 
 ##### **Geohot** [[00:32:02](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1922)]
 Yeah. Use the same logic.
@@ -408,25 +408,25 @@ Yeah. Use the same logic.
 Yeah.
 
 ##### **Geohot** [[00:32:13](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1933)]
-Oh, and also, I saw Chan-Yu's trying to get rid of the correct div mode folding. This one...
+Oh, and also, I saw Chan-Yu's trying to get rid of the correct div mode folding. This one..
 
 ##### **Sieds Lykles** [[00:32:26](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1946)]
-I think it might be easier to change div and mode into full. So it's more diff than to...
+I think it might be easier to change div and mode into full. So it's more diff than to..
 
 ##### **Chenyu** [[00:32:36](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1956)]
-Oh, I don't think that's the issue, though. So I thought the regression was causing by... So the div mode is only correct if it's, like, numerators positive or something like that. It has a limit. But the thing that regress...
+Oh, I don't think that's the issue, though. So I thought the regression was causing by.. So the div mode is only correct if it's, like, numerators positive or something like that. It has a limit. But the thing that regress..
 
 ##### **Sieds Lykles** [[00:32:57](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=1977)]
-So the reason that it's... Basically... Basically... The way that the image... Like, when you do the image index, it takes an index and does, like, a single div and a mode, and you can remove them if... Right? If... When your index is negative,
+So the reason that it's.. Basically.. Basically.. The way that the image.. Like, when you do the image index, it takes an index and does, like, a single div and a mode, and you can remove them if.. Right? If.. When your index is negative,
 
 ##### **Geohot** [[00:33:24](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2004)]
-you can fold the... Like... If the... If the... You can get rid of the... Valid. If...
+you can fold the.. Like.. If the.. If the.. You can get rid of the.. Valid. If..
 
 ##### **Sieds Lykles** [[00:33:37](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2017)]
-If the thing is negative, the valid is... True, but... So... We do truncating div. When your index is minus one, the div of that is zero. So your index is not actually out of bound. But when you do floor div, like, if your index is negative, one, then it's actually out of bound.
+If the thing is negative, the valid is.. True, but.. So.. We do truncating div. When your index is minus one, the div of that is zero. So your index is not actually out of bound. But when you do floor div, like, if your index is negative, one, then it's actually out of bound.
 
 ##### **Chenyu** [[00:34:08](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2048)]
-Yeah. So my impression is the expression that was not folded correctly, it's because there's an alter date that was not considered when that expression is... So that expression itself cannot be simplified with the correct div mod. But if it's combined with the alter condition, that should be fine. That's my take for left lag. And why we cannot take it out because our current rules, it's only look at the index,
+Yeah. So my impression is the expression that was not folded correctly, it's because there's an alter date that was not considered when that expression is.. So that expression itself cannot be simplified with the correct div mod. But if it's combined with the alter condition, that should be fine. That's my take for left lag. And why we cannot take it out because our current rules, it's only look at the index,
 
 ##### **Geohot** [[00:34:43](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2083)]
 but not the alter valid.
@@ -435,10 +435,10 @@ but not the alter valid.
 Yeah.
 
 ##### **Chenyu** [[00:34:50](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2090)]
-So this is only given some conditions, right? It's either... I think the solution is probably either combined the condition of, and the actual expression as a whole, and a fold let using the correct rules.
+So this is only given some conditions, right? It's either.. I think the solution is probably either combined the condition of, and the actual expression as a whole, and a fold let using the correct rules.
 
 ##### **Geohot** [[00:35:13](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2113)]
-But it's also not the... Yeah.
+But it's also not the.. Yeah.
 
 ##### **Sieds Lykles** [[00:35:16](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2116)]
 There's another thing you have to be careful with, which is we rewrite mod by a power of two as an and,
@@ -450,10 +450,10 @@ but that's only correct if your numerator is positive. I wasn't aware of this.
 It's like there's these two or three different things, and they're interacting with each other. And if you all leave them on, turn on, they will work. But if you turn one of them off, then you have to turn all of them off.
 
 ##### **Geohot** [[00:35:57](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2157)]
-And it's... I don't know. Yeah, it's hard. It's hard to get it.
+And it's.. I don't know. Yeah, it's hard. It's hard to get it.
 
 ##### **Chenyu** [[00:36:03](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2163)]
-There are certain things about the... I think we should separate the correctness fix, like what's correct for every input versus what's correct for image and other stuff in general. So we certainly don't have this concept of... I mean, we have the concept of a rewrite context, but we don't quite have the concept for... Given these constraints, we can simplify this expression. I think there's like uop given valid, that's kind of like this. So you simplify uop given other uops. But there are certain... It's not just image folding. There are other uop expression or kernels that can be simplified if we have a clear version of this concept. Because for now, if you have something like a valid inside, a valid inside a kernel, a branch of another valid, it doesn't necessarily consider the outer gate. Although if you consider that, obviously you can simplify it further.
+There are certain things about the.. I think we should separate the correctness fix, like what's correct for every input versus what's correct for image and other stuff in general. So we certainly don't have this concept of.. I mean, we have the concept of a rewrite context, but we don't quite have the concept for.. Given these constraints, we can simplify this expression. I think there's like uop given valid, that's kind of like this. So you simplify uop given other uops. But there are certain.. It's not just image folding. There are other uop expression or kernels that can be simplified if we have a clear version of this concept. Because for now, if you have something like a valid inside, a valid inside a kernel, a branch of another valid, it doesn't necessarily consider the outer gate. Although if you consider that, obviously you can simplify it further.
 
 ##### **Geohot** [[00:37:12](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2232)]
 So that's something I'm more interested in. Okay. Anything else? Not really. Okay. Next we can move on to other bounties.
@@ -501,7 +501,7 @@ I have implemented all the shape documents described.
 OK.
 
 ##### **Geohot** [[00:40:47](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2447)]
-All slower than half and Bflow 16. OK. I just remembered.
+All slower than half and bfloat16. OK. I just remembered.
 
 ##### **Chenyu** [[00:40:58](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2458)]
 You said the FP8 tensor core example in your simple memo
@@ -534,7 +534,7 @@ OK.
 I don't know.
 
 ##### **Chenyu** [[00:42:51](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2571)]
-One last comment on FP8. I think generally for small nodes, you can use the FP8. But for small D type, we try to match JAX. I think JAX has also a lot of these small D type cases. So we're already discussing one of the PR. And in general, when thinking about small D types and what rules we put, always think in a group for like FP8, FP16, Bflow16. All these like soft flow D types should ideally have a similar rules. And if you have a small D type, you can use the least D type or least float use list to make sure anything you change applies to all small D types. I think that's much better than one of. Because we are very likely to have other random small D type like MX, FP4, or FP4O, whichever FP4. All these things would be impossible to manage if we start to adding one of rules for all.
+One last comment on FP8. I think generally for small nodes, you can use the FP8. But for small D type, we try to match JAX. I think JAX has also a lot of these small D type cases. So we're already discussing one of the PR. And in general, when thinking about small D types and what rules we put, always think in a group for like FP8, FP16, bfloat16. All these like soft flow D types should ideally have a similar rules. And if you have a small D type, you can use the least D type or least float use list to make sure anything you change applies to all small D types. I think that's much better than one of. Because we are very likely to have other random small D type like MX, FP4, or FP4O, whichever FP4. All these things would be impossible to manage if we start to adding one of rules for all.
 
 ##### **Geohot** [[00:43:53](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2633)]
 One of those. OK. Oops. Yeah, do we have like a group called small D types? No. You know what I mean?
@@ -543,7 +543,7 @@ One of those. OK. Oops. Yeah, do we have like a group called small D types? No. 
 Like, the way that we have like floats? We can make like small floats.
 
 ##### **Chenyu** [[00:44:15](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2655)]
-So for now, we have like a Flow 16, Bflow 16, and FP8S, I think?
+So for now, we have like a Flow 16, bfloat16, and FP8S, I think?
 
 ##### **Geohot** [[00:44:22](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2662)]
 Oh, FP8S. Yeah, yeah, yeah. Yeah.
@@ -552,7 +552,7 @@ Oh, FP8S. Yeah, yeah, yeah. Yeah.
 So let's go. That's what we have for now. I think only if we start to worry about MX types, basically a type with a scale vector and a shape, we worry more.
 
 ##### **Geohot** [[00:44:38](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2678)]
-For now, we just .
+For now, we just.
 
 ##### **Nimlgen** [[00:44:44](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=2684)]
 OK.
@@ -651,7 +651,7 @@ OK. Let's see. Let's see.
 There's a bunch of, oh, that is those being equals to three test speed versus torch and solve a jam something.
 
 ##### **Geohot** [[00:50:29](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=3029)]
-Some people were working on it. I don't know. I mean, they're just really hard to do without massively rethinking things. Or change the input size to be much bigger. I'll delete the NV one. There's no way that one's going to happen. The LVM ones, maybe. Update with the Whisper Web GPU. There seems to be some progress. Yeah.
+Some people were working on it. I don't know. I mean, they're just really hard to do without massively rethinking things. Or change the input size to be much bigger. I'll delete the NV one. There's no way that one's going to happen. The LLVM ones, maybe. Update with the Whisper Web GPU. There seems to be some progress. Yeah.
 
 ##### **Chenyu** [[00:51:29](https://www.youtube.com/watch?v=z_FDsZ1ms2s&t=3089)]
 So generally for these ones, it's use your best judgment. And we will only evaluate the code and the output quality.

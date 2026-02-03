@@ -10,7 +10,7 @@
 - driver
 - tensor core
 - onnx
-- webgpu (dawn, tinychat)
+- WebGPU (dawn, tinychat)
 - other bounties (retinanet, rewrite 2.0)
 
 ### Audio
@@ -19,7 +19,7 @@
 
 ### Highlights
 
-- [5090 orders](#geohot-000015) ordered $1 million worth of 5090s for Tinybox V2
+- [5090 orders](#geohot-000015) ordered $1 million worth of 5090s for TinyBox V2
 - [Any CSS pros?](#geohot-004623) fix up tinychat CSS
 - [Chenyu talk](#chenyu-000849) people are excited about porting to the web through WebGPU
 - [Replace AMD](#geohot-010300) no more AMD software in our stack, almost
@@ -42,7 +42,7 @@ Cool.
 We ordered $1 million worth of 5090s.
 Which doesn't get you as many 5090s as you think it should, but the order's in.
 We have the first ones coming this week, too.
-So we're going to build a Tinybox V2 with 5090s that we can start playing with.
+So we're going to build a TinyBox V2 with 5090s that we can start playing with.
 
 ##### **Chenyu** [[00:00:39](https://www.youtube.com/watch?v=m7zQq40dr2M&t=39)]
 A lot of 5090s.
@@ -51,7 +51,7 @@ A lot of 5090s.
 I mean, we'll see if Justin comes through with the Intel deal.
 Is anyone interested in 15,000 Gaudi II cards?
 Look, I think it's unlikely.
-I think that it's... If Intel was capable of doing things like this, they wouldn't be in the position that they're in right now.
+I think that it's.. If Intel was capable of doing things like this, they wouldn't be in the position that they're in right now.
 But we'll see.
 As long as I don't have to do anything.
 
@@ -76,7 +76,7 @@ That's not likely to happen.
 
 ##### **Geohot** [[00:02:23](https://www.youtube.com/watch?v=m7zQq40dr2M&t=143)]
 We're waiting on Intel.
-It's not likely to happen, but...
+It's not likely to happen, but..
 I'm open to it if they really want to give me a phenomenal deal on things with lots of memory bandwidth and RAM.
 
 ##### **Chenyu** [[00:02:41](https://www.youtube.com/watch?v=m7zQq40dr2M&t=161)]
@@ -101,7 +101,7 @@ Work on what?
 ##### **Geohot** [[00:03:38](https://www.youtube.com/watch?v=m7zQq40dr2M&t=218)]
 I mean, it works, but this is probably also why it's unbelievably slow on GPUs.
 The problem is if you do a pad, all the consts become gated by that valid, even when you don't have to.
-So for example, if you pad with something, that pad...
+So for example, if you pad with something, that pad..
 if you have a load where it loads a zero if it's invalid, and then you have a pad that is also applied to that load, it'll do another where on any consts, even though you're basically, let's say it's a multiply, even though you're basically multiplying by zero.
 So the thing needs to be aware that if it's already zero, you can just multiply by the other value and you don't need a second gate on that.
 I know what I have to do to write this, but that's just going to be the work next week.
@@ -116,7 +116,7 @@ So you've tried to fix this before.
 
 ##### **Chenyu** [[00:04:38](https://www.youtube.com/watch?v=m7zQq40dr2M&t=278)]
 Yeah, that was the whole point for the previous discussion for rewriting the load into the where, but that doesn't really work.
-That's effectively to solve that...
+That's effectively to solve that..
 You can merge the valid.
 
 ##### **Geohot** [[00:04:54](https://www.youtube.com/watch?v=m7zQq40dr2M&t=294)]
@@ -163,7 +163,7 @@ It's probably not.
 We're probably just using floats and just the GPU happens to just be really fast.
 
 ##### **Chenyu** [[00:06:45](https://www.youtube.com/watch?v=m7zQq40dr2M&t=405)]
-Yeah, so we have the NF4 quantize for Llama.
+Yeah, so we have the NF4 quantize for LLaMA.
 That's very, very slow.
 
 ##### **Geohot** [[00:06:51](https://www.youtube.com/watch?v=m7zQq40dr2M&t=411)]
@@ -272,8 +272,7 @@ Yeah.
 And all variants.
 There's tons of variants of cast before view.
 
-##### **Chenyu** [[00:11:29](https://www.youtube.com/watch?v=m7zQq40dr2M&t=689)]
-... so from one realized to another realized.
+##### **Chenyu** [[00:11:29](https://www.youtube.com/watch?v=m7zQq40dr2M&t=689)].. so from one realized to another realized.
 Basically, you can pick the thing in the middle that has the smallest Dtype and to store that.
 
 ##### **Geohot** [[00:11:43](https://www.youtube.com/watch?v=m7zQq40dr2M&t=703)]
@@ -287,7 +286,7 @@ It should be, the scheduler should figure that out.
 And there's a separate tricky stuff.
 It's probably specifically to TensorCore, because we can only trigger TensorCore if its parent is safe to pad.
 So we pad that thing and do TensorCore.
-But you can imagine if we... up to the kernel at the wrong point, maybe your TensorCore previously can be triggered, but no longer can be triggered.
+But you can imagine if we.. up to the kernel at the wrong point, maybe your TensorCore previously can be triggered, but no longer can be triggered.
 I don't have a good solution for that, but that's the main reason why if we just blindly put don't realize a lot of things get slower because tensor core don't over trigger.
 
 ##### **Geohot** [[00:12:39](https://www.youtube.com/watch?v=m7zQq40dr2M&t=759)]
@@ -609,10 +608,10 @@ OK, let's move on to driver.
 
 ##### **Nimlgen** [[00:26:33](https://www.youtube.com/watch?v=m7zQq40dr2M&t=1593)]
 yeah so i'm also focused on the the nv gpu this week um so yeah actually we got only four versions to this thing um like okay so we also can send tilts now right on the monitor but they're still slow so yeah so i'm just looking into somewhere and um
-Yeah, actually, they use... I found and localized all this stuff.
+Yeah, actually, they use.. I found and localized all this stuff.
 They set up NVMe queues and how they talk to the NVMe drive.
 So, yeah, actually, they also use TLB to set up to write some information into the bar.
-But after that, it looks like they set up queues and these queues... It looks like queues
+But after that, it looks like they set up queues and these queues.. It looks like queues
 find their memory, like on the controller itself.
 And it looks like has access to this memory.
 So yeah.
@@ -626,15 +625,15 @@ Can I use that, even if it takes like six seconds or whatever?
 Or six minutes?
 
 ##### **Nimlgen** [[00:28:03](https://www.youtube.com/watch?v=m7zQq40dr2M&t=1683)]
-I'm not sure about Tiny10, but on the... But yeah, yeah, we can send the TLB.
-It's just the state where we can... So yeah, it's actually the same state as Tiny10.
+I'm not sure about Tiny10, but on the.. But yeah, yeah, we can send the TLB.
+It's just the state where we can.. So yeah, it's actually the same state as Tiny10.
 
 ##### **Geohot** [[00:28:16](https://www.youtube.com/watch?v=m7zQq40dr2M&t=1696)]
 Well, yeah, but I'm on Tiny10 right now.
 Do you have a branch I can try?
 
 ##### **Nimlgen** [[00:28:22](https://www.youtube.com/watch?v=m7zQq40dr2M&t=1702)]
-Yeah, I mean... Yeah, actually, I mean, there is full request to try, but it's just...
+Yeah, I mean.. Yeah, actually, I mean, there is full request to try, but it's just..
 not loading them completely.
 
 ##### **Geohot** [[00:28:41](https://www.youtube.com/watch?v=m7zQq40dr2M&t=1721)]
@@ -741,7 +740,7 @@ So it's an ASM24 and it's a 7600.
 Yeah, I'll take a look.
 
 ##### **Geohot** [[00:34:41](https://www.youtube.com/watch?v=m7zQq40dr2M&t=2081)]
-Yeah, and then there has to be... Before we modify the firmware, I really want to understand how this NVMe drive is doing it.
+Yeah, and then there has to be.. Before we modify the firmware, I really want to understand how this NVMe drive is doing it.
 Because any modification to the firmware is going to be limited by that 25 MHz clock speed that you're talking about.
 Whereas if we can actually get the DMA to trigger off the thing, DMA is fast.
 Like, it has to be.
@@ -764,7 +763,7 @@ Is there another use case I could take into consideration to make this abstracti
 I don't want to overfit into the AMX implementation.
 
 ##### **Geohot** [[00:36:26](https://www.youtube.com/watch?v=m7zQq40dr2M&t=2186)]
-Yeah, so it's anything where you have a... It basically almost should be the same thing as Define Local.
+Yeah, so it's anything where you have a.. It basically almost should be the same thing as Define Local.
 
 ##### **Ignaciosica** [[00:36:35](https://www.youtube.com/watch?v=m7zQq40dr2M&t=2195)]
 Okay.
@@ -826,7 +825,7 @@ Are you testing 250?
 Yeah.
 
 ##### **Geohot** [[00:39:00](https://www.youtube.com/watch?v=m7zQq40dr2M&t=2340)]
-Oh, multiple .
+Oh, multiple.
 
 ##### **Chenyu** [[00:39:08](https://www.youtube.com/watch?v=m7zQq40dr2M&t=2348)]
 So 250 in total.
@@ -840,7 +839,7 @@ And like it's using a round right now, and I'm not 100% sure that's right.
 So I have another thing that also works besides the round, but if you get this a little bit wrong, it degrades accuracy.
 So I'm curious what exactly those representations are.
 It's also possible that the ONNX runtime implementation of quantization is numerically inaccurate.
-There's all kinds of...
+There's all kinds of..
 I dove deep into quantization.
 I think, I guess it's fine if they're not.
 It's not really the ONNX being broken, but there's a lot of subtlety.
@@ -911,9 +910,9 @@ It's nice that you bring back the split in test and stuff.
 
 ##### **Wpmed** [[00:43:34](https://www.youtube.com/watch?v=m7zQq40dr2M&t=2614)]
 Yeah, it was driving me crazy that everything worked, and benchmark was always just timing out.
-And yeah, it was because...
-Because group dims was not just for... So at first I thought the original limit dims was just for when you have a 4D global dim and you want to limit it to 3D, but it was not just for that.
-So it can also group together dims when...
+And yeah, it was because..
+Because group dims was not just for.. So at first I thought the original limit dims was just for when you have a 4D global dim and you want to limit it to 3D, but it was not just for that.
+So it can also group together dims when..
 when the global max length is equal to your dims length.
 And it errored out because on NVBeam, it chose the split dim strategy, which is slower.
 So that was the reason.
@@ -951,7 +950,7 @@ And then in the original.
 Yeah, it's much larger.
 So not sure why they limit it like that.
 The thing with VGPU-Pi that we previously used is there is no such limit, but the trap there is, so you think you're fine and then you export your model and then you run it in Chrome and then you see that, oh, it doesn't work.
-So what we see now is like the reality and VGPU-Pi was not exactly WebGPU, but...
+So what we see now is like the reality and VGPU-Pi was not exactly WebGPU, but..
 I don't know.
 So you can request these limits.
 You can try requesting larger limits.
@@ -969,7 +968,7 @@ Do you want to say something?
 ##### **Geohot** [[00:46:23](https://www.youtube.com/watch?v=m7zQq40dr2M&t=2783)]
 It's impressively fast on my Mac.
 By the way, if anyone in here is a designer who wants to mess with the CSS of this, when I make the window smaller, there's no padding to the edge of the chat bubbles.
-I'm terrible at this, but if someone here wants to fix up the CSS...
+I'm terrible at this, but if someone here wants to fix up the CSS..
 
 ##### **Chenyu** [[00:46:59](https://www.youtube.com/watch?v=m7zQq40dr2M&t=2819)]
 Setting up the code for merge sounds good.
@@ -1012,8 +1011,8 @@ Independent, standalone features is a lot easier to review than lots of lines.
 but lots of lines can be okay if they're not.
 Like lots of changes all around the code base is impossible to review.
 Let me see what the PR is now.
-Oh yeah, it's very few changes to the actual code base, but those Llama changes should be a separate PR.
-Yeah, like all the changes to llama3 export model and llama should be a separate thing.
+Oh yeah, it's very few changes to the actual code base, but those LLaMA changes should be a separate PR.
+Yeah, like all the changes to llama3 export model and LLaMA should be a separate thing.
 And then like all of your JavaScript stuff can, I will review it, but the stuff that I'll review most carefully is stuff that changes existing code.
 Cool.
 
@@ -1131,20 +1130,20 @@ And everything takes so long at these speeds.
 
 ##### **Geohot** [[00:55:51](https://www.youtube.com/watch?v=m7zQq40dr2M&t=3351)]
 4x is a great victory.
-I think with some of the... Maybe to get more speed beyond that, we'll have to rethink maybe what some... I'm always open also to changing the spec a little bit.
+I think with some of the.. Maybe to get more speed beyond that, we'll have to rethink maybe what some.. I'm always open also to changing the spec a little bit.
 If any turns out to be really slow, well, maybe we can't use it or we have to implement it in a different way.
 But 4x is a huge victory.
 
 ##### **Ttomsa** [[00:56:14](https://www.youtube.com/watch?v=m7zQq40dr2M&t=3374)]
-I guess one suggestion is that currently any is essentially...
+I guess one suggestion is that currently any is essentially..
 It just creates a pattern that's never checked.
 Only the sources are checked.
-And that does allow you to kind of nicely... Essentially, any is the same as a permutation in the sense that any source is valid.
+And that does allow you to kind of nicely.. Essentially, any is the same as a permutation in the sense that any source is valid.
 It's not done like a permutation.
 It creates this extra sort of pattern.
 And it would be nice if it didn't.
 It would simplify stuff.
-But I guess you can't then do...
+But I guess you can't then do..
 the nice stuff that you can with any, where you can just have any in one of the sources.
 
 ##### **Geohot** [[00:56:51](https://www.youtube.com/watch?v=m7zQq40dr2M&t=3411)]
@@ -1174,9 +1173,9 @@ But the thing is, upad.any does allow you to do some nice things.
 For example, you can say that the first source is an any, and then the second source has to be something else.
 And it will check, it will automatically do the, you know, for example, let's say that any is any of three.
 The first one with the second one, the second one with the second one, and the third one with the first one, right?
-You can't do that if you don't have that nice sort of...
-formatting if you actually have to... I don't know.
-I guess I'll just... 
+You can't do that if you don't have that nice sort of..
+formatting if you actually have to.. I don't know.
+I guess I'll just.. 
 
 ##### **Chenyu** [[00:58:39](https://www.youtube.com/watch?v=m7zQq40dr2M&t=3519)]
 Is the case you just described used anywhere in TinyGrad now?
@@ -1227,7 +1226,7 @@ And top down is from things that feed into the sink.
 
 ##### **Ttomsa** [[01:00:47](https://www.youtube.com/watch?v=m7zQq40dr2M&t=3647)]
 If you print it, it prints the sink first, right?
-Basically meaning...
+Basically meaning..
 
 ##### **Geohot** [[01:00:51](https://www.youtube.com/watch?v=m7zQq40dr2M&t=3651)]
 The print is backwards, yes.
@@ -1249,7 +1248,7 @@ And two, I'm not sure what the memory implications are.
 Like, what is the free policy on this cache?
 Is it never free?
 Is it LRU?
-So...
+So..
 Yeah, that's definitely another project that's, I wouldn't touch it for this, but I've certainly thought about it.
 And like, yeah, like a whole lot of the rewrites in TinyGrad will affect, a whole lot of the caches in TinyGrad will effectively become the graph rewrite cache.
 We have like the method cache, and the method cache could basically be a graph rewrite cache at some point.

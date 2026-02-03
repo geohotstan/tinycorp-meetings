@@ -4,7 +4,7 @@
 
 **Time:** 9am Monday San Diego time
 - company update
-- training loop, llama 8B
+- training loop, LLaMA 8B
 - flash attention
 - VIZ/Profiling
 - drivers
@@ -19,7 +19,7 @@
 
 - **[Company Update & Revenue](#geohot-000005)**: Shopify hardware revenue grew from $1.5M to $1.83M (~22%), plus $400k from AMD, putting total revenue up nearly 50% year-over-year; Shopify is used to track and fulfill essentially all box sales.
 
-- **[Hardware Product Status (Tinybox / RTX 6000 / Red V2 / Blackwell)](#geohot-000235)**: RTX 6000 boxes and Red V2 boxes are selling, with first Red V2 units shipped; Blackwell box layout was adjusted (3 cards stacked + 1 offset) and power capped so all GPUs now stay under 80°C and the system is “super stable.”
+- **[Hardware Product Status (TinyBox / RTX 6000 / Red V2 / Blackwell)](#geohot-000235)**: RTX 6000 boxes and Red V2 boxes are selling, with first Red V2 units shipped; Blackwell box layout was adjusted (3 cards stacked + 1 offset) and power capped so all GPUs now stay under 80°C and the system is “super stable.”
 
 - **[New Hire Onboarding](#geohot-000263)**: Chris’s first day is acknowledged; Geohot notes he should already know what he’s working on and points him to Julie for any onboarding logistics.
 
@@ -47,7 +47,7 @@
 Let's start with company update. Any company update?
 
 ##### **Geohot** [[00:00:05](https://www.youtube.com/watch?v=sc6cckdAXy8&t=5)]
-Yeah, so we had a good revenue year this year. I'm looking at our Shopify sales. So our Shopify sales are up 22%. But we made 1.5 million last year, and we made 1.83 million this year. That's some tiny box sales. And then in addition, we made $400,000 from AMD. So our revenue is up almost 50%.
+Yeah, so we had a good revenue year this year. I'm looking at our Shopify sales. So our Shopify sales are up 22%. But we made 1.5 million last year, and we made 1.83 million this year. That's some TinyBox sales. And then in addition, we made $400,000 from AMD. So our revenue is up almost 50%.
 
 ##### **Geohot** [[00:00:33](https://www.youtube.com/watch?v=sc6cckdAXy8&t=33)]
 Does that include the pros? That could be two things. Not anything we did with Commo, but that should be every box that we sold. Because we put all of that through Shopify, basically. Just to track it. Make sure we fulfill it and all that stuff.
@@ -56,16 +56,16 @@ Does that include the pros? That could be two things. Not anything we did with C
 And also the RTX 6000 box seems to be selling pretty good.
 
 ##### **Geohot** [[00:01:10](https://www.youtube.com/watch?v=sc6cckdAXy8&t=70)]
-Yeah, the RTX 6000 box is selling. I mean, when you look at the revenue from last year, it went heavily in August when we launched the Tinybox and finally got a check. We had a pretty bad first quarter of the year this year. But I'll post the
+Yeah, the RTX 6000 box is selling. I mean, when you look at the revenue from last year, it went heavily in August when we launched the TinyBox and finally got a check. We had a pretty bad first quarter of the year this year. But I'll post the
 
 ##### **Geohot** [[00:01:30](https://www.youtube.com/watch?v=sc6cckdAXy8&t=90)]
-reads here as well. عن. 700 000
+reads here as well. 700 000
 
 ##### **Flata** [[00:01:37](https://www.youtube.com/watch?v=sc6cckdAXy8&t=97)]
 1.08 million
 
 ##### **Geohot** [[00:01:43](https://www.youtube.com/watch?v=sc6cckdAXy8&t=103)]
-A very little salts deep selection. Like so many bots from over time, we've added or taken them on to our Amazon When I go to my Google search box, I see see who these сам matchers are with.
+A very little salts deep selection. Like so many bots from over time, we've added or taken them on to our Amazon When I go to my Google search box, I see see who these matchers are with.
 
 ##### **Flata** [[00:01:52](https://www.youtube.com/watch?v=sc6cckdAXy8&t=112)]
 See what I missed.
@@ -98,7 +98,7 @@ Well, welcome. Welcome to your first day. Yeah, thanks. I think you know what yo
 Cool.
 
 ##### **Geohot** [[00:04:43](https://www.youtube.com/watch?v=sc6cckdAXy8&t=283)]
-Great. Okay. Let's move on to... Oh, I did some update
+Great. Okay. Let's move on to.. Oh, I did some update
 
 ##### **Chenyu** [[00:04:54](https://www.youtube.com/watch?v=sc6cckdAXy8&t=294)]
 to the training loop.
@@ -116,10 +116,10 @@ Yeah, so anyway, I think if the bird's wrong, I think the bird's wrong is a good
 Okay.
 
 ##### **Chenyu** [[00:06:46](https://www.youtube.com/watch?v=sc6cckdAXy8&t=406)]
-Yeah, I will look into like the same or similar parameters for the B run. I will Day recruited a B run for quality and add some defaults. For now, those scripts was using a default from 405. So loc.." construocation avi." hyperparametrics are off.
+Yeah, I will look into like the same or similar parameters for the B run. I will Day recruited a B run for quality and add some defaults. For now, those scripts was using a default from 405. So loc. " construocation avi." hyperparametrics are off.
 
 ##### **Geohot** [[00:07:04](https://www.youtube.com/watch?v=sc6cckdAXy8&t=424)]
-I mean,унit'd be nice to get a qualifying run if it's not too hard for AP as well. I mean,aslf only takes some time should be fun. Yeah, I mean, pretty, pretty fast, though, right? Like how fast are people getting it.
+I mean,it'd be nice to get a qualifying run if it's not too hard for AP as well. I mean,aslf only takes some time should be fun. Yeah, I mean, pretty, pretty fast, though, right? Like how fast are people getting it.
 
 ##### **Geohot** [[00:07:21](https://www.youtube.com/watch?v=sc6cckdAXy8&t=441)]
 I guess we're only using one pack of zero and to 312, GPU now.
@@ -209,7 +209,7 @@ No.
 OK, then I think we kind of get what we get. I mean, we can also. Is the data? It should be fast enough we can hit over the network, too.
 
 ##### **Geohot** [[00:12:25](https://www.youtube.com/watch?v=sc6cckdAXy8&t=745)]
-Do you want to do like .
+Do you want to do like.
 
 ##### **Wozeparrot** [[00:12:28](https://www.youtube.com/watch?v=sc6cckdAXy8&t=748)]
 There's not that much data. It's only like tokens.
@@ -218,7 +218,7 @@ There's not that much data. It's only like tokens.
 Yeah, I mean, if we can fit it, we just need to make sure that all these machines can kick off trainers, like all the big machines.
 
 ##### **Geohot** [[00:12:42](https://www.youtube.com/watch?v=sc6cckdAXy8&t=762)]
-They can fit all the data on the machine. Oh, great. Yeah, then let's just do that. Make sure it's . Just like R2. Yeah, I think it across the machine.
+They can fit all the data on the machine. Oh, great. Yeah, then let's just do that. Make sure it's. Just like R2. Yeah, I think it across the machine.
 
 ##### **Flata** [[00:12:53](https://www.youtube.com/watch?v=sc6cckdAXy8&t=773)]
 Yeah.
@@ -230,7 +230,7 @@ Oh, yeah, so fast attention. Doing a successful.
 Good. If we want to fit more data, I can move the OS to. There's another NVME drive in the machine that we didn't put the OS on because for some reason it wasn't showing up before. But I got to show up by doing something. Forgot exactly what I did when I was testing this. But I can move the OS there and we can get it. And it's got another 4 terabytes.
 
 ##### **Geohot** [[00:13:23](https://www.youtube.com/watch?v=sc6cckdAXy8&t=803)]
-Cool. The most important thing is that the machines do not break. I want to have broken machines. But yeah, whatever takes basically, we should be able to kick off BERT trainers, LLAMA 8 B trainers, and LLAMA 4 or 5 V trainers without a problem.
+Cool. The most important thing is that the machines do not break. I want to have broken machines. But yeah, whatever takes basically, we should be able to kick off BERT trainers, LLaMA 8 B trainers, and LLaMA 4 or 5 V trainers without a problem.
 
 ##### **Geohot** [[00:13:42](https://www.youtube.com/watch?v=sc6cckdAXy8&t=822)]
 Wait, 405B? Where are we going to store these weights?
@@ -245,7 +245,7 @@ replicate it. Sounds good. Anything else? Let's move on to this.
 I added PMCs to the UI. So if you run the physical studio, you'll see it. It's in the table. But the problem with these counters is that you don't really know why they are happening. So I am like next is I'm going to build it. I'm going to use a memory access visualizer to exactly show which threads access which parts of the buffer. And that way you can see if it's coalescent and stuff like that. I think HipKiddens has a nice visualizer for this. They didn't open source it, which is sad. But we have a reference picture of how it supposedly looks like.
 
 ##### **Geohot** [[00:15:11](https://www.youtube.com/watch?v=sc6cckdAXy8&t=911)]
-We could probably message them on GPU mode. I'm sorry. It's probably in a really bad state. But I'm thinking about how to close a loop for you on this. And I think what you should work on is making the gem fast. Work on making the gem fast on the MI350s. We need that for Lama. And then you should work like close the loop between tooling and the gem. Like here's the gem. Make it faster. Oh, this would help with this tooling. Improve the tooling. So on and so forth. Keep that loop going. All right. There's no function for plate or flop. For the pointer toatalkay and LOLAMY we need two strings EL Это團幹 Let's see here. I love it. Let's see the Anima.
+We could probably message them on GPU mode. I'm sorry. It's probably in a really bad state. But I'm thinking about how to close a loop for you on this. And I think what you should work on is making the GEMM fast. Work on making the GEMM fast on the MI350s. We need that for LLaMA. And then you should work like close the loop between tooling and the GEMM. Like here's the GEMM. Make it faster. Oh, this would help with this tooling. Improve the tooling. So on and so forth. Keep that loop going. All right. There's no function for plate or flop. For the pointer toatalkay and LOLAMY we need two strings EL Let's see here. I love it. Let's see the Anima.
 
 ##### **Geohot** [[00:16:08](https://www.youtube.com/watch?v=sc6cckdAXy8&t=968)]
 For a moment. If we have flash attention, if we have pay to plot map models, we're looking pretty good. Anything else for Riz?
@@ -272,7 +272,7 @@ How's the AM driver going for 50?
 Yeah, I'm working on it. So basically, it's fine. So yeah, I need to fix resets because they're also different to my 300.
 
 ##### **Geohot** [[00:19:20](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1160)]
-That's the only...
+That's the only..
 
 ##### **Flata** [[00:19:22](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1162)]
 Yeah.
@@ -281,7 +281,7 @@ Yeah.
 So that's the only part which is missing.
 
 ##### **Geohot** [[00:19:30](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1170)]
-The issues, almost all the issues in RDNA 3 were caused by the thing that was trying to, like, the CSWR, like the contact wave state restore stuff. I wonder if it's possible that this... Crash is coming from something like that. Like, do we have any of that sort of stuff enabled?
+The issues, almost all the issues in RDNA 3 were caused by the thing that was trying to, like, the CSWR, like the contact wave state restore stuff. I wonder if it's possible that this.. Crash is coming from something like that. Like, do we have any of that sort of stuff enabled?
 
 ##### **Geohot** [[00:19:51](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1191)]
 I believe we do.
@@ -290,10 +290,10 @@ I believe we do.
 But there is no mess.
 
 ##### **Geohot** [[00:19:56](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1196)]
-Yeah, but even though there's no mess, anything... It would not surprise me if that's the problem. Like, some old context is getting restored from something that's no longer in the instructions. And... The PC is going to some weird... I think it's a good address.
+Yeah, but even though there's no mess, anything.. It would not surprise me if that's the problem. Like, some old context is getting restored from something that's no longer in the instructions. And.. The PC is going to some weird.. I think it's a good address.
 
 ##### **Nimlgen** [[00:20:15](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1215)]
-Yeah. Yeah, I can... I can try to disable that.
+Yeah. Yeah, I can.. I can try to disable that.
 
 ##### **Geohot** [[00:20:20](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1220)]
 But I think it would be better maybe just to go with the AM driver and then we just know exactly what's in there and what's not.
@@ -302,7 +302,7 @@ But I think it would be better maybe just to go with the AM driver and then we j
 Yeah.
 
 ##### **Geohot** [[00:20:30](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1230)]
-I don't like the idea of it being our own driver. I would also... I would be so happy if the AM driver can lower the power draw of these things. It's costing us like $3,000 a month to keep these machines idle. And yeah, I looked into it a bit. It can't lower the mClock. So the mClock is always running at 2 gigahertz.
+I don't like the idea of it being our own driver. I would also.. I would be so happy if the AM driver can lower the power draw of these things. It's costing us like $3,000 a month to keep these machines idle. And yeah, I looked into it a bit. It can't lower the mClock. So the mClock is always running at 2 gigahertz.
 
 ##### **Nimlgen** [[00:20:52](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1252)]
 Yeah. I mean, it's possible in hardware. So yeah, we definitely can do this in AM.
@@ -338,7 +338,7 @@ That's what it did it, right?
 It's a rational consequence because we're laying that over to so many companies. But let's explore the other one, the door, liquidity if we're seeing aains one Minions
 
 ##### **Flata** [[00:23:07](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1387)]
-or 벌
+or 
 
 ##### **Geohot** [[00:23:09](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1389)]
 That was good. Anything else for drivers? No. Move on to Mesa.
@@ -428,40 +428,36 @@ It's designed to be very nice.
 And if it's too dense, I will then use fp8.
 
 ##### **Flata** [[00:30:36](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1836)]
-So in this case the fulfull collaborated with this new feature. And the bug, I myself have been info. And come back and you're uncertainly..
-
-##### **B1tg** [[00:30:37](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1837)]
+So in this case the fulfull collaborated with this new feature. And the bug, I myself have been info. And come back and you're uncertainly. ##### **B1tg** [[00:30:37](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1837)]
 It didn't influence the coverage or language.
 
 ##### **Flata** [[00:30:46](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1846)]
-I'd also been used to there's weird GPS bar now..
-
-##### **B1tg** [[00:30:48](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1848)]
-It didn't really add ideally bad value to yourstrue as you were missing out So...
+I'd also been used to there's weird GPS bar now. ##### **B1tg** [[00:30:48](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1848)]
+It didn't really add ideally bad value to yourstrue as you were missing out So..
 
 ##### **Chenyu** [[00:31:01](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1861)]
 Okay, I think it would be useful if we just clear some of your experimentation rounds in the bird channel or something like that. Because I also don't know anything about the day channel. No.
 
 ##### **B1tg** [[00:31:23](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1883)]
-Okay, I will put something this week. And also, when I wait for the counter fix, I add the FP base spot for the... MI300. The FP8's... Implement is different from... MI300 and... MI3... MI350. We want that one.
+Okay, I will put something this week. And also, when I wait for the counter fix, I add the FP base spot for the.. MI300. The FP8's.. Implement is different from.. MI300 and.. MI3.. MI350. We want that one.
 
 ##### **Chenyu** [[00:32:17](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1937)]
-I don't know in what way they are different. It's just... I told you that different handsets are different. And it's just a completely different thing we need to discuss. Like what's good for that. And what's not good for that. I know for how we are using it. We talked about a few of that. But... I don't know, it might be like...
+I don't know in what way they are different. It's just.. I told you that different handsets are different. And it's just a completely different thing we need to discuss. Like what's good for that. And what's not good for that. I know for how we are using it. We talked about a few of that. But.. I don't know, it might be like..
 
 ##### **Flata** [[00:32:43](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1963)]
 Different.
 
 ##### **Chenyu** [[00:32:44](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1964)]
-Because... Everyone uses slightly different. You see? So...
+Because.. Everyone uses slightly different. You see? So..
 
 ##### **B1tg** [[00:32:51](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1971)]
-So I guess... Basically, we want to match the behavior with touch. PY touch.
+So I guess.. Basically, we want to match the behavior with touch. PY touch.
 
 ##### **Chenyu** [[00:33:05](https://www.youtube.com/watch?v=sc6cckdAXy8&t=1985)]
-I think generally for torch... Unless we have a very good reason not to match... We should match their behavior. There are a few cases that we clearly know torch behaves weirdly. And they document this in their code for some legacy issues. Other than that, I think it's a good starting point.
+I think generally for torch.. Unless we have a very good reason not to match.. We should match their behavior. There are a few cases that we clearly know torch behaves weirdly. And they document this in their code for some legacy issues. Other than that, I think it's a good starting point.
 
 ##### **Flata** [[00:33:28](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2008)]
-To...
+To..
 
 ##### **Chenyu** [[00:33:31](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2011)]
 Have the behavior match torch.
@@ -470,22 +466,22 @@ Have the behavior match torch.
 Okay, I will put a PR later.
 
 ##### **Chenyu** [[00:33:42](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2022)]
-Yeah, just... Also feel free to... Feel free to open issue saying... This is a current behavior. It doesn't match. And it should or it shouldn't. Adding some context helps here. Exciting. Yeah, I think we... If we can get a PA training... It also helps a lot with llama.
+Yeah, just.. Also feel free to.. Feel free to open issue saying.. This is a current behavior. It doesn't match. And it should or it shouldn't. Adding some context helps here. Exciting. Yeah, I think we.. If we can get a PA training.. It also helps a lot with LLaMA.
 
 ##### **Flata** [[00:34:09](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2049)]
-Yeah, I think we... Yeah, yeah... Soon.
+Yeah, I think we.. Yeah, yeah.. Soon.
 
 ##### **Chenyu** [[00:34:18](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2058)]
-You... Ooh... Oh,�0w 0n0w. I have to we see, help me hear a comment... Hey, ding here. Hey,認為 ngresum ngrya?
+You.. Ooh.. Oh,�0w 0n0w. I have to we see, help me hear a comment.. Hey, ding here. Hey, ngresum ngrya?
 
 ##### **Flata** [[00:34:26](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2066)]
-Hi, it's Thi Bo Thanh. If you've been working for Fiat Towers last year? Hey, am into Однако Goss Mattus anyone publicizing that thing yet? Yeah. I've decided I'll go get more suppliers, if they can. I think we have a number here, the conoscypa list. Do we have İşte? based on the random number generator. And they were using the typical PyTorch data loader. So we just have to make sure that's consistent with my implementation for the Flux version for TinyGrid.
+Hi, it's Thi Bo Thanh. If you've been working for Fiat Towers last year? Hey, am into Goss Mattus anyone publicizing that thing yet? Yeah. I've decided I'll go get more suppliers, if they can. I think we have a number here, the conoscypa list. Do we have İşte? based on the random number generator. And they were using the typical PyTorch data loader. So we just have to make sure that's consistent with my implementation for the Flux version for TinyGrid.
 
 ##### **Geohot** [[00:34:57](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2097)]
-Yeah, I don't have things to say about this. I think generally the idea is...
+Yeah, I don't have things to say about this. I think generally the idea is..
 
 ##### **Chenyu** [[00:35:08](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2108)]
-So our Lama implementation, I know, was pretty much copy what the reference was doing. Maybe with the caveat that the reference also used a lot of weird flags. So who really knows what is really being used? But the idea is with MLPerf, it's important to know if they have a specific order for how you load the data. Do you reshuffle the data? Do you shuffle within batch? And if so, how much is your shuffle window and things like that? I think as long as loads are well understood from the reference, our real implementation, as long as they match that in spirit, we should be good.
+So our LLaMA implementation, I know, was pretty much copy what the reference was doing. Maybe with the caveat that the reference also used a lot of weird flags. So who really knows what is really being used? But the idea is with MLPerf, it's important to know if they have a specific order for how you load the data. Do you reshuffle the data? Do you shuffle within batch? And if so, how much is your shuffle window and things like that? I think as long as loads are well understood from the reference, our real implementation, as long as they match that in spirit, we should be good.
 
 ##### **Geohot** [[00:35:58](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2158)]
 Okay, sounds good.
@@ -503,10 +499,10 @@ Okay, what else do we have for other monkeys?
 Oh, I've been working on, not that.
 
 ##### **Geohot** [[00:36:34](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2194)]
-That's just in my clipboard. On a complete reimplementation of the USB chip firmware. It's amazing how good some of these agents have gotten. You have to really work hard to keep them on track and prevent them from doing dumb stuff. And you have to really stay on top of them. But this is almost a complete reverse engineering of the firmware that's on the USB chip. So this is finally going to enable the speed for Comma to start using this chip. And I've been impressed by like, you can read the register map in there. It's so much better than any other register map we've ever had from the chip. And it all actually does seem pretty correct. I've checked it with the stuff that I've manually reverse engineered. This is the main thing that I've been working on. I'm going to finish it up this week. I'm also going to work on, I'm going to work on Python speed. And I'm going to work on improving schedule cache. So schedule cache can actually do a lot more than what it's currently doing. We're only schedule caching like one little part of the scheduling, but you could schedule cache all the way through. I'm also going to look into that 8-pack thing and see why the bits go slow. Think about how to... Schedule cache should get you 50% of the chip behavior for absolute free. So, you know, I mean, the whole project of making TinyGrad easier to use. That's...
+That's just in my clipboard. On a complete reimplementation of the USB chip firmware. It's amazing how good some of these agents have gotten. You have to really work hard to keep them on track and prevent them from doing dumb stuff. And you have to really stay on top of them. But this is almost a complete reverse engineering of the firmware that's on the USB chip. So this is finally going to enable the speed for Comma to start using this chip. And I've been impressed by like, you can read the register map in there. It's so much better than any other register map we've ever had from the chip. And it all actually does seem pretty correct. I've checked it with the stuff that I've manually reverse engineered. This is the main thing that I've been working on. I'm going to finish it up this week. I'm also going to work on, I'm going to work on Python speed. And I'm going to work on improving schedule cache. So schedule cache can actually do a lot more than what it's currently doing. We're only schedule caching like one little part of the scheduling, but you could schedule cache all the way through. I'm also going to look into that 8-pack thing and see why the bits go slow. Think about how to.. Schedule cache should get you 50% of the chip behavior for absolute free. So, you know, I mean, the whole project of making TinyGrad easier to use. That's..
 
 ##### **Geohot** [[00:38:04](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2284)]
-I'll be working on that and working on the... SP firmware. Sounds good. Oh, is the whisper thing ready for review? I feel like it's been here forever. I don't know. It's been here forever. I don't know. I don't know. I also don't see the upgrade from the Winograd. I don't know what happened there.
+I'll be working on that and working on the.. SP firmware. Sounds good. Oh, is the whisper thing ready for review? I feel like it's been here forever. I don't know. It's been here forever. I don't know. I don't know. I also don't see the upgrade from the Winograd. I don't know what happened there.
 
 ##### **Geohot** [[00:39:01](https://www.youtube.com/watch?v=sc6cckdAXy8&t=2341)]
 I'm also going to merge this thing bumping on it. 1.19

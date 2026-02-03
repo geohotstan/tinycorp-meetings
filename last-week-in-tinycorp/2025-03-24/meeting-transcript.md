@@ -9,11 +9,11 @@
 - scheduler
 - driver
 - tensor cores
-- webgpu
+- WebGPU
 - onnx
 - retinanet
 - torch frontend (test_ops, multi gpu training, torch compile)
-- other bounties (AMD llvm backend)
+- other bounties (AMD LLVM backend)
 
 ## Audio
 
@@ -76,7 +76,7 @@ We're just actually waiting on the GPUs, because I'm not paying those scalpers t
 ##### **Geohot** [[00:00:32](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=32)]
 The Intel deal is gone.
 I wrote a thing about Intel.
-It's... You know, AMD had to fix software.
+It's.. You know, AMD had to fix software.
 Intel needs to do a complete 180.
 I feel like it was worth writing up since I spent a lot of time diving into this stuff.
 Both product lines are pretty much nonsense and dead.
@@ -134,7 +134,7 @@ If you gave me an FPGA and told me to build a GPU, I have no idea how to build a
 But if you told me to build the DSP, I could build the DSP.
 It's a very simple machine.
 And the advantage of it being a simple machine is it's super low power.
-I think that...
+I think that..
 It's so sad about Qualcomm's sales and patent division because Qualcomm's chip division is actually amazing.
 We were talking at lunch about how Qualcomm's chips are the only thing that's close to Apple in laptops.
 No, and the DSP, I mean, it's good.
@@ -225,9 +225,7 @@ It's similar to a lot of flags that we currently just set on and off and applyin
 I think those are similar.
 
 ##### **Geohot** [[00:08:56](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=536)]
-Yeah, I see a whole....
-
-##### **Chenyu** [[00:08:59](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=539)]
+Yeah, I see a whole.. ##### **Chenyu** [[00:08:59](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=539)]
 Yeah, any kind of either split kernel or not, fused Arange or not, partially fused Arange or not, or any fusion thing like that, I think are similar.
 
 ##### **Geohot** [[00:09:11](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=551)]
@@ -424,7 +422,7 @@ So it's just like softmax kind of stuff, like the maxes and stuff for data acces
 No.
 So softmax is included in the attention layers.
 So we have 24 attention layers.
-Those are...
+Those are..
 So out of 400 milliseconds, those 24 attention layers have like 350-ish millisecond, 340.
 And the rest 60 millisecond is the loading the data, run embedding.
 And your final loss hat, to loss hats,
@@ -663,7 +661,7 @@ ArgMax you can do.
 If you're doing stuff where you're, like, subtracting the max of a list, that's super hard.
 
 ##### **Chenyu** [[00:27:16](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=1636)]
-Oh, because your store's...
+Oh, because your store's..
 
 ##### **Geohot** [[00:27:22](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=1642)]
 Well, yeah, if you're trying to subtract the whole max of a list, you're going to need to somehow broadcast that max of the list across your GPU.
@@ -798,7 +796,7 @@ And the local buffer shouldn't be slower.
 But the way to really get speed is going to be to do the async copy.
 
 ##### **Ignaciosica** [[00:33:56](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2036)]
-Well, that's the .. sorry.
+Well, that's the. sorry.
 
 ##### **Geohot** [[00:34:00](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2040)]
 Oh, and to more cleverly use the warp.
@@ -868,7 +866,7 @@ Cool.
 And then export spec is equivalent to a JIT command queue.
 So what I don't want to see really like ever in TinyGrad is the same structure repeated but slightly different.
 So you're welcome to refactor these core structures.
-And this is the stuff that really adds... The problem with writing stuff that doesn't use the core structures is stuff will change and then your stuff will break.
+And this is the stuff that really adds.. The problem with writing stuff that doesn't use the core structures is stuff will change and then your stuff will break.
 Whereas if you use the core structures and someone wants to update the core structure, the responsibility is on them to fix it.
 
 ##### **Hooved** [[00:37:52](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2272)]
@@ -888,7 +886,7 @@ Cool.
 And you're welcome also to add helper functions to the main classes.
 If they're generic and good helper functions, right?
 I want to see TinyGrad look like one repo.
-And when I look at this export thing, what I see is... I see why this is valuable from a sense of it's easy to merge.
+And when I look at this export thing, what I see is.. I see why this is valuable from a sense of it's easy to merge.
 It's one file.
 And it's easy to merge into one file, sure, but it's hard to maintain.
 Because now if someone updates an execitem, they've got to update both.
@@ -909,11 +907,11 @@ I see.
 It's kind of like, yeah, I think that's OK.
 I'm less worried about that.
 Yeah, and more like seeing, I don't think this should be an export.py.
-I almost think that like export webGPU kind of belongs in the webGPU runtime because it's the same code.
+I almost think that like export WebGPU kind of belongs in the WebGPU runtime because it's the same code.
 
 ##### **Hooved** [[00:40:22](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2422)]
 Yeah, no, I thought about that trying to,
-like merge it into ops webGPU, like the runtime stuff.
+like merge it into ops WebGPU, like the runtime stuff.
 I guess the difference is that's executed at the level of the execitems at the kernel level, whereas this wraps, it sort of blocks all the kernels together and then fits those into the runtime.
 
 ##### **Geohot** [[00:40:51](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2451)]
@@ -951,7 +949,7 @@ Do you have a Mac?
 No, I'm on Ubuntu.
 
 ##### **Geohot** [[00:41:54](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2514)]
-You're on Ubuntu, uhh...
+You're on Ubuntu, uhh..
 If you have CUDA, there's a CUDA graph too.
 
 ##### **Hooved** [[00:42:01](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2521)]
@@ -975,12 +973,12 @@ But yeah, the focus, the highest priority is to do what we just discussed.
 ##### **Chenyu** [[00:43:03](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2583)]
 That sounds good.
 OK.
-And also, Wpmed fixed my webGPU pass issue.
+And also, Wpmed fixed my WebGPU pass issue.
 So thanks for that.
 Any update for ONNX?
 
 ##### **Geohot** [[00:43:27](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2607)]
-I see stuff in...
+I see stuff in..
 In general, I added TinyGrad frontend ONNX this morning.
 It's just a stub like the PyTorch one.
 But yeah.
@@ -1016,7 +1014,7 @@ like the model eval changes that I made into smaller PRs so that it can be simpl
 
 ##### **Chenyu** [[00:46:41](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2801)]
 Yeah, so I'm interested in that more because I think before we go dive into TinyBox Red and its driver issue, we want something that runs and is correct.
-presumably on tiny box green.
+presumably on TinyBox green.
 So let's get that in so we know all the differences that will be coming from the red, then we can dive into to see if it's driver issue or any other issue about AMD.
 
 ##### **Flata** [[00:47:16](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=2836)]
@@ -1139,7 +1137,7 @@ All right.
 ##### **Chenyu** [[00:53:13](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=3193)]
 I don't know.
 Probably fine.
-We certainly spend like...
+We certainly spend like..
 hundreds of lines in Tinygrad repo just to figure out all the different rounding mode stuff.
 It might not need to be like a LLVM compile flag fix, but fix more upstream.
 But ideally that should be handled.
@@ -1184,10 +1182,10 @@ Yeah, just let me know when it's ready for a more serious run, and I will prepar
 
 ##### **Geohot** [[00:55:13](https://www.youtube.com/watch?v=eH_0eFcxDFA&t=3313)]
 Yeah, I mean, I think we should definitely get it merged to get AMD working.
-Unfortunately, for like Llama now, it's slower than HIP, and there's a chance it's fundamental.
-So we don't really know how... The MI300X has eight GPUs in it, basically, and they have to be synchronized, right?
+Unfortunately, for like LLaMA now, it's slower than HIP, and there's a chance it's fundamental.
+So we don't really know how.. The MI300X has eight GPUs in it, basically, and they have to be synchronized, right?
 So it distributes the work to eight GPUs.
-They share memory, so it's easy to distribute the work, but...
+They share memory, so it's easy to distribute the work, but..
 They then need to be synchronized.
 And right now, we're using the same way of synchronizing them that you'd synchronize across, like, GPUs that are separated by PCIe.
 So it's going all the way to VRAM to synchronize.

@@ -6,7 +6,7 @@
 - company updates (new meeting time?)
 - make rangeify default, speed regression/bug
 - ci speed
-- mlperf llama
+- mlperf LLaMA
 - viz tool
 - cpu thread
 - symbolic
@@ -18,13 +18,13 @@
 
 ### Highlights
 
-- **[Company Update](#geohot-000006)**: The price of the tinybox was lowered to $25,000, resulting in six new orders. The price may return to $29,000 if sales volume doesn't persist. The meeting time will remain the same for the next three weeks while Geohot is in Asia.
+- **[Company Update](#geohot-000006)**: The price of the TinyBox was lowered to $25,000, resulting in six new orders. The price may return to $29,000 if sales volume doesn't persist. The meeting time will remain the same for the next three weeks while Geohot is in Asia.
 
 - **[Rangeify as Default](#geohot-000147)**: `post-op` is now the default, which moves the optimizer to run after the `lower` pass. This is a key step towards making `rangeify` the default. Geohot will focus on implementing a cost function for `rangeify` to manage the trade-offs between compute, storage, and locality. The ultimate goal is to enable `rangeify=1` by default and delete over 1,500 lines of legacy code related to `ShapeTracker`.
 
 - **[CI Speed](#chenyu-000905)**: The CI pipeline is still slow, running at about seven minutes. The team discussed profiling tinygrad to find bottlenecks, identifying and potentially removing tests that have low value, and refactoring tests (e.g., tensor core tests) to be cleaner unit tests. They agreed they are using too many GitHub workers, which negatively impacts developer experience on forks.
 
-- **[MLPerf Llama](#chenyu-001615)**: A training run is converging but is too slow to be a competitive MLPerf submission. The current run is on a 1K context length, while the benchmark requires 8K. The team also discussed ongoing hardware instability with the MI300 machines and plans to consolidate working GPUs into one stable machine.
+- **[MLPerf LLaMA](#chenyu-001615)**: A training run is converging but is too slow to be a competitive MLPerf submission. The current run is on a 1K context length, while the benchmark requires 8K. The team also discussed ongoing hardware instability with the MI300 machines and plans to consolidate working GPUs into one stable machine.
 
 - **[Viz Tool](#qazalin-002117)**: Work is in progress to improve the visualization tool's performance by implementing a range tree for rendering, which will provide a significant speedup. Geohot highlighted remaining UI glitches and requested better cancellation logic for large graph rendering. A future goal is to integrate memory planner visualization, linking memory buffers in the profiler back to the schedule graph.
 
@@ -80,19 +80,19 @@ So not rangeify, I made post-op the default.
 Yes, I mean, that's the main goal.
 
 ##### **Geohot** [[00:01:54](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=114)]
-Yeah. Yeah, so post-op is a requirement to, so now it works with rangeify. If you set rangeify equals one, you'll now get optimized kernels instead of unoptimized kernels. We had to basically move the optimizer after the rangeification. So like kernel.py had tons of references to shape trackers and shape trackers going away. So this was kind of the first step. I'm glad it finally got merged last week, even if there are some minor regressions. The, this will also let us do a whole bunch of other things. I have the PR up. I don't know if your tests are failing. I have to look into why. But we could move the reduce collapse, like the A range reduce collapse, to before optimizations. We could do a lot of stuff before we run the optimizer, because now, like the optimizer runs after the lower. So we couldn't do things like the... Reduction of A range until we ran the lower, and we couldn't run the lower until we ran optimizations. But now we can do that. So yeah, that changes. And then the main thing that I have to work on for the next couple of weeks is the cost function in rangeify. So there's an implicit cost function in the scheduler about when you want to do... There's always a trade-off between basically... I don't know.
+Yeah. Yeah, so post-op is a requirement to, so now it works with rangeify. If you set rangeify equals one, you'll now get optimized kernels instead of unoptimized kernels. We had to basically move the optimizer after the rangeification. So like kernel.py had tons of references to shape trackers and shape trackers going away. So this was kind of the first step. I'm glad it finally got merged last week, even if there are some minor regressions. The, this will also let us do a whole bunch of other things. I have the PR up. I don't know if your tests are failing. I have to look into why. But we could move the reduce collapse, like the A range reduce collapse, to before optimizations. We could do a lot of stuff before we run the optimizer, because now, like the optimizer runs after the lower. So we couldn't do things like the.. Reduction of A range until we ran the lower, and we couldn't run the lower until we ran optimizations. But now we can do that. So yeah, that changes. And then the main thing that I have to work on for the next couple of weeks is the cost function in rangeify. So there's an implicit cost function in the scheduler about when you want to do.. There's always a trade-off between basically.. I don't know.
 
 ##### **Hooved** [[00:03:24](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=204)]
 I don't know.
 
 ##### **Geohot** [[00:03:25](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=205)]
-Compute, storage, and locality. These things are like three points on a triangle. So like compute and storage is an obvious trade-off. You can either... You want to have A times two? Well, you can either... You use A times two twice, right? You already have A stored. You can either recompute A times two both times, or you can store A times two and load from it. And in that case, it's probably always worth it to recompute. But you have to have a cost function here, because these things get more complicated. And then you have this locality trade-off, which says basically the... Like, all storage is not created equal. If you are going to store something and use it right away, this is a lot less bad than having to store basically like A and A times two for the entire duration of the whole graph. Right? Like if you need A and A times two for the backward pass, you should definitely be recomputing. A times two over by the backward pass. I think there was a... I forget what the name was for this. There's a name for like... You can store a lot...
+Compute, storage, and locality. These things are like three points on a triangle. So like compute and storage is an obvious trade-off. You can either.. You want to have A times two? Well, you can either.. You use A times two twice, right? You already have A stored. You can either recompute A times two both times, or you can store A times two and load from it. And in that case, it's probably always worth it to recompute. But you have to have a cost function here, because these things get more complicated. And then you have this locality trade-off, which says basically the.. Like, all storage is not created equal. If you are going to store something and use it right away, this is a lot less bad than having to store basically like A and A times two for the entire duration of the whole graph. Right? Like if you need A and A times two for the backward pass, you should definitely be recomputing. A times two over by the backward pass. I think there was a.. I forget what the name was for this. There's a name for like.. You can store a lot..
 
 ##### **Chenyu** [[00:04:40](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=280)]
 Gradient accumulation? Gradient checkpointing.
 
 ##### **Geohot** [[00:04:45](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=285)]
-Gradient checkpointing. Yeah, yeah, yeah. Yeah, gradient checkpointing. So gradient checkpointing is a form of this trade-off about locality. So, and then this locality trade-off also persists at... The really nice thing about this stuff and getting it right is it's identical at every layer. So everything that we want to do at the global layer also applies at the local layer, also applies at the register layer. So yeah, hopefully when we get the formulation of this stuff correct, it will all kind of fall into place. I read the Triton paper this weekend. About their... It's interesting. They don't like... Nothing I've read seems as good as Rangeify. Like, the Triton paper is talking about how they're representing their shapes in this. Kind of like what we do with TensorCore. They divide everything up into... They make every axis a two. And then you can flip all your twos around, right? And then this is a linear transformation. To move your twos around. And then all these things can be expressed as linear transformations. Like a reshape and a permute. Yeah, so... But it's still like... They still have this concept of reshape and permute. I feel like that should be dealt with at an earlier level. Instead of doing the reshape and the permutes on your layout, which is what the Shape Tracker was doing. You can do this on... I mean, I guess it's still your layout, but it's at the bufferize. It's only the layout in the... In memory. That you're optimizing. It's not this like nebulous idea of a layout. There should be no... Like, if you have something that's like... Plus one. If you have something that's like buffer, plus one. Permute, plus one. This is ridiculous, right? There's no reason at all you should store that middle one. Because you can just load from it permuted. So the old way we used to think about this was pushing the permute. But forget pushing the permute. Just think about what the actual... What the actual ranges are of these things. And realize that the two plus ones are element-wise ops on the exact same ranges. So. Yeah. I think it's... I think it's good. I've now read all the... The Halide and the TVM. And see how they do this kind of stuff. I mean, it is... They have a very like range-ified view of things. TVM has really nice syntax too. Like TVM lets you... Most things in TVM... And I guess Halide too. Are... Are... Are... Are... Are... Are... Like you can like... You want to permute. You can say... B sub i comma j equals a sub j comma i. And I feel like that's like a really nice syntax. So... I'm going to work on that syntax. I'm going to work on the range-ified cost function. And then... A bunch of cleanup still around post-opt. Fixing this pad too. If there's speed regressions. And if there's...
+Gradient checkpointing. Yeah, yeah, yeah. Yeah, gradient checkpointing. So gradient checkpointing is a form of this trade-off about locality. So, and then this locality trade-off also persists at.. The really nice thing about this stuff and getting it right is it's identical at every layer. So everything that we want to do at the global layer also applies at the local layer, also applies at the register layer. So yeah, hopefully when we get the formulation of this stuff correct, it will all kind of fall into place. I read the Triton paper this weekend. About their.. It's interesting. They don't like.. Nothing I've read seems as good as Rangeify. Like, the Triton paper is talking about how they're representing their shapes in this. Kind of like what we do with TensorCore. They divide everything up into.. They make every axis a two. And then you can flip all your twos around, right? And then this is a linear transformation. To move your twos around. And then all these things can be expressed as linear transformations. Like a reshape and a permute. Yeah, so.. But it's still like.. They still have this concept of reshape and permute. I feel like that should be dealt with at an earlier level. Instead of doing the reshape and the permutes on your layout, which is what the Shape Tracker was doing. You can do this on.. I mean, I guess it's still your layout, but it's at the bufferize. It's only the layout in the.. In memory. That you're optimizing. It's not this like nebulous idea of a layout. There should be no.. Like, if you have something that's like.. Plus one. If you have something that's like buffer, plus one. Permute, plus one. This is ridiculous, right? There's no reason at all you should store that middle one. Because you can just load from it permuted. So the old way we used to think about this was pushing the permute. But forget pushing the permute. Just think about what the actual.. What the actual ranges are of these things. And realize that the two plus ones are element-wise ops on the exact same ranges. So. Yeah. I think it's.. I think it's good. I've now read all the.. The Halide and the TVM. And see how they do this kind of stuff. I mean, it is.. They have a very like range-ified view of things. TVM has really nice syntax too. Like TVM lets you.. Most things in TVM.. And I guess Halide too. Are.. Are.. Are.. Are.. Are.. Are.. Like you can like.. You want to permute. You can say.. B sub i comma j equals a sub j comma i. And I feel like that's like a really nice syntax. So.. I'm going to work on that syntax. I'm going to work on the range-ified cost function. And then.. A bunch of cleanup still around post-opt. Fixing this pad too. If there's speed regressions. And if there's..
 
 ##### **Geohot** [[00:07:50](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=470)]
 Bugs. Yeah. Yeah.
@@ -101,22 +101,22 @@ Bugs. Yeah. Yeah.
 What are the blockers? Before we can start to delete more stuff?
 
 ##### **Geohot** [[00:07:59](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=479)]
-So... We have to switch to range-ify as the default. Try range-ify on stuff. It is really slow. Because it is storing pretty much everything. So... Yeah.
+So.. We have to switch to range-ify as the default. Try range-ify on stuff. It is really slow. Because it is storing pretty much everything. So.. Yeah.
 
 ##### **Chenyu** [[00:08:11](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=491)]
 Or some sensible cost function to start with.
 
 ##### **Geohot** [[00:08:14](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=494)]
-Yep. Make range-ify equals one the default. And then once range-ify equals one is the default... We can delete a ton of stuff. Right. There's probably a good... 1,500, 2,000 lines we can delete.
+Yep. Make range-ify equals one the default. And then once range-ify equals one is the default.. We can delete a ton of stuff. Right. There's probably a good.. 1,500, 2,000 lines we can delete.
 
 ##### **Geohot** [[00:08:29](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=509)]
-Like every... Like half of it.
+Like every.. Like half of it.
 
 ##### **Chenyu** [[00:08:31](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=511)]
-Every time I heard... Something like this... My mental discount is like 30%. Hey, post-op deleted lines? I mean, that's something to start with. But sure.
+Every time I heard.. Something like this.. My mental discount is like 30%. Hey, post-op deleted lines? I mean, that's something to start with. But sure.
 
 ##### **Geohot** [[00:08:44](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=524)]
-Yeah. No, look. Look, range-ify is already using 500 lines. Right? Like we've already added 500, 600 lines. It's not like it's... It's nothing. Yeah. Yeah. Yeah. Those lines are already paid for, so...
+Yeah. No, look. Look, range-ify is already using 500 lines. Right? Like we've already added 500, 600 lines. It's not like it's.. It's nothing. Yeah. Yeah. Yeah. Those lines are already paid for, so..
 
 ##### **Geohot** [[00:08:55](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=535)]
 Oh, yeah. Okay. Great. Cool. Anything else? Nope.
@@ -128,25 +128,25 @@ Okay. Next, it's CI speed. That's where you can spend some time staring at the t
 I think now it's like seven minutes.
 
 ##### **Geohot** [[00:09:26](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=566)]
-I mean, I just deleted a whole bunch of...
+I mean, I just deleted a whole bunch of..
 
 ##### **Chenyu** [[00:09:29](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=569)]
-I just like... But those are not the slow ones. Those are like annoying ones to maintain, but not the slow ones.
+I just like.. But those are not the slow ones. Those are like annoying ones to maintain, but not the slow ones.
 
 ##### **Geohot** [[00:09:37](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=577)]
-Yeah. I don't know. We should just figure out... Like, OpenPilot spent a lot of time just figuring out which tests ever actually caught failures. And then kind of like looked at all these other tests that like... What I would love to have is something that goes back to our entire history and says, Okay, which tests have ever failed?
+Yeah. I don't know. We should just figure out.. Like, OpenPilot spent a lot of time just figuring out which tests ever actually caught failures. And then kind of like looked at all these other tests that like.. What I would love to have is something that goes back to our entire history and says, Okay, which tests have ever failed?
 
 ##### **Geohot** [[00:10:04](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=604)]
-Uh, I mean...
+Uh, I mean..
 
 ##### **Chenyu** [[00:10:07](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=607)]
-I hope the test was added initially because it... Some kind of regression test?
+I hope the test was added initially because it.. Some kind of regression test?
 
 ##### **Geohot** [[00:10:13](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=613)]
-Yeah, maybe. But like, I'm wondering if there's some like long tests that we already basically have full coverage of. Uh... Where we're just like doing extra stuff. I don't know. I mean, also, it's been a long time in general since anyone sat down with a profiler and just looked at like what's slow in TinyGrad. I have that PR'd or not run hand-coded optimizations twice, but for some reason it's changing things. So like little things like that. I think if we just like sat down with a profiler, I bet we could make everything a lot faster.
+Yeah, maybe. But like, I'm wondering if there's some like long tests that we already basically have full coverage of. Uh.. Where we're just like doing extra stuff. I don't know. I mean, also, it's been a long time in general since anyone sat down with a profiler and just looked at like what's slow in TinyGrad. I have that PR'd or not run hand-coded optimizations twice, but for some reason it's changing things. So like little things like that. I think if we just like sat down with a profiler, I bet we could make everything a lot faster.
 
 ##### **Chenyu** [[00:10:48](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=648)]
-I think also some back-end... Or maybe it's just our setup. Yeah, I think some of the tests are very slow. I think Envy is one notable example. That's kind of slow. OpenSVU is also kind of slow.
+I think also some back-end.. Or maybe it's just our setup. Yeah, I think some of the tests are very slow. I think Envy is one notable example. That's kind of slow. OpenSVU is also kind of slow.
 
 ##### **Geohot** [[00:11:01](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=661)]
 I put a lot of time into this. Envy's environment setup is one minute.
@@ -161,7 +161,7 @@ Envy usually always takes the longest. For some reason. I think, yeah, just the 
 Yeah, GPUOscillaut. Yeah, GPUOscillaut is not that fast. Right, like this is going to be more of a thing of saying like we actually already have enough coverage on these things.
 
 ##### **Geohot** [[00:11:34](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=694)]
-The problem is we don't really because that's the only test we got. Yeah. I don't know. I mean, setEnvironment... Like we've put a lot of time into this.
+The problem is we don't really because that's the only test we got. Yeah. I don't know. I mean, setEnvironment.. Like we've put a lot of time into this.
 
 ##### **Geohot** [[00:11:52](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=712)]
 I don't know how much faster it's going to get.
@@ -194,10 +194,10 @@ If we all agree we are using too many workers now. No, we're definitely using to
 Oh, isn't that what's currently being done? Python backhand runs these as unit tests?
 
 ##### **Geohot** [[00:13:26](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=806)]
-That doesn't run as a unit test, like we have a special worker called tensor core Tests. Uh and it makes tons of calls to different stuff, when this should just Like it makes tons of calls to Python. Where as this should just be like a unit test. None of this stuff is running parallaly. So we should look for places where where we're not using our testing framework. Every time we're calling some arbitrary piece of Python, this is always how things break, too. Everything should just be in test. If we only want it to run on one device, it should be in unit, and then that. I think also we might be able to migrate a bunch of stuff to unit, for things that are clearly...
+That doesn't run as a unit test, like we have a special worker called tensor core Tests. Uh and it makes tons of calls to different stuff, when this should just Like it makes tons of calls to Python. Where as this should just be like a unit test. None of this stuff is running parallaly. So we should look for places where where we're not using our testing framework. Every time we're calling some arbitrary piece of Python, this is always how things break, too. Everything should just be in test. If we only want it to run on one device, it should be in unit, and then that. I think also we might be able to migrate a bunch of stuff to unit, for things that are clearly..
 
 ##### **Chenyu** [[00:14:11](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=851)]
-So that's another thing I have been adding, and now unit is very big, such that metal unit is getting slow. Which unit is slow? Metal unit as a whole is slow. Metal unit. Do we have a metal unit? Yeah, I think unit's running on metal, and...
+So that's another thing I have been adding, and now unit is very big, such that metal unit is getting slow. Which unit is slow? Metal unit as a whole is slow. Metal unit. Do we have a metal unit? Yeah, I think unit's running on metal, and..
 
 ##### **Geohot** [[00:14:32](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=872)]
 Oh, you mean Mac OS? Yeah, Mac OS. Well, we call something Mac OS unit, but it has a ton of random crap in there. Yes, so we definitely have something that needs to be split up, and something that can be merged out again. In fact, this doesn't even look like it's running the unit test. No, it's running PyTest. We call it PyTest, though. Well, no, but it runs PyTest for AMD and stuff. Oh, that's the other stuff. I'm looking at Mac OS unit, and it looks like this doesn't actually run the unit test.
@@ -209,10 +209,10 @@ Great. Yeah.
 Anyway.
 
 ##### **Geohot** [[00:15:09](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=909)]
-This is what I mean. Those YAML files are not the place to put things in. All of that logic needs to be... moved to PyTest.
+This is what I mean. Those YAML files are not the place to put things in. All of that logic needs to be.. moved to PyTest.
 
 ##### **Geohot** [[00:15:19](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=919)]
-Okay. Anyway. Yeah. There's way too much... There's way too much, like... Yeah. Oh. Yeah, we just need to... Move lots of stuff to unit, and just start deleting stuff.
+Okay. Anyway. Yeah. There's way too much.. There's way too much, like.. Yeah. Oh. Yeah, we just need to.. Move lots of stuff to unit, and just start deleting stuff.
 
 ##### **Geohot** [[00:15:38](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=938)]
 Make sure unit's actually working really well. Yeah.
@@ -242,7 +242,7 @@ Cool.
 OK.
 
 ##### **Chenyu** [[00:16:15](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=975)]
-So, Nexus, MFperf, Llama. I don't think we really have anything. Wolfsparred, how's your run going?
+So, Nexus, MFperf, LLaMA. I don't think we really have anything. Wolfsparred, how's your run going?
 
 ##### **Wozeparrot** [[00:16:23](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=983)]
 The run is still going. We're at, like, 3.56 eval loss. So it seems to be convergent on schedule.
@@ -335,7 +335,7 @@ Yeah, yeah, definitely. Cool. Okay. Sounds good. Other than that, no real update
 So let's move on to this. Is it good now? Yep. Great.
 
 ##### **Qazalin** [[00:21:17](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1277)]
-I'm working on the fast algorithm that's still in the branch. The basic idea is to just make a tree instead of the data structure that we currently have, which is a list, and do a range query on that tree. That should be pretty fast. Yeah, I think the data structure is already through some of the .
+I'm working on the fast algorithm that's still in the branch. The basic idea is to just make a tree instead of the data structure that we currently have, which is a list, and do a range query on that tree. That should be pretty fast. Yeah, I think the data structure is already through some of the.
 
 ##### **Geohot** [[00:21:43](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1303)]
 It's a range tree, right?
@@ -347,7 +347,7 @@ Yeah, pretty much a range tree. Like do a binary search on it, then.
 Great.
 
 ##### **Qazalin** [[00:21:52](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1312)]
-complexity. Time to merge this week. I had a bunch of fun going through the NVIDIA tools, seeing what they do in Profedo. Hmm. I think I'm trapped. I'm trapped to merge it. Still with the .
+complexity. Time to merge this week. I had a bunch of fun going through the NVIDIA tools, seeing what they do in Profedo. Hmm. I think I'm trapped. I'm trapped to merge it. Still with the.
 
 ##### **Geohot** [[00:22:16](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1336)]
 Great. Yeah, I mean, it should be really responsive.
@@ -389,7 +389,7 @@ Now I'm in some locked state. I think the other thing to start thinking about, t
 is how we want to move the memory planner
 
 ##### **Geohot** [[00:24:58](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1498)]
-into something that Viz can use to do that. Can visualize? Like how... When we have like buffers in the memory graph,
+into something that Viz can use to do that. Can visualize? Like how.. When we have like buffers in the memory graph,
 
 ##### **Geohot** [[00:25:16](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1516)]
 how do we link that back to the schedule graph? Like, can I click on a buffer in the memory graph, and it does anything?
@@ -401,49 +401,49 @@ It does that. Yeah, it's very hard to trace it back. Back to the actual kernels.
 Yeah, like the same way that we click on the kernel, I want to click on the memory, and I want it to do something intelligent.
 
 ##### **Geohot** [[00:25:56](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1556)]
-Yeah, you'd want to like tie...
+Yeah, you'd want to like tie..
 
 ##### **Qazalin** [[00:26:00](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1560)]
 Basically backtrack from the buffer objects to the kernel to exactly the back to the original bitrate.
 
 ##### **Geohot** [[00:26:09](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1569)]
-Yeah, like maybe if I click on it, and maybe you can make this only work on range of five. It's easier. Like when I click on it, it should go to... Well, so I like now that we have this concept of lighting up a UOP. So like imagine when I click on the memory, it takes me to... Well, I guess it could be in multiple schedules. Like imagine it takes me... It takes me to the schedule, and it's lit up as the buffer object.
+Yeah, like maybe if I click on it, and maybe you can make this only work on range of five. It's easier. Like when I click on it, it should go to.. Well, so I like now that we have this concept of lighting up a UOP. So like imagine when I click on the memory, it takes me to.. Well, I guess it could be in multiple schedules. Like imagine it takes me.. It takes me to the schedule, and it's lit up as the buffer object.
 
 ##### **Qazalin** [[00:26:37](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1597)]
 You could like navigate through different uses of that buffer, like the read and the write.
 
 ##### **Geohot** [[00:26:46](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1606)]
-Yeah. I mean, it would also... In a schedule, it will only show up once as an object. It's called a buffer. Multiple.
+Yeah. I mean, it would also.. In a schedule, it will only show up once as an object. It's called a buffer. Multiple.
 
 ##### **Qazalin** [[00:26:58](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1618)]
 Multiple reads. That's a buffer interface. That's a buffer.
 
 ##### **Geohot** [[00:27:00](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1620)]
-Well, yeah, but that should just be like... Again, that should just be the object. That should be like that UOP in the schedule lit up, right? Multiple reads are just multiple outgoing arrows. But yeah, like when I view tensor graph in the schedule, there's something called buffer. And yeah, like that's what I want to be able to get to from the profiler. Yeah. When I click on it, it takes me to the schedule with the buffer lit up. But it may be in two schedules, so we need some way to navigate between schedules.
+Well, yeah, but that should just be like.. Again, that should just be the object. That should be like that UOP in the schedule lit up, right? Multiple reads are just multiple outgoing arrows. But yeah, like when I view tensor graph in the schedule, there's something called buffer. And yeah, like that's what I want to be able to get to from the profiler. Yeah. When I click on it, it takes me to the schedule with the buffer lit up. But it may be in two schedules, so we need some way to navigate between schedules.
 
 ##### **Qazalin** [[00:27:42](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1662)]
 And then you'll have the complication of something is memory planned and in the JIT. So there's like no way to actually know what's going on. There's this big blob in the beautiful endless graph.
 
 ##### **Geohot** [[00:27:54](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1674)]
-Yeah. I mean, we have to move... We have to move the memory planner.
+Yeah. I mean, we have to move.. We have to move the memory planner.
 
 ##### **Geohot** [[00:28:00](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1680)]
 To the schedule. With buffer view ops? Yeah. Buffer view ops should be fine. And it's okay if it's like one big buffer and it just has buffer view ops. Like that's okay. If that's really what it is, then that's what it is. But cool. Speed.
 
 ##### **Geohot** [[00:28:25](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1705)]
-The bug. The glitchiness. Just click around. Click around. And if you could somehow break Viz, you're not done. Keep clicking around until it breaks. Then we can click around and say, all right, I'm confident it doesn't break. I'll click around and it'll break. And then... Yeah. And then the memory's done.
+The bug. The glitchiness. Just click around. Click around. And if you could somehow break Viz, you're not done. Keep clicking around until it breaks. Then we can click around and say, all right, I'm confident it doesn't break. I'll click around and it'll break. And then.. Yeah. And then the memory's done.
 
 ##### **Qazalin** [[00:28:44](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1724)]
-Yeah. There's... I fixed the resizing bug this week. Hopefully. The bugs will be fixed.
+Yeah. There's.. I fixed the resizing bug this week. Hopefully. The bugs will be fixed.
 
 ##### **Geohot** [[00:28:51](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1731)]
-Cool. Yeah. A lot of compliments on Twitter for Viz. People are like, wow, TinyGrid really has a... Yeah. Best visualizer for this stuff I've seen.
+Cool. Yeah. A lot of compliments on Twitter for Viz. People are like, wow, TinyGrid really has a.. Yeah. Best visualizer for this stuff I've seen.
 
 ##### **Qazalin** [[00:29:02](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1742)]
 I tried using NVIDIA's tools. It's very good. It's just so hard. I have to set up so much stuff. Yeah.
 
 ##### **Geohot** [[00:29:09](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1749)]
-No, I mean, the tools are great. But the only people who use them are the highest-end engineers at OpenAI who can... The highest-end engineers doing these kernels can do it, but they're not usable by any sort of casual ML person. Yeah. We're designing tools. We're designing tools for the ML researcher, not the... I've devoted my entire career to NVIDIA.
+No, I mean, the tools are great. But the only people who use them are the highest-end engineers at OpenAI who can.. The highest-end engineers doing these kernels can do it, but they're not usable by any sort of casual ML person. Yeah. We're designing tools. We're designing tools for the ML researcher, not the.. I've devoted my entire career to NVIDIA.
 
 ##### **Qazalin** [[00:29:37](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1777)]
 They also have godly amounts of patience.
@@ -458,19 +458,19 @@ The workflow of triggering the profiler and then viewing the trace is many, many
 Yeah.
 
 ##### **Geohot** [[00:29:57](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1797)]
-I mean, that's been... That's been...
+I mean, that's been.. That's been..
 
 ##### **Geohot** [[00:29:58](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1798)]
 Yeah. Right.
 
 ##### **Geohot** [[00:30:00](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1800)]
-That's been my experience with this stuff, too. Like, it's just... You're... Of the... All the people who use NVIDIA, only 3% of people use these profilers as part of their workflow. Maybe, like, 50% of people have tried the profiler once, and they're like, this does not provide enough value for how much effort I'm putting into it. So, yeah. That's why you always want to be on that trade-off.
+That's been my experience with this stuff, too. Like, it's just.. You're.. Of the.. All the people who use NVIDIA, only 3% of people use these profilers as part of their workflow. Maybe, like, 50% of people have tried the profiler once, and they're like, this does not provide enough value for how much effort I'm putting into it. So, yeah. That's why you always want to be on that trade-off.
 
 ##### **Geohot** [[00:30:27](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1827)]
 Cool. Thank you. Thanks. Next is CPU thread for driver. Yeah. So, threading is merged.
 
 ##### **Nimlgen** [[00:30:47](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1847)]
-So, actually, Lama with CPU floating looks better now. Yeah. So, it looks better. I still see some issues on 350, so I'm going to look this week. So I know what's causing that, but I don't think it's hardware, maybe it's our driver. So yeah, I'm going to look into this. Just 300 is fine.
+So, actually, LLaMA with CPU floating looks better now. Yeah. So, it looks better. I still see some issues on 350, so I'm going to look this week. So I know what's causing that, but I don't think it's hardware, maybe it's our driver. So yeah, I'm going to look into this. Just 300 is fine.
 
 ##### **Geohot** [[00:31:21](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=1881)]
 Can you look into why loading the weights for
@@ -584,7 +584,7 @@ Yeah, I think maybe what we should do is add, can you detect if it's in the bad 
 I didn't know yet.
 
 ##### **Chenyu** [[00:37:09](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=2229)]
-Oh, speaking of this, Wolf Perry, do you have some telemetry tracking on the CPU? The tiny box machine?
+Oh, speaking of this, Wolf Perry, do you have some telemetry tracking on the CPU? The TinyBox machine?
 
 ##### **Geohot** [[00:37:21](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=2241)]
 Yes. You can see them on stats? Yes.
@@ -752,7 +752,7 @@ It's not super cold.
 It's not super cold because we isolated the computers. Yeah, we used to be burning. It was costing us like $2,000 a month to just build a room. Just running the overrunning the HVAC to Google computers. But now we're just putting a fan.
 
 ##### **Chenyu** [[00:46:20](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=2780)]
-Is it fine if we run all the bird training on all the tiny box in that room? Is it OK? Should be.
+Is it fine if we run all the bird training on all the TinyBox in that room? Is it OK? Should be.
 
 ##### **Geohot** [[00:46:28](https://www.youtube.com/watch?v=5-0CYqlEE2c&t=2788)]
 Should be. Yeah, yeah. Actually, if you want to stress this, now's a good time. No, I don't know.

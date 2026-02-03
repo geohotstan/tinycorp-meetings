@@ -5,7 +5,7 @@
 **Time:** 9am Monday San Diego time
 - company update
 - testgrad / scheduler
-- mlperf llama 405b, bert grad accumulation, llama 405b inference, bf16 adam
+- mlperf LLaMA 405b, bert grad accumulation, LLaMA 405b inference, bf16 adam
 - viz tooling
 - drivers
 - cloud, hash, tinyfs
@@ -20,16 +20,16 @@
 
 ### Highlights
 
-- **[Company Update](#geohot-or-chenyu-000000)**: Signed $2M AMD contract for MLPerf submission on Lama 405B. Initial down payment is $400K, with milestones based on single and multi-node performance against NVIDIA.
-- **[Company Update](#geohot-or-chenyu-000209)**: Tinybox Green V2 shipments underway; current orders shipping within approximately two weeks.
+- **[Company Update](#geohot-or-chenyu-000000)**: Signed $2M AMD contract for MLPerf submission on LLaMA 405B. Initial down payment is $400K, with milestones based on single and multi-node performance against NVIDIA.
+- **[Company Update](#geohot-or-chenyu-000209)**: TinyBox Green V2 shipments underway; current orders shipping within approximately two weeks.
 - **[Scheduler/TestGrad](#geohot-or-chenyu-000312)**: Kernel.py optimization isolated into a new directory (`opt`). Cleaner pipeline now consists of kernelization, optimization, and code generation.
 - **[Halide Backend](#geohot-or-chenyu-000515)**: Plans to experiment with Halide's backend for improved optimization language. Halide provides a potentially better framework for double buffering needed in fast GEMMs.
 - **[Gradient Accumulation for BERT](#geohot-or-chenyu-000756)**: Successfully implemented basic gradient accumulation; minor JIT input handling issues identified and to be fixed.
-- **[Llama 405B Inference](#geohot-or-chenyu-001032)**: Model loads slowly but runs correctly on MI300X hardware; FP16 Adam optimizer tested and considered suitable.
+- **[LLaMA 405B Inference](#geohot-or-chenyu-001032)**: Model loads slowly but runs correctly on MI300X hardware; FP16 Adam optimizer tested and considered suitable.
 - **[Fused Optimizer Memory Issue](#geohot-or-chenyu-001424)**: Memory overflow detected in the fused optimizer implementation; visualization tooling proposed to help diagnose buffer usage.
 - **[Visualization Tooling](#qazalin-001545)**: Merged `TimeVis` tool for non-blocking UOP tracking. Memory allocation and kernel execution profiling being enhanced to debug memory issues effectively.
 - **[Drivers Stability Issue](#nimlgen-002933)**: Red machine GPU reset instability traced potentially to `AMSMI` GPU probing service; plan to disable probing temporarily for stability tests.
-- **[GPU Memory Transfer Optimization](#geohot-or-chenyu-003818)**: Priority set for optimizing CPU-GPU memory transfers, especially critical for Lama 405B due to optimizer states stored on CPU.
+- **[GPU Memory Transfer Optimization](#geohot-or-chenyu-003818)**: Priority set for optimizing CPU-GPU memory transfers, especially critical for LLaMA 405B due to optimizer states stored on CPU.
 - **[Disk to GPU Direct Transfer](#nimlgen-003958)**: Exploring direct disk-to-GPU data transfer solutions using NVMe or DMA buffer mechanisms.
 - **[Z3 Symbolic Bit Vector](#geohot-or-chenyu-004722)**: Flaky CI behavior suspected due to temporary files and multiprocessing conflicts; further debugging planned.
 - **[Local Memory and Upcast Optimization](#ignaciosica-005005)**: Continued work on local memory optimization (`locals`) and `upcast` improvements; issues identified with masking and memory aliasing.
@@ -44,7 +44,7 @@ Let's get started.
 Star Wars company update.
 Okay, we had a great week for the company last week.
 We got the AMD contract signed.
-So we have a $2 million contract on the table to get AMD's new chip on MLPerf for Lama 405B.
+So we have a $2 million contract on the table to get AMD's new chip on MLPerf for LLaMA 405B.
 Okay.
 So yeah, we have a $400K down payment, and then there's four milestones, $400K each, using single node, multi node, and whether we can beat NVIDIA on performance or not.
 And we have an ace up our sleeves if we really want to beat NVIDIA, which is that those numbers are pegged to BF16 numbers.
@@ -53,7 +53,7 @@ We basically get the performance free.
 So kind of what I'm hoping is that we do a BF16 submission for the first MLPerf, and then we try to do FP8 for the second one, and then we get it all.
 Is there an ETA for the new chips?
 Yeah, so I was emailing with Inertia this weekend.
-He says he's going to send them like this week or next, but...
+He says he's going to send them like this week or next, but..
 To be fair, we have a lot to figure out on the old chips.
 
 ##### **Geohot or Chenyu** [[00:01:23](https://www.youtube.com/watch?v=nNXwJ320Dww&t=83)]
@@ -85,12 +85,12 @@ It's the same CDNA4.
 We can make everything work.
 I'm just trying a little faster.
 Uh-huh.
-Yeah, and also we got Tinybox V2s are now shipping.
+Yeah, and also we got TinyBox V2s are now shipping.
 Two shipped last week.
 There's two that look ready in the room now.
 So they'll ship today, probably.
-Yeah, and if you order a Tinybox, not Pro, just Tinybox Green V2s.
-If you order a Tinybox Green V2, it will ship in like probably two weeks.
+Yeah, and if you order a TinyBox, not Pro, just TinyBox Green V2s.
+If you order a TinyBox Green V2, it will ship in like probably two weeks.
 
 ##### **Geohot or Chenyu** [[00:02:44](https://www.youtube.com/watch?v=nNXwJ320Dww&t=164)]
 So yeah, the tiny boxes are flowing.
@@ -99,7 +99,7 @@ Yeah, things are good about that.
 Great.
 OK.
 Sounds good.
-Let's move on to...
+Let's move on to..
 That's great, scheduler.
 
 ##### **Geohot or Chenyu** [[00:03:12](https://www.youtube.com/watch?v=nNXwJ320Dww&t=192)]
@@ -137,16 +137,16 @@ So it's pretty good.
 ##### **Geohot or Chenyu** [[00:05:15](https://www.youtube.com/watch?v=nNXwJ320Dww&t=315)]
 Yeah, so this week I'm going to work on, I'm going to try writing a Halide backend.
 It seems like that paper is really good, too.
-It seems like they've put a lot more thought than we have into what makes... It's sad that what they're doing is the state of the art.
+It seems like they've put a lot more thought than we have into what makes.. It's sad that what they're doing is the state of the art.
 It just looks like it's very similar to our heuristics, but thought about for a few more years.
-So it's not like we're missing... Are people using this now?
+So it's not like we're missing.. Are people using this now?
 Not really.
 Halide is mostly used for image pipelines.
 There's some academic stuff using it for neural networks, but no, for actual neural networks, it's much more MLIR.
 I mean, Triton's the big one.
 I think Triton now is MLIR.
 They're just using the MLIR infrastructure.
-Triton is the big one they're using, and Triton gets you this basically... Triton solves one part of the problem.
+Triton is the big one they're using, and Triton gets you this basically.. Triton solves one part of the problem.
 And that's kind of what things are moving to.
 But it doesn't seem like a very clean and generic solution to me.
 And every time I've tried to use Triton, it's clear that there's paths they optimize for.
@@ -166,7 +166,7 @@ If we are missing anything, or maybe something can be expressed a lot.
 Yeah, yeah, yeah.
 There is something we're missing, which is the double buffering.
 We don't have any way to express that now, like the double buffering.
-You need this for fast gems.
+You need this for fast GEMMs.
 
 ##### **Geohot or Chenyu** [[00:07:33](https://www.youtube.com/watch?v=nNXwJ320Dww&t=453)]
 And Halide has a way to express that, so if we could just steal it.
@@ -232,7 +232,7 @@ Oh, that's how I did.
 Oh, well, that shouldn't have memory overhead.
 
 ##### **Geohot or Chenyu** [[00:11:11](https://www.youtube.com/watch?v=nNXwJ320Dww&t=671)]
-No, but now you're...
+No, but now you're..
 Maybe I misunderstand what you are saying.
 So we should JIT the, say, if it's accumulated over 16 steps, then 016 will happen in the JITed.
 Is that what you mean?
@@ -326,7 +326,7 @@ The basic idea is to track the actual fields of the UOP data class and then reco
 And that's going to solve Mickey.
 I saw a bunch of the diffs where the bounties were like weak refs and stuff.
 You need none of that.
-I wasted time pickling weak refs and it was just...
+I wasted time pickling weak refs and it was just..
 Pick up the fields and reconstruct the graph.
 So yeah.
 
@@ -334,7 +334,7 @@ So yeah.
 Yeah, I think that's a reasonable way to do it.
 
 ##### **Qazalin** [[00:16:24](https://www.youtube.com/watch?v=nNXwJ320Dww&t=984)]
-This is going to get us to 20% overhead on Lama.
+This is going to get us to 20% overhead on LLaMA.
 
 ##### **Geohot or Chenyu** [[00:16:28](https://www.youtube.com/watch?v=nNXwJ320Dww&t=988)]
 Sweet.
@@ -348,7 +348,7 @@ Take it from there.
 ##### **Geohot or Chenyu** [[00:16:45](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1005)]
 Yeah, I mean, it would be great if we could like debug FuseOptim.
 I mean, that's kind of a first use case of it, like figure out why FuseOptim is using more memory than not FuseOptim.
-And so that's Lama inference.
+And so that's LLaMA inference.
 How is it working on BERT training?
 
 ##### **Qazalin** [[00:17:06](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1026)]
@@ -477,7 +477,7 @@ Yeah, I think so too.
 Open the buffer class and then process it.
 
 ##### **Geohot or Chenyu** [[00:23:21](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1401)]
-Yeah, the problem with doing it in global counters is kind of like, OK, now we have some dictionary in global counters of the device names and of the .
+Yeah, the problem with doing it in global counters is kind of like, OK, now we have some dictionary in global counters of the device names and of the.
 One concrete issue I had was I was testing training birds on a red box, and the total mem was 148 gig.
 
 ##### **Geohot or Chenyu** [[00:23:42](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1422)]
@@ -493,7 +493,7 @@ Yeah, I mean, you'll be able to see that really easily in the graph.
 It should just be like, on that timeline, you'll just be able to see, OK, what's the highest point?
 
 ##### **Qazalin** [[00:24:26](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1466)]
-Maybe we could even go .
+Maybe we could even go.
 
 ##### **Geohot or Chenyu** [[00:24:29](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1469)]
 Add to what?
@@ -514,10 +514,10 @@ What do you want to add to the allocator?
 Tracking those events, the instance of the allocator.
 
 ##### **Geohot or Chenyu** [[00:24:59](https://www.youtube.com/watch?v=nNXwJ320Dww&t=1499)]
-I don't think the allocator really... I would just do it at the buffer layer, probably.
-The allocator is kind of... We don't support things like multiple allocators.
+I don't think the allocator really.. I would just do it at the buffer layer, probably.
+The allocator is kind of.. We don't support things like multiple allocators.
 I don't think we have to.
-I think just that the buffers... The allocator also, then you're asking, we assume that the LRU cache is at a much lower level, and we should never really be thinking about that.
+I think just that the buffers.. The allocator also, then you're asking, we assume that the LRU cache is at a much lower level, and we should never really be thinking about that.
 There just shouldn't be bugs in the LRU cache, and we should never have to think about it.
 I want to know how many buffers are allocated right now for any given device, and what the sum of that is, and how they stack, and all that.
 
@@ -782,21 +782,21 @@ Oh, yeah.
 Yeah, but not the highest priority right now.
 I think that we're going to have to move to AQL, but I don't think we have to do it right now.
 I think we can do it in a few months.
-Once we understand... Because we are still getting that 10 microsecond overhead to sync the kernels, which seems to be gone in AQL.
-Yeah, I mean, it's not... I spent...
+Once we understand.. Because we are still getting that 10 microsecond overhead to sync the kernels, which seems to be gone in AQL.
+Yeah, I mean, it's not.. I spent..
 A day trying to reverse the mech and look for what it is.
 It's deep in the AQL stuff.
 So whether we actually use AQL or try to use AQL through the back door of the PM4, I kind of like the idea of just straight up using it because we can just copy HIP.
 Yeah, we should just support it.
 I don't know.
-But again, definitely lower priority than... The highest priority is fixing the stability of the red boxes, then copy out on GPU, then getting NVIDIA merged, then NVIDIA 5090, then all the way at the bottom is AQL for AMD.
+But again, definitely lower priority than.. The highest priority is fixing the stability of the red boxes, then copy out on GPU, then getting NVIDIA merged, then NVIDIA 5090, then all the way at the bottom is AQL for AMD.
 Even probably even higher priority than AQL for AMD is figuring out how we can increase the load speed of LAMA45B.
 
 ##### **Geohot or Chenyu** [[00:38:13](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2293)]
 I'll check this.
 
 ##### **Geohot or Chenyu** [[00:38:18](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2298)]
-Yeah, because we're going to need... So, a conversation that we had in the office a few weeks ago was... So, for the Lama 405B, we can't fit the optimizer state on the GPU.
+Yeah, because we're going to need.. So, a conversation that we had in the office a few weeks ago was.. So, for the LLaMA 405B, we can't fit the optimizer state on the GPU.
 So, the optimizer state is going to live in CPU RAM, and we're going to run the optimizer on the CPU.
 So, we've got to make that copy-in-and-out path fast.
 
@@ -831,7 +831,7 @@ Oh, here.
 Yeah, I need to investigate this.
 
 ##### **Geohot or Chenyu** [[00:40:01](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2401)]
-UUVN's got a link to...
+UUVN's got a link to..
 
 ##### **Geohot or Chenyu** [[00:40:06](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2406)]
 Oh, yeah, this is the DMA ref stuff, which we don't know how to get in AM.
@@ -843,7 +843,7 @@ They're just not merged yet.
 
 ##### **Geohot or Chenyu** [[00:40:21](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2421)]
 Why not?
-Yeah, I think I've... Let's rewrite them from rusted to C, and then we can get them merged fast.
+Yeah, I think I've.. Let's rewrite them from rusted to C, and then we can get them merged fast.
 VFIO has patches to export DMA ball.
 Yeah.
 
@@ -851,7 +851,7 @@ Yeah.
 And then there's another one as well for UDMA buff that can accept the PCI bar address.
 
 ##### **Wozeparrot** [[00:40:49](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2449)]
-Uh... No, no, there's a patch for UDMA buff that lets it accept a PCI bar address.
+Uh.. No, no, there's a patch for UDMA buff that lets it accept a PCI bar address.
 
 ##### **Geohot or Chenyu** [[00:40:55](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2455)]
 It's on an Intel tree, I believe.
@@ -859,7 +859,7 @@ I see.
 
 ##### **Geohot or Chenyu** [[00:41:04](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2464)]
 We should think about whatever the easiest way to do this is.
-Ideally not with our own... Yeah, yeah, yeah, yeah, we don't want to.
+Ideally not with our own.. Yeah, yeah, yeah, yeah, we don't want to.
 Maintaining a kernel module is a lot.
 I'd much rather, like, if we have to build a kernel with a flag, I'd much rather that than a separate kernel module.
 
@@ -911,7 +911,7 @@ One alternative to the kernel module is that there is a vendor specific extensio
 So if you're okay with using like two or something year old Mellanox of head package, it can just be a single API call.
 
 ##### **Geohot or Chenyu** [[00:43:19](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2599)]
-Well, but... No, we should use DMA buff.
+Well, but.. No, we should use DMA buff.
 Yeah, I mean, the problem with the Mellanox thing is it's not going to work for NVMEs, too.
 Yeah, we should use DMA buff.
 
@@ -940,8 +940,7 @@ Yeah.
 
 ##### **Uuvn** [[00:44:18](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2658)]
 So the remote thing has been blocked on the P2P PR.
-I addressed the last... Yeah, that's my bad.
-...asked me to split a couple things.
+I addressed the last.. Yeah, that's my bad.. asked me to split a couple things.
 I did, like, four days ago, waiting on, like, this being merged.
 
 ##### **Geohot or Chenyu** [[00:44:33](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2673)]
@@ -989,7 +988,7 @@ What?
 ##### **Geohot or Chenyu** [[00:45:37](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2737)]
 It's pretty specific on that one device.
 But remote can use all the devices, I thought.
-Doesn't it work for...
+Doesn't it work for..
 
 ##### **Geohot or Chenyu** [[00:45:45](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2745)]
 Doesn't work for multi-GPU?
@@ -1006,7 +1005,7 @@ Yeah, I feel like, yeah.
 Yeah.
 So, I think that that's the way to do that.
 I think we definitely do not want disk service running on each thing.
-We want one Tinygrad server, and it's kind of a...
+We want one Tinygrad server, and it's kind of a..
 And then the Tinygrad server will eventually become a kernel and will eventually remove Linux from the computers.
 
 ##### **Geohot or Chenyu** [[00:46:23](https://www.youtube.com/watch?v=nNXwJ320Dww&t=2783)]
@@ -1095,7 +1094,7 @@ Right now, it's not that fast.
 That justifies some kernels that are really slower.
 And so I think that's not going to be upstreamed.
 And also, I added
-I mean, a PR that enables group... Wait, so why?
+I mean, a PR that enables group.. Wait, so why?
 
 ##### **Geohot or Chenyu** [[00:51:59](https://www.youtube.com/watch?v=nNXwJ320Dww&t=3119)]
 Your examples seem fine, right?
@@ -1110,7 +1109,7 @@ Yeah.
 Oh, I see.
 
 ##### **Ignaciosica** [[00:52:18](https://www.youtube.com/watch?v=nNXwJ320Dww&t=3138)]
-I explained why I think it is my...
+I explained why I think it is my..
 The second one is bad.
 But the other ones are fine.
 But yeah.
@@ -1139,8 +1138,8 @@ Oh, that's probably fine.
 I mean, it doesn't compile, but it doesn't break anything else.
 No.
 Yeah, that should be fine.
-I mean, as long as things aren't wrong...
-There are some optimizations that... I mean, at what point does it fail?
+I mean, as long as things aren't wrong..
+There are some optimizations that.. I mean, at what point does it fail?
 Can it throw an error in the kernel.py?
 
 ##### **Ignaciosica** [[00:53:29](https://www.youtube.com/watch?v=nNXwJ320Dww&t=3209)]
@@ -1149,7 +1148,7 @@ I mean, I don't know how to address the aliasing dimension that you mentioned, b
 
 ##### **Geohot or Chenyu** [[00:53:39](https://www.youtube.com/watch?v=nNXwJ320Dww&t=3219)]
 Well, you have to.
-I mean, the aliasing dimension, you have to actually get it to be the true...
+I mean, the aliasing dimension, you have to actually get it to be the true..
 You have to get it to be the true local size.
 And that is the entire challenge of locals.
 If you have aliasing dimensions and you're making too many copies in locals, then that ruins everything.
@@ -1208,7 +1207,7 @@ If it passes with O0 and it doesn't pass with O2, it's probably a compiler bug.
 ##### **Geohot or Chenyu** [[00:56:27](https://www.youtube.com/watch?v=nNXwJ320Dww&t=3387)]
 Yeah, it's fine.
 Cool.
-Yeah, I'm fine with... Let me see.
+Yeah, I'm fine with.. Let me see.
 What's this doing?
 Yeah, I'm fine with merging this.
 OK.
@@ -1223,7 +1222,7 @@ And we have that bug on the M2.
 I don't know.
 Apple's going downhill.
 It's not just their driver.
-It's their whatever thing they use for .
+It's their whatever thing they use for.
 Oh, oh, I mean, yeah, that thing's crappy, too.
 They're like virtualized thing.
 But yeah, OK, cool.
@@ -1359,7 +1358,7 @@ Interesting.
 ##### **Geohot or Chenyu** [[01:03:42](https://www.youtube.com/watch?v=nNXwJ320Dww&t=3822)]
 Yeah, we really need realizes removed.
 Okay.
-I don't know, but this might be a bug beyond...
+I don't know, but this might be a bug beyond..
 What the SVD thing is.
 
 ##### **Geohot or Chenyu** [[01:03:52](https://www.youtube.com/watch?v=nNXwJ320Dww&t=3832)]
@@ -1372,7 +1371,7 @@ I mean, but is the algorithm this complicated?
 Yeah.
 No.
 No?
-It's probably a sim algorithm, but it's just... I don't know.
+It's probably a sim algorithm, but it's just.. I don't know.
 It's probably fine.
 It doesn't look clean.
 It's similar to whatever.
@@ -1411,7 +1410,7 @@ Oh, there's two dog clones.
 Oh.
 
 ##### **Geohot or Chenyu** [[01:05:35](https://www.youtube.com/watch?v=nNXwJ320Dww&t=3935)]
-Oh, the issue was... Oh, is it assigned to?
+Oh, the issue was.. Oh, is it assigned to?
 Oh, yeah, it's assigned to there.
 Yeah.
 
@@ -1436,7 +1435,7 @@ Or does it just produce the wrong answer?
 I mean, nothing can hang.
 It has a fixed number of iterations.
 It probably just produces the wrong answer.
-But yeah, no, the paper that he took it from, like, you could say the code looks complicated, but the paper that he took it from looks equally complicated, so...
+But yeah, no, the paper that he took it from, like, you could say the code looks complicated, but the paper that he took it from looks equally complicated, so..
 
 ##### **Geohot or Chenyu** [[01:06:47](https://www.youtube.com/watch?v=nNXwJ320Dww&t=4007)]
 I don't know.

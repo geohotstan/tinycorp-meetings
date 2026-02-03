@@ -10,7 +10,7 @@
 - mlperf bert, softmax, attention
 - tensor cores
 - onnx
-- bounties: int64 merged, webgpu f16, retinanet, whisper, graph rewrite?, x86?, BLAKE3?, some new bounties!
+- bounties: int64 merged, WebGPU f16, retinanet, whisper, graph rewrite?, x86?, BLAKE3?, some new bounties!
 
 ### Audio
 
@@ -55,9 +55,9 @@ I don't even know what they're going to do with the ones that don't yield.
 Oh, that'll be interesting.  
 That's the card I really want.  
 We also stood up the beginning of the cloud.  
-We have five tiny box reds.  
+We have five TinyBox reds.  
 It's going to be nine.  
-I was playing with the networking switch last night, so we're going to have...  
+I was playing with the networking switch last night, so we're going to have..  
 a big cluster of AMD GPUs.  
 
 **Chenyu** [[00:01:52](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=112)]  
@@ -94,7 +94,7 @@ But it's going to be uops.
 And then we can differentiate through it.  
 And then gradient will work.  
 Because right now, gradient's broken.  
-Because it can't call the...  
+Because it can't call the..  
 Like, it can't call the UOP methods, and the different UOP methods are on multi-lazy buffer now.  
 So that needs to be rewritten in a rewrite rule, and that kind of continues in the UOP-ification of everything.  
 We move things from being done instantly to being specified and then transformed.  
@@ -105,7 +105,7 @@ VIZ.
 
 **Chenyu** [[00:04:05](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=245)]  
 Yeah, and also to prepare or kind of making new multi easier, I disabled all the uneven sharding.  
-So as a result, we currently don't have Llama running on 6 GPU because it doesn't shard evenly.  
+So as a result, we currently don't have LLaMA running on 6 GPU because it doesn't shard evenly.  
 And I also disabled the 70B for now.  
 I will find a way to add it back later with the new multi stuff, probably with some padding.  
 But the idea is we want  
@@ -122,7 +122,7 @@ And we'll move all of the scheduling, all of the optimization stuff onto a gatew
 On this gateway machine, we'll just drive the GPUs, and this is how we're going to get to, not next MLPerf, but the MLPerf after, training on a cluster.  
 
 **Chenyu & Geohot** [[00:05:30](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=330)]  
-We will put 54 in...  
+We will put 54 in..  
 numbers of accelerators.  
 Yeah, yeah, well, 36.  
 I think we're going to turn on 6.  
@@ -140,7 +140,7 @@ We can move on to scheduler.
 So I have two simplification diffs ready.  
 The problem that I have run across is that it's just really hard to add the optimizations back with also doing the simplifications at the same time.  
 So the first one is delete forced_realize.  
-This makes Llama 4 GPU slower.  
+This makes LLaMA 4 GPU slower.  
 But I think it's the right path to move forward, because it's really hard to move forward with anything if we have that force-realized set existing.  
 The same goes for simplified tensors, [8580](https://github.com/tinygrad/tinygrad/pull/8580).  
 This one,  
@@ -192,7 +192,7 @@ I just literally apply the symbolic symbol on the tensors.
 Because image Dtype is like, if you have an image F with different shapes, it doesn't fold that, right?  
 But right now in master, what we have is that we first rewrite that image Dtype to be the float32.  
 So a float32, cast float32 just does fold.  
-But image is not...  
+But image is not..  
 
 **Geohot** [[00:09:33](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=573)]  
 Do you have a benchmark run on here?  
@@ -200,7 +200,7 @@ Let's just see if OpenPilot gets way worse.
 Just, yeah, maybe make [8580](https://github.com/tinygrad/tinygrad/pull/8580) not draft, do a benchmark run, and we'll check it out.  
 Again, I'm tempted to merge it.  
 I first realized I just had to go.  
-This one... Also, what I'm doing with multi, I'm hoping I can kind of merge that with something like what you're doing with RevTensorMap.  
+This one.. Also, what I'm doing with multi, I'm hoping I can kind of merge that with something like what you're doing with RevTensorMap.  
 If you see what I'm doing with multi, I do two passes of tensor rewriting.  
 I abstracted that out.  
 That's already in master.  
@@ -300,7 +300,7 @@ That's the first step in scheduling.
 That has existed ever since like lazy was a thing.  
 Yeah.  
 Look at the thing, even in the recursive lazy op, there was dtype.base and you were initiating the lazy op.  
-So it's like it's carried through to the day, and I don't really...   
+So it's like it's carried through to the day, and I don't really..   
 
 **Geohot** [[00:14:33](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=873)]  
 Okay, if you're still being bothered by that, I can look at it more.  
@@ -393,7 +393,7 @@ It just requires USB 4 or Thunderbolt.
 But there's definitely ways to set up basically DMAs.  
 Well, not DMAs, but to not just do one rewrite, to basically put a big thing on the bus.  
 On the 24-hour chip, we just had to figure out how to do it.  
-So, yeah, no, I see no reason why this shouldn't be... Cool.  
+So, yeah, no, I see no reason why this shouldn't be.. Cool.  
 Yeah, great work, making it fast.  
 uh i think we should also if you uh run ctrl c spam uh can it get into a bad state   
 
@@ -419,7 +419,7 @@ Yeah, yeah.
 So handling control C isn't enough because you can't guarantee that that thing runs.  
 If I kill minus nine, it's totally okay if it has to do a cold boot of the GPU after I do that, but it can't be in a bad state.  
 It can't be in an unrecoverable state that requires like reboot or like some flag to be added.  
-It always has to be able to recover no matter how much I...  
+It always has to be able to recover no matter how much I..  
 thrash this thing.  
 This is what we criticize AMD for, and I think we can do a lot better.  
 But the other thing, do we have the power and thermal management?  
@@ -440,12 +440,12 @@ We might even be able to do better than the real driver, because maybe we can tu
 
 **Nimlgen** [[00:21:26](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=1286)]  
 Uh-huh.  
-So... Yeah, yeah, I mean, potentially we can do that.  
+So.. Yeah, yeah, I mean, potentially we can do that.  
 I mean, I've seen some flags to do that, definitely.  
 
 **Geohot** [[00:21:37](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=1297)]  
 Yeah, yeah, yeah, yeah.  
-Unused... Like, yeah, after tinygrad turn off, low power draw is...  
+Unused.. Like, yeah, after tinygrad turn off, low power draw is..  
 as a target.  
 And I think the, let me see what the normal driver uses.  
 Yeah, so the GPUs are drawing about 20 watts at idle with the kernel driver.  
@@ -507,7 +507,7 @@ Not sure if there's a clean way to write this, but I think the first step is pro
 Do you think, if I, you want me to spend some time thinking about the argmax thing?  
 I think that'll help you.  
 Oh, sure.  
-So I think that thing is tied to ...  
+So I think that thing is tied to..  
 So for now, to do argmax, we also need to do two paths.  
 The first pass is finding the max, and the second pass is finding the index that's that.  
 So I think that's similar in concept, because basically, to do one path on this, we want to loop over a range.  
@@ -515,14 +515,14 @@ while tracking the max property on one entry, but we keep the other entry and ev
 So I think that's similar.  
 I kind of see how to do it with kind of like a, it's like a gated store, really.  
 I mean, you have like a define ACC and you have like a gated store, and then that store gate is the max.  
-Yeah, but how do you know... This is, like, sequential.  
+Yeah, but how do you know.. This is, like, sequential.  
 It's not sequential.  
 It fits in UOPs.  
 I don't exactly know how we're going to do the transformation to UOPs.  
 But okay, so you have this, like, is this the max, which is a bool.  
 And then that's your gate for a store.  
 And then the store, instead of being to memory, is to a defined ACC.  
-It's like a gated assign, which is...  
+It's like a gated assign, which is..  
 It's fancier than what we're doing, but I certainly see the correct UOPs for it.  
 Okay, great.  
 You see what I mean, though.  
@@ -535,7 +535,7 @@ Okay.
 It's gated assign, basically.  
 That's a better way to put it.  
 It's gated assign.  
-Does it require... It doesn't require order, does it?  
+Does it require.. It doesn't require order, does it?  
 Oh, no.  
 No, it doesn't require order.  
 Same thing for Softmax.  
@@ -554,8 +554,8 @@ I don't want order to start mattering.
 If order starts mattering, we have a problem.  
 
 **Chenyu & Geohot** [[00:28:44](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=1724)]  
-So these, similar to associate scan, are like an operator applying on a range and you don't... It's ordered independently.  
-Yeah, I think this should...  
+So these, similar to associate scan, are like an operator applying on a range and you don't.. It's ordered independently.  
+Yeah, I think this should..  
 It's a little fancier than what we're doing, but not that much.  
 Yeah, so that's softmax.  
 So I think my strategy is I'll update this in the BERT channel as well, basically just to break down where we are bad now.  
@@ -567,7 +567,7 @@ thing that is on BERT model, but I'm also working on making a smaller script to 
 Yeah, so this is important of making progress.  
 
 **Geohot** [[00:30:07](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=1807)]  
-Yeah, BERT is a... BERT is one of the most important things we're going to do in like the first half of the year.  
+Yeah, BERT is a.. BERT is one of the most important things we're going to do in like the first half of the year.  
 Except for a while, this is the year of speed.  
 Last year was like the year of like correctness.  
 Now we're not going to find something better.  
@@ -577,7 +577,7 @@ It will be in the final tinygrad.
 So just like this style of writing code is what we spent most of last year figuring out.  
 And then I think we did that.  
 A phenomenal style.  
-When you look at UOPs and graph rewrite and you compare that to... You read an LLVM rewrite rule.  
+When you look at UOPs and graph rewrite and you compare that to.. You read an LLVM rewrite rule.  
 Read an MLIR rewrite rule.  
 They're so difficult to understand compared to UOPs and graph rewrite.  
 So yeah, I think we did a great job of that last year.  
@@ -638,7 +638,7 @@ Well, but what I'm saying is, so a kernel needs to be uniquely determined by its
 Is that still true?  
 
 **Ignaciosica** [[00:34:07](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2047)]  
-In a general case, no, because there is no way of specifying the...   
+In a general case, no, because there is no way of specifying the..   
 
 **Geohot** [[00:34:15](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2055)]  
 Yeah, that doesn't work.  
@@ -677,7 +677,7 @@ Uh, looking for something.
 Yeah.  
 What does torch actually get on the 4090?  
 I'll just say match torch.  
-I mean, it's cool that these... I'll lock the 160 T-flop to you based on... But yeah, the...  
+I mean, it's cool that these.. I'll lock the 160 T-flop to you based on.. But yeah, the..  
 You can't do any out-of-band search.  
 It's got to be functional programming.  
 It's like AST plus OptOps yields single code.  
@@ -686,7 +686,7 @@ I guess you can just, yeah, kind of loop it.
 If it's in the same process as cache, right?  
 No, no, no, no.  
 But then what if it's like, how does it go in the Beam cache?  
-I mean, isn't it all you... I don't know, maybe it picks the same thing every time.  
+I mean, isn't it all you.. I don't know, maybe it picks the same thing every time.  
 
 ##### need for speed  
 In general, we're down to, if anybody can figure out how to sustainably improve speed of things in TinyGrad, there's going to be big bounties for this.  
@@ -717,9 +717,9 @@ Which refactor?
 Oh, did you?  
 Yeah, I saw that refactor.  
 I saw you commented on it.  
-Were you... Yeah, it seemed fine to me.  
+Were you.. Yeah, it seemed fine to me.  
 To make it a class instead?  
-Um...  
+Um..  
 Yeah, what's wrong with making it a class?  
 It's fine.  
 I was waiting for it.  
@@ -741,14 +741,14 @@ Make sure there's nothing here.
 Yeah.  
 I mean it was awful what it was done merge the meeting is where things just happen we just do it yes next time you don't need to wait for this if we seems like we review something but we don't respond in I don't know a few reasonable time then just you can just ask in our next channel or dev channel  
 Yeah, yeah, yeah.  
-If you feel blocked... If anyone ever feels blocked on getting a PR merged and you're a known contributor, ping me.  
+If you feel blocked.. If anyone ever feels blocked on getting a PR merged and you're a known contributor, ping me.  
 I'm not upset at all.  
 I'm happy to.  
 If you're like, I'm blocked on this, that's my job here to unblock you.  
 Especially if it's something that we have commented.  
-Yeah, if we've commented and you fixed something...  
+Yeah, if we've commented and you fixed something..  
 I really liked, yeah.  
-I didn't like that it had a .run, but the call, yeah, this is clean.  
+I didn't like that it had a.run, but the call, yeah, this is clean.  
 ONNX runner is much more beautiful than get_run_onnx, which returns a function.  
 
 **Chenyu** [[00:40:24](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2424)]  
@@ -779,14 +779,14 @@ I'll think I'll get a crypto day.
 
 **Chenyu & Geohot** [[00:41:00](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2460)]  
 Great.  
-So webGPU, Float16.  
+So WebGPU, Float16.  
 I don't know what's the progress on that.  
 I saw PRs.  
 Did you review it?  
 Yeah, yeah.  
 He has a custom py_dawn thing.  
 That's a custom package.  
-I want to put that in the...   
+I want to put that in the..   
 Autogen?  
 I want to put it in AutoGen, but I'm fine with pulling release builds from some GitHub agent.  
 So I think that's the first step on that.  
@@ -827,13 +827,13 @@ I was on Tiny10, but I think the GPUs are down, I think.
 
 **Geohot** [[00:42:59](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2579)]  
 Yeah, you might have to use the AM driver.  
-Let me know if you're at all... If you're working on MLPerf and you're ever blocked by machines, we will get you more machines.  
+Let me know if you're at all.. If you're working on MLPerf and you're ever blocked by machines, we will get you more machines.  
 Just let me know.  
 Would you rather reds or greens?  
 We have a lot of reds now.  
 I can get you more reds.  
 So yeah, just let me know if that would help.  
-And we'll make sure... If you're working on MLPerf, you should never be blocked on machines.  
+And we'll make sure.. If you're working on MLPerf, you should never be blocked on machines.  
 
 **Flata** [[00:43:24](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2604)]  
 Okay, sounds good.  
@@ -851,7 +851,7 @@ You know, it'd be great if we get rid of that on this cycle too.
 
 **Chenyu** [[00:43:42](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2622)]  
 Yeah, and I mean, feel free to share these.  
-I think...  
+I think..  
 It's also important for TinyGrad to provide good researcher experience.  
 So the problems, how you debug it, and if you find it very hard to debug, I think these are important to share somewhere so we can think if there is a way we make tools to make these better.  
 It's not enough for TinyGrad itself to be great.  
@@ -865,9 +865,9 @@ And if we actually manage to get it on MLPerf, it's $2,000.
 
 **Chenyu** [[00:44:55](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2695)]  
 Sounds good.  
-Can we go back to... Yeah.  
+Can we go back to.. Yeah.  
 What's next?  
-Whisper...  
+Whisper..  
 
 **Geohot** [[00:45:03](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2703)]  
 Any comments?  
@@ -876,7 +876,7 @@ I'll test it on this week's audio.
 Great.  
 Yeah, I think, again, we pay that one out as soon as we get it actually used on the tiny recording.  
 And that's another thing.  
-I think you have access to tiny box, but if you need compute, just let me know.  
+I think you have access to TinyBox, but if you need compute, just let me know.  
 
 **Chenyu** [[00:45:26](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2726)]  
 OK.  
@@ -949,7 +949,7 @@ Thanks.
 
 **Chenyu** [[00:47:59](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2879)]  
 Okay, now go back to, I think, the real Graph Rewrite 2.0.  
-Or...  
+Or..  
 Yeah, Thompson, can you?  
 
 **Tomsa** [[00:48:23](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=2903)]  
@@ -1026,7 +1026,7 @@ And we unlock this so other people can maybe take from here.
 Okay, what else?  
 We'll go over the new bounties quickly.  
 Okay.  
-So if somebody can get Windows working in GitHub CI with any one of the backends, I don't care which one you choose, I think it might be a little tricky now with the...  
+So if somebody can get Windows working in GitHub CI with any one of the backends, I don't care which one you choose, I think it might be a little tricky now with the..  
 With the new Clang thing.  
 Oh, I got to merge that LLVM thing too.  
 Okay, I got to get to that today.  
@@ -1038,8 +1038,8 @@ You can just mmap it and jump to it.
 And you don't have to deal with, like, loading a DLL, which is absurdly slow.  
 I mean, just the amount of syscalls that DLLopen is going to make.  
 So now you're making one syscall, and in fact, you don't even really have to make that syscall.  
-You could just map a huge chunk of memory and do a...  
-But, uh...  
+You could just map a huge chunk of memory and do a..  
+But, uh..  
 Yeah, no, I mean, 1 mmap is still a lot better than DL Open, so.  
 Yeah, if somebody can get Windows working on any backend and add it to GitHub CI, $200, that's a great new bounty.  
 What test to put in the CI?  
@@ -1062,8 +1062,8 @@ Okay, this doesn't pass tests.
 It doesn't pass the linter.  
 Uh, that's another good bounty for a new person.  
 These $200 bounties probably will work out to be, uh, 10 lines of code, uh,  
-There's a bounty for... Oh, has this one... has there been progress on this one?  
-On the... Oh, okay, nobody rebased it.  
+There's a bounty for.. Oh, has this one.. has there been progress on this one?  
+On the.. Oh, okay, nobody rebased it.  
 I might unlock that one if there's no progress on it by next meeting.  
 The PTX working on OSX.  
 We have all the infrastructure now because AMD works on OSX, so that one's great.  
@@ -1075,10 +1075,10 @@ So yeah, $300 for that.
 $300 if someone can get FP8 support on NVIDIA with Tensor cores.  
 I've seen some PRs for that.  
 I haven't seen any that have Tensor cores, and none of them have looked particularly clean.  
-We got... I think maybe it's $165 in Torch.  
+We got.. I think maybe it's $165 in Torch.  
 Okay, so we got matmul bounty speed.  
 If somebody can get fast matmuls on pretty much any GPU, $400.  
-Uh...  
+Uh..  
 Maybe 500 if someone could do the multistage kernel.  
 HVAC decode support for the NV driver.  
 If you're good at the low-level stuff,  
@@ -1127,13 +1127,13 @@ Yeah, that was not going to happen.
 **Geohot** [[00:58:55](https://www.youtube.com/watch?v=Bm_blXgmlLo&t=3535)]  
 Okay.  
 Assembly backends.  
-SAS assembly backend.  
+SASS assembly backend.  
 Tense torrent backend.  
 RDNA 3 assembly backend.  
 We added a $10,000 bounty.  
 I mean, someone should do the first bounty first.  
 If somebody can get a RDNA assembly backend to match the performance of HIP, that's $1,000.  
-And if someone can get one that's 50% faster...  
+And if someone can get one that's 50% faster..  
 Again, the LLVM thing leaves a lot on the table, so I will actually pay $10,000 for that.  
 The main reason that we are getting better times on NVIDIA than AMD on our MLPerf is because the NVIDIA PTX to SASS compiler is better.  
 Everything else about it is pretty much the same.  
@@ -1144,8 +1144,8 @@ It's not the flops that are really helping you.
 How do you know this?  
 No, it's not.  
 Where do you think the flops are helping you?  
-Because the flops are... The output... The flop reporting are higher on Greenbox.  
-I mean, the flop... Yeah, but no, I think it has almost everything to do with memory.  
+Because the flops are.. The output.. The flop reporting are higher on Greenbox.  
+I mean, the flop.. Yeah, but no, I think it has almost everything to do with memory.  
 Yes, but don't the two machines have the same memory?  
 Well, that's the thing.  
 The two machines do have the same memory.  
@@ -1156,7 +1156,7 @@ And that's why it's worth $10,000 to us.
 
 ##### Tenstorrent  
 And then maybe the last one to talk about is the Tenstorrent backend.  
-I haven't put this up before because it used to be a lot of effort to maintain backends, but I think the new webGPU has really shown that things have gotten a lot better and that we can deal with more backends.  
+I haven't put this up before because it used to be a lot of effort to maintain backends, but I think the new WebGPU has really shown that things have gotten a lot better and that we can deal with more backends.  
 So if someone writes a Tenstorrent backend, $1,000.  
 And then Corsix, put up an extra $1,000 if someone also gets it to work on Wormhole.  
 So if you can write a Tenstorrent backend that works on Greyskull and Wormhole, $2,000.  

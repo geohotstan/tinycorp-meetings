@@ -20,7 +20,7 @@ But the point of code is to be readable and understandable and make the idea mor
 - New gradient API
 - Tensor is UOp? effect of scope, mutation, realize
 - Ops.POW, stable sigmoid, view reshape
-- Webgpu
+- WebGPU
 - Line crisis, chinese gpu, improve speed
 - Bounties: onnx, tensor cores, fast gemm, matcher speed, OSX GPUOcelot, int64 indexing
 
@@ -31,7 +31,7 @@ But the point of code is to be readable and understandable and make the idea mor
 ### Chapters
 
 - **00:00:00 Company Update**  
-  Tiny Box Pros are shipping this week.
+  TinyBox Pros are shipping this week.
 
 - **00:00:28 Drivers: AM and QCOM**  
   Discussion on QCOM driver timeout issues
@@ -66,7 +66,7 @@ But the point of code is to be readable and understandable and make the idea mor
 **Geohot** [00:00:03]
 Ok uh,
 Company update.
-We're shipping Tiny Box Pros this week, probably.
+We're shipping TinyBox Pros this week, probably.
 We're getting the last parts in.
 Got them all on a table.
 The whole Mars catalog tweeted about it.
@@ -98,7 +98,7 @@ You have to sleep after the if, right?
 
 **Nimlgen** [00:01:35]
 No, no, no.
-I mean, it's just in the while loop, so...
+I mean, it's just in the while loop, so..
 
 **Geohot** [00:01:43]
 It's fixed.
@@ -124,10 +124,10 @@ Yeah, so waiting for a signal, I mean.
 **Geohot** [00:02:24]
 No, I know, but in that loop, you have the sleep.
 How long can that sleep be?
-How long does the CPU... How often do you pull, basically?
+How long does the CPU.. How often do you pull, basically?
 
 **Nimlgen** [00:02:36]
-So, for... Yeah, I mean, for QCOM, there is no timeout for this syscall.
+So, for.. Yeah, I mean, for QCOM, there is no timeout for this syscall.
 I mean, I need to double-check that, but currently, yeah, there is no timeout for syscall, so it can go and sleep forever.
 
 **Geohot** [00:02:55]
@@ -153,16 +153,16 @@ Because that's why the two numbers are the same.
 But actually, yeah, it took longer than 30 seconds.
 
 **Geohot** [00:03:42]
-Well...
+Well..
 It took longer than 30 seconds.
 No, I don't think so.
 I'm reading the old code here.
-We don't even... I don't even know.
+We don't even.. I don't even know.
 Like, the old code had the value check before the sleep.
 
 **Nimlgen** [00:04:10]
 Yeah.
-So, that's basically...
+So, that's basically..
 Yeah, so basically that's like the fast path.
 You can just have already valid value and you should not go to sleep.
 
@@ -177,7 +177,7 @@ Like the while loop checks as a timer.
 
 **Geohot** [00:04:41]
 How tightly does that loop spin?
-How often does sleep just... No, for Qcom, it's just one sleep.
+How often does sleep just.. No, for Qcom, it's just one sleep.
 
 **Nimlgen** [00:04:50]
 It's just not loop at all.
@@ -228,7 +228,7 @@ Yeah, we cannot fuzz.
 Ideally, yes, but we start with something that's really bad and we fuzz from there.
 
 **Geohot** [00:07:20]
-Well, I mean, yeah, the problem is their setup is... You almost want just something that just uses the GPU in all sorts of weird ways.
+Well, I mean, yeah, the problem is their setup is.. You almost want just something that just uses the GPU in all sorts of weird ways.
 
 **Chenyu** [00:07:28]
 Yeah, I mean, at least what we can do is bring one of the comma runner and just run whatever on it for hours, right?
@@ -248,8 +248,8 @@ How about AM?
 
 **Nimlgen** [00:07:57]
 So yeah, for AM, I still have a speed to match the AMD driver, and also there is one weird behavior when accessing memory just sometimes return like all Fs.
-So yeah, and that's pretty strange because I have...
-Well, like, their kernel driver, like, modified would, like, remove... So, basically, it's the same logic as our drivers, and it works.
+So yeah, and that's pretty strange because I have..
+Well, like, their kernel driver, like, modified would, like, remove.. So, basically, it's the same logic as our drivers, and it works.
 So, I think I'm just doing something wrong on the CPU side, maybe.
 I know.
 Yeah, I'll double-check that.
@@ -294,7 +294,7 @@ So just several milliseconds, and in total it's just several, like seven or ten 
 I think the question is more, like, is it just, is it evenly distributed across all the kernels slower, or is it just like a few kernels that are slower?
 
 **Nimlgen** [00:10:00]
-Um...
+Um..
 
 **Geohot** [00:10:06]
 Like, maybe all kernels that use shared memory are slower or something.
@@ -304,8 +304,8 @@ Yeah, that's a good thing to know.
 I've just noticed that one kernel, which is, like, reproducible slower, is just using tensor cores, so maybe it's, yeah.
 
 **Geohot** [00:10:20]
-Yeah, I mean, there's also, like, so much there of the speed also comes down to, like, if your beam isn't hitting the... Oh, I guess, no, you cache the beam.
-Do you cache the beam on... 
+Yeah, I mean, there's also, like, so much there of the speed also comes down to, like, if your beam isn't hitting the.. Oh, I guess, no, you cache the beam.
+Do you cache the beam on.. 
 
 **Nimlgen** [00:10:27]
 Yeah, yeah, so it's running the same beam.
@@ -317,15 +317,15 @@ It's running the same beam, yeah.
 Sounds like a good progress.
 
 **Nimlgen** [00:10:38]
-So yeah, and for...
+So yeah, and for..
 For [the viz](https://github.com/tinygrad/tinygrad/pull/8211), I mean, it's like almost ready from the perspective of the profiler refactor.
 The only thing to solve is from the viz side.
-Like, I think we just want to support... So currently, you cannot launch both profiler and viz equal one.
+Like, I think we just want to support.. So currently, you cannot launch both profiler and viz equal one.
 so that's for me to fix and um actually yeah i mean that's uh quite tricky i think to fix so like we currently launch viz so using at exit function so i do the same for the profiler but
 And because of that, yeah, I mean, we need to somehow order them.
 Just, I don't know.
 I don't know if it's a good idea to access, like, my profiler stuff and devices from the ops.py.
-Or, like, access... Yeah, it's just...
+Or, like, access.. Yeah, it's just..
 
 **Geohot** [00:11:46]
 Yeah, I think what we want to do is we want the profiler to be universal and not just for HCQ devices.
@@ -337,14 +337,14 @@ And yeah, I think that eventually I want this profiler to work for everything, a
 **Nimlgen** [00:12:24]
 OK, yeah.
 So also for UI, I'm still using Perfetto.
-I don't know if we want to rewrite this with something, but... Yeah, actually, the one thing I really hate about Perfetto is just showing these dependencies, because it's just really strange to show these arrows between blocks, because you need... You cannot just...
-Like, say, two IDs of the blocks, you need to just... To draw an arrow between two blocks, you need to use timestamps.
+I don't know if we want to rewrite this with something, but.. Yeah, actually, the one thing I really hate about Perfetto is just showing these dependencies, because it's just really strange to show these arrows between blocks, because you need.. You cannot just..
+Like, say, two IDs of the blocks, you need to just.. To draw an arrow between two blocks, you need to use timestamps.
 So, I don't know.
 And I've seen some weird behavior because of that.
 Because if some blocks have the same timestamp, it's just not really logical.
 
 **Geohot** [00:13:17]
-We probably want to eventually... I mean, my thought would be to use the same... Maybe...
+We probably want to eventually.. I mean, my thought would be to use the same.. Maybe..
 Qazalin has more thoughts on this.
 I want to use the same graph layout engine would kind of be my idea.
 And then you can kind of like lay the, you lay out every node in the graph based on its size.
@@ -382,7 +382,7 @@ I'm so happy.
 And yeah, we've got a lot of cleanups to do now that there's no Lazy.
 I think there are [two fundamental questions we haven't answered](https://github.com/tinygrad/tinygrad/issues/8273).
 There's the const thing, then there's the
-mutability issues, and the overall... 
+mutability issues, and the overall.. 
 
 **Geohot** [00:15:14]
 Well, I think that they both boil down to, and if you saw my [abstractions4](https://github.com/tinygrad/tinygrad/pull/8272/files), I think we rushed into this way too much, and I think as a challenge for you this week, I don't want you to write any code.
@@ -436,11 +436,11 @@ It's all about communicating.
 No, and I know I know sometime I sometime I shortcut this.
 Sometimes this is maybe on me, you know, not not going through the explicit process externally that I go through in my head.
 But I do go through that process.
-I go through a process of... I'll only write it down if the complexity is really more than I can manage in my head.
+I go through a process of.. I'll only write it down if the complexity is really more than I can manage in my head.
 But I hope that my stuff is readable to everybody here.
 And if it's not readable or something doesn't make sense, call me out on it.
 It's my job to fix it.
-If I've written...
+If I've written..
 If the new linearizer I wrote doesn't make any sense to people, then it's on me to fix it.
 I'm not saying it has to, look, it doesn't have to make sense for every single person in the world.
 You're never going to get that.
@@ -477,7 +477,7 @@ You describe a problem and this is your solution.
 I'm pretty sure you have think through like many different ways to implement this.
 But as a, say for me, I was reading this code yesterday and I saw there was like a schedule function.
 You just check a view and if view has two parents, right?
-Maybe with your, maybe if this is...
+Maybe with your, maybe if this is..
 document the problem if it's documented maybe we come up with a more explicit way to say okay this is how we want to represent this state but with all these it's kind of hard and i believe you have a good reason to do it like that but maybe it can be done differently and documented better 
 
 **Geohot** [00:21:00]
@@ -489,15 +489,15 @@ I agree.
 Yeah.
 
 **Geohot** [00:21:21]
-Yeah, I mean, my rough proposal is something kind of like a... Because you're right.
+Yeah, I mean, my rough proposal is something kind of like a.. Because you're right.
 A fundamental problem when you're doing graph rewrites is saying, how do I know which UOP belongs to which tensor?
-And I mean, something that seems like one way to do this is to just create tensor UOPs, is to put tensor UOPs in the graph, and then you have rules about how...
+And I mean, something that seems like one way to do this is to just create tensor UOPs, is to put tensor UOPs in the graph, and then you have rules about how..
 This solves the two tensors are actually the same buffer problem.
-This solves the... It doesn't actually create the buffers yet.
+This solves the.. It doesn't actually create the buffers yet.
 You can create the buffers later, but you can keep around the place.
 It's guaranteed to be the same thing at the input to each tensor UOp.
 Do you think that makes sense?
-Or do you think there's a...
+Or do you think there's a..
 
 **Qazalin** [00:22:08]
 I think there's a better way to do this.
@@ -530,7 +530,7 @@ So we have, like, examples, right?
 
 **Geohot** [00:23:57]
 Yeah, yeah, yeah.
-This is something that exactly, like, this is why it should be discussed in the doc layer, because I'm...
+This is something that exactly, like, this is why it should be discussed in the doc layer, because I'm..
 60% sure that doesn't work, and that you need something that's actually in the graph that looks more like a tensor UOP.
 But I might be wrong.
 60%.
@@ -539,23 +539,23 @@ You're going to get the right answer.
 The problem is it's very often going to redo a lot of compute.
 And that's something we have to be so careful with here, too, because, like,
 The tests barely test for this.
-There's so many things where... Sure, we have some that count kernels, but there's so many things where... 
+There's so many things where.. Sure, we have some that count kernels, but there's so many things where.. 
 
 **Chenyu** [00:24:17]
-We don't constantly use memory and, like... 
+We don't constantly use memory and, like.. 
 
 **Geohot** [00:25:18]
 Yes.
-We have some that count the memory, too, but... Yeah, they're not... I wouldn't trust them.
+We have some that count the memory, too, but.. Yeah, they're not.. I wouldn't trust them.
 I wouldn't trust them, and they're in no way minimal.
-They're just, like... We just shoved in a number for what it used to be.
+They're just, like.. We just shoved in a number for what it used to be.
 
 **Chenyu** [00:24:59]
 Yeah, yeah, yeah.
 
 **Geohot** [00:25:00]
 So what it used to be was any good.
-Well...
+Well..
 
 **Chenyu** [00:25:04]
 And a lot of these will usually go through the, like, discussing through the docs and having some examples.
@@ -567,13 +567,13 @@ We write this, we figure out something didn't work, we have a one-off test that 
 
 **Geohot** [00:25:41]
 Yeah, yeah.
-I think so much of this stuff... Again, that fundamental thing about what tensors get buffers, right?
+I think so much of this stuff.. Again, that fundamental thing about what tensors get buffers, right?
 I propose three options in my [abstractions4](https://github.com/tinygrad/tinygrad/pull/8272/files) doc.
 I don't think also that these docs should just have one way of doing things.
 The doc should enumerate three options, even if two of the options are almost straw men, to kind of say, well, you can't do this, right?
 Like, I have one option there, give buffers to all tensors in scope.
 Well, you can't actually do that, because that's just going to break all the folding.
-Uh...
+Uh..
 But why you don't want to make a best effort approach for others, that's less clear to me.
 I think you might want to.
 
@@ -597,7 +597,7 @@ How sure are you that that's okay?
 
 **Chenyu** [00:26:55]
 Well, that's just implementation details, right?
-No, that's... No, you start with how people use it and expect it to work.
+No, that's.. No, you start with how people use it and expect it to work.
 
 **Geohot** [00:27:02]
 Exactly.
@@ -653,10 +653,10 @@ And if anyone has objections, now's the time to state them.
 No, people won't have enough to say no.
 
 **Geohot** [00:29:54]
-Well, if someone has a very... I know, but if someone has a very... I just think that you're going to have to... I mean, TinyGrad is moving towards everything not... 
+Well, if someone has a very.. I know, but if someone has a very.. I just think that you're going to have to.. I mean, TinyGrad is moving towards everything not.. 
 
 **Chenyu** [00:29:58]
-I think you will realize all the problems after you rewrite most of our current training examples to... 
+I think you will realize all the problems after you rewrite most of our current training examples to.. 
 
 **Geohot** [00:30:00]
 Oh, this doesn't change the training examples.
@@ -692,10 +692,10 @@ And that should just work.
 Yeah.
 One of the other trade-offs that I made was I added movement ops into the big graph.
 And you kind of have to do this because computing the derivative of an arbitrary view is really tricky.
-Like...
+Like..
 I struggled with it for five hours.
-There's no way to do it cleanly because the problem is some things are very simple and they're no problem, but when you do basically the stuff that Conv is doing with these overlapping... Yeah, when you have overlapping axes, then computing the gradient of that view is really tricky.
-So, you know...
+There's no way to do it cleanly because the problem is some things are very simple and they're no problem, but when you do basically the stuff that Conv is doing with these overlapping.. Yeah, when you have overlapping axes, then computing the gradient of that view is really tricky.
+So, you know..
 recovering that structure.
 There's no point.
 We'll just keep around the real structure that created it.
@@ -771,7 +771,7 @@ No, you can't do that.
 That fixes it for one direction of the limit, not the other direction.
 
 **Chenyu** [00:36:22]
-Yeah, so...
+Yeah, so..
 That's what I mean.
 And there are also cases that we previously didn't handle.
 I put a test on this a while ago.
@@ -803,7 +803,7 @@ That's the part I want to clean up.
 Can we get you a symbolic for that?
 
 **Chenyu** [00:37:40]
-It's the same problem that it's hard to...
+It's the same problem that it's hard to..
 get the derivative of arbitrary view now you have arbitrary expression ask what what's this what's the movement that generates this symbolic expression it's like maybe possible you can maybe get that 
 
 **Geohot** [00:37:50]
@@ -815,7 +815,7 @@ Otherwise, we can keep everything, right?
 
 **Geohot** [00:38:14]
 Well, yeah, yeah, no, but we can now, like, it's now pretty easy if you want to use rewrite rules on movement ops, right?
-Like, if you have, like, a reshape followed by a permute or something, you could... 
+Like, if you have, like, a reshape followed by a permute or something, you could.. 
 
 **Chenyu** [00:38:25]
 Eh, maybe.
@@ -834,7 +834,7 @@ Some kernel is bad.
 We want to improve that.
 
 **Geohot** [00:39:06]
-All right, so the lines is when AM is finished, I think we won't...
+All right, so the lines is when AM is finished, I think we won't..
 I think we'll bump the line count to get AM in if we're not done by then.
 We're both racing the clock here.
 I will bump for AM.
@@ -851,15 +851,15 @@ You see the chip I linked?
 Yeah, I've seen it.
 
 **Geohot** [00:39:51]
-Yeah, so they're... The GPUs are only supposed to work over Thunderbolt, because Thunderbolt actually maps the memory.
+Yeah, so they're.. The GPUs are only supposed to work over Thunderbolt, because Thunderbolt actually maps the memory.
 Thunderbolt or USB4.
 But the chip supports USB3.
-So... Hopefully it's just doable, and doesn't require patching the firmware of the chip.
-But, uh...
+So.. Hopefully it's just doable, and doesn't require patching the firmware of the chip.
+But, uh..
 Yeah, no, I think that'll be really cool because we could sell a product where we have external GPUs that you plug into a Mac and they just work in user space.
 USB is user space.
 You can write USB drives in user space.
-It'll be like kind of another layer of encapsulation where we encapsulate all the... How are we going to do that?
+It'll be like kind of another layer of encapsulation where we encapsulate all the.. How are we going to do that?
 Because you're not really going to be able to mmap it.
 Maybe you do a trap handler?
 Put it on the USB?
@@ -902,7 +902,7 @@ I can speak for ONNX.
 
 **Chenyu** [00:43:05]
 ONNX is moving.
-I added a small milestone to...
+I added a small milestone to..
 test.
 I just put it as support top 100 on X model.
 Just find a way to define what's top 100 and find a way to test that we are really supporting those 100.
@@ -940,9 +940,9 @@ Oh, that wasn't implied.
 Well, if it was already implied, then it's already implied.
 
 **Chenyu** [00:44:41]
-Okay, it's double, so... Yeah, it's a double the bounty, but... But you got the idea.
+Okay, it's double, so.. Yeah, it's a double the bounty, but.. But you got the idea.
 We want to support most of them.
-I understand that in the ONNX spec, there are some very weird ones that we would never care about, and we'd probably not be able to do anyway, but we want to support...
+I understand that in the ONNX spec, there are some very weird ones that we would never care about, and we'd probably not be able to do anyway, but we want to support..
 almost all of them.
 
 **Geohot** [00:45:01]
@@ -1069,7 +1069,7 @@ Like 2x, 4x?
 Yeah, the benchmark schedule.
 But you can evaluate the speed.
 If you're not capable of evaluating the speed, you can't
-You can't... External benchmark schedule is a pretty good evaluation.
+You can't.. External benchmark schedule is a pretty good evaluation.
 The matching engine right now uses a lot of if statements.
 If you can compile it and replace it with dictionary lookups, that's going to be a lot faster.
 
@@ -1148,7 +1148,7 @@ Yeah, that's all I have on it.
 Do you have any questions?
 
 **Geohot** [00:53:19]
-Can you click on... Yeah, I think, and I added one bounty too.
+Can you click on.. Yeah, I think, and I added one bounty too.
 If somebody can get TinyChat running in WebGPU, basically TinyChat in browser, $1,000.
 Do you think you could test versus ORT instead of Torch?
 Yeah, that's fine.
@@ -1166,7 +1166,7 @@ What?
 What, a Steam gift?
 
 **Geohot** [00:53:59]
-Um... Oh, uh, do you want to say something?
+Um.. Oh, uh, do you want to say something?
 For the Sieds Lykles?
 
 **Geohot** [00:54:04]

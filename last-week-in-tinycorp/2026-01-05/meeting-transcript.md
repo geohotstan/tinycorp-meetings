@@ -6,7 +6,7 @@
 - company update, release!
 - new year sprints
 - assembly
-- llama, flash attention
+- LLaMA, flash attention
 - use claude to clean up stuff
 - viz / fast gemm
 - drivers
@@ -43,7 +43,7 @@
 Let's start with company update.
 
 ##### **Geohot** [[00:00:08](https://www.youtube.com/watch?v=GNdNtguh1zo&t=8)]
-Cool. So yeah, welcome everybody. I hear the 5090s now cost $5,000. So I don't know what we're going to do about that. You know, we might have to ask some tiny box buyers for more money, but we're getting we're getting caught up on our on our backlog of orders. I think this is the year that we have to focus on getting users. I think we have a huge, the more I play with these LLMs, the more I realize what an advantage having a small, simple code basis. For example, I have a cloud right now playing with trying to set the overdrive in the SMU. Like imagine trying to do that without Tinygrad, right? Imagine trying to like, what's cloud going to do recompile the kernel? Just also like think about the PyTorch tests and the PyTorch compile times. What is the agent going to do? I don't understand how people do this. Right? Like I've never, I've never developed in a company that has like, well, it takes 30 minutes to build and then it takes two hours to run the tests. And then yeah, your thing will get merged. I don't know. I've just never worked in a company like that. So I don't know how people do it. And I'm sure no agents can't do it. So I think we have a huge advantage. And I think this is the year we're finally going to start to get users. So we got to focus on users for Tinygrad. Usability releases, good error messages. A lot of this stuff becomes so cheap with LLM agents to like, think of how good we can like, like, like make all the errors. You know, again, not from the LLM agent can't make the errors good, but it can find every edge case. And then good errors for humans are good errors for agents, right? So if we, if we have an output, a good agent, a good error, Tinygrad will be such a usable library for agents. So yeah, this is the year we get users. That's the company update. Tinygrad is going to have users and maybe even be 1.0 by the end of the year. I think 1.0 is doable. I think we can do that.
+Cool. So yeah, welcome everybody. I hear the 5090s now cost $5,000. So I don't know what we're going to do about that. You know, we might have to ask some TinyBox buyers for more money, but we're getting we're getting caught up on our on our backlog of orders. I think this is the year that we have to focus on getting users. I think we have a huge, the more I play with these LLMs, the more I realize what an advantage having a small, simple code basis. For example, I have a cloud right now playing with trying to set the overdrive in the SMU. Like imagine trying to do that without Tinygrad, right? Imagine trying to like, what's cloud going to do recompile the kernel? Just also like think about the PyTorch tests and the PyTorch compile times. What is the agent going to do? I don't understand how people do this. Right? Like I've never, I've never developed in a company that has like, well, it takes 30 minutes to build and then it takes two hours to run the tests. And then yeah, your thing will get merged. I don't know. I've just never worked in a company like that. So I don't know how people do it. And I'm sure no agents can't do it. So I think we have a huge advantage. And I think this is the year we're finally going to start to get users. So we got to focus on users for Tinygrad. Usability releases, good error messages. A lot of this stuff becomes so cheap with LLM agents to like, think of how good we can like, like, like make all the errors. You know, again, not from the LLM agent can't make the errors good, but it can find every edge case. And then good errors for humans are good errors for agents, right? So if we, if we have an output, a good agent, a good error, Tinygrad will be such a usable library for agents. So yeah, this is the year we get users. That's the company update. Tinygrad is going to have users and maybe even be 1.0 by the end of the year. I think 1.0 is doable. I think we can do that.
 
 ##### **Chenyu** [[00:02:08](https://www.youtube.com/watch?v=GNdNtguh1zo&t=128)]
 Okay.
@@ -109,13 +109,13 @@ Great. Okay, 0.12. One time this week.
 Great.
 
 ##### **Chenyu** [[00:03:28](https://www.youtube.com/watch?v=GNdNtguh1zo&t=208)]
-We can quickly discuss...
+We can quickly discuss..
 
 ##### **Chenyu** [[00:03:29](https://www.youtube.com/watch?v=GNdNtguh1zo&t=209)]
 What's possible planning in general for the company? Sprint?
 
 ##### **Geohot** [[00:03:34](https://www.youtube.com/watch?v=GNdNtguh1zo&t=214)]
-Yeah, I think that just every two weeks, it'd be nice to have a Discord bot post something and then everybody just write up kind of their plan for the next two weeks. We mess around with stuff. And for a while, we had this thing where people would give ratings to how well they did on the things, but that would all be done retroactively. So just kind of write up what you plan to get done in the next two weeks. And then maybe... You know, we have that. We have a commit bot. And maybe just kind of, you know, check in and see if... But it's more of a check in with yourself just to see how good of a job you did at planning for the next two weeks. Your ability to plan for two weeks is something that separates you from AI agents. There's not a single AI agent that has any ability to think on that time horizon. So, you know, prove you're not a robot and plan for two weeks. So, yeah, just kind of post. Post what you plan to get done in the next two weeks. And again, it's okay if it changes. But I want everyone here to do that, and I will do it as well. So, yeah. You saw my example sprint. It doesn't have to be more than that. Just kind of a bunch of bullet points about what you plan to get done in the next two weeks.
+Yeah, I think that just every two weeks, it'd be nice to have a Discord bot post something and then everybody just write up kind of their plan for the next two weeks. We mess around with stuff. And for a while, we had this thing where people would give ratings to how well they did on the things, but that would all be done retroactively. So just kind of write up what you plan to get done in the next two weeks. And then maybe.. You know, we have that. We have a commit bot. And maybe just kind of, you know, check in and see if.. But it's more of a check in with yourself just to see how good of a job you did at planning for the next two weeks. Your ability to plan for two weeks is something that separates you from AI agents. There's not a single AI agent that has any ability to think on that time horizon. So, you know, prove you're not a robot and plan for two weeks. So, yeah, just kind of post. Post what you plan to get done in the next two weeks. And again, it's okay if it changes. But I want everyone here to do that, and I will do it as well. So, yeah. You saw my example sprint. It doesn't have to be more than that. Just kind of a bunch of bullet points about what you plan to get done in the next two weeks.
 
 ##### **Geohot** [[00:04:52](https://www.youtube.com/watch?v=GNdNtguh1zo&t=292)]
 Anyone here has any question? Okay. Next.
@@ -124,25 +124,25 @@ Anyone here has any question? Okay. Next.
 Welcome, Christoph, for the assembly.
 
 ##### **Geohot** [[00:05:06](https://www.youtube.com/watch?v=GNdNtguh1zo&t=306)]
-Yeah, I think the DSL is kind of fun, right? I saw, Coslin, I saw you working on an RDNA4 assembly kernel. I have one. I re-implemented the Seb Matmul thing in the Python DSL. It's so much nicer than actually coding assembly for several reasons. Because, well, first off, you get syntax highlighting, like tab completion. I haven't seen an assembly that has tab completion. But it's kind of just like we don't have good... I call it an IDE. Like the thing that I refer to in the readme is an IDE for assembly. Because, like, it's terrible to... How are you supposed to know what all the instructions are? I'm sure there's... I'm sure there's, like, IDEs that can do it, but, like, not VS code and stuff. So just, like, the infrastructure around assembly is really bad. The other thing that this lets you do is give registers semantic names. It also type checks for you. The type checking can be better. But when you run it, when it constructs the thing, if the thing can't be constructed, if you put, like, an S register where you should have put a V register, or if you have an immediate that's out of range, it'll give you an error. And, yeah, sure, an assembler is going to do that, too. But I find the Python error is a lot more... readable than any assembly errors. So, yeah, you guys can check out that PR. That's kind of the shining example of the new AsmDSL. Oh, and, of course, you can use for loops. Like, you can use normal Python for loops to... Just compare the readability of that to the stock assembly thing. Like, this one you actually can, like, have some confidence changing. There's a stock assembly you kind of can't. I want to get that stuff actually merged into TinyGradMaster. It'll be small. It should be about 500 lines total. It's a class that all those instructions inherit from. And then it's a... All of that stuff is auto-generated from the AMD PDFs. So I have a PDF parser that goes in, and it just generates a bunch of Python. So, yeah. And then the whole rest of it, too. I have an emulator. It's nice to do, like, all these things kind of in parallel because they all kind of check each other. So I have an emulator. I have a thing that compiles. It compiles and decompiles from the LLVM assembly strings. I don't think I ever want to merge that into master. But that's very good for testing. I think that our syntax is a lot nicer than the LLVM syntax. In some ways, I'm missing a few things. But with a few more cleanups, I think it's just so much more readable than, like, strings. Strings. Strings are terrible. Like, all the renderers that use strings, concatenating strings together. Nothing should ever concatenate strings together. You should go right to bytecode. It's up.
+Yeah, I think the DSL is kind of fun, right? I saw, Coslin, I saw you working on an RDNA4 assembly kernel. I have one. I re-implemented the Seb Matmul thing in the Python DSL. It's so much nicer than actually coding assembly for several reasons. Because, well, first off, you get syntax highlighting, like tab completion. I haven't seen an assembly that has tab completion. But it's kind of just like we don't have good.. I call it an IDE. Like the thing that I refer to in the readme is an IDE for assembly. Because, like, it's terrible to.. How are you supposed to know what all the instructions are? I'm sure there's.. I'm sure there's, like, IDEs that can do it, but, like, not VS code and stuff. So just, like, the infrastructure around assembly is really bad. The other thing that this lets you do is give registers semantic names. It also type checks for you. The type checking can be better. But when you run it, when it constructs the thing, if the thing can't be constructed, if you put, like, an S register where you should have put a V register, or if you have an immediate that's out of range, it'll give you an error. And, yeah, sure, an assembler is going to do that, too. But I find the Python error is a lot more.. readable than any assembly errors. So, yeah, you guys can check out that PR. That's kind of the shining example of the new AsmDSL. Oh, and, of course, you can use for loops. Like, you can use normal Python for loops to.. Just compare the readability of that to the stock assembly thing. Like, this one you actually can, like, have some confidence changing. There's a stock assembly you kind of can't. I want to get that stuff actually merged into TinyGradMaster. It'll be small. It should be about 500 lines total. It's a class that all those instructions inherit from. And then it's a.. All of that stuff is auto-generated from the AMD PDFs. So I have a PDF parser that goes in, and it just generates a bunch of Python. So, yeah. And then the whole rest of it, too. I have an emulator. It's nice to do, like, all these things kind of in parallel because they all kind of check each other. So I have an emulator. I have a thing that compiles. It compiles and decompiles from the LLVM assembly strings. I don't think I ever want to merge that into master. But that's very good for testing. I think that our syntax is a lot nicer than the LLVM syntax. In some ways, I'm missing a few things. But with a few more cleanups, I think it's just so much more readable than, like, strings. Strings. Strings are terrible. Like, all the renderers that use strings, concatenating strings together. Nothing should ever concatenate strings together. You should go right to bytecode. It's up.
 
 ##### **Chrism** [[00:07:59](https://www.youtube.com/watch?v=GNdNtguh1zo&t=479)]
 Yeah.
 
 ##### **Geohot** [[00:08:00](https://www.youtube.com/watch?v=GNdNtguh1zo&t=480)]
-That's the assembly DSL. I'm more and more excited about it the more I think about it. I'm like, you know, this is just like a side project as you're really working on core TinyGrad. But I think that this is a really important piece of TinyGrad because it's the last dependency that TinyGrad has. We talk about how TinyGrad has no dependencies, but in reality, if you don't have LLVM, all you can do is use the Python backend, LLVM or Mesa or WebGPU. But, yeah, those are all. Mesa's not based on LLVM, but it's all. It's all kind of LLVM. So, yeah, this is the truth of just the machine code that goes into the GPU. Yeah, and I'm outperforming. So, in terms of really high-performance kernels, there's that SebV FP32 gem. We're outperforming it by 5% with this one just by, you know, cleaning things up. And a lot of it just comes from the syntax being clear. Once you have clear syntax, you're like, oh, this register actually isn't used. Oh, yeah, so you can just, like, clean things up. Yeah, that's the assembly project, and that's what we'll be working on for the next two weeks.
+That's the assembly DSL. I'm more and more excited about it the more I think about it. I'm like, you know, this is just like a side project as you're really working on core TinyGrad. But I think that this is a really important piece of TinyGrad because it's the last dependency that TinyGrad has. We talk about how TinyGrad has no dependencies, but in reality, if you don't have LLVM, all you can do is use the Python backend, LLVM or Mesa or WebGPU. But, yeah, those are all. Mesa's not based on LLVM, but it's all. It's all kind of LLVM. So, yeah, this is the truth of just the machine code that goes into the GPU. Yeah, and I'm outperforming. So, in terms of really high-performance kernels, there's that SebV FP32 GEMM. We're outperforming it by 5% with this one just by, you know, cleaning things up. And a lot of it just comes from the syntax being clear. Once you have clear syntax, you're like, oh, this register actually isn't used. Oh, yeah, so you can just, like, clean things up. Yeah, that's the assembly project, and that's what we'll be working on for the next two weeks.
 
 ##### **Geohot** [[00:09:04](https://www.youtube.com/watch?v=GNdNtguh1zo&t=544)]
 I have a bunch of stuff in the sprints. Gauzlin, you want to go next? It's just kind of related.
 
 ##### **Qazalin** [[00:09:19](https://www.youtube.com/watch?v=GNdNtguh1zo&t=559)]
-I think I've also been doing RGNA4 since I have it at home. I needed some tiny stuff changes. I'm going to do a little bit of RGNA4 main DSL. Hopefully, that should be fixed.
+I think I've also been doing RDNA4 since I have it at home. I needed some tiny stuff changes. I'm going to do a little bit of RDNA4 main DSL. Hopefully, that should be fixed.
 
 ##### **Geohot** [[00:09:33](https://www.youtube.com/watch?v=GNdNtguh1zo&t=573)]
-I'll do RGNA4 today if RGNA4 is important to you. I did cDNA, but I can do RGNA as well. The RGNA4 is just generated and not tested, but I can make sure it's start to be tested.
+I'll do RDNA4 today if RDNA4 is important to you. I did CDNA, but I can do RDNA as well. The RDNA4 is just generated and not tested, but I can make sure it's start to be tested.
 
 ##### **Qazalin** [[00:09:47](https://www.youtube.com/watch?v=GNdNtguh1zo&t=587)]
-Yeah, thanks. The changes were super small. In general, I found that... So, I did fast gems. I did cDNA, RGNA3, and RGNA4. This one's the first one that fits Cloud context. Cloud can actually read it and change the code. Oh, so, yeah, I mean... Yeah.
+Yeah, thanks. The changes were super small. In general, I found that.. So, I did fast GEMMs. I did CDNA, RDNA3, and RDNA4. This one's the first one that fits Cloud context. Cloud can actually read it and change the code. Oh, so, yeah, I mean.. Yeah.
 
 ##### **Geohot** [[00:10:12](https://www.youtube.com/watch?v=GNdNtguh1zo&t=612)]
 Oh, go ahead.
@@ -151,10 +151,10 @@ Oh, go ahead.
 It's about 700 lines of Python with for loops and stuff, and it gets around 70% on my machine.
 
 ##### **Geohot** [[00:10:25](https://www.youtube.com/watch?v=GNdNtguh1zo&t=625)]
-Oh, I see how you did for loops. I see some of them are inline like that, but you could do it. You could do all the WAMAs in for loops, too. I think this is still like... You don't actually need all of this pipelining where it's interleaving the local stores and the WAMAs. Do you actually need that?
+Oh, I see how you did for loops. I see some of them are inline like that, but you could do it. You could do all the WAMAs in for loops, too. I think this is still like.. You don't actually need all of this pipelining where it's interleaving the local stores and the WAMAs. Do you actually need that?
 
 ##### **Qazalin** [[00:10:42](https://www.youtube.com/watch?v=GNdNtguh1zo&t=642)]
-Oh, yeah. Really? It's very interesting just profiling it. It's doing a two-way ping pong, so it's increasing the size of the WAMAs by making two waves collaborate on the... Yeah.
+Oh, yeah. Really? It's very interesting just profiling it. It's doing a two-way ping pong, so it's increasing the size of the WAMAs by making two waves collaborate on the.. Yeah.
 
 ##### **Geohot** [[00:10:58](https://www.youtube.com/watch?v=GNdNtguh1zo&t=658)]
 Interesting. What's your occupancy?
@@ -169,7 +169,7 @@ Well, how many waves do you have in Python?
 Oh, two. Wait. Two per SIMD.
 
 ##### **Geohot** [[00:11:12](https://www.youtube.com/watch?v=GNdNtguh1zo&t=672)]
-How do you only have... Oh, two per SIMD. So you mean eight. Yeah. I don't know. How many VGPRs does RDNA4 have? So you're using the full 256.
+How do you only have.. Oh, two per SIMD. So you mean eight. Yeah. I don't know. How many VGPRs does RDNA4 have? So you're using the full 256.
 
 ##### **Qazalin** [[00:11:29](https://www.youtube.com/watch?v=GNdNtguh1zo&t=689)]
 Yeah. I don't think I need to, but that's a separate thing I have to fix.
@@ -190,13 +190,13 @@ Yeah. Number of waves that are in flight at the same time.
 So you should be getting six, not two, right? I'll check again, maybe. Yeah.
 
 ##### **Geohot** [[00:12:14](https://www.youtube.com/watch?v=GNdNtguh1zo&t=734)]
-If you just look at the occupancy times and you figure out... They also have this little bit of overlap where they schedule and you can get more than six because it sends that message
+If you just look at the occupancy times and you figure out.. They also have this little bit of overlap where they schedule and you can get more than six because it sends that message
 
 ##### **Geohot** [[00:12:26](https://www.youtube.com/watch?v=GNdNtguh1zo&t=746)]
-to deallocate the VGPRs. So that's a good thing. But yeah, I like the... Is it using the sqtt-rock stuff?
+to deallocate the VGPRs. So that's a good thing. But yeah, I like the.. Is it using the SQTT-rock stuff?
 
 ##### **Qazalin** [[00:12:42](https://www.youtube.com/watch?v=GNdNtguh1zo&t=762)]
-It is using the command line interface. We have a terminal tool for the sqtt stuff now. It's very usable for humans too.
+It is using the command line interface. We have a terminal tool for the SQTT stuff now. It's very usable for humans too.
 
 ##### **Geohot** [[00:12:51](https://www.youtube.com/watch?v=GNdNtguh1zo&t=771)]
 Yeah, yeah. I like it.
@@ -265,10 +265,10 @@ Cool.
 Yeah. You know now I think we see where all the, uh, we're all the bridges. Uh, all the pieces that we have to build in order to get tiny guy to actually output this code, how fast is our jam on? Uh, I guess you're doing RDNA for now, not CDNA.
 
 ##### **Qazalin** [[00:16:31](https://www.youtube.com/watch?v=GNdNtguh1zo&t=991)]
-cDNA is still the same 1.3 petaflops. I have not touched that code because I can't read it yet. It's a text.
+CDNA is still the same 1.3 petaflops. I have not touched that code because I can't read it yet. It's a text.
 
 ##### **Geohot** [[00:16:41](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1001)]
-Well, yeah, I'll merge the cDNA assembler now. I think let's get fast gems into our training loop.
+Well, yeah, I'll merge the CDNA assembler now. I think let's get fast GEMMs into our training loop.
 
 ##### **Geohot** [[00:16:50](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1010)]
 Intensor. Yeah, I'll try.
@@ -277,7 +277,7 @@ Intensor. Yeah, I'll try.
 I can start reasoning about the loop dimensions and how they deal with the different strides.
 
 ##### **Geohot** [[00:17:04](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1024)]
-This is great. Then that's full for those things. We can just entirely lower to assembly right there from the gem.
+This is great. Then that's full for those things. We can just entirely lower to assembly right there from the GEMM.
 
 ##### **Qazalin** [[00:17:14](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1034)]
 Oh, you mentioned that I also added support for sensor custom kernel to take assembly. Like take storage. So if you return an offset program, it will just use that.
@@ -289,7 +289,7 @@ We should also just take the raw binary too. You could compile it, but you would
 Oh yeah, yeah. You can just put the ELF together.
 
 ##### **Geohot** [[00:17:57](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1077)]
-Well, why do we even need to put an ELF together? We probably do want to put an ELF together, but just for compatibility reasons. But we don't have to. Yeah, we need the...actually, you want to work on that?
+Well, why do we even need to put an ELF together? We probably do want to put an ELF together, but just for compatibility reasons. But we don't have to. Yeah, we need the..actually, you want to work on that?
 
 ##### **Geohot** [[00:18:14](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1094)]
 You want to do the opposite of ELF?
@@ -301,7 +301,7 @@ The opposite of ELF. Just take the struct, yeah.
 Yeah, that sounds right.
 
 ##### **Geohot** [[00:18:25](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1105)]
-Yeah, I mean, it'd be nice to just...yeah, if you're...you can add that to program as well. So then we can go fully from just write things in our DSL and then...
+Yeah, I mean, it'd be nice to just..yeah, if you're..you can add that to program as well. So then we can go fully from just write things in our DSL and then..
 
 ##### **Geohot** [[00:18:37](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1117)]
 I'll go right to the actual GPL.
@@ -319,13 +319,13 @@ It's, I think, less than 200 lines. And it is correct.
 It's more correct than remu.
 
 ##### **Geohot** [[00:19:08](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1148)]
-However, it's 100x slower than remu. I think I can get that down to 10x. And then I think... And we have a Python emulator.
+However, it's 100x slower than remu. I think I can get that down to 10x. And then I think.. And we have a Python emulator.
 
 ##### **Qazalin** [[00:19:23](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1163)]
 I'll keep remu in my little corner.
 
 ##### **Geohot** [[00:19:27](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1167)]
-Well, we'll keep remu up there for the compare emulator test. That's kind of the best test to quickly find bugs. Oh, remu is more correct than...I tried the real one. I tried Navisim. Remu is more correct than Navisim.
+Well, we'll keep remu up there for the compare emulator test. That's kind of the best test to quickly find bugs. Oh, remu is more correct than..I tried the real one. I tried Navisim. Remu is more correct than Navisim.
 
 ##### **Chenyu** [[00:19:45](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1185)]
 In what way?
@@ -343,7 +343,7 @@ Oh, and then the other thing that I'm really excited about is cycle-accurate emu
 Absolutely. There's banking on the registers.
 
 ##### **Geohot** [[00:20:27](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1227)]
-They're banked and they're cached, yes. And the caches are cached based on which source port you read it from. There's three source ports. Whatever. But...
+They're banked and they're cached, yes. And the caches are cached based on which source port you read it from. There's three source ports. Whatever. But..
 
 ##### **Chrism** [[00:20:39](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1239)]
 Cool.
@@ -370,10 +370,10 @@ Yes. So, there's two bugs left. It is the JIT bug, which causes the NAN. If you 
 And then just the multi-device one.
 
 ##### **Chenyu** [[00:21:50](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1310)]
-You want me to work on... I don't know if I can work on the JIT one, but I can look into it. Yeah, I will do the JIT one.
+You want me to work on.. I don't know if I can work on the JIT one, but I can look into it. Yeah, I will do the JIT one.
 
 ##### **Wozeparrot** [[00:21:56](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1316)]
-If you want to look at multi-device...
+If you want to look at multi-device..
 
 ##### **Chrism** [[00:21:58](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1318)]
 Okay.
@@ -385,31 +385,31 @@ Do you know what the issue might be?
 Or I would look?
 
 ##### **Wozeparrot** [[00:22:02](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1322)]
-For multi-device? I took a quick look at it. I think one of the... Probably the LVAC is not sharded properly.
+For multi-device? I took a quick look at it. I think one of the.. Probably the LVAC is not sharded properly.
 
 ##### **Geohot** [[00:22:17](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1337)]
 Okay, I will look.
 
 ##### **Wozeparrot** [[00:22:21](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1341)]
-But the JIT issue is very strange because the kernels... We get a cache hit. Like, schedule cache does hit. And then something else is wrong in JIT.
+But the JIT issue is very strange because the kernels.. We get a cache hit. Like, schedule cache does hit. And then something else is wrong in JIT.
 
 ##### **Chenyu** [[00:22:34](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1354)]
 Oh, so another thing that I don't have a good solution now is in tensor.py, or in general, we support some functions. That is not JIT-able because it calls item somewhere. We currently allow those in tensor.py, and we just kind of need to be mindful that don't use those if you want to use JIT, which is kind of annoying. I don't know if George, you have any idea on this.
 
 ##### **Geohot** [[00:23:02](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1382)]
-So, I mean, we could disallow realization in the JIT. Or at least not realization, but copy out. Like, what I would probably do is... I think this is mostly a UX issue, and you want to add an assert if it ever tries to access any bytes from any tensors. You can do copy to different devices, all that's fine. But yeah, if it actually calls item, the problem is that it's doing... That it's calling numpy or 2data or something. So, just add an assert there.
+So, I mean, we could disallow realization in the JIT. Or at least not realization, but copy out. Like, what I would probably do is.. I think this is mostly a UX issue, and you want to add an assert if it ever tries to access any bytes from any tensors. You can do copy to different devices, all that's fine. But yeah, if it actually calls item, the problem is that it's doing.. That it's calling numpy or 2data or something. So, just add an assert there.
 
 ##### **Chenyu** [[00:23:39](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1419)]
-That's pretty good. I don't think this is an issue, but this is just generally... Because I was reading tensor, and we have probably at least like two, three functions that has this. We at least want to make the arrow explicitly clear.
+That's pretty good. I don't think this is an issue, but this is just generally.. Because I was reading tensor, and we have probably at least like two, three functions that has this. We at least want to make the arrow explicitly clear.
 
 ##### **Chenyu** [[00:23:55](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1435)]
 Yeah.
 
 ##### **Geohot** [[00:23:58](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1438)]
-Okay, so legit issue... I don't know. I mean, what I would really...
+Okay, so legit issue.. I don't know. I mean, what I would really..
 
 ##### **Chenyu** [[00:24:18](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1458)]
-I mean, what I would... Code wrong, like none in my device?
+I mean, what I would.. Code wrong, like none in my device?
 
 ##### **Wozeparrot** [[00:24:24](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1464)]
 No, but I've moved over to MI300, and I've been testing on that.
@@ -433,7 +433,7 @@ Yeah. Yeah. Yeah.
 Do you know if it has the issue if you just run forward?
 
 ##### **Geohot** [[00:24:45](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1485)]
-No, just forward is fine. I've tested Lama eval already, and Lama eval runs fine.
+No, just forward is fine. I've tested LLaMA eval already, and LLaMA eval runs fine.
 
 ##### **Chenyu** [[00:24:53](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1493)]
 I see.
@@ -445,7 +445,7 @@ Okay, let's discuss this separately. I don't think we can get anything meaningfu
 Yeah, should have something this week.
 
 ##### **Geohot** [[00:25:07](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1507)]
-I want to talk a little about the JIT and chat. I don't know. I'm really happy if... Part of the problem with me just rewriting it is I'll just deliver another thing that's not comprehensible, and has a bunch of random foot guns and stuff. I mean, yeah. I think that probably instead of rewriting the JIT, what we want to do is just add more assertions to the JIT.
+I want to talk a little about the JIT and chat. I don't know. I'm really happy if.. Part of the problem with me just rewriting it is I'll just deliver another thing that's not comprehensible, and has a bunch of random foot guns and stuff. I mean, yeah. I think that probably instead of rewriting the JIT, what we want to do is just add more assertions to the JIT.
 
 ##### **Chenyu** [[00:25:38](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1538)]
 Yeah, I think that's a good start. Yeah, I think that's a good start. Because the only real way we improve these, I think Torch compile may have a similar issue. Jack's compile has a similar issue. These are like usability errors that only when people start to use it and use it more extensively will find. It's very hard to design these upfront correctly. So I think we already, I already find like the issue when I was implemented gradient accumulation in bird that I would just walk around. Oh yeah. Adding more asserts here.
@@ -526,7 +526,7 @@ Yeah, so that is not complete, because there's another rabbit hole for the C mod
 That should only happen when the load isn't four byte aligned.
 
 ##### **Chenyu** [[00:33:04](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1984)]
-I think even... So the image load code, even if it was, it still does that. I don't know. I mean, the div looks pretty clean, so...
+I think even.. So the image load code, even if it was, it still does that. I don't know. I mean, the div looks pretty clean, so..
 
 ##### **Geohot** [[00:33:15](https://www.youtube.com/watch?v=GNdNtguh1zo&t=1995)]
 Yeah, no, I mean, I read the back end. I read the back end. I think it's pretty clean. I read the PR when that went in, too. But I thought that that was such a fallback path that it never happens. It only happens in one or two of the kernels. I'm shocked that that's happening more.
@@ -535,22 +535,22 @@ Yeah, no, I mean, I read the back end. I read the back end. I think it's pretty 
 I know we have a plan to remove image D type altogether. So this is just to make that task more difficult.
 
 ##### **Geohot** [[00:33:37](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2017)]
-Yeah, I don't know, but I think we still kind of need this. But again, I really thought that... Because I wrote that code. And I was like, oh, this is never actually going to happen. Right? Like, I just wrote the code to save lines. But I wrote the code to do the NAND thing to save lines. But... Yeah. Uh... So... Like...
+Yeah, I don't know, but I think we still kind of need this. But again, I really thought that.. Because I wrote that code. And I was like, oh, this is never actually going to happen. Right? Like, I just wrote the code to save lines. But I wrote the code to do the NAND thing to save lines. But.. Yeah. Uh.. So.. Like..
 
 ##### **Chenyu** [[00:33:56](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2036)]
 Yeah. That's fine.
 
 ##### **Chenyu** [[00:33:58](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2038)]
-I think here my conclusion is debug equals to four is really good. Or... I mean, it was really... It was already good for me to debug kernel and find performance. It's even better for, like, agents to do that. Or maybe down the line we will have, like, assembly and very good emulators and things like that. But it's a very good interface.
+I think here my conclusion is debug equals to four is really good. Or.. I mean, it was really.. It was already good for me to debug kernel and find performance. It's even better for, like, agents to do that. Or maybe down the line we will have, like, assembly and very good emulators and things like that. But it's a very good interface.
 
 ##### **Geohot** [[00:34:23](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2063)]
-Yeah. I mean, yeah. This is... What is less good...
+Yeah. I mean, yeah. This is.. What is less good..
 
 ##### **Chrism** [[00:34:27](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2067)]
 Yeah.
 
 ##### **Chenyu** [[00:34:28](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2068)]
-What is less good is to tracing all the rewriting rules. And this clouds really struggle. So the idea is can we combine certain rewriting rules or basically... Because we have a lot of different stages or steps of, like, bigger groups of rewrites. And I want to understand if it's possible for it to try... Maybe this is just very hard to brute force. But for now, it's very hard for it to read through, like, this minus one, minus two stuff and tracing through the rewriting rules. In fact, rewrite status was really useful to delete, like, never... Never... Rules that never hit because it's, like, binary and it's very easy to read. But tracing a rewrite and understand the kind of interaction between rules is very hard. I don't know how to correctly pull that context or prompt it with yourself. So that was all the simplification of merge rules I need to do manually. And I can do that because I know that's right.
+What is less good is to tracing all the rewriting rules. And this clouds really struggle. So the idea is can we combine certain rewriting rules or basically.. Because we have a lot of different stages or steps of, like, bigger groups of rewrites. And I want to understand if it's possible for it to try.. Maybe this is just very hard to brute force. But for now, it's very hard for it to read through, like, this minus one, minus two stuff and tracing through the rewriting rules. In fact, rewrite status was really useful to delete, like, never.. Never.. Rules that never hit because it's, like, binary and it's very easy to read. But tracing a rewrite and understand the kind of interaction between rules is very hard. I don't know how to correctly pull that context or prompt it with yourself. So that was all the simplification of merge rules I need to do manually. And I can do that because I know that's right.
 
 ##### **Geohot** [[00:35:35](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2135)]
 Yeah. I mean, the question is, is this a, like, display problem or is this a fundamental problem?
@@ -559,7 +559,7 @@ Yeah. I mean, the question is, is this a, like, display problem or is this a fun
 I think it's a display problem similar to I always have complaint that it is very hard to use. But I don't have a good alternative or the way I want it to be. So I don't really know.
 
 ##### **Geohot** [[00:35:58](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2158)]
-Yeah. I mean, I don't know. I find Viz a lot more usable than, like... So you can print all the match rules with track match stats equals three.
+Yeah. I mean, I don't know. I find Viz a lot more usable than, like.. So you can print all the match rules with track match stats equals three.
 
 ##### **Chenyu** [[00:36:05](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2165)]
 Oh, I see. Okay.
@@ -685,16 +685,16 @@ Okay. Anyway, I digress. Okay. So I think I still encourage everyone to try for 
 So give it a try. Okay. Next, drivers.
 
 ##### **Nimlgen** [[00:43:15](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2595)]
-Fixed some bugs on for the Mi 300, the Mi 350. Also, we now support several SDMAs on AM and in our runtime. And we also have a lot of things that we can do. So if you have any questions, feel free to ask. Actually, the old reduce for on a Mi 300 is about 95 gigabyte a second right now. So the theoretical maximum is for the old reduce is 150. I mean, 150 or 180. It depends. And...
+Fixed some bugs on for the Mi 300, the Mi 350. Also, we now support several SDMAs on AM and in our runtime. And we also have a lot of things that we can do. So if you have any questions, feel free to ask. Actually, the old reduce for on a Mi 300 is about 95 gigabyte a second right now. So the theoretical maximum is for the old reduce is 150. I mean, 150 or 180. It depends. And..
 
 ##### **Geohot** [[00:43:56](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2636)]
-By 150 or 180. I mean... Yeah. So... Actually, that depends.
+By 150 or 180. I mean.. Yeah. So.. Actually, that depends.
 
 ##### **Nimlgen** [[00:44:07](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2647)]
-No, actually, I mean, it's... I mean, it depends on the slowest link. So then not equaling because we need to wait for all links. It's...
+No, actually, I mean, it's.. I mean, it depends on the slowest link. So then not equaling because we need to wait for all links. It's..
 
 ##### **Nimlgen** [[00:44:19](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2659)]
-It's about...
+It's about..
 
 ##### **Nimlgen** [[00:44:20](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2660)]
 Yeah.
@@ -706,16 +706,16 @@ How do you get 150 or 180?
 So, I mean, in theory, these links are 64 gigabyte a second. Yeah. So, you can get, like, from one GPU to all other different seven GPUs. But in practice, I've seen, like, 45. And actually, the same thing's stated in the AMD docs. So, like, the practical speed is 45 gigabyte a second.
 
 ##### **Geohot** [[00:44:54](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2694)]
-But speed is... So, for one... Yeah. Yeah.
+But speed is.. So, for one.. Yeah. Yeah.
 
 ##### **Chrism** [[00:45:01](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2701)]
 Yeah.
 
 ##### **Geohot** [[00:45:03](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2703)]
-What is the speaker Danke, for example, and cooling? Okay, Hold on. I have to turn that off for a minute on this one, because I...
+What is the speaker Danke, for example, and cooling? Okay, Hold on. I have to turn that off for a minute on this one, because I..
 
 ##### **Nimlgen** [[00:45:13](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2713)]
-But it never stops until it wakes... It doesn't sound like exactly this, but... So, basically, it is 90 gigabyte a second for all generatiques of our hardware. So that's half of that speed. And we also have several kernels because of contiguous and action is. So yeah, that's.
+But it never stops until it wakes.. It doesn't sound like exactly this, but.. So, basically, it is 90 gigabyte a second for all generatiques of our hardware. So that's half of that speed. And we also have several kernels because of contiguous and action is. So yeah, that's.
 
 ##### **Geohot** [[00:45:42](https://www.youtube.com/watch?v=GNdNtguh1zo&t=2742)]
 Yeah, I mean, I'm curious what the stock AMD AllReduce gets like with Rikol and then how close we are to that. I mean, if we're already up to that or beating that,
@@ -862,7 +862,7 @@ And then like, even if it's a slow path to copy out to the CPU,
 Yeah.
 
 ##### **Geohot** [[00:53:47](https://www.youtube.com/watch?v=GNdNtguh1zo&t=3227)]
-Okay. I think in my experience with VMs, you know, here in a few like logical ways, but I've seen like things like using Mind Draper, like create and Ник wiegWievel bugs and things like that.
+Okay. I think in my experience with VMs, you know, here in a few like logical ways, but I've seen like things like using Mind Draper, like create and wiegWievel bugs and things like that.
 
 ##### **Chrism** [[00:53:51](https://www.youtube.com/watch?v=GNdNtguh1zo&t=3231)]
 And then, it would be interesting to just like attribute it for like sophistry it like to the CPU.
@@ -886,7 +886,7 @@ oh yeah but we require a large bar right
 no because on mic like on mac os we don't have large bar and that would be really slow in usb as well
 
 ##### **Geohot** [[00:55:36](https://www.youtube.com/watch?v=GNdNtguh1zo&t=3336)]
-yeah but these are edge cases i'm okay with just sdma equals zero just just doing this on a on a normal linux computer if sdm equals zero asserts on usb gpu that's totally fine okay cool yeah let's just make this very simple and make it work really well you can start with about ….. work on Linux computers so that we can test in extreme parallel.
+yeah but these are edge cases i'm okay with just sdma equals zero just just doing this on a on a normal linux computer if sdm equals zero asserts on usb gpu that's totally fine okay cool yeah let's just make this very simple and make it work really well you can start with about …. work on Linux computers so that we can test in extreme parallel.
 
 ##### **Geohot** [[00:56:07](https://www.youtube.com/watch?v=GNdNtguh1zo&t=3367)]
 And yeah, we can even just assert if this is going to serve on small bar. This is a certain simple small bar needs STMA. Next for image D type.
@@ -1021,7 +1021,7 @@ And then I quickly want to talk about the C type structure.
 Yes, yes. Yeah, so basically, I think I finally have a solution that will end up sort of looking nice and also, it'll look nice to us. It will be a simple implementation. And also, MyPy will find it acceptable, which I think, similar to how data classes work, where you have a decorator on the class, and then it goes through and it looks at the type annotations, I think you should be able to do this for the structures as well. And that should be the cleanest possible way of doing this. And then I will do something similar for the C type. And then I will do something similar for the functions as well, where you can just say, OK, I have this function. And then you just pass the implementation. And then you put a decorator on that. And the decorator looks at the types and looks at the name of the function, and then says, OK, I'll go search in the DLL that you gave me to find the implementation and assign the types properly. I think that's the simplest possible way of doing this. So that's my idea. The other thing is that. I don't know. I was working on this this morning. And I think we don't want to have our own implementation of pointer. And we don't want to have our own implementation of array and our own implementation of, I don't know, there was one other thing. I think this just ends up being super, super complicated. And it feels like you have to code in all these edge cases. And it's especially frustrating because there's extra edge cases because we're still dealing with some C type stuff. So it feels like maybe that's something you want to do eventually if you remove C types altogether. But it doesn't feel like it's warranted to do that yet.
 
 ##### **Geohot** [[01:05:54](https://www.youtube.com/watch?v=GNdNtguh1zo&t=3954)]
-We do not need to remove C types. The main goals of this are to deal with the Python version issue and to deal with the fact that mypy doesn't work.
+We do not need to remove C types. The main goals of this are to deal with the Python version issue and to deal with the fact that MyPy doesn't work.
 
 ##### **Chrism** [[01:06:05](https://www.youtube.com/watch?v=GNdNtguh1zo&t=3965)]
 Yeah. Yeah. So I think the right thing to do here is here.
@@ -1051,7 +1051,7 @@ I think this is independent of the moving the compilers to the renderers.
 Two, take all the folders.
 
 ##### **Geohot** [[01:07:51](https://www.youtube.com/watch?v=GNdNtguh1zo&t=4071)]
-I recently spent the battery running out ngelos, But then, this CD Twi, smallím, or factors contain, this would probablyisti handle it. It's probably破passing this. And now, I can do some regular functions like parent Gotcha, and I can even just fix new functions and make them better.
+I recently spent the battery running out ngelos, But then, this CD Twi, smallím, or factors contain, this would probablyisti handle it. It's probablypassing this. And now, I can do some regular functions like parent Gotcha, and I can even just fix new functions and make them better.
 
 ##### **Geohot** [[01:08:02](https://www.youtube.com/watch?v=GNdNtguh1zo&t=4082)]
 That's kinda cool.
@@ -1063,19 +1063,19 @@ And for these VMwareating functions, you probably just take all of the recurs on
 Yeah, no, that definitely makes sense.
 
 ##### **Geohot** [[01:08:23](https://www.youtube.com/watch?v=GNdNtguh1zo&t=4103)]
-And then remove the other path. I just want to remove the other path before we do any...
+And then remove the other path. I just want to remove the other path before we do any..
 
 ##### **Chrism** [[01:08:30](https://www.youtube.com/watch?v=GNdNtguh1zo&t=4110)]
 And the CC issue. Okay, I'll look at the CC thing as well.
 
 ##### **Geohot** [[01:08:34](https://www.youtube.com/watch?v=GNdNtguh1zo&t=4114)]
-Yeah, the CC thing. I don't like the CC thing. I think this is gonna be cleaned up, but it should just be... Yeah. I agree that program spec should probably change, but I think that's completely independent of this, putting the compilers on the renderers and then rewriting OpenCL to be slow. And it gets punished and it's slow because it didn't do a good job of...
+Yeah, the CC thing. I don't like the CC thing. I think this is gonna be cleaned up, but it should just be.. Yeah. I agree that program spec should probably change, but I think that's completely independent of this, putting the compilers on the renderers and then rewriting OpenCL to be slow. And it gets punished and it's slow because it didn't do a good job of..
 
 ##### **Chrism** [[01:08:54](https://www.youtube.com/watch?v=GNdNtguh1zo&t=4134)]
-Yeah, yeah, yeah. No, that makes sense. The only reason I had it on my mind is because I had added that auxiliary thing to...
+Yeah, yeah, yeah. No, that makes sense. The only reason I had it on my mind is because I had added that auxiliary thing to..
 
 ##### **Geohot** [[01:09:01](https://www.youtube.com/watch?v=GNdNtguh1zo&t=4141)]
-I saw that. Yeah, it's fine for now. It's fine for now. We can think about what it should be later, but...
+I saw that. Yeah, it's fine for now. It's fine for now. We can think about what it should be later, but..
 
 ##### **Chrism** [[01:09:06](https://www.youtube.com/watch?v=GNdNtguh1zo&t=4146)]
 Okay, okay. It'll be easier to do once everything is unified.

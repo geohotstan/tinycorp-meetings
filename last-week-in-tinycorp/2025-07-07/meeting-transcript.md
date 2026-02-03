@@ -6,7 +6,7 @@
 - company updates
 - can tinygrad win?
 - app ollama
-- mlperf llama 405b
+- mlperf LLaMA 405b
 - viz tool
 - drivers
 - cloud
@@ -20,7 +20,7 @@
 
 ### Highlights
 
-- **[Company Updates](#geohot-000007)**: Tinybox screens are in stock, with only one Tinybox Red unit remaining. New AMD machines, for which a tracking number was received, have been delivered.
+- **[Company Updates](#geohot-000007)**: TinyBox screens are in stock, with only one TinyBox Red unit remaining. New AMD machines, for which a tracking number was received, have been delivered.
 
 - **[Can tinygrad win?](#geohot-000158)**: Geohot critiques the MLIR philosophy of building a framework with many specialized parts, comparing it to Waymo's approach. He argues tinygrad's path to victory is by embracing the "bitter lesson"—leveraging large-scale search and optimization to be consistently faster across diverse models and hardware.
 
@@ -28,7 +28,7 @@
 
 - **[Core Refactor](#geohot-003110)**: Geohot plans to refactor the optimization process, starting by fixing the issue of calling `simplify` at every step. This change will enable `opt-ops` to be applied in parallel and to target specific parts of the graph (like a reduce op) rather than only the sink.
 
-- **[MLPerf Llama 405B](#chenyu-003514)**: Chenyu is working on the dataset preparation for the Llama 405B benchmark. He is trying to replicate the complex data packing methods, potentially using NVIDIA's Nemo as a reference, as this was a missing detail in Google's withdrawn submission.
+- **[MLPerf LLaMA 405B](#chenyu-003514)**: Chenyu is working on the dataset preparation for the LLaMA 405B benchmark. He is trying to replicate the complex data packing methods, potentially using NVIDIA's Nemo as a reference, as this was a missing detail in Google's withdrawn submission.
 
 - **[Viz Tool](#qazalin-003954)**: Qazalin demonstrated updates to the tiny-device viz tool, which now includes a Python timeline. Future plans include detailed buffer tracking to differentiate memory usage (e.g., model weights vs. activations). Geohot suggested also visualizing the individual rewrite steps within the `get_program` timeline.
 
@@ -43,7 +43,7 @@
 ### Transcript
 
 ##### **Geohot** [[00:00:07](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=7)]
-Tinybox screens are pretty much in stock. We got another order, we sold one more Tinybox. Red, so there's actually one Tinybox Red left. Tinybox screens are flowing now, I think I'll send out a marketing email this week. Also AMD supposedly sent us a FedEx tracking number, but last time I checked it, it didn't work. Let me try it again. Oh, that's full of machines. Wait, what? I have a lot of questions about this. We got something else about the contract too, I have a lot of questions about it, but we'll see. We have a FedEx tracking number. It doesn't even look like, oh, wait, what? Delivered. Oh, we got blocks. No, no, this is something else. Who can use the Internet, so hard to use. You're in the tracking number? No, the tracking number can't be found right now, so I don't know about that. No box. Okay. Okay, great.
+TinyBox screens are pretty much in stock. We got another order, we sold one more TinyBox. Red, so there's actually one TinyBox Red left. TinyBox screens are flowing now, I think I'll send out a marketing email this week. Also AMD supposedly sent us a FedEx tracking number, but last time I checked it, it didn't work. Let me try it again. Oh, that's full of machines. Wait, what? I have a lot of questions about this. We got something else about the contract too, I have a lot of questions about it, but we'll see. We have a FedEx tracking number. It doesn't even look like, oh, wait, what? Delivered. Oh, we got blocks. No, no, this is something else. Who can use the Internet, so hard to use. You're in the tracking number? No, the tracking number can't be found right now, so I don't know about that. No box. Okay. Okay, great.
 
 ##### **Chenyu** [[00:01:55](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=115)]
 Everyone want to discuss your blog post?
@@ -121,7 +121,7 @@ Like I'm not saying that we're going to succeed at this goal. But I believe that
 Yeah, the problem is, does it look like a uniformly 30% faster or for some things it's faster or some things slower? Because many stuff in tinygrad is pretty slow.
 
 ##### **Geohot** [[00:10:54](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=654)]
-Well, so let's compare that to self driving cars. My theory is that it's mixed at the beginning. And then the end to end approach just starts to pull away. So at the beginning you'll find right now there's some things that are faster in tinygrad and some things that are faster in torch. Most things are faster in torch, like our gems are just bad.
+Well, so let's compare that to self driving cars. My theory is that it's mixed at the beginning. And then the end to end approach just starts to pull away. So at the beginning you'll find right now there's some things that are faster in tinygrad and some things that are faster in torch. Most things are faster in torch, like our GEMMs are just bad.
 
 ##### **Chenyu** [[00:11:24](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=684)]
 There are a lot of stuff that we just in principle don't support. Like what has a for loop, conditions, and some fancy CPU stuff.
@@ -234,7 +234,7 @@ Just find your network primitives in NCCL.
 Okay, so you find your network primitives in NCCL. Okay, that's great. So what if, yeah, as long as you're using this exactly the way it's intended.
 
 ##### **Chenyu** [[00:20:55](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1255)]
-No, so I guess my point is now there's no doubt people discuss about Nvidia's mode to being cool or NCCL or whatever chips they have. I always feel it's a lot more about their users and how they are using neural network or developing neural networks. And I think claiming there's a way to win is to find a way for these users to have incentive to use tinygrad other than...
+No, so I guess my point is now there's no doubt people discuss about Nvidia's mode to being cool or NCCL or whatever chips they have. I always feel it's a lot more about their users and how they are using neural network or developing neural networks. And I think claiming there's a way to win is to find a way for these users to have incentive to use tinygrad other than..
 
 ##### **Geohot** [[00:21:27](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1287)]
 I think you just have to make it faster. I think you just have to make their workflows faster. Yeah, but the problem is how much faster? I mean, can you be made much faster? Depends what you're doing. If you're doing batch size one LLMs on a single GPU, now of course not. But if you're doing any sort of training job, oh yeah, tons faster. You don't have a really real example of this.
@@ -243,9 +243,9 @@ I think you just have to make it faster. I think you just have to make their wor
 Over a slightly more complicated model, right? So I mean like every big training model that kind of requires multi machine or big clusters, or the simple one.
 
 ##### **Geohot** [[00:22:32](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1352)]
-But even, I mean, you know, just proof that you can continue to... I got it. I guess it depends what you're comparing to, right? If you compare, look at how much more efficient DeepSpeed is than the other ones. DeepSpeed made it 5x more efficient. And there's a lot more to go there too. I think there's even another 5x.
+But even, I mean, you know, just proof that you can continue to.. I got it. I guess it depends what you're comparing to, right? If you compare, look at how much more efficient DeepSpeed is than the other ones. DeepSpeed made it 5x more efficient. And there's a lot more to go there too. I think there's even another 5x.
 
-Well, I mean, it also comes down to being able to repeatedly... It's so difficult to debug any of this. So Comma, still training on BF16. And sure, we'd like to train with BF8, but you see what happens every time we try to use smaller dtypes. Well, they don't work and then like why don't they work? Okay, which op is it? Okay, let's go through. Let's stick floats in places. Let's see what fixes it. And then I even think it's worse than that. I think that some of the kernels are just broken or numerically unstable or once you get down to these small dtypes.
+Well, I mean, it also comes down to being able to repeatedly.. It's so difficult to debug any of this. So Comma, still training on BF16. And sure, we'd like to train with BF8, but you see what happens every time we try to use smaller dtypes. Well, they don't work and then like why don't they work? Okay, which op is it? Okay, let's go through. Let's stick floats in places. Let's see what fixes it. And then I even think it's worse than that. I think that some of the kernels are just broken or numerically unstable or once you get down to these small dtypes.
 
 ##### **Chenyu** [[00:23:41](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1421)]
 Yeah, but isn't the problem, isn't this argument for specific dtype working because we kind of use a lot of rewriting rules that assumes everything's just perfect real numbers. Yeah, it's just not true for a lot of smaller dtypes.
@@ -259,7 +259,7 @@ Great.
 So now we kind of agree that having a conv3D guy is bad, but maybe you need to have a BFLOAT16 guy.
 
 ##### **Geohot** [[00:25:00](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1500)]
-I don't think so. Nope. So here, there's a good reply to my mode, mode the type guy. There's a good reply to my tweet right here. I'd say general compilers have a lot of hand coded optimizations. Why assume neural network compilers would behave differently. And this is, it's because of the halting problem. It's because there's no way... Well, you have a neural network kernel. You can benchmark it and every single time no matter what data you put into it, it's going to run in the same amount of time, whereas no normal program behaves like that.
+I don't think so. Nope. So here, there's a good reply to my mode, mode the type guy. There's a good reply to my tweet right here. I'd say general compilers have a lot of hand coded optimizations. Why assume neural network compilers would behave differently. And this is, it's because of the halting problem. It's because there's no way.. Well, you have a neural network kernel. You can benchmark it and every single time no matter what data you put into it, it's going to run in the same amount of time, whereas no normal program behaves like that.
 
 That's, I agree in theory, but is that really the bottleneck why it thinks so. Yeah, I mean, I think it's impossible to reason about code.
 
@@ -267,13 +267,13 @@ That's, I agree in theory, but is that really the bottleneck why it thinks so. Y
 Okay.
 
 ##### **Geohot** [[00:26:22](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1582)]
-There was... I'm just... I'm discussion.
+There was.. I'm just.. I'm discussion.
 
 ##### **Chenyu** [[00:26:29](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1589)]
 I'm going to follow items that's more onto other items.
 
 ##### **Geohot** [[00:26:34](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1594)]
-Yeah, just again, the app, I'll have a thing. Yeah, I want to finish it up. I think it's nice. I mean, it gives people a way to pip install tinygrad and do something right away. Is it imports extra? No, it doesn't. It imports nothing. It's 100% pure tinygrad. It's 150 lines and I was playing with it a lot more last night. It's not good. Like I'm still waiting. I don't know if it's the sampler that's bad, but the models just lose coherence after a bit. Which model are you using? I was trying a bunch of the fine-tuned ones. I was doing role playing stuff. They lose coherence after a bit and they just start repeating over and over again. Like it's things you'd never say to actually be to them. So I don't know if that's Ollama with models or bugs, implementation or sampler. Probably model and healthy. There's like 12B models. They're not... Oh, it's pretty bad. I don't know.
+Yeah, just again, the app, I'll have a thing. Yeah, I want to finish it up. I think it's nice. I mean, it gives people a way to pip install tinygrad and do something right away. Is it imports extra? No, it doesn't. It imports nothing. It's 100% pure tinygrad. It's 150 lines and I was playing with it a lot more last night. It's not good. Like I'm still waiting. I don't know if it's the sampler that's bad, but the models just lose coherence after a bit. Which model are you using? I was trying a bunch of the fine-tuned ones. I was doing role playing stuff. They lose coherence after a bit and they just start repeating over and over again. Like it's things you'd never say to actually be to them. So I don't know if that's Ollama with models or bugs, implementation or sampler. Probably model and healthy. There's like 12B models. They're not.. Oh, it's pretty bad. I don't know.
 
 ##### **Chenyu** [[00:27:50](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1670)]
 I mean, that's not something we will fix with our Ollama implementation, right? Because it loads of sampler does something agreed.
@@ -291,7 +291,7 @@ Okay, anyway, how Nemo works. Oh, that's probably even bigger spaghetti than Oll
 Okay.
 
 ##### **Chenyu** [[00:28:32](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1712)]
-I think it was generally the problem for maybe MLIR development, similar in a sense that it probably has like 200 different knobs. And if you are an experienced developer, you can keep those. It's like our flags. We probably have like 50 of those. And if you are experienced, you can have those kind of know. But if you are not, the bigger the flag look like, the harder for you to realize what's being...
+I think it was generally the problem for maybe MLIR development, similar in a sense that it probably has like 200 different knobs. And if you are an experienced developer, you can keep those. It's like our flags. We probably have like 50 of those. And if you are experienced, you can have those kind of know. But if you are not, the bigger the flag look like, the harder for you to realize what's being..
 
 ##### **Geohot** [[00:29:06](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1746)]
 I was asking ChatGPT for sampler parameters. I was copying and pasting them. I couldn't tell which ones are really better. No, yeah, we're not going to fix that. But at least we can write something that's very, very simple and repeatable, which I feel like a lot of these things kind of aren't. I think that a lot of these LLM implementations are just broken. But there's no simple way to benchmark them and see that. Like they're getting like 20 points lower on these things, on these like TruthfulQA than they should. But yeah, I don't know. I think it'll be nice to just have, even if it's just the same, it'll be nice to have python -m tinygrad.app.llm.
@@ -312,22 +312,22 @@ You block on any of other reflectors for your thing. Oh wait, we did get boxes.
 Oh, it's delivered. There's just a typo on the tracking number. Awesome. Okay. New box.
 
 ##### **Chenyu** [[00:30:44](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1844)]
-Great. Any other... Are you blocked on any other reflectors for your thing?
+Great. Any other.. Are you blocked on any other reflectors for your thing?
 
 ##### **Geohot** [[00:30:54](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1854)]
-Not really. They're just... What? I'm not sure. Oh nice.
+Not really. They're just.. What? I'm not sure. Oh nice.
 
 ##### **Chenyu** [[00:31:00](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1860)]
 You mean for the app or for just injector or the core. Refactor many things we want to refactor.
 
 ##### **Geohot** [[00:31:10](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1870)]
-Yeah. No, I'm not really blocked on anything. I'm just trying to figure out the right order to go about it still. Okay. I think the first thing is just to... We made a mistake when we call simplify once at every optimization step and we shouldn't do that. Because that changes the meaning of like upcast access to if you do upcast access one beforehand and access one disappears.
+Yeah. No, I'm not really blocked on anything. I'm just trying to figure out the right order to go about it still. Okay. I think the first thing is just to.. We made a mistake when we call simplify once at every optimization step and we shouldn't do that. Because that changes the meaning of like upcast access to if you do upcast access one beforehand and access one disappears.
 
 ##### **Chenyu** [[00:31:37](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1897)]
 Yeah. That logic is also before my time. So I know they're really told about it.
 
 ##### **Geohot** [[00:31:42](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=1902)]
-It's bad. It wasn't well thought out. If we fix that, there's a path to only do lets at the end of the opt-ops stuff. Is it worse? I don't think so. No, I think changing that is the first step. And then you can apply the opt-ops in parallel. Right now the opt-ops are inherently a serial process. There's always going to be some serialization on the same access, but there's just no way right now to... it's just such a poorly specified space. We clean up the space and then also opt-ops should be able to apply to... right now all opt-ops basically apply to the sink. This is wrong. You want opt-ops like unroll to apply to the reduce, not to the sink.
+It's bad. It wasn't well thought out. If we fix that, there's a path to only do lets at the end of the opt-ops stuff. Is it worse? I don't think so. No, I think changing that is the first step. And then you can apply the opt-ops in parallel. Right now the opt-ops are inherently a serial process. There's always going to be some serialization on the same access, but there's just no way right now to.. it's just such a poorly specified space. We clean up the space and then also opt-ops should be able to apply to.. right now all opt-ops basically apply to the sink. This is wrong. You want opt-ops like unroll to apply to the reduce, not to the sink.
 
 So then you can individually unroll the different reduces. How about reshape? What do you mean reshape? Reshape merges two together and redistributes. Well, so your views all need to be pushed to the outside. Well, there are limits for say if your numbers are too big for the hardware that you can specify for each. For example, what do you mean?
 
@@ -344,7 +344,7 @@ But what if you need to do more stuff, things like really change the compute?
 I don't understand what you'd have to change. Split one global into two. For what? For the GPU thing?
 
 ##### **Chenyu** [[00:34:09](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2049)]
-Yeah, for the GPU because the size is...
+Yeah, for the GPU because the size is..
 
 ##### **Geohot** [[00:34:12](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2052)]
 Yeah, if you're just doing that for the GPU, you can do that literally at the last minute. You don't need to do that in the kernel API. That's already removed. I moved all that to later. Okay, so if you have a range that's too big and can't fit in your global dimension and you want to split it across two global dimensions, when you remap the ranges to specials, you can just map them however you want. It doesn't matter and then run sim again and it'll clean up whatever things there are. Okay, this is already dealt with. The GPU thing should be dealt with at a completely different layer of abstraction than the ranges.
@@ -362,7 +362,7 @@ Sweet.
 I would try to install Nemo and see if I can just use that for dataset.
 
 ##### **Chenyu** [[00:35:30](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2130)]
-Or at least I have a way to know my implementation is correct. So what happened is Google tried to submit their Llama 405B by the remover. And I think that the implementation is not a complete completion. And I think partly is because they didn't upload any of the implementation details for how do they get the sequence to become individual training examples. That was annoying for me. I don't have a reference and they also don't have a reference and I suspect that maybe they realized that's why they got different convergence.
+Or at least I have a way to know my implementation is correct. So what happened is Google tried to submit their LLaMA 405B by the remover. And I think that the implementation is not a complete completion. And I think partly is because they didn't upload any of the implementation details for how do they get the sequence to become individual training examples. That was annoying for me. I don't have a reference and they also don't have a reference and I suspect that maybe they realized that's why they got different convergence.
 
 ##### **Geohot** [[00:36:06](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2166)]
 So we have to find it and we have to find it in the Nvidia code.
@@ -371,13 +371,13 @@ So we have to find it and we have to find it in the Nvidia code.
 So it's more of I also want to get something to run. So at least we can start to improve the runtime. I'm pretty sure how we impact or mask or token has very little impact on the kernel speed. So I also want to get that working. But yeah, for us to hopefully do this benchmark, we want to match how this data is packed together. So if I can find a way to import Nemo and also get that data, I can also work with my thing. Because there are apparently many weird strategies they use when they generate that data. So I think some of us disable. I don't know if all of us disable, but if it really calls into implementation details in how they pack sequence into one, I don't really see us replicating everything correctly.
 
 ##### **Geohot** [[00:37:13](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2233)]
-Yeah, I mean, I don't know, like almost what I would do is just kind of, yeah, like hack the Nemo stuff to just... How big is the dataset?
+Yeah, I mean, I don't know, like almost what I would do is just kind of, yeah, like hack the Nemo stuff to just.. How big is the dataset?
 
 ##### **Chenyu** [[00:37:20](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2240)]
 A few terabytes.
 
 ##### **Geohot** [[00:37:24](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2244)]
-I think everything fits into memory. Fits into memory. You can fit a few terabytes into... No, it's like to put your device something.
+I think everything fits into memory. Fits into memory. You can fit a few terabytes into.. No, it's like to put your device something.
 
 ##### **Geohot** [[00:37:37](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2257)]
 Yeah, but no, yeah, I'm gonna put that memory area.
@@ -410,7 +410,7 @@ How many samples am I using per second? A thousand? Yeah, with this I need 8,000
 Yeah, no, I'm sure we got it. We got to just figure out how to leave it on disk and how to just pull the things off disk that we want. I don't think 8,000 should be a problem. If it was 800,000, okay, that's more of a problem. Then maybe we have to think about RAM. Yeah, we're trying, we're trying to test one. So that's probably fine. Cool. I mean, we're doing so much processing on each one of these data things.
 
 ##### **Geohot** [[00:39:20](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2360)]
-I can't imagine this being... Okay, anyway, let's move on to this. If you are saying stuff, I cannot hear you. You hear me now? Yes.
+I can't imagine this being.. Okay, anyway, let's move on to this. If you are saying stuff, I cannot hear you. You hear me now? Yes.
 
 ##### **Qazalin** [[00:39:54](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2394)]
 I'm actually tiny device. You can see in the timeline on the top, just a Python timeline. And this week, I think I'm going to merge some ways to track buffers. So there's a good paper on this where it actually goes into details about how memory is scattered between activations and model state and stuff. So I'm going to try to figure out a way to visualize that.
@@ -419,7 +419,7 @@ I'm actually tiny device. You can see in the timeline on the top, just a Python 
 The tiny device looks great. Sorry, go ahead.
 
 ##### **Qazalin** [[00:40:44](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2444)]
-Yeah, so for llama memory, right now, we see that the optimizer states just stay alive like 40% of the time. And that's not really much of a useful graph to be honest. It's the exact graph that we talked about, of like these steps and stuff. But I'm thinking of a different way to view this. Because I think it will be inevitable that you have a baseline of the model state and your optimizer and everything else is just how you can optimize your intermediate usage.
+Yeah, so for LLaMA memory, right now, we see that the optimizer states just stay alive like 40% of the time. And that's not really much of a useful graph to be honest. It's the exact graph that we talked about, of like these steps and stuff. But I'm thinking of a different way to view this. Because I think it will be inevitable that you have a baseline of the model state and your optimizer and everything else is just how you can optimize your intermediate usage.
 
 ##### **Geohot** [[00:41:23](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2483)]
 So I would really avoid, in the spirit of end to end, I would really avoid labeling weights as a certain kind of type. I would ask instead what, like almost like physics based characteristics do these weights have. So there's definitely a clear distinction between short lived weights and long lived weights. So there's buffers that only live during the execution of the graph, and there's buffers that persist beyond the end.
@@ -445,7 +445,7 @@ Yeah, you want to see the rewrite steps.
 ##### **Geohot** [[00:43:23](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2603)]
 Yeah, I mean, it'd be cool if it was like a hierarchy, like you have get program at the top and then here are the 10 rewrites that went into the program. And then when you click on the rewrite, it actually jumps to that rewrite in the thing. But it's really good already how I can click and it goes to the thing. This is a place where tinygrad is way ahead of everybody.
 
-Like, imagine seeing this for LLBF. Sorry, but let me see. But yeah, so I'd like to see underneath these get programs, I'd like to see it showing me all the different rewrites that happen. I also see like a get program taking 647 milliseconds. Is it really? That's crazy. I wonder what rewrites are taking so long. You know, this is very exciting. Yeah, add the rewrites and then...
+Like, imagine seeing this for LLBF. Sorry, but let me see. But yeah, so I'd like to see underneath these get programs, I'd like to see it showing me all the different rewrites that happen. I also see like a get program taking 647 milliseconds. Is it really? That's crazy. I wonder what rewrites are taking so long. You know, this is very exciting. Yeah, add the rewrites and then..
 
 Yeah, so I missed what you were saying about the, you have a paper that was talking about what the different types of parameters were.
 
@@ -459,7 +459,7 @@ How might you get that label?
 I trace it back to the kernel and I get the kernel metadata.
 
 ##### **Geohot** [[00:45:07](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2707)]
-Cool. Yeah, I mean, that seems nice. The whole handling of metadata right now is a little bit janky. Like a better handling of metadata that can show almost like the line that triggered... Okay, where's the line that triggered this compute? Where's the line that triggered this buffer creation? Any of that stuff that we can trace back is great.
+Cool. Yeah, I mean, that seems nice. The whole handling of metadata right now is a little bit janky. Like a better handling of metadata that can show almost like the line that triggered.. Okay, where's the line that triggered this compute? Where's the line that triggered this buffer creation? Any of that stuff that we can trace back is great.
 
 ##### **Qazalin** [[00:45:31](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2731)]
 Is it back to realize?
@@ -474,21 +474,21 @@ I imagine one leads with the other.
 Can walk the trace back?
 
 ##### **Geohot** [[00:45:59](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2759)]
-Yeah, but you know, I think you're making good progress here. I really like the tiny device. So yeah, we can play with it and just make sure whatever it is stays performant. My theory about the main reason people don't use profilers is that they're not performant, that they have way too much overhead. If there's a profiler that's basically free... Oh, and they're too hard to run. But if you have a profiler that's basically free and runs with a single environment variable, that's great.
+Yeah, but you know, I think you're making good progress here. I really like the tiny device. So yeah, we can play with it and just make sure whatever it is stays performant. My theory about the main reason people don't use profilers is that they're not performant, that they have way too much overhead. If there's a profiler that's basically free.. Oh, and they're too hard to run. But if you have a profiler that's basically free and runs with a single environment variable, that's great.
 
 But yeah, okay, so you want to be able to click these buffers and see what kernels use them.
 
 ##### **Qazalin** [[00:46:47](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2807)]
-And that's one possible direction and the possible direction is like the cache information, like the physical information about how...
+And that's one possible direction and the possible direction is like the cache information, like the physical information about how..
 
 ##### **Geohot** [[00:47:02](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2822)]
 Oh, like what the actual physical address of the buffers.
 
 ##### **Qazalin** [[00:47:07](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2827)]
-I mean, so I saw these tools from AMD that they have. It's pretty janky, but it works. I think it shows you about when you have a memory allocation, did it hit the L1, did it... How many times did it hit the L2.
+I mean, so I saw these tools from AMD that they have. It's pretty janky, but it works. I think it shows you about when you have a memory allocation, did it hit the L1, did it.. How many times did it hit the L2.
 
 ##### **Geohot** [[00:47:27](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2847)]
-Oh, yeah, I mean, yeah, if we can start... There's been a bunch of those posted in the channel. The ones that show, Nvidia has a profiler for this to show you the usage of each bus. I mean, the main problem with using those things is they're super hard to run and they kill performance.
+Oh, yeah, I mean, yeah, if we can start.. There's been a bunch of those posted in the channel. The ones that show, Nvidia has a profiler for this to show you the usage of each bus. I mean, the main problem with using those things is they're super hard to run and they kill performance.
 
 But I don't think that's inherent to the things. I think it's just bad implementation.
 
@@ -502,22 +502,22 @@ Looks nice.
 Preferably this channel. Okay. Moving on to drivers.
 
 ##### **Nimlgen** [[00:48:14](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2894)]
-Yeah, so we've been working on the NVPCI. So now we have huge pages and performance is... So sometimes it's better than the NV, sometimes it's worse. So, yeah, I mean, it's better in most cases when it's around the single device. Sometimes, I mean, the numbers say a bit worse because of the queue time. So I'll check this. So in general, the GPU speed seems to be good. Great. Do we have 5090 score? Not yet. So, yeah, so the next step, I'm just going... I've been doing several cleanups for 1390. So, yeah, this is... So actually this week I'm going to... Yeah, so the primary goal is just to train some BERT and maybe some other networks to just make sure it's stable for like four weeks or so and merge it in CI. And yeah, and 59.
+Yeah, so we've been working on the NVPCI. So now we have huge pages and performance is.. So sometimes it's better than the NV, sometimes it's worse. So, yeah, I mean, it's better in most cases when it's around the single device. Sometimes, I mean, the numbers say a bit worse because of the queue time. So I'll check this. So in general, the GPU speed seems to be good. Great. Do we have 5090 score? Not yet. So, yeah, so the next step, I'm just going.. I've been doing several cleanups for 1390. So, yeah, this is.. So actually this week I'm going to.. Yeah, so the primary goal is just to train some BERT and maybe some other networks to just make sure it's stable for like four weeks or so and merge it in CI. And yeah, and 59.
 
 ##### **Geohot** [[00:49:37](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=2977)]
 Cool. So, I see this change here to the system.py and you use NVPCI. So this is for large pages. We do this. I see you doing this like two shift left 20 if size is greater than 8 shift left 20. Sorry, what? Sorry, the NVPCI one.
 
 ##### **Nimlgen** [[00:50:19](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3019)]
-Oh, this one. No, actually, I've already merged this. We had it. So this part I merged. I mean, we had it for NV as well. So basically that helps to... The difference in hardware between AMD and NV is that AMD can feed different... And like in TLB they can have different sizes, like which has a power of two, like 4K, 16K, 8K and so on. And this importantly, I mean, sorry, NV supports only like the page size in the TLB, like 4K, 64K, 2 megabytes and so on. So because of that, yeah, we just need to align the size. And because the TLB allocation could be a lot of small pages like 4K pages, and because of that we just overalign this size to allocate it as one huge page like the TLB. That makes sense.
+Oh, this one. No, actually, I've already merged this. We had it. So this part I merged. I mean, we had it for NV as well. So basically that helps to.. The difference in hardware between AMD and NV is that AMD can feed different.. And like in TLB they can have different sizes, like which has a power of two, like 4K, 16K, 8K and so on. And this importantly, I mean, sorry, NV supports only like the page size in the TLB, like 4K, 64K, 2 megabytes and so on. So because of that, yeah, we just need to align the size. And because the TLB allocation could be a lot of small pages like 4K pages, and because of that we just overalign this size to allocate it as one huge page like the TLB. That makes sense.
 
 ##### **Geohot** [[00:51:24](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3084)]
-So AMD's... How can you have a TLB that doesn't match the page size? Yeah. But how, I mean, how does it... Like what if it sees contiguous pages that like merges them or something? No, there is a flag in the page table. Oh, that says like these four are one TLB entry.
+So AMD's.. How can you have a TLB that doesn't match the page size? Yeah. But how, I mean, how does it.. Like what if it sees contiguous pages that like merges them or something? No, there is a flag in the page table. Oh, that says like these four are one TLB entry.
 
 Interesting. I've never seen that before. It looks cool. Yeah, seems like good progress.
 
-Excited to have 5090 support. And then what we should do is we should add two of the H machines to CI. I think maybe instead of removing it from the... Well, I don't know. It's up to you if you want to remove from the green boxes, but I think adding two of the H machines and always having neither of the drivers inserted on them is a good idea. They do have 5090s though. But yeah, then we can test the 5090 driver and test the 9070XT driver.
+Excited to have 5090 support. And then what we should do is we should add two of the H machines to CI. I think maybe instead of removing it from the.. Well, I don't know. It's up to you if you want to remove from the green boxes, but I think adding two of the H machines and always having neither of the drivers inserted on them is a good idea. They do have 5090s though. But yeah, then we can test the 5090 driver and test the 9070XT driver.
 
-Can we, can we DMA from my AMD card to another? Yeah, I think we can. All right, that'd be cool. I think that's a... So go ahead. I think that'd be a great thing to test in our CI, right? I think that like, you want to get to stuff that no other driver would dream of doing. It's that we are going to be able to DMA directly from Nvidia to AMD.
+Can we, can we DMA from my AMD card to another? Yeah, I think we can. All right, that'd be cool. I think that's a.. So go ahead. I think that'd be a great thing to test in our CI, right? I think that like, you want to get to stuff that no other driver would dream of doing. It's that we are going to be able to DMA directly from Nvidia to AMD.
 
 ##### **Chenyu** [[00:53:01](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3181)]
 Who's doing that?
@@ -532,12 +532,12 @@ Great.
 You said it's faster for single GPU, or multi?
 
 ##### **Nimlgen** [[00:53:38](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3218)]
-So it's also faster. I've tested the ResNet from the CI, which is not being installed, so like a few percent faster there. I mean, but yeah, it's a bit slower running Llama and actually the GPU times are the same or faster, but then queue time is a bit higher. So yeah, that's something to look at.
+So it's also faster. I've tested the ResNet from the CI, which is not being installed, so like a few percent faster there. I mean, but yeah, it's a bit slower running LLaMA and actually the GPU times are the same or faster, but then queue time is a bit higher. So yeah, that's something to look at.
 
 ##### **Geohot** [[00:54:04](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3244)]
 So what I want to get to for this is I want to start moving the implementation of our drivers into tinygrad. Like it should be a CPU tinygrad kernel to do all the updates and not Python code anymore. Well, we started doing it. You did this with how we do the symbolic stuff. But yeah, the eventual dream is that these HCQ drivers themselves become written in tinygrad. And whatever stuff is going to require to do that. But imagine also being able to run them on a GPU. Or imagine being able to have just a tinygrad kernel that does the enqueue. So like GPU2 can enqueue your kernel on GPU1 or maybe even on itself.
 
-But yeah, that should fix all the enqueue times I think too. Like it's just some compiled C code. So I'm going to... Anything else for the driver? No, I'm moving on to vote. Still, follow system progress. Better, I'm hoping to have something deployed this week and start getting it. I think my main issue right now is there's a separation between chunking, like passing a chunk and then storing it. Because I think currently we assume that all machines that run compute have drives. I don't think we have to.
+But yeah, that should fix all the enqueue times I think too. Like it's just some compiled C code. So I'm going to.. Anything else for the driver? No, I'm moving on to vote. Still, follow system progress. Better, I'm hoping to have something deployed this week and start getting it. I think my main issue right now is there's a separation between chunking, like passing a chunk and then storing it. Because I think currently we assume that all machines that run compute have drives. I don't think we have to.
 
 ##### **Wozeparrot** [[00:56:09](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3369)]
 Yeah, because then we have the issue of, okay, we send a recent in the chunk twice then.
@@ -549,7 +549,7 @@ Oh, you're saying like what happens if we hash it in a different place from the 
 Okay.
 
 ##### **Geohot** [[00:56:33](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3393)]
-That's totally fine. We can assume that stuff. And then also we should think about how to run a local version of this file system. Like I want to switch cache downloads over to a local version of...
+That's totally fine. We can assume that stuff. And then also we should think about how to run a local version of this file system. Like I want to switch cache downloads over to a local version of..
 
 We can have locally, we have the same block store.
 
@@ -557,22 +557,22 @@ We can have locally, we have the same block store.
 It can be hashed in the same tree.
 
 ##### **Geohot** [[00:56:55](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3415)]
-Yeah, good enough. Yeah, I think that's all we care about. Yeah, I think we don't even... I guess, yeah, we don't even really care about how the files are stored.
+Yeah, good enough. Yeah, I think that's all we care about. Yeah, I think we don't even.. I guess, yeah, we don't even really care about how the files are stored.
 
 ##### **Wozeparrot** [[00:57:00](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3420)]
 But it's the same tree and then you can hit the same hashes from the cloud or from locally. It's okay.
 
 ##### **Geohot** [[00:57:07](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3427)]
-Yeah, yeah. And like, yeah, ideally it should all just be like... It should be like a redo cache, like it should be like a... Like the only way to access things in tinygrad's download should be by the hash.
+Yeah, yeah. And like, yeah, ideally it should all just be like.. It should be like a redo cache, like it should be like a.. Like the only way to access things in tinygrad's download should be by the hash.
 
 ##### **Wozeparrot** [[00:57:30](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3450)]
-Okay. How do we download something into, like if a user wants to run some new llama model. Well, I'm not the pre-downloaded.
+Okay. How do we download something into, like if a user wants to run some new LLaMA model. Well, I'm not the pre-downloaded.
 
 ##### **Geohot** [[00:57:41](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3461)]
 No, I'm saying like sure you can keep around the helper methods, right, you can keep around fetch and keep around from URL. But under the hood what that should do is not stick it in cache downloads. It should stick it in the local tinygrad file system.
 
 ##### **Wozeparrot** [[00:57:55](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3475)]
-But then how will the user specify that they want... Like from URL is you're providing a URL. Yeah, then do they also provide the hash?
+But then how will the user specify that they want.. Like from URL is you're providing a URL. Yeah, then do they also provide the hash?
 
 ##### **Geohot** [[00:58:06](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3486)]
 Can you store that in the SQLite if you want to store that in something?
@@ -593,9 +593,9 @@ From hash and from URL should use the same backing store. Yeah. You can also jus
 
 Oh, like as a file. Yeah, that works. Yeah, maybe that's the way to do it. Just keep the download directories, just be kind of like instead of the file containing the data, it contains the hash.
 
-Yeah, just whatever you just wrote. Well, this was great. 10% overhead both in the bounty target also. I have to know what device is on what host. Yeah. And just currently our device specification... Is it like getting a group ID to ops device.
+Yeah, just whatever you just wrote. Well, this was great. 10% overhead both in the bounty target also. I have to know what device is on what host. Yeah. And just currently our device specification.. Is it like getting a group ID to ops device.
 
-Oh, yeah, I mean, there's no reason that ops device is kind of this... Yeah, I think the colon thing is kind of bad. Yeah, you need a better way to specify more complicated topologies.
+Oh, yeah, I mean, there's no reason that ops device is kind of this.. Yeah, I think the colon thing is kind of bad. Yeah, you need a better way to specify more complicated topologies.
 
 ##### **Wozeparrot** [[01:00:08](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3608)]
 Yeah, yeah, yeah, I'm kind of don't have that right now.
@@ -609,7 +609,7 @@ Okay.
 ##### **Geohot** [[01:00:27](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3627)]
 Like every final thought. And so instead of having an explicit thing called group, you can just have, yeah, the first refactor would be getting rid of the colon. And then having that be a constant and then there's no reason that you can't support three constants if you want a 3D topology. I don't know, but you also want to have the idea of a max.
 
-I don't know if the device should include the world size. Yeah, maybe should. Yeah. I'm kind of referring to that. Moving on to Alex. A deep complaint because Alex is still not in any proper... Yeah, let's do it. Let's move it in.
+I don't know if the device should include the world size. Yeah, maybe should. Yeah. I'm kind of referring to that. Moving on to Alex. A deep complaint because Alex is still not in any proper.. Yeah, let's do it. Let's move it in.
 
 ##### **Chenyu** [[01:01:29](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3689)]
 Oh, yeah, there was a change on next runner to take file as input and like out on the benchmark release, low more than 100% slow.
@@ -623,7 +623,7 @@ You speak more about what else is needed to move on next to tinygrad proper. Oth
 Maybe not for this meeting, but I'd like to know what, because we fixed a bunch of stuff already, right, so want to see, other than maybe some cleanup for general styles and functions, I'd like to see what other blockers are there so that we can have automation for.
 
 ##### **Geohot** [[01:02:47](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3767)]
-Before you want to make this happen faster, is there a way...
+Before you want to make this happen faster, is there a way..
 
 ##### **Chenyu** [[01:02:54](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3774)]
 Okay.
@@ -632,7 +632,7 @@ Okay.
 Okay. Some symbolic stuff for us, like us. Hi, can you hear me? Yes.
 
 ##### **Sieds Lykles** [[01:03:11](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3791)]
-Yeah, so I updated the PR that George had merged this week and then reverted. And it is now also reducing the right output. Basically what happened is I fixed one bug and then there was another bug. It was like, that was a sign and so after fixing the first error, I decided to produce the wrong output which...
+Yeah, so I updated the PR that George had merged this week and then reverted. And it is now also reducing the right output. Basically what happened is I fixed one bug and then there was another bug. It was like, that was a sign and so after fixing the first error, I decided to produce the wrong output which..
 
 ##### **Geohot** [[01:03:41](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=3821)]
 Yeah. Fixed now.
@@ -689,7 +689,7 @@ Overflowing is just implementation details.
 It's like having the number overflow. It's pretty much always not an intended behavior. Unless, I don't know if people do increase the stuff for uint. Maybe people use the wrap around for uint for other stuff. But for signed integers, for floats, I can imagine a float doesn't have this problem. So maybe just int.
 
 ##### **Geohot** [[01:07:26](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=4046)]
-I don't think people use this as an intended behavior. Maybe that's fine. Because when we start to come...
+I don't think people use this as an intended behavior. Maybe that's fine. Because when we start to come..
 
 ##### **Chenyu** [[01:07:39](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=4059)]
 When we start to consider overflow in these min, max, and more math formula stuff, that's a lot of your implementation details of those dtypes.
@@ -698,7 +698,7 @@ When we start to consider overflow in these min, max, and more math formula stuf
 I mean, what we might want to do for this, and we used to have something like this, is we just might want shapes to not be int32s. We might want them to be arbitrary integers. I think we used to have something for this, but it was taken out because it was slow. But they should just be arbitrary precision integers. And then there can be a pass later on, which puts them in real dtype.
 
 ##### **Sieds Lykles** [[01:08:14](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=4094)]
-I guess my problem is that I'm... The fuzzer is going over each rule in symbolic one by one, generating random uops. And some of the uops are not equal before and after the simplify because there's some overflow.
+I guess my problem is that I'm.. The fuzzer is going over each rule in symbolic one by one, generating random uops. And some of the uops are not equal before and after the simplify because there's some overflow.
 
 ##### **Chenyu** [[01:08:39](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=4119)]
 Yeah, I think for the actual ALU we have a pass that can judge the dtype for the number, int32 to 64, if it surpasses that.
@@ -706,7 +706,7 @@ Yeah, I think for the actual ALU we have a pass that can judge the dtype for the
 We still have it. I think we should have it.
 
 ##### **Sieds Lykles** [[01:08:56](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=4136)]
-Yeah, but I mean that's only for integers in like...
+Yeah, but I mean that's only for integers in like..
 
 ##### **Chenyu** [[01:09:04](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=4144)]
 Yeah, but I think let's look at the intended behavior. Right. So if you say the fuzzer finds the numbers, lets intermediate or outputs overflow, the actual intended behavior is to change the type so that it doesn't overflow. It's not like we want to make the overflow behavior the same.
@@ -718,12 +718,12 @@ Yeah, okay.
 Okay, I'll move on with that. Yeah, because otherwise we're starting to use our files.
 
 ##### **Chenyu** [[01:09:42](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=4182)]
-Yeah, we really don't want in the, like, the master rewriting rule to start to consider, okay, what if this overflows. It's already annoying to have None and zero and... Thanks.
+Yeah, we really don't want in the, like, the master rewriting rule to start to consider, okay, what if this overflows. It's already annoying to have None and zero and.. Thanks.
 
 ##### **Geohot** [[01:09:59](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=4199)]
 Well, yeah, then what we might want to be using is again, this arbitrary precision dtype. And it's almost a question if we only want the symbolic rules to apply to this arbitrary precision dtype.
 
-And we can do all the shapes and the indexing in it. I mean, there's not like that in his own either, rosewood by comparison operators that are building problems. Most of them are not fine. Thank you. Yeah, I think the...
+And we can do all the shapes and the indexing in it. I mean, there's not like that in his own either, rosewood by comparison operators that are building problems. Most of them are not fine. Thank you. Yeah, I think the..
 
 ##### **Chenyu** [[01:10:50](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=4250)]
 On the mental thinking would be if it's something that has an intent to use case that a user will want to happen and we track close. If it's just the way we run fuzz or benchmark and it's really trivial, then don't change the core properties of dtypes for something because of that.
@@ -774,9 +774,9 @@ Which test?
 So you write a range of size 10 and you say for i equals to English and the ith element is assigned to i. Yeah. How do you think the final kernel looks like?
 
 ##### **Geohot** [[01:14:01](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=4441)]
-Oh, I want to look at what I wrote again. I remember the test, that item loop. Oh, I just imagine it being literally just that, literally just 10 stores, each to the element. Yeah, it's not a for loop. No, no, no, the kernel obviously wanted for loop in it. The kernel is just going to have 10 stores in it. So it's going to be... Yes. Like it's just going to have, OK, so passes in some buffer and the buffer has like buf[0] = 0, buf[1] = 1, buf[2] = 2.
+Oh, I want to look at what I wrote again. I remember the test, that item loop. Oh, I just imagine it being literally just that, literally just 10 stores, each to the element. Yeah, it's not a for loop. No, no, no, the kernel obviously wanted for loop in it. The kernel is just going to have 10 stores in it. So it's going to be.. Yes. Like it's just going to have, OK, so passes in some buffer and the buffer has like buf[0] = 0, buf[1] = 1, buf[2] = 2.
 
-It's not going to extract the for loop or anything. Yeah, that's... How do we write kernels like that now? We have a single kernel, stores to different parts of... It's not done correctly now. I know how to do it. It's the problem. Yeah.
+It's not going to extract the for loop or anything. Yeah, that's.. How do we write kernels like that now? We have a single kernel, stores to different parts of.. It's not done correctly now. I know how to do it. It's the problem. Yeah.
 
 ##### **Chenyu** [[01:15:24](https://www.youtube.com/watch?v=DSWQCT9mypQ&t=4524)]
 So because for now we only support kind of two types, right, when this store everything inside that buffer. Yeah, we don't, or take a slice of that in the outer world and kind of store into that slice.

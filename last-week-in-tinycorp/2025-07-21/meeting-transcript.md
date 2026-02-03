@@ -19,15 +19,15 @@
 
 ### Highlights
 
-- **[Company Updates](#geohot-000012)**: Geohot shares the difficulty of finding small commercial buildings with high power capacity (a 5MW target) for a data center. On a positive note, tinybox sales are increasing, and they have 5090s in stock.
+- **[Company Updates](#geohot-000012)**: Geohot shares the difficulty of finding small commercial buildings with high power capacity (a 5MW target) for a data center. On a positive note, TinyBox sales are increasing, and they have 5090s in stock.
 - **[MI Fast GEMM](#geohot-000438)**: After reviewing TVM and TileLang, Geohot proposes a new abstraction for fast GEMM in tinygrad. This involves a `contiguous define local` operator to explicitly manage memory hierarchies (DRAM, SRAM, registers), which will simplify kernel writing and may replace the `block_reorder` logic.
 - **[Upcast Before Reduce](#chenyu-001134)**: Chenyu has refactored `kernel.py` to place upcast operations before reduce operations. This change makes the code more readable, simplifies hand-coded optimizations, and is a key step towards removing `ones` from the graph.
-- **[MLPerf](#chenyu-002009)**: A Llama 4.5B data loader has been created. The stable diffusion bounty will be tied to the new MLPerf v5.1 "flux" model. Hooved is getting tinybox access to run training for the stable diffusion work.
+- **[MLPerf](#chenyu-002009)**: A LLaMA 4.5B data loader has been created. The stable diffusion bounty will be tied to the new MLPerf v5.1 "flux" model. Hooved is getting TinyBox access to run training for the stable diffusion work.
 - **[Viz Tool](#qazalin-002254)**: Qazalin presented progress on the visualization tool for performance counters. Geohot emphasized the tool should focus on surfacing key metrics like DRAM, SRAM, and ALU utilization to help developers quickly understand kernel performance bottlenecks.
 - **[Drivers and CPU Backend](#nimlgen-003407)**: Nimlgen's refactor to support multi-device graphs (e.g., CPU+GPU) is almost complete, with copy speeds reaching 53 GB/s on the MI300. The next focus is offloading the optimizer to the CPU and implementing an efficient multi-threaded CPU backend.
 - **[Cloud](#wozeparrot-004207)**: The remote scheduler has been merged. Cloud work is currently blocked by a recursion error in the `cac` hashing function on inputs larger than 4KB. Drive benchmarking is complete, and Western Digital drives will be used.
 - **[ONNX](#geohot-004316)**: A large PR adding an ONNX importer is under review. The team discusses merging this functionality into the main tinygrad repository soon.
-- **[Other Bounties and PRs](#geohot-004519)**: The `const` folding bounty is available again. The large C backend PR needs to be split into smaller parts. For the Whisper WebGPU bounty, the focus is on getting a functional version merged. A new, clearer device selection syntax (`DEV=...`) will be implemented to replace confusing flags.
+- **[Other Bounties and PRs](#geohot-004519)**: The `const` folding bounty is available again. The large C backend PR needs to be split into smaller parts. For the Whisper WebGPU bounty, the focus is on getting a functional version merged. A new, clearer device selection syntax (`DEV=..`) will be implemented to replace confusing flags.
 
 ### Transcript
 ##### **Chenyu** [[00:00:00](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=0)]
@@ -58,7 +58,7 @@ Oh, just by four. Yeah. You can definitely find more buildings. Yeah, you could 
 I see much bigger in the clinic. Well, five, five megawatt is 10X comma. And that would be plenty. I mean, it's a lot five megawatts, but it's only like 50 racks. It's not like. It's not like, I guess I did, but I've been around 60 racks, 70 racks, but still it's like not like huge. Much too neat. It depends for what.
 
 ##### **Geohot** [[00:03:26](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=206)]
-And another company, we just got an email from someone who wants to buy four tiny box screens. So they really, they're really starting to move now. Oh, should we raise the price? Someone serious. Should we raise the price? Yeah, maybe. Now I'm pretty happy with the price. I'm having enough GPU. Sorry. Oh, we have no shortage of GPUs. We have 5090s. So yeah, tiny box screens are moving. Yeah, the other project is coming along well for come.
+And another company, we just got an email from someone who wants to buy four TinyBox screens. So they really, they're really starting to move now. Oh, should we raise the price? Someone serious. Should we raise the price? Yeah, maybe. Now I'm pretty happy with the price. I'm having enough GPU. Sorry. Oh, we have no shortage of GPUs. We have 5090s. So yeah, TinyBox screens are moving. Yeah, the other project is coming along well for come.
 
 ##### **Geohot** [[00:04:00](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=240)]
 Great. Sounds good. Sounds good. Hey. Oh, you really pose on Twitter or something? Yes. Okay, but it didn't get much reach for some reason.
@@ -67,7 +67,7 @@ Great. Sounds good. Sounds good. Hey. Oh, you really pose on Twitter or somethin
 It's Monday morning here. Okay. Anyway, let's move on to a cool, tiny, great stuff. I don't know what you were up to, but you want to talk about your fast jamming, like some other abstraction.
 
 ##### **Geohot** [[00:04:38](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=278)]
-Yeah, so mainly what I did this week was I built like I built TVM, I built tile, I went through it just saw what all of these existing abstractions were. And it's pretty clear, I think. It's what I described. I just need to implement that this week. Like instead of putting a load in the store with the defined local, you can really just say contiguous define local and this works. Because we have the axes labeled like like like so when you think of what contiguous is contiguous is just like creative to create a buffer and DRAM. But there's no reason that contiguous can't also be create a buffer in locals or create a buffer registers. Tile Lang has these abstractions pretty good. I posted, I posted Tile Lang and I actually like played with it a whole bunch. It's just yeah, like the front example basically explains how to write a fast jam. We just need to support that in in tiny grad.
+Yeah, so mainly what I did this week was I built like I built TVM, I built tile, I went through it just saw what all of these existing abstractions were. And it's pretty clear, I think. It's what I described. I just need to implement that this week. Like instead of putting a load in the store with the defined local, you can really just say contiguous define local and this works. Because we have the axes labeled like like like so when you think of what contiguous is contiguous is just like creative to create a buffer and DRAM. But there's no reason that contiguous can't also be create a buffer in locals or create a buffer registers. Tile Lang has these abstractions pretty good. I posted, I posted Tile Lang and I actually like played with it a whole bunch. It's just yeah, like the front example basically explains how to write a fast GEMM. We just need to support that in in tiny grad.
 
 ##### **Chenyu** [[00:05:49](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=349)]
 I also just post the new cutlass and their new tree in I think I'm via channel.
@@ -184,7 +184,7 @@ Oh yeah, we got it. We got to get rid of full shape.
 Yeah, we need to also need to define like certain stuff.
 
 ##### **Geohot** [[00:17:52](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=1072)]
-What uses full shape still? So it's mostly... I think it's mostly just tracking like what's the max shape of stuff.
+What uses full shape still? So it's mostly.. I think it's mostly just tracking like what's the max shape of stuff.
 
 ##### **Chenyu** [[00:18:07](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=1087)]
 So like you know the most outer thing. Yeah. And that's kind of stupid because most of the time that's only used to determine which axis are like reduce actually.
@@ -223,7 +223,7 @@ I think we will start with the reduce and see like how this work with like use a
 Cool. Next is ML Perth.
 
 ##### **Chenyu** [[00:20:09](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=1209)]
-I create a llama for a vibe data loader with was parrots. I will work on his a cack and well to use the caloder. Yeah, I think we talk about ML Perth. I saw a PR for stable diffusion. I know stable diffusion is going to change to flux in I.1. So I think it's fair to say who if you can get this down and like. Urge before the deadline for 5.1. You should still think printing you the bank is mine. But if you want the double bounty to be on the ML Perth results that needs to be what it is.
+I create a LLaMA for a vibe data loader with was parrots. I will work on his a cack and well to use the caloder. Yeah, I think we talk about ML Perth. I saw a PR for stable diffusion. I know stable diffusion is going to change to flux in I.1. So I think it's fair to say who if you can get this down and like. Urge before the deadline for 5.1. You should still think printing you the bank is mine. But if you want the double bounty to be on the ML Perth results that needs to be what it is.
 
 ##### **Geohot** [[00:20:57](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=1257)]
 Yeah, I found that.
@@ -235,7 +235,7 @@ Okay, so it would just help to know like the value even if I just do stable diff
 I mean, I would imagine whatever you put in changing to flux. It's fairly straightforward. So it's more of a first example to train a diffusion model. And given given that ML Perth is the best. We have in terms of the rule and like the vigorous of the like how fast you can train. I think that's reasonable.
 
 ##### **Hooved** [[00:21:42](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=1302)]
-Okay, and then I think I'm pretty close to being ready to run training runs. Like what I'd be able to get on a tiny box, you know, assuming that's the case.
+Okay, and then I think I'm pretty close to being ready to run training runs. Like what I'd be able to get on a TinyBox, you know, assuming that's the case.
 
 ##### **Chenyu** [[00:21:53](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=1313)]
 I'm sure. I don't know how long you would take. Maybe if you can give some estimation. I mean, Grinting rule about is the least of a problem. But you also need to figure out the data in like time.
@@ -487,10 +487,10 @@ Oh, I have a kernel that repeated the crash.
 You have one kernel.
 
 ##### **Wozeparrot** [[00:40:26](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2426)]
-Well, I just beam, but...
+Well, I just beam, but..
 
 ##### **Geohot** [[00:40:28](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2428)]
-Yeah, but what I'm saying is get the generated code, get the generated code from beam, and then make a... I would do this, I think it's worth your time. Make a minimum reproduction that's just like when I run this kernel like crashes, right? Cause that's what you got kind of got to do. It's likely to do like some like local configuration thing.
+Yeah, but what I'm saying is get the generated code, get the generated code from beam, and then make a.. I would do this, I think it's worth your time. Make a minimum reproduction that's just like when I run this kernel like crashes, right? Cause that's what you got kind of got to do. It's likely to do like some like local configuration thing.
 
 ##### **Geohot** [[00:40:45](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=2445)]
 Probably. Yeah.
@@ -700,7 +700,7 @@ At least it exposes the silliness of the other thing. Okay, so what? The equal. 
 If that's the only complaint, that's very different from we do hate flags.
 
 ##### **Geohot** [[00:54:47](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=3287)]
-Yeah, that's well, that's after the flags we use. If you use it, it was one of the things that was for being it. LLM LVM LLVM opt. Why would I not want to optimize LVM? It sounds like a good idea. Did we remove that flag? We LLM opt just defaults the one now. Yeah. No action explicitly. Does it probably these flags just hang around? Even if we don't do anything.
+Yeah, that's well, that's after the flags we use. If you use it, it was one of the things that was for being it. LLM LLVM LLVM opt. Why would I not want to optimize LLVM? It sounds like a good idea. Did we remove that flag? We LLM opt just defaults the one now. Yeah. No action explicitly. Does it probably these flags just hang around? Even if we don't do anything.
 
 ##### **Geohot** [[00:55:11](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=3311)]
 And the reason you don't, yeah, and you don't always know. Put the reason that you don't always want to optimize it is because you can see optimize your slow.
@@ -724,7 +724,7 @@ Once we're back on schedule or stuff.
 We will get. Yeah, postly issue if the compiles sales and we will cry out. Yeah. And unlike now, we can call it product perfas. Very important that opened policy using. ��q ossversion of anything.
 
 ##### **Geohot** [[00:56:00](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=3360)]
-Um, yeah, that was a new model we want to merge. We've been on a latest version for a while, which is actually a really nice upgrade. Yes. That we want to keep that going forward. 느�ide Naj, that's been working. Sometimes we just have. New malls. And then I failed for weird reasons, but I guess one of those. It was just fixed so I think there's one more.
+Um, yeah, that was a new model we want to merge. We've been on a latest version for a while, which is actually a really nice upgrade. Yes. That we want to keep that going forward. �ide Naj, that's been working. Sometimes we just have. New malls. And then I failed for weird reasons, but I guess one of those. It was just fixed so I think there's one more.
 
 ##### **Geohot** [[00:56:20](https://www.youtube.com/watch?v=ZH1wOuAvl3k&t=3380)]
 that I'll check it again. Okay sounds good. Okay I think let's say it for a

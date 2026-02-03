@@ -7,7 +7,7 @@
 - image dtype
 - drivers
 - viz / fast gemm
-- llama flash attention
+- LLaMA flash attention
 - jit asserts, schedule
 - assembly
 - other bounties
@@ -27,8 +27,8 @@
 * **[MI350 all-to-all bandwidth gap + contiguous copy overhead](#nimlgen-001125)**: Says MI350 all-to-all is ~150 GB/s vs. a ~220 GB/s target; suspects extra contiguous-related copies and suggests using views to avoid copies.
 * **[Remote/shim direction: reuse the abstraction layer](#geohot-001722)**: Discusses using the existing memory-access abstraction (used for USB) as the foundation for remote access and a “shim binary,” envisioning racks of GPUs controlled by a simple host.
 * **[Viz upgrade: register dependency highlighting](#qazalin-001912)**: Viz can now highlight all producers/consumers of a selected register (parsing register pairs), making low-level GEMM work easier when register semantics aren’t obvious.
-* **[Sprint priority: integrate fast GEMM for llama training](#geohot-002049)**: Pushes that getting a fast GEMM (CDNA path) integrated for the llama trainer is a top priority, even if it requires refactoring.
-* **[Llama flash-attn debugging: JIT-only incorrect V kernel](#wozeparrot-002916)**: Wozeparrot reports a strange issue: after splitting QKV backward into three kernels, only the V kernel produces incorrect outputs during JIT (despite similar computation to K).
+* **[Sprint priority: integrate fast GEMM for LLaMA training](#geohot-002049)**: Pushes that getting a fast GEMM (CDNA path) integrated for the LLaMA trainer is a top priority, even if it requires refactoring.
+* **[LLaMA flash-attn debugging: JIT-only incorrect V kernel](#wozeparrot-002916)**: Wozeparrot reports a strange issue: after splitting QKV backward into three kernels, only the V kernel produces incorrect outputs during JIT (despite similar computation to K).
 * **[JIT edge cases: const tensors + list/tuple inputs](#chenyu-003021)**: Chenyu adds tests and notes a failure mode when passing a const tensor (can’t be realized to contiguous, and JIT doesn’t capture it), and that JIT now supports list/tuple inputs—but the “spec” for nesting/custom objects isn’t defined.
 * **[JIT improvements idea: multi-shape contexts + free intermediates](#geohot-003510)**: Proposes (1) multiple JIT contexts keyed by input sizes (e.g., varying batch sizes), and (2) making intermediate memory a slab that can be freed/reallocated each call cheaply (hitting LRU most of the time) to enable multiple contexts safely.
 * **[Debugging principle: design tooling for humans, not AI](#geohot-003958)**: Argues debug output and tools should be made human-readable first (what helps humans will help models), calling out confusing debug levels like “debug=3.”
@@ -112,7 +112,7 @@ Well, that's cool. Yeah, we don't need to falsify it. We can just see if the typ
 Well, yeah, that's the generate report thing. What is something like that report something? I'm not sure. But yeah, I just look at the options.
 
 ##### **Geohot** [[00:06:39](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=399)]
-Yeah. And what I'll say about the performance counters is, I mean, we know one of the major reasons for a regression, right? Like we have to support 2D images. Yeah. Yeah. Oh, for sure. So, I mean, I think performance counters are a little bit more of a challenge. I think performance counters are a good idea, but I think it's probably more important to get the known stuff first. And then once we're in the unknown, well, in the unknown, but...
+Yeah. And what I'll say about the performance counters is, I mean, we know one of the major reasons for a regression, right? Like we have to support 2D images. Yeah. Yeah. Oh, for sure. So, I mean, I think performance counters are a little bit more of a challenge. I think performance counters are a good idea, but I think it's probably more important to get the known stuff first. And then once we're in the unknown, well, in the unknown, but..
 
 ##### **Chrism** [[00:07:01](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=421)]
 Okay. And the advice on how to do the 2D images is just like a super late rewrite to transform the image?
@@ -121,46 +121,46 @@ Okay. And the advice on how to do the 2D images is just like a super late rewrit
 Yeah. So you'll have to do this at the same place where we do the valid masking stuff now. Yeah. But yeah, I mean, that should be fine. Because you know it's float four by then. Yep. Yeah, just make the index 2D. And yeah, do the rewrite there. Yeah. Okay. That makes sense. Yeah. And then extract what the 2D things are at the end when you need to pass them into the texture, the sample. Yeah.
 
 ##### **Chrism** [[00:07:40](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=460)]
-Yeah. Yeah. I mean, there's only... Like if you have multiple things where you're relying on this valid thing, you can only do it... You can only like perform that operation once. So you have to try. You have to try to extract that information. But...
+Yeah. Yeah. I mean, there's only.. Like if you have multiple things where you're relying on this valid thing, you can only do it.. You can only like perform that operation once. So you have to try. You have to try to extract that information. But..
 
 ##### **Geohot** [[00:07:53](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=473)]
-Yeah. I wouldn't... Well, so is that even true? Can't you just put it in twice and give it two different sizes?
+Yeah. I wouldn't.. Well, so is that even true? Can't you just put it in twice and give it two different sizes?
 
 ##### **Chrism** [[00:08:02](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=482)]
-Oh. Yeah. But then you'd have to pass it to the... Yeah. You could do this. You could do this. You'd have to pass it to the thing twice. You'd have to pass it... You'd have to like make it a two function. Like the function has to accept multiple parameters.
+Oh. Yeah. But then you'd have to pass it to the.. Yeah. You could do this. You could do this. You'd have to pass it to the thing twice. You'd have to pass it.. You'd have to like make it a two function. Like the function has to accept multiple parameters.
 
 ##### **Geohot** [[00:08:16](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=496)]
 Yeah. I mean, what you might want to do is you might want to, when you do the rewrite of the load, you might want to rewrite the define global as well to have the sizes. Yeah. I mean, you can keep the image D type. Just the idea is that you don't use it anywhere in the front. Yeah. Yeah, for sure.
 
 ##### **Chrism** [[00:08:35](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=515)]
-Yeah. Yeah. Okay. I mean, so that's an interesting idea. To pass multiple copies of the... Like every time you want like a special valid thing, then you pass another copy of the... Of the buffer?
+Yeah. Yeah. Okay. I mean, so that's an interesting idea. To pass multiple copies of the.. Like every time you want like a special valid thing, then you pass another copy of the.. Of the buffer?
 
 ##### **Geohot** [[00:08:52](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=532)]
 Yeah.
 
 ##### **Geohot** [[00:08:52](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=532)]
-I mean, you could see if it ever happens. Yeah. But yeah, I mean, if you were to like put that type on the define global, then it would dedupe... Then it wouldn't dedupe the define globals. Then you can pass another copy of the buffer with a different... Okay.
+I mean, you could see if it ever happens. Yeah. But yeah, I mean, if you were to like put that type on the define global, then it would dedupe.. Then it wouldn't dedupe the define globals. Then you can pass another copy of the buffer with a different.. Okay.
 
 ##### **Chrism** [[00:09:10](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=550)]
-Yeah. Is that okay to do that late? With that... There's no operations that have to happen on the define global before that step?
+Yeah. Is that okay to do that late? With that.. There's no operations that have to happen on the define global before that step?
 
 ##### **Geohot** [[00:09:18](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=558)]
 No. I mean, you could rewrite the define global with the image type, right?
 
 ##### **Chrism** [[00:09:22](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=562)]
-Yeah. Yeah. No, I know. But I'm just worried about doing it so late in the... But I guess it's probably fine.
+Yeah. Yeah. No, I know. But I'm just worried about doing it so late in the.. But I guess it's probably fine.
 
 ##### **Geohot** [[00:09:28](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=568)]
-Oh, that's fine. But yeah, no, if you then were to... I understand. So basically what we're talking about here is you have two different loads that access it in two different ways, and we don't have a global like unique-ing mechanism for that. Yeah. Yeah. I mean, I would just see if you could just have it just rewrite it anyway, and then just pass it in twice.
+Oh, that's fine. But yeah, no, if you then were to.. I understand. So basically what we're talking about here is you have two different loads that access it in two different ways, and we don't have a global like unique-ing mechanism for that. Yeah. Yeah. I mean, I would just see if you could just have it just rewrite it anyway, and then just pass it in twice.
 
 ##### **Chrism** [[00:09:48](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=588)]
-Yeah. Okay. That makes sense. Yeah. Yeah. I mean, probably the quote unquote proper way to do this is to have two different samplers. It doesn't... At the end of the day, when it goes into the op skew com, it's the same thing. So it doesn't really matter.
+Yeah. Okay. That makes sense. Yeah. Yeah. I mean, probably the quote unquote proper way to do this is to have two different samplers. It doesn't.. At the end of the day, when it goes into the op skew com, it's the same thing. So it doesn't really matter.
 
 ##### **Geohot** [[00:10:01](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=601)]
-Yeah. I mean, you can decide... They'll still have the same arg number on the define global. They'll still both be like zero. So maybe you can actually make it have a different sampler, but just different sampler. Oh, okay. Okay. That's... Don't change... Oh, yeah. Don't change the arg number on the define global. The thing that'll make the define global not dedup is if they have different types. You'll get all this kind of a fray.
+Yeah. I mean, you can decide.. They'll still have the same arg number on the define global. They'll still both be like zero. So maybe you can actually make it have a different sampler, but just different sampler. Oh, okay. Okay. That's.. Don't change.. Oh, yeah. Don't change the arg number on the define global. The thing that'll make the define global not dedup is if they have different types. You'll get all this kind of a fray.
 
 ##### **Chrism** [[00:10:23](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=623)]
-Yeah. Yeah. No. The thing I was thinking was that you would pass... Because you're just installing all of these in the constants, as constants. That's where the arguments go. So I was just like, oh, well, you just install another copy of it. Yeah. But yeah.
+Yeah. Yeah. No. The thing I was thinking was that you would pass.. Because you're just installing all of these in the constants, as constants. That's where the arguments go. So I was just like, oh, well, you just install another copy of it. Yeah. But yeah.
 
 ##### **Geohot** [[00:10:35](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=635)]
 It doesn't matter how you do it. Okay. Anything else? I think that's it. Yeah. Okay. That's it. Let's move onto the drivers.
@@ -190,7 +190,7 @@ What's, what's the gap? Yeah, I mean, we do have like compute kernels in front o
 Um, it's not really fast.
 
 ##### **Geohot** [[00:12:47](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=767)]
-Wait, but shouldn't it be... you you're saying it's making a copy but that should be like eight terabytes a second or so
+Wait, but shouldn't it be.. you you're saying it's making a copy but that should be like eight terabytes a second or so
 
 ##### **Geohot** [[00:12:56](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=776)]
 yeah but no actually actually um yeah we do two copies and
@@ -295,43 +295,39 @@ I know. What the error message was, do you remember?
 I don't quite remember. One of it is, like, permission error for some file.
 
 ##### **Geohot** [[00:18:35](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1115)]
-I think that's the one. I can remember. I can look it up again and let you know. But I was just not sure. I was not sure if it was supposed to work. Yes. And I think it was, yeah. Yeah, so you can... I'll try again and let you know. Yeah.
+I think that's the one. I can remember. I can look it up again and let you know. But I was just not sure. I was not sure if it was supposed to work. Yes. And I think it was, yeah. Yeah, so you can.. I'll try again and let you know. Yeah.
 
 ##### **Chrism** [[00:19:00](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1140)]
 Cool.
 
 ##### **Geohot** [[00:19:02](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1142)]
-Okay, sounds good. Uh, next for... uh, Viz or Jen.
+Okay, sounds good. Uh, next for.. uh, Viz or Jen.
 
 ##### **Qazalin** [[00:19:12](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1152)]
-Yeah, Viz now has, uh, this feature of an E-Credit-Planet register. It highlights all the producers and consumers of that register. I use some of the infrastructure in RTSL to, like, parse the register pairs. I think it's been very helpful for my gem stuff, because most of the time I'm looking at a gem, and I don't know what that register is. I feel like I have this a lot with the gem right now, where it's so low level, that it's... um... it's becoming really hard to change anything about it.
+Yeah, Viz now has, uh, this feature of an E-Credit-Planet register. It highlights all the producers and consumers of that register. I use some of the infrastructure in RTSL to, like, parse the register pairs. I think it's been very helpful for my GEMM stuff, because most of the time I'm looking at a GEMM, and I don't know what that register is. I feel like I have this a lot with the GEMM right now, where it's so low level, that it's.. um.. it's becoming really hard to change anything about it.
 
 ##### **Geohot** [[00:19:51](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1191)]
-Is it a CDNA gem or an RDNA gem? Uh, I mean, like, all of them are the same. Are they? Uh... Well, yeah, sort of.
+Is it a CDNA GEMM or an RDNA GEMM? Uh, I mean, like, all of them are the same. Are they? Uh.. Well, yeah, sort of.
 
 ##### **Geohot** [[00:20:06](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1206)]
-So I think that the... I mean, they're very different, like, from like a microarchitectural perspective. I haven't looked much at that. At the CDNA. But the way that you get speed is, I think, quite different.
+So I think that the.. I mean, they're very different, like, from like a microarchitectural perspective. I haven't looked much at that. At the CDNA. But the way that you get speed is, I think, quite different.
 
 ##### **Geohot** [[00:20:23](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1223)]
-Um... But, I mean, even if we don't make it faster, how close are we to just integrating the CDNA fast gem? Present answer? Yeah. I think it will take some refactoring, but we can get there.
+Um.. But, I mean, even if we don't make it faster, how close are we to just integrating the CDNA fast GEMM? Present answer? Yeah. I think it will take some refactoring, but we can get there.
 
 ##### **Geohot** [[00:20:49](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1249)]
-I mean, I didn't see that on your sprint goals, but I think that's pretty important. Uh... That we have... uh...
+I mean, I didn't see that on your sprint goals, but I think that's pretty important. Uh.. That we have.. uh..
 
 ##### **Geohot** [[00:20:56](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1256)]
-a fast gem being used for our llama trainer.
+a fast GEMM being used for our LLaMA trainer.
 
-##### **Chrism** [[00:21:01](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1261)]
-... ... ... ...
-
-##### **Geohot** [[00:21:10](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1270)]
-... ... ... ... Eternal對
+##### **Chrism** [[00:21:01](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1261)]...... ##### **Geohot** [[00:21:10](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1270)]...... Eternal
 
 ##### **Qazalin** [[00:21:39](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1299)]
-Bow象
+Bow
 
 ##### **Chrism** [[00:21:40](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1300)]
-Bow象
+Bow
 
 ##### **Geohot** [[00:21:41](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1301)]
 What, the LLVM stuff?
@@ -355,13 +351,13 @@ I agree. Have you lifted the output from my SQTT stuff?
 I think it's a lot more like clear. I think it's a lot more like clear.
 
 ##### **Geohot** [[00:23:10](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1390)]
-I think it's a lot more like clear. I merged I merged it. So you're welcome to add support for already 94. But again, I think the highest priority is just getting fast gems working on birth.
+I think it's a lot more like clear. I merged I merged it. So you're welcome to add support for already 94. But again, I think the highest priority is just getting fast GEMMs working on birth.
 
 ##### **Geohot** [[00:23:25](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1405)]
 I see. Yeah. But you know, I'll merge. I'll merge the.
 
 ##### **Geohot** [[00:23:36](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1416)]
-But when I merged this, this do refactor to the DSL. I think then it should be kind of good for other people to start working on different parts of that. You're welcome to add our DNA for support to SQTT. I'm on the HP that hard. I mean, I'm not sure what it is, but. Yeah, try it on. Try it on our DNA three. And yeah, it's just it's just a lot more like clear to me because every basically every single thing that I've done. You know what I'm saying, right? 達 box is the specify, no matter the entity that it gets싸pped in. I don't need this. There's actually a dev chopsticks that imparts also running its components. And it's printable and it works from the information that comes with it. So that looks pretty cool. Ltd, that sounds cool. Yeah, they get in with buffers. That's good. Perfect, perfect. But the key thing is, you can see both. Well, what? Mike, did may. It's 612. Women are always staring at you. Oh, looks good, actually. şu. visualize where each current thing is, like the program counter of each warp.
+But when I merged this, this do refactor to the DSL. I think then it should be kind of good for other people to start working on different parts of that. You're welcome to add our DNA for support to SQTT. I'm on the HP that hard. I mean, I'm not sure what it is, but. Yeah, try it on. Try it on RDNA3. And yeah, it's just it's just a lot more like clear to me because every basically every single thing that I've done. You know what I'm saying, right? box is the specify, no matter the entity that it getspped in. I don't need this. There's actually a dev chopsticks that imparts also running its components. And it's printable and it works from the information that comes with it. So that looks pretty cool. Ltd, that sounds cool. Yeah, they get in with buffers. That's good. Perfect, perfect. But the key thing is, you can see both. Well, what? Mike, did may. It's 612. Women are always staring at you. Oh, looks good, actually. şu. visualize where each current thing is, like the program counter of each warp.
 
 ##### **Geohot** [[00:24:38](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1478)]
 I think that kind of stuff would be cool to be able to step through. Actually, if we're stepping through and we have an emulator, we should be able to see all the registers still, the values. Yeah, I was thinking like a table of all the VGPRs.
@@ -391,7 +387,7 @@ Yeah, but assembly doesn't do. It's just not how assembly works.
 Exactly. I have to worry about all this stuff.
 
 ##### **Geohot** [[00:26:16](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1576)]
-You're struggling with the pointer math. I mean, again, focus on just making existing gems work fast on vert and then translating them to RDSL.
+You're struggling with the pointer math. I mean, again, focus on just making existing GEMMs work fast on vert and then translating them to RDSL.
 
 ##### **Geohot** [[00:26:30](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1590)]
 Book now how to do it. The key is nevertheless, indexing is never going to get easier.
@@ -400,7 +396,7 @@ Book now how to do it. The key is nevertheless, indexing is never going to get e
 I mean, that's just not a way. This is not a way to do like the kind of syntax you want. Because the problem, a lot of the problem is like, when do you compute those indexes? If you read the, so I merge the RDNA fast, the RDNA3 FP32 MAML. And if you look at how much effort is put into indexing, and how many like. indexes are pre-computed and when you plus equals those indexes that stuff matters tons for performance
 
 ##### **Geohot** [[00:27:16](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1636)]
-i have one question next for llama flash attention
+i have one question next for LLaMA flash attention
 
 ##### **Wozeparrot** [[00:27:25](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1645)]
 i saw your multi-device fix i have a test for it just haven't pushed it yet
@@ -415,13 +411,13 @@ oh well i assume that's progress i don't know
 because with j equals zero i've had it train past 50 steps and it's been fine
 
 ##### **Chenyu** [[00:27:59](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1679)]
-oh then maybe are you training which llama
+oh then maybe are you training which LLaMA
 
 ##### **Chenyu** [[00:28:06](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1686)]
 8b oh okay i guess maybe bird is too small i was testing water just because i know the bird output is guaranteed to be correct i see
 
 ##### **Wozeparrot** [[00:28:17](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1697)]
-but at least with llama 8b i've had it stable without jit
+but at least with LLaMA 8b i've had it stable without jit
 
 ##### **Chenyu** [[00:28:21](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1701)]
 can you clean that thing up i think it's a lot of it looks correct but i just don't know too much about the initial design yeah okay yeah i'll clean it up and merge it along the test so the way i did is basically just supervised cloud code and running now equals to one on my computer until it compiles
@@ -469,7 +465,7 @@ We should probably use nnstate getParameters, and that should just be the shared
 Yeah, but there are things in the getParameters that you don't want to capture in JIT.
 
 ##### **Geohot** [[00:32:08](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1928)]
-Why? Because if you do get parameters on args and kw-args, there's things you don't want to capture? Yes. Like what? Wait a second. I think it's one of the . I think it's one of the . I think it's one of the . First, we're not looking to objects,
+Why? Because if you do get parameters on args and kw-args, there's things you don't want to capture? Yes. Like what? Wait a second. I think it's one of the. I think it's one of the. I think it's one of the. First, we're not looking to objects,
 
 ##### **Chenyu** [[00:32:46](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=1966)]
 and that's causing a few with how we used to use models. I can give you an example later.
@@ -505,7 +501,7 @@ So one is if you pass in things that are different sizes to insert, you could cr
 Do we have a legit use case for that?
 
 ##### **Geohot** [[00:35:49](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2149)]
-Yeah. So if you use, like in Lama, if you pass in different batch sizes or anything of your batch, pass in different batch sizes.
+Yeah. So if you use, like in LLaMA, if you pass in different batch sizes or anything of your batch, pass in different batch sizes.
 
 ##### **Geohot** [[00:36:03](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2163)]
 OK.
@@ -553,10 +549,10 @@ Yeah, but the old debug level, other than the debug institute 2 and debug instit
 Yeah, I mean, and that's a problem, right? But we should fix it for humans.
 
 ##### **Geohot** [[00:40:22](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2422)]
-We shouldn't fix it for AIs. Like, yeah, anything we can do to...
+We shouldn't fix it for AIs. Like, yeah, anything we can do to..
 
 ##### **Geohot** [[00:40:29](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2429)]
-I mean, yeah, debug equals 3. Like, what really is debug equals 3? Debug equals 3. Debug equals 1 means something. 3 is just the only one that's kind of...
+I mean, yeah, debug equals 3. Like, what really is debug equals 3? Debug equals 3. Debug equals 1 means something. 3 is just the only one that's kind of..
 
 ##### **Chenyu** [[00:40:37](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2437)]
 There's also the issue that Viz is designed for humans, right? But Viz is not really helpful for AI coding.
@@ -565,25 +561,25 @@ There's also the issue that Viz is designed for humans, right? But Viz is not re
 Well, the Viz front end is not.
 
 ##### **Geohot** [[00:40:47](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2447)]
-But all of, like, Viz is mostly the capturing stuff. Anyway, I think that's...
+But all of, like, Viz is mostly the capturing stuff. Anyway, I think that's..
 
 ##### **Chenyu** [[00:41:02](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2462)]
 Something we can work more, or if people have ideas, when you, like, spend or waste all sorts of tokens and interact with it. See if we can make the debug information more useful. I think this might also be similar to, like, designing the UI, UX for assembly. Like, people struggle with assemblies. Like, it's very hard to read and structure with. Maybe, like, similar principles. How do we capture the things that is useful to make progress?
 
 ##### **Geohot** [[00:41:37](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2497)]
-Yeah, I mean, I think... It's actually... It's shocking how bad Claude is at writing any assembly. And it's bad at writing assembly for the same reasons humans are bad at writing assembly. Like, it just, like, you know, gets confused and copy and pastes instructions in places. And then things don't work. And it didn't carefully think everything through. And then it just, like... So, yeah, I think there... Whatever makes it easier for humans will also make it easier for models. Starting with just, like, type checking. Right? Like, now, like, my assembly DSL, when you run it, if you put an S where you were supposed to put a V, it throws an error. Yeah.
+Yeah, I mean, I think.. It's actually.. It's shocking how bad Claude is at writing any assembly. And it's bad at writing assembly for the same reasons humans are bad at writing assembly. Like, it just, like, you know, gets confused and copy and pastes instructions in places. And then things don't work. And it didn't carefully think everything through. And then it just, like.. So, yeah, I think there.. Whatever makes it easier for humans will also make it easier for models. Starting with just, like, type checking. Right? Like, now, like, my assembly DSL, when you run it, if you put an S where you were supposed to put a V, it throws an error. Yeah.
 
 ##### **Chenyu** [[00:42:20](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2540)]
-There was... Someone said Rust would be the good language for agent coding because if it compiles, it's just for it to work. It's just higher.
+There was.. Someone said Rust would be the good language for agent coding because if it compiles, it's just for it to work. It's just higher.
 
 ##### **Geohot** [[00:42:29](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2549)]
-Yeah. I don't know. I have the same... My thoughts always on that kind of stuff are, like, there's a reason humans code in Python.
+Yeah. I don't know. I have the same.. My thoughts always on that kind of stuff are, like, there's a reason humans code in Python.
 
 ##### **Chrism** [[00:42:40](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2560)]
 Yes.
 
 ##### **Geohot** [[00:42:43](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2563)]
-I could imagine the agent spending... Wasting tons and tons of time trying to figure out how to get the borrow checker to be happy when in Python it just could have written something, written tests for it.
+I could imagine the agent spending.. Wasting tons and tons of time trying to figure out how to get the borrow checker to be happy when in Python it just could have written something, written tests for it.
 
 ##### **Chenyu** [[00:42:57](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2577)]
 Yeah.
@@ -592,7 +588,7 @@ Yeah.
 Yeah.
 
 ##### **Chenyu** [[00:42:59](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2579)]
-But I know what Cloud is good. Oh, so my... Another side project is go through all the to-dos in TinyGrad and try to do Lowe's. Cloud is really good at updating tests for, like, a simple concept. Just imagine the old linearizer failure test that's very hard to update. It's very easy for Cloud to do. Oh, yeah.
+But I know what Cloud is good. Oh, so my.. Another side project is go through all the to-dos in TinyGrad and try to do Lowe's. Cloud is really good at updating tests for, like, a simple concept. Just imagine the old linearizer failure test that's very hard to update. It's very easy for Cloud to do. Oh, yeah.
 
 ##### **Geohot** [[00:43:22](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2602)]
 Yeah.
@@ -634,7 +630,7 @@ Yes, I did. I've been going through the files one at a time. And I shoved the AI
 And then we have real zero dependency AMD. Will it be fast? Uh, it should.
 
 ##### **Geohot** [[00:48:52](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2932)]
-Yeah. I mean, check out... So AMD as a matmall is a copy from the Seb blog post stuff. But yeah, it's very fast. Actually, by just cleaning up his stuff, I've managed to get another 10% of speed on top of his stuff. So I'm getting like... I didn't get his 50 teraflops. I got like 45, but then I managed to get it up to like 50. So it should. Yeah. I mean, it should. It should. If it's not fast, we'll finally have a way to understand why it's not fast. Like, if you write something in C and it's not fast, like, okay, why is it not fast? Good luck. The GPU execution model is so complex.
+Yeah. I mean, check out.. So AMD as a matmall is a copy from the Seb blog post stuff. But yeah, it's very fast. Actually, by just cleaning up his stuff, I've managed to get another 10% of speed on top of his stuff. So I'm getting like.. I didn't get his 50 teraflops. I got like 45, but then I managed to get it up to like 50. So it should. Yeah. I mean, it should. It should. If it's not fast, we'll finally have a way to understand why it's not fast. Like, if you write something in C and it's not fast, like, okay, why is it not fast? Good luck. The GPU execution model is so complex.
 
 ##### **Chrism** [[00:49:44](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2984)]
 It's not fast. It's not fast.
@@ -646,7 +642,7 @@ Sounds good.
 Anything else for you?
 
 ##### **Geohot** [[00:49:59](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=2999)]
-Well, then, like, looking forward to kind of the end of the year, I think this is going to be the year of LLVM removal. By the end of this year, I want to be able to output Nvidia stuff, too. I want to be able to output SAS. That has to be reverse engineered. And hopefully the DSP stuff, too. And then if you can do all of those, then... In 2027, we're finally ready to write on to do our hardware. We have to get real performance on these kernels. I don't know. Maybe AMD will be excited about these things. Posting, like... We should be able to get the highest performing map on CDNA.
+Well, then, like, looking forward to kind of the end of the year, I think this is going to be the year of LLVM removal. By the end of this year, I want to be able to output Nvidia stuff, too. I want to be able to output SASS. That has to be reverse engineered. And hopefully the DSP stuff, too. And then if you can do all of those, then.. In 2027, we're finally ready to write on to do our hardware. We have to get real performance on these kernels. I don't know. Maybe AMD will be excited about these things. Posting, like.. We should be able to get the highest performing map on CDNA.
 
 ##### **Geohot** [[00:50:42](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3042)]
 There's a ton of stuff that these things all leave on the table because they're all LLVM based.
@@ -658,22 +654,22 @@ Mm-hmm.
 There's no environment for AMD that's not LLVM based. There's some that use inline assembly. But I haven't seen any that just completely do all this stuff in assembly.
 
 ##### **Geohot** [[00:51:07](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3067)]
-So, yeah, we can get the fastest... The fastest gem on CDNA 4. Sounds good. Now, what do we have for bounties?
+So, yeah, we can get the fastest.. The fastest GEMM on CDNA 4. Sounds good. Now, what do we have for bounties?
 
 ##### **Chenyu** [[00:51:27](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3087)]
 Oh, I merged the FP8.
 
 ##### **Chenyu** [[00:51:31](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3091)]
-I mean, I run the script. It seems to be using FP8 for the linears. So, I think it's fast. It's fast? Yeah. It's a bit faster. But now, training birds really is all bottleneck flash attention. So, yes, the gem is faster, but it's the flash attention still. Or maybe not all flash attention, but it's more difficult to assess because bird is so small.
+I mean, I run the script. It seems to be using FP8 for the linears. So, I think it's fast. It's fast? Yeah. It's a bit faster. But now, training birds really is all bottleneck flash attention. So, yes, the GEMM is faster, but it's the flash attention still. Or maybe not all flash attention, but it's more difficult to assess because bird is so small.
 
 ##### **Geohot** [[00:52:02](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3122)]
 Yeah. I mean, I don't buy this theory that bird is so small. That's why the flash attention is so small. I mean, I don't think the flash attention is unstable.
 
 ##### **Geohot** [[00:52:11](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3131)]
-It doesn't make sense to me. I think the problem...
+It doesn't make sense to me. I think the problem..
 
 ##### **Geohot** [[00:52:17](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3137)]
-The flash attention being unstable because bird is small, that doesn't make sense to me. I bet there's some instability with, like, how the max thing is being done. I bet the max thing is being done wrong. Oh, maybe. Like, there's a lot of ways to subtly do flash attention wrong that's going to get you to the max. But it's not going to get you these kind of nans that doesn't have anything to do with the JIT or doesn't have anything to do with...
+The flash attention being unstable because bird is small, that doesn't make sense to me. I bet there's some instability with, like, how the max thing is being done. I bet the max thing is being done wrong. Oh, maybe. Like, there's a lot of ways to subtly do flash attention wrong that's going to get you to the max. But it's not going to get you these kind of nans that doesn't have anything to do with the JIT or doesn't have anything to do with..
 
 ##### **Geohot** [[00:52:46](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3166)]
 No, like, what do you mean it's too small? I just don't buy that. Oh, you are talking about the nan issue earlier? Yeah.
@@ -691,7 +687,7 @@ Yeah. I don't know.
 Maybe flash attention has a bug or something.
 
 ##### **Geohot** [[00:53:13](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3193)]
-Probably does. Yeah. Probably flash attention backward has a bug. Flash attention forward is easier to write. Flash attention backwards...
+Probably does. Yeah. Probably flash attention backward has a bug. Flash attention forward is easier to write. Flash attention backwards..
 
 ##### **Geohot** [[00:53:25](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3205)]
 Yeah. We'll see. Hopefully we get that.
@@ -766,7 +762,7 @@ We had to delete that other bounty because we get so many submissions from peopl
 Now.
 
 ##### **Chenyu** [[00:58:08](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3488)]
-I will review the whisper one. That seems to be fine. I just comment on it. I think some of the cleanup can be separate into smaller PRs. That also helps TinyGraph proper. I think this is still true for anyone who wants to contribute. If you can split your PR into individually useful pieces, just do that. Because you know that the bottleneck is the maintainers and reviewers reading the code. If you make it simpler, smaller, easier to understand, the chances for it to be picked up by someone is higher. If you just open a PR that has like 500 lines and has questionable benefits, no one... It's not even like people won't close it.
+I will review the whisper one. That seems to be fine. I just comment on it. I think some of the cleanup can be separate into smaller PRs. That also helps TinyGraph proper. I think this is still true for anyone who wants to contribute. If you can split your PR into individually useful pieces, just do that. Because you know that the bottleneck is the maintainers and reviewers reading the code. If you make it simpler, smaller, easier to understand, the chances for it to be picked up by someone is higher. If you just open a PR that has like 500 lines and has questionable benefits, no one.. It's not even like people won't close it.
 
 ##### **Geohot** [[00:58:56](https://www.youtube.com/watch?v=MLaBoY1Hb9U&t=3536)]
 People will just skip it. So don't do that. I think that's it for this meeting.

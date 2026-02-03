@@ -10,7 +10,7 @@
 - CDNA4/RDNA3 SQTT in VIZ, same view as RGP
 - apple usb gpu without SIP bypass. i bought 3x 5060 for mac CI machines
 - why is progress on tinykittens so slow? if it can't do a SOTA gemm, we should look elsewhere
-- llama trainer using custom_kernel to get memory usage to acceptable place, figure out what kernels we need to write
+- LLaMA trainer using custom_kernel to get memory usage to acceptable place, figure out what kernels we need to write
 - openpilot regressions
 - other bounties
 
@@ -21,14 +21,14 @@
 ### Highlights
 
 - **[Company Update](#geohot-000022)**: A new product, the Tenubox Green, was launched for users who need a lot of VRAM. One unit has been sold so far.
-- **[AMD Contract is Top Priority](#geohot-000305)**: Geohot declares that the entire company must focus on the AMD contract, stating that if they cannot succeed in training a large Llama model on modern hardware, he will shut the company down.
+- **[AMD Contract is Top Priority](#geohot-000305)**: Geohot declares that the entire company must focus on the AMD contract, stating that if they cannot succeed in training a large LLaMA model on modern hardware, he will shut the company down.
 - **[Debate on Company Direction](#chenyu-000906)**: A lengthy debate occurs about the value and motivation behind the AMD contract. Chenyu questions its strategic importance, while Geohot argues it's a crucial test to prove TinyGrad's performance and advance the framework, which is currently "hopelessly slow."
 - **[Writing Custom Kernels vs. Search](#geohot-002331)**: Geohot justifies the need to hand-code kernels for the contract, arguing that it's necessary for short-term performance and to ensure the UOP language can express state-of-the-art techniques, which will inform future automated search improvements.
 - **[SQTT Visualization and Tooling](#geohot-002916)**: The team discusses issues with SQTT visualization in VIZ, noting discrepancies with AMD's RGP tool. The current decoder is seen as "unmaintained crap," leading to a plan to compare results with `rockprof` and eventually write a custom SQTT parser.
 - **[TinyKittens Gemm Performance](#geohot-003637)**: Progress on the TinyKittens project is slow; while indexing logic is correct, optimizations like local swizzling are disabled, causing performance hits. Geohot emphasizes the need to achieve state-of-the-art gemm speed.
 - **[AMD FP8 Training Progress](#chenyu-004702)**: Progress has been made on FP8 training by selectively quantizing Q and K tensors, which allows the loss to decrease. Next steps include using faster tensor cores and debugging a multi-GPU OOM error.
 - **[Future of TinyGrad and Market Position](#geohot-005555)**: Geohot gives TinyGrad a 20% chance of becoming the dominant framework on AMD hardware in three years, but a near-zero chance on NVIDIA. This sparks a debate about the factors driving framework adoption and which ecosystems are the best to target.
-- **[AMD Contract Plan](#geohot-011114)**: Geohot outlines a plan for the contract, breaking the work into four parallel streams: the high-level trainer, custom kernel implementation, data movement, and visualization. He will start by writing stub kernels to analyze memory usage for the Llama trainer.
+- **[AMD Contract Plan](#geohot-011114)**: Geohot outlines a plan for the contract, breaking the work into four parallel streams: the high-level trainer, custom kernel implementation, data movement, and visualization. He will start by writing stub kernels to analyze memory usage for the LLaMA trainer.
 
 ### Transcript
 ##### **Geohot** [[00:00:00](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=0)]
@@ -410,7 +410,7 @@ if we're so far behind the state of the art
 that we can't figure out how to get on MLPer
 
 ##### **Geohot** [[00:04:16](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=256)]
-for a big llama on a modern machine,
+for a big LLaMA on a modern machine,
 
 ##### **Geohot** [[00:04:19](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=259)]
 let's just throw in the towel.
@@ -455,13 +455,13 @@ RockProf V3 works fine,
 which I think I'll look into this.
 
 ##### **Geohot** [[00:05:04](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=304)]
-Because currently we...
+Because currently we..
 
 ##### **Geohot** [[00:05:06](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=306)]
 Yeah, our runtime doesn't meet any markers.
 
 ##### **Chenyu** [[00:05:14](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=314)]
-I doubt actually...
+I doubt actually..
 
 ##### **Geohot** [[00:05:15](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=315)]
 RockProf doesn't even capture it.
@@ -473,10 +473,10 @@ Like, RockProf is used for that.
 Yeah.
 
 ##### **Geohot** [[00:05:24](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=324)]
-Yeah, you can...
+Yeah, you can..
 
 ##### **Geohot** [[00:05:26](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=326)]
-If we can't succeed at this...
+If we can't succeed at this..
 
 ##### **Chenyu** [[00:05:28](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=328)]
 You know, we're just talking about the tough line.
@@ -485,13 +485,13 @@ You know, we're just talking about the tough line.
 We'll talk about it on the meeting.
 
 ##### **Geohot** [[00:05:31](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=331)]
-If we can't succeed at this contract...
+If we can't succeed at this contract..
 
 ##### **Geohot** [[00:05:34](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=334)]
 Like, it's not a question of
 
 ##### **Geohot** [[00:05:35](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=335)]
-if people are going to use TinyGrad to train big llama.
+if people are going to use TinyGrad to train big LLaMA.
 
 ##### **Geohot** [[00:05:37](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=337)]
 It's a question if we're so hopelessly lost
@@ -536,16 +536,16 @@ Well, let's get paid $2 million
 and let's do that.
 
 ##### **Geohot** [[00:06:01](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=361)]
-This is the...
+This is the..
 
 ##### **Geohot** [[00:06:02](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=362)]
-This is the...
+This is the..
 
 ##### **Geohot** [[00:06:03](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=363)]
-This is the...
+This is the..
 
 ##### **Geohot** [[00:06:03](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=363)]
-This is...
+This is..
 
 ##### **Geohot** [[00:06:03](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=363)]
 There's $1.6 million on the table
@@ -560,7 +560,7 @@ Okay.
 Right?
 
 ##### **Geohot** [[00:06:11](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=371)]
-Like...
+Like..
 
 ##### **Geohot** [[00:06:11](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=371)]
 I don't know.
@@ -572,7 +572,7 @@ I'm not motivated by $1.6 million.
 It's not about the money, though.
 
 ##### **Geohot** [[00:06:16](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=376)]
-It's about, like, the, like...
+It's about, like, the, like..
 
 ##### **Geohot** [[00:06:18](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=378)]
 What's it about?
@@ -584,7 +584,7 @@ What?
 So, I already know
 
 ##### **Geohot** [[00:06:22](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=382)]
-if we spend time...
+if we spend time..
 
 ##### **Chenyu** [[00:06:23](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=383)]
 to handwrite these kernels,
@@ -596,7 +596,7 @@ we are able to go into
 channel model
 
 ##### **Geohot** [[00:06:26](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=386)]
-on the...
+on the..
 
 ##### **Geohot** [[00:06:28](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=388)]
 Yeah, let's do it.
@@ -605,7 +605,7 @@ Yeah, let's do it.
 No.
 
 ##### **Chenyu** [[00:06:31](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=391)]
-Well, but...
+Well, but..
 
 ##### **Geohot** [[00:06:32](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=392)]
 What do you mean?
@@ -623,7 +623,7 @@ You already know
 we can do it.
 
 ##### **Chenyu** [[00:06:39](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=399)]
-But...
+But..
 
 ##### **Geohot** [[00:06:39](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=399)]
 No, I don't.
@@ -662,7 +662,7 @@ Okay.
 Like, again,
 
 ##### **Geohot** [[00:06:56](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=416)]
-this is what everyone...
+this is what everyone..
 
 ##### **Geohot** [[00:06:58](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=418)]
 This is what Chris Lattner said to us.
@@ -770,7 +770,7 @@ The same as Tesla.
 It's the same as Kama and Tesla, right?
 
 ##### **Geohot** [[00:07:43](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=463)]
-It's not...
+It's not..
 
 ##### **Geohot** [[00:07:44](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=464)]
 You know, if we look back,
@@ -1046,7 +1046,7 @@ I'm not saying that the $1.6 million
 is literally because
 
 ##### **Geohot** [[00:09:51](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=591)]
-TinyGrad can train a llama.
+TinyGrad can train a LLaMA.
 
 ##### **Geohot** [[00:09:52](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=592)]
 Of course not.
@@ -1154,7 +1154,7 @@ Then why would you not want these software projects
 to succeed at exactly that goal?
 
 ##### **Geohot** [[00:10:52](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=652)]
-I think it's a smart...
+I think it's a smart..
 
 ##### **Geohot** [[00:10:53](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=653)]
 So you think it's a dumb goal.
@@ -1187,7 +1187,7 @@ Maybe I'm just not educated.
 I don't know.
 
 ##### **Geohot** [[00:11:11](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=671)]
-Well, but okay, so...
+Well, but okay, so..
 
 ##### **Geohot** [[00:11:12](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=672)]
 Because you're Starless,
@@ -1199,7 +1199,7 @@ you have the most of the communication with them, right?
 So maybe you know better.
 
 ##### **Chenyu** [[00:11:19](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=679)]
-No, I mean, look...
+No, I mean, look..
 
 ##### **Geohot** [[00:11:21](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=681)]
 I mean, look, I know like part of it already.
@@ -1211,10 +1211,10 @@ That's because I'm in the office and talk to you on this,
 like what other people think I don't even know.
 
 ##### **Geohot** [[00:11:30](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=690)]
-Well...
+Well..
 
 ##### **Geohot** [[00:11:35](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=695)]
-I mean, again, so okay, you think...
+I mean, again, so okay, you think..
 
 ##### **Chenyu** [[00:11:38](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=698)]
 I think this is a good challenge,
@@ -1280,7 +1280,7 @@ Yeah.
 Okay.
 
 ##### **Geohot** [[00:12:14](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=734)]
-I don't quite see that, but...
+I don't quite see that, but..
 
 ##### **Geohot** [[00:12:16](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=736)]
 What do you think they're going to use?
@@ -1304,7 +1304,7 @@ No.
 Yeah, it doesn't work.
 
 ##### **Geohot** [[00:12:25](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=745)]
-Yeah, but...
+Yeah, but..
 
 ##### **Chenyu** [[00:12:26](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=746)]
 Similar to TinyGrid doesn't work today.
@@ -1379,10 +1379,10 @@ So you think if we do this contract, Comma would be more willing to use TinyGrid
 No, I don't think they want AMD hardware.
 
 ##### **Chenyu** [[00:13:26](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=806)]
-I think if we...
+I think if we..
 
 ##### **Geohot** [[00:13:27](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=807)]
-Okay, if Comma is not really using...
+Okay, if Comma is not really using..
 
 ##### **Geohot** [[00:13:30](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=810)]
 Who are these users we are talking about that potentially would use TinyGrid for training?
@@ -1391,7 +1391,7 @@ Who are these users we are talking about that potentially would use TinyGrid for
 What do you mean?
 
 ##### **Geohot** [[00:13:35](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=815)]
-Every...
+Every..
 
 ##### **Geohot** [[00:13:36](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=816)]
 Again, like, why does anyone buy AMD hardware, right?
@@ -1427,10 +1427,10 @@ AMD sells are way up.
 Way up and still tiny, right?
 
 ##### **Geohot** [[00:13:58](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=838)]
-I mean...
+I mean..
 
 ##### **Geohot** [[00:13:59](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=839)]
-If Comma is not...
+If Comma is not..
 
 ##### **Chenyu** [[00:14:00](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=840)]
 What do you mean by tiny?
@@ -1457,16 +1457,16 @@ Yeah, I don't know.
 I think they lose money on each other.
 
 ##### **Geohot** [[00:14:15](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=855)]
-My point is...
+My point is..
 
 ##### **Geohot** [[00:14:18](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=858)]
-Do we really have users who will be willing to use TinyGrid for training Lama or anything
+Do we really have users who will be willing to use TinyGrid for training LLaMA or anything
 
 ##### **Geohot** [[00:14:26](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=866)]
 like that?
 
 ##### **Geohot** [[00:14:27](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=867)]
-Yeah, but it's not like training Lama is some crazy task that...
+Yeah, but it's not like training LLaMA is some crazy task that..
 
 ##### **Chenyu** [[00:14:30](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=870)]
 Yeah, that's what I mean.
@@ -1670,7 +1670,7 @@ I bet they even use it for weirder training than PyTorch.
 The goal also is not like, like if we do this in such a way, it'll work for everything
 
 ##### **Geohot** [[00:17:12](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1032)]
-that's kind of like llama too it's not just long oh sure i mean yes you got a similar transformer
+that's kind of like LLaMA too it's not just long oh sure i mean yes you got a similar transformer
 
 ##### **Geohot** [[00:17:19](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1039)]
 stuff or attention stuff but not just the transformer and attention stuff right like
@@ -1859,7 +1859,7 @@ This is obviously the right approach to software.
 I don't know.
 
 ##### **Geohot** [[00:21:36](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1296)]
-Like, there's going to be...
+Like, there's going to be..
 
 ##### **Geohot** [[00:21:39](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1299)]
 You know, you're going to do things along the way that look stupid, right?
@@ -1901,10 +1901,10 @@ And I think Jax, again, is mostly an ad for TPUs.
 So, yeah.
 
 ##### **Chenyu** [[00:22:37](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1357)]
-I mean, of course, like...
+I mean, of course, like..
 
 ##### **Geohot** [[00:22:39](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1359)]
-Like, if Google wasn't thinking...
+Like, if Google wasn't thinking..
 
 ##### **Geohot** [[00:22:41](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1361)]
 Like, Google's thinking in the exact same way, but as what always happens with these things.
@@ -1925,13 +1925,13 @@ And then the open source one actually is the one that gets all the adoption.
 Like, yeah.
 
 ##### **Geohot** [[00:23:03](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1383)]
-Like, we got to, you know, we got to take all the ideas from...
+Like, we got to, you know, we got to take all the ideas from..
 
 ##### **Geohot** [[00:23:07](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1387)]
-You know, the good ideas from, like...
+You know, the good ideas from, like..
 
 ##### **Geohot** [[00:23:08](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1388)]
-Like, there's a lot of...
+Like, there's a lot of..
 
 ##### **Geohot** [[00:23:09](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1389)]
 There's a lot of smart people in this space.
@@ -1949,7 +1949,7 @@ But then you do it and you keep the whole thing simple.
 These people end up with every, you know, thing.
 
 ##### **Geohot** [[00:23:25](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1405)]
-It's just like...
+It's just like..
 
 ##### **Geohot** [[00:23:27](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1407)]
 Sure, you can write this with 10,000 lines of hacks, or you could not.
@@ -1979,7 +1979,7 @@ One, if we do that, we're not going to finish the contract in time.
 There's no way we're going to find that flash attention online max.
 
 ##### **Geohot** [[00:23:51](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1431)]
-The rules to search for that will be...
+The rules to search for that will be..
 
 ##### **Geohot** [[00:23:54](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1434)]
 You know, again, I think we can have them in a year,
@@ -1997,7 +1997,7 @@ before I worked on search the first time.
 Right?
 
 ##### **Geohot** [[00:24:08](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1448)]
-Or I wish I'd read...
+Or I wish I'd read..
 
 ##### **Geohot** [[00:24:09](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1449)]
 I wish I'd read more kernels.
@@ -2018,7 +2018,7 @@ than to actually write the kernels,
 but in our higher-level abstracted language?
 
 ##### **Geohot** [[00:24:23](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1463)]
-Instead of writing the kernels in...
+Instead of writing the kernels in..
 
 ##### **Geohot** [[00:24:26](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1466)]
 Because, finally, if your middleware cannot express the ideas,
@@ -2042,10 +2042,10 @@ Like, with range of eye and stuff,
 like, that's fully state-of-the-art.
 
 ##### **Geohot** [[00:24:47](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1487)]
-There is no...
+There is no..
 
 ##### **Chenyu** [[00:24:47](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1487)]
-There is no...
+There is no..
 
 ##### **Geohot** [[00:24:50](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1490)]
 You know, I remember a few people brought this up.
@@ -2066,7 +2066,7 @@ Like, well, you know, here, we have these, like, things to do it.
 And they're like, yeah, yeah, that's not generic.
 
 ##### **Geohot** [[00:25:01](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1501)]
-But the range of eye one is fully...
+But the range of eye one is fully..
 
 ##### **Geohot** [[00:25:04](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1504)]
 is fully generic and modern.
@@ -2075,7 +2075,7 @@ is fully generic and modern.
 It can do everything Halide and TVM can do.
 
 ##### **Geohot** [[00:25:09](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1509)]
-And...
+And..
 
 ##### **Geohot** [[00:25:12](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1512)]
 Yeah, I mean, I'm curious.
@@ -2129,7 +2129,7 @@ transposed dilated here.
 We're asking for a kernel that, you know, two kernels.
 
 ##### **Geohot** [[00:25:59](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1559)]
-We're asking for a gem and a flash attention,
+We're asking for a GEMM and a flash attention,
 
 ##### **Geohot** [[00:26:00](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1560)]
 which are like the two demos in every, in every fast kernel library.
@@ -2621,7 +2621,7 @@ seeing seeing what they're using.
 I mean,
 
 ##### **Chenyu** [[00:33:14](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=1994)]
-I'm also I'm also interested in just starting to parse sqtt ourselves.
+I'm also I'm also interested in just starting to parse SQTT ourselves.
 
 ##### **Geohot** [[00:33:20](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2000)]
 It's very interesting.
@@ -2693,7 +2693,7 @@ Yeah,
 even like the simplest stuff that they write mismatch.
 
 ##### **Chenyu** [[00:34:23](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2063)]
-That's kind of like I want to understand what the actual blob that sqtt is outputting is.
+That's kind of like I want to understand what the actual blob that SQTT is outputting is.
 
 ##### **Geohot** [[00:34:30](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2070)]
 On my USB GPU.
@@ -2708,7 +2708,7 @@ GFX 11 is much nicer.
 Again,
 
 ##### **Geohot** [[00:34:37](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2077)]
-a situation to the tiny box and most of the stuff that works the USB GPU crashes every single time.
+a situation to the TinyBox and most of the stuff that works the USB GPU crashes every single time.
 
 ##### **Chenyu** [[00:34:44](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2084)]
 That's why I have.
@@ -2960,7 +2960,7 @@ so the key thing to do for,
 for,
 
 ##### **Geohot** [[00:38:04](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2284)]
-for tiny kittens is to get fast gems everywhere.
+for tiny kittens is to get fast GEMMs everywhere.
 
 ##### **Chenyu** [[00:38:08](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2288)]
 Yeah.
@@ -3041,7 +3041,7 @@ Show me the other prop.
 I use only one of them.
 
 ##### **Geohot** [[00:39:08](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2348)]
-commerical beholder Grey0 and usu ,
+commerical beholder Grey0 and usu,
 
 ##### **Geohot** [[00:39:12](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2352)]
 but when I see a link to thisEMERIC CL app,
@@ -3059,7 +3059,7 @@ he is shaking and shaking,
 Generally speaking.
 
 ##### **Geohot** [[00:39:19](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2359)]
-C is also a user code isrterlich .
+C is also a user code isrterlich.
 
 ##### **Geohot** [[00:39:23](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2363)]
 but it's a great user,
@@ -3077,7 +3077,7 @@ sleep.
 em.,
 
 ##### **Geohot** [[00:39:32](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2372)]
-Enchこれ don't know what it is.
+Ench don't know what it is.
 
 ##### **Geohot** [[00:39:34](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2374)]
 years ago, that was the wrong thing to focus on.
@@ -3092,7 +3092,7 @@ with a ton of hard-coded crap. But now,
 I think we're to the point where we need to
 
 ##### **Geohot** [[00:39:42](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2382)]
-focus on making gem as
+focus on making GEMM as
 
 ##### **Geohot** [[00:39:44](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2384)]
 fast as Kublos on
@@ -3107,13 +3107,13 @@ as fast as Rockblos.
 Yeah, we gotta be,
 
 ##### **Chenyu** [[00:39:52](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2392)]
-we gotta have the fastest gems, basically.
+we gotta have the fastest GEMMs, basically.
 
 ##### **Geohot** [[00:39:55](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2395)]
 And if we can't have
 
 ##### **Geohot** [[00:39:56](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2396)]
-the fastest gems for some reason, we gotta figure out
+the fastest GEMMs for some reason, we gotta figure out
 
 ##### **Geohot** [[00:39:58](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2398)]
 what we need to add, because we know it's possible.
@@ -3308,10 +3308,10 @@ It's simple. It's a permute.
 It's just a permute on the things.
 
 ##### **Geohot** [[00:43:00](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2580)]
-But I'm even saying to keep that, and just basically use, like, image equals one...
+But I'm even saying to keep that, and just basically use, like, image equals one..
 
 ##### **Geohot** [[00:43:05](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2585)]
-No, that's what I mean, Joe позвол me to keep that up.
+No, that's what I mean, Joe me to keep that up.
 
 ##### **Geohot** [[00:43:06](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2586)]
 Yeah, you can even keep that up. But that algorithm, it's not Funigrad. towers, not that complex.
@@ -3323,7 +3323,7 @@ Winograd is also not that complex. It's��
 Well, minusums to address low class was past into amoebas, so let's put it back in a new cleaner model.
 
 ##### **Chenyu** [[00:43:15](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2595)]
-Winograd is changing the math, the image СШАWF doesn't change the math it's the same. It just, it just, uh, It's changing the order class.
+Winograd is changing the math, the image WF doesn't change the math it's the same. It just, it just, uh, It's changing the order class.
 
 ##### **Geohot** [[00:43:25](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=2605)]
 in memory. It's not
@@ -4070,7 +4070,7 @@ It has the fastest convs on Snapdragon 845.
 Literally almost no matter how much you regress them, they'll be faster than SMPEs.
 
 ##### **Geohot** [[00:55:38](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3338)]
-But, yeah, I mean, no. There's no... If someone wants to pay me $1.6 million for fast convs,
+But, yeah, I mean, no. There's no.. If someone wants to pay me $1.6 million for fast convs,
 
 ##### **Geohot** [[00:55:44](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3344)]
 I will write fast convs. And that's, like, go where the money is. Not because we need the money,
@@ -4079,7 +4079,7 @@ I will write fast convs. And that's, like, go where the money is. Not because we
 but because if someone's willing to pay for it, it's useful.
 
 ##### **Chenyu** [[00:55:55](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3355)]
-You don't think there's some chance that... Like, what percent chance is it worth it if we end up
+You don't think there's some chance that.. Like, what percent chance is it worth it if we end up
 
 ##### **Geohot** [[00:56:01](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3361)]
 replacing AMD's entire stack? Oh, chance?
@@ -4133,7 +4133,7 @@ Try using AMD on anything besides TinyGrad.
 And it works right up until it doesn't.
 
 ##### **Chenyu** [[00:56:42](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3402)]
-Right? Sure. The gem and torch is faster.
+Right? Sure. The GEMM and torch is faster.
 
 ##### **Geohot** [[00:56:45](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3405)]
 No. I mean, that doesn't change my impression for this probability estimation.
@@ -4157,13 +4157,13 @@ But, like, why do you think it's low?
 Well, I mean, it's 0.1%.
 
 ##### **Geohot** [[00:56:59](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3419)]
-Yeah, but why do you...
+Yeah, but why do you..
 
 ##### **Geohot** [[00:57:00](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3420)]
 It's pretty high.
 
 ##### **Geohot** [[00:57:02](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3422)]
-Okay. So, I mean, someone's gonna... Or... Okay.
+Okay. So, I mean, someone's gonna.. Or.. Okay.
 
 ##### **Geohot** [[00:57:05](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3425)]
 So, let's just start.
@@ -4187,7 +4187,7 @@ How what?
 Oh, AMD replaced the full stack with TinyGrad?
 
 ##### **Chenyu** [[00:57:24](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3444)]
-Well, okay, so...
+Well, okay, so..
 
 ##### **Geohot** [[00:57:25](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3445)]
 That's why you asked, right?
@@ -4223,7 +4223,7 @@ That's my impression.
 What do you think the go-to stack on AMD will be?
 
 ##### **Chenyu** [[00:57:50](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3470)]
-Oh...
+Oh..
 
 ##### **Geohot** [[00:57:54](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3474)]
 I don't know.
@@ -4250,25 +4250,25 @@ But you are the fact-checking
 I mean, for the price, of course.
 
 ##### **Geohot** [[00:58:15](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3495)]
-Yeah, but then you have the...
+Yeah, but then you have the..
 
 ##### **Geohot** [[00:58:19](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3499)]
 You have the first multiple points as well, first match, followed up
 
 ##### **Geohot** [[00:58:20](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3500)]
-You have the Sc crews, the V- dishwasher, you have dobre A's .
+You have the Sc crews, the V- dishwasher, you have dobre A's.
 
 ##### **Chenyu** [[00:58:23](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3503)]
 Right.
 
 ##### **Geohot** [[00:58:24](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3504)]
-So, I'm not saying you bought that stack...
+So, I'm not saying you bought that stack..
 
 ##### **Geohot** [[00:58:27](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3507)]
 You bought it on Axes, right?
 
 ##### **Geohot** [[00:58:27](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3507)]
-You paid Rs 300,000 to solve the problem,の
+You paid Rs 300,000 to solve the problem,
 
 ##### **Geohot** [[00:58:27](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3507)]
 You paid between Rs 300,000 and 20,500?
@@ -4661,13 +4661,13 @@ these things aren't good.
 They're just easy.
 
 ##### **Geohot** [[01:03:18](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3798)]
-Like these, these run inference kernels, things like O Lama.
+Like these, these run inference kernels, things like O LLaMA.
 
 ##### **Geohot** [[01:03:21](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3801)]
 Yeah.
 
 ##### **Geohot** [[01:03:21](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3801)]
-O Lama is not good.
+O LLaMA is not good.
 
 ##### **Geohot** [[01:03:22](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3802)]
 Yeah.
@@ -4688,7 +4688,7 @@ Being good enough decides what would be the dominate from work on certain
 power on certain tasks.
 
 ##### **Geohot** [[01:03:33](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3813)]
-I think O Lama, their strength is in their distribution and packaging.
+I think O LLaMA, their strength is in their distribution and packaging.
 
 ##### **Chenyu** [[01:03:40](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3820)]
 And that's what dominates.
@@ -4709,7 +4709,7 @@ Anything.
 No, but I think that like you have a different target audience, right?
 
 ##### **Chenyu** [[01:03:52](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3832)]
-I think O Lama is downloaded by like the, the, the, the kid who heard about.
+I think O LLaMA is downloaded by like the, the, the, the kid who heard about.
 
 ##### **Geohot** [[01:03:57](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3837)]
 AI who can't code.
@@ -4718,7 +4718,7 @@ AI who can't code.
 He's like, I'll get AI to do my homework.
 
 ##### **Geohot** [[01:04:00](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3840)]
-O Lama.
+O LLaMA.
 
 ##### **Geohot** [[01:04:01](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=3841)]
 Yeah.
@@ -5024,7 +5024,7 @@ It kind of can't.
 It's not really designed for that.
 
 ##### **Geohot** [[01:08:09](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4089)]
-I mean, it would require some rethinking to their...
+I mean, it would require some rethinking to their..
 
 ##### **Geohot** [[01:08:16](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4096)]
 It's designed for things that look like TPU topologies.
@@ -5069,7 +5069,7 @@ The GPU pod looks a lot like the 10 store car.
 Whereas a GPU cluster looks a lot like a big GPU.
 
 ##### **Chenyu** [[01:09:03](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4143)]
-So Elon's data center with the three big fans on top looks like a big...
+So Elon's data center with the three big fans on top looks like a big..
 
 ##### **Geohot** [[01:09:07](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4147)]
 Very big.
@@ -5093,19 +5093,19 @@ I mean, Carmack was complaining that the software doesn't actually let you dispa
 But it is one big GPU, really.
 
 ##### **Geohot** [[01:09:22](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4162)]
-They're working on making...
+They're working on making..
 
 ##### **Geohot** [[01:09:23](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4163)]
 Making the unified memory as big as possible.
 
 ##### **Geohot** [[01:09:26](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4166)]
-They're fundamentally betting on the...
+They're fundamentally betting on the..
 
 ##### **Geohot** [[01:09:30](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4170)]
 They're making the same bet that has historically won in computer architecture, which is people
 
 ##### **Chenyu** [[01:09:36](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4176)]
-do not want...
+do not want..
 
 ##### **Geohot** [[01:09:37](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4177)]
 Split stuff.
@@ -5135,10 +5135,10 @@ Maybe 0.5%.
 Maybe 0.5%.
 
 ##### **Geohot** [[01:09:53](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4193)]
-But how about...
+But how about..
 
 ##### **Geohot** [[01:09:54](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4194)]
-How about...
+How about..
 
 ##### **Chenyu** [[01:09:54](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4194)]
 How many people you think are going to start using USB GPUs?
@@ -5426,7 +5426,7 @@ I see four parts for the four other people who work here.
 There is the high level trainer part, which is running the trainer and like stubbing out each one of these parts.
 
 ##### **Geohot** [[01:13:57](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4437)]
-And then the parts are that we need a flash attention and a gem kernel, forwards and backwards.
+And then the parts are that we need a flash attention and a GEMM kernel, forwards and backwards.
 
 ##### **Chenyu** [[01:14:03](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4443)]
 There's the custom kernels.
@@ -5582,7 +5582,7 @@ That stops today.
 Yeah.
 
 ##### **Geohot** [[01:16:47](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4607)]
-Don't, Quasland, don't get too hung up on the, if the reverse engineering stuff's annoying, I can take a look at it.
+Don't, Qazalin, don't get too hung up on the, if the reverse engineering stuff's annoying, I can take a look at it.
 
 ##### **Geohot** [[01:16:56](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4616)]
 Just like parsing out the binary format.
@@ -5672,7 +5672,7 @@ And then we can kind of see what the individual pieces are going to have to be.
 But yeah, I think we should be able to have something training by the end of the year.
 
 ##### **Geohot** [[01:18:19](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4699)]
-I think we should have stuff that's pretty close to state of the art gem and flash attention on the MI325X.
+I think we should have stuff that's pretty close to state of the art GEMM and flash attention on the MI325X.
 
 ##### **Geohot** [[01:18:25](https://www.youtube.com/watch?v=VsR6zf1bJrw&t=4705)]
 And then we can push to things like, has anyone submitted FPA stuff?

@@ -9,7 +9,7 @@
 - bert
 - scheduler
 - onnx
-- webgpu
+- WebGPU
 - torch frontend
 - retinanet
 - other bounties?
@@ -144,7 +144,7 @@ Tiny model.
 Unless you have 16 gigs of RAM.
 If you have 16 gigs of RAM, I don't know.
 But if you have 32 or even 24, it should be fine.
-You can use a tiny box, but you've got to fix the RAM leak.
+You can use a TinyBox, but you've got to fix the RAM leak.
 Wow, that's not many gigs.
 Oh, then just do it.
 You don't do all the layers.
@@ -339,7 +339,7 @@ Yeah, we just got to add more cases to the test Arange tests that don't work whe
 Like the ones that test the flop complexity, like 10 action only.
 
 ##### **Chenyu** [[00:14:59](https://www.youtube.com/watch?v=swYfv-dheuc&t=899)]
-that sounds good yeah so i think the next speed i will coming from the acc change, fuse arange maybe then and we'll see where we are after these two also the float16 acc doesn't quite work on it on the red tiny box but i don't know why i will also take a look later
+that sounds good yeah so i think the next speed i will coming from the acc change, fuse arange maybe then and we'll see where we are after these two also the float16 acc doesn't quite work on it on the red TinyBox but i don't know why i will also take a look later
 
 ##### **Geohot** [[00:15:28](https://www.youtube.com/watch?v=swYfv-dheuc&t=928)]
 When you say it doesn't work, you mean it doesn't converge or crashes?
@@ -466,7 +466,7 @@ But if you think that it's going to be a lot easier to do multi-output once this
 
 ##### **Qazalin** [[00:20:48](https://www.youtube.com/watch?v=swYfv-dheuc&t=1248)]
 Yeah, I think it's going to be easier.
-I tried multi-output, and it's like, okay, I need another grouper now, and it's like...
+I tried multi-output, and it's like, okay, I need another grouper now, and it's like..
 Maybe there's a better way to do this that requires a grouper.
 
 ##### **Geohot** [[00:21:05](https://www.youtube.com/watch?v=swYfv-dheuc&t=1265)]

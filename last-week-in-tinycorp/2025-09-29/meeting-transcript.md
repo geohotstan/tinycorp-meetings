@@ -16,7 +16,7 @@
 ### Highlights
 
 - **[Company Update: Team in Hong Kong](#chenyu-000000)**: Most of the core team is working together from a new, large office in Hong Kong and invites contributors to visit.
-- **[Company Update: Tinybox Sales](#geohot-000113)**: Tinybox Pros with eight 5090s will be sold for $50,000 as "rack mountable workstations," and a Tinybox Red V2 is also planned.
+- **[Company Update: TinyBox Sales](#geohot-000113)**: TinyBox Pros with eight 5090s will be sold for $50,000 as "rack mountable workstations," and a TinyBox Red V2 is also planned.
 - **[Rangeify: Top Priority](#chenyu-000304)**: The company's top priority is upgrading the infrastructure with Rangeify to support more advanced features, which involves fixing numerous regressions and bugs.
 - **[Rangeify: SPEC=1](#chenyu-000457)**: A new `SPEC=1` check has been added to enforce that every created UOP follows a strict specification, which will help simplify the IR after the old stack is deleted.
 - **[Rangeify: Bug Fixes](#chenyu-000646)**: The team has fixed several bugs exposed by Rangeify, including `rand` in JIT affecting MNIST accuracy and a silent transpose error in GPT-2 weights.
@@ -46,7 +46,7 @@ They can't just be my weird shit. I think we're going to have to spend a long ti
 So, yeah, I think we can get started. There's still, yeah, I'll get to this next part.
 
 ##### **Chenyu** [[00:01:09](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=69)]
-Great. Anything to say about Tinybox?
+Great. Anything to say about TinyBox?
 
 ##### **Geohot** [[00:01:13](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=73)]
 They're moving. Yeah, you're right. We only sold one last week. We only shipped one last week. We shipped three the week before.
@@ -58,7 +58,7 @@ We're doing update version for Red? Yeah. Yeah. Yeah, something like that. We ha
 Great. Yeah, I think someone asked the pitcher.
 
 ##### **Geohot** [[00:01:43](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=103)]
-Oh, will the Reds be back in stock anytime soon? Yeah, we need to focus on TinyGrad. I don't care about this. We got someone who wants to buy Tinybox Pros too. We also have Tinybox Pros. They're eight 5090s. We're going to sell them for $50,000. Five-year rack mountable. Rack mountable workstation. Yeah, rack mountable workstation. That's the term we should use.
+Oh, will the Reds be back in stock anytime soon? Yeah, we need to focus on TinyGrad. I don't care about this. We got someone who wants to buy TinyBox Pros too. We also have TinyBox Pros. They're eight 5090s. We're going to sell them for $50,000. Five-year rack mountable. Rack mountable workstation. Yeah, rack mountable workstation. That's the term we should use.
 
 ##### **Chenyu** [[00:02:11](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=131)]
 Is it data center certified?
@@ -70,34 +70,34 @@ Oh, definitely not. Not at all. And if you're going to use it in the data center
 Very important. We'll put a checkbox saying I will be okay with cryptocurrency mining. Yeah. Great. Okay, so let's go to the meeting. Let's rangeify.
 
 ##### **Chenyu** [[00:02:54](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=174)]
-So, yeah, I fixed the... RandomJet thing.
+So, yeah, I fixed the.. RandomJet thing.
 
 ##### **Geohot** [[00:02:59](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=179)]
 I fixed the GPT-2 thing.
 
 ##### **Chenyu** [[00:03:04](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=184)]
-For the people in this meeting who didn't participate in our last meeting, this is the focus of the company and the top priority now. We are upgrading the infra so that this new abstraction can support more advanced stuff that is impossible now. So in the meantime, we need to fix a lot of regressions and tests. So here we discussed a lot in the office today for how to make progress. And here I think we have some ideas for focusing on making the spec, tightening the spec to make everything... Make the possible states smaller. And here I list some reminders. I think we have a lot of bugs that are in the PR to make rangeify default. And I believe there are probably more. It's just this is the frontier of things that's failing.
+For the people in this meeting who didn't participate in our last meeting, this is the focus of the company and the top priority now. We are upgrading the infra so that this new abstraction can support more advanced stuff that is impossible now. So in the meantime, we need to fix a lot of regressions and tests. So here we discussed a lot in the office today for how to make progress. And here I think we have some ideas for focusing on making the spec, tightening the spec to make everything.. Make the possible states smaller. And here I list some reminders. I think we have a lot of bugs that are in the PR to make rangeify default. And I believe there are probably more. It's just this is the frontier of things that's failing.
 
 ##### **Geohot** [[00:04:07](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=247)]
-Yeah, I did some stuff on performance today, too. I fixed the efficient NAT. Like, it mostly just emulates the old scheduler. But it seems... I mean, it seems strictly better in all the things that work. Like, they all seem to... The only annoying thing is we no longer have reduced splitting. So we can decide if we want to add that back or if we want to improve the kernels.
+Yeah, I did some stuff on performance today, too. I fixed the efficient NAT. Like, it mostly just emulates the old scheduler. But it seems.. I mean, it seems strictly better in all the things that work. Like, they all seem to.. The only annoying thing is we no longer have reduced splitting. So we can decide if we want to add that back or if we want to improve the kernels.
 
 ##### **Chenyu** [[00:04:38](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=278)]
-I think that falls into the tuning for default part. We can quickly go through these, making sure everyone is working on some of this. Hopefully we can get this... End of this week.
+I think that falls into the tuning for default part. We can quickly go through these, making sure everyone is working on some of this. Hopefully we can get this.. End of this week.
 
 ##### **Chenyu** [[00:04:56](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=296)]
 Yeah, it sounds good.
 
 ##### **Chenyu** [[00:04:57](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=297)]
-So spec equals to one is... So previously... So tiny grid is pretty much all UOP. And it's very important to limit the spec for every UOP. UOP has like source and arguments for different ops. And previously we have kind of a step check. And then we have a little bit of a step check. Tiny grid has multiple passes and lower things from tensor to the intermediate ones, then lower to the linearized ones, then finally render into streams. And we have a step check to making sure when you pass this stage, what's the possible set of the UOP. But we didn't really check all the intermediate ones. We didn't have a spec for that. So George just added a spec. So we can see that the spec equals to one today. So that is kind of checking every created UOP needs to follow these specs.
+So spec equals to one is.. So previously.. So tiny grid is pretty much all UOP. And it's very important to limit the spec for every UOP. UOP has like source and arguments for different ops. And previously we have kind of a step check. And then we have a little bit of a step check. Tiny grid has multiple passes and lower things from tensor to the intermediate ones, then lower to the linearized ones, then finally render into streams. And we have a step check to making sure when you pass this stage, what's the possible set of the UOP. But we didn't really check all the intermediate ones. We didn't have a spec for that. So George just added a spec. So we can see that the spec equals to one today. So that is kind of checking every created UOP needs to follow these specs.
 
 ##### **Geohot** [[00:06:02](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=362)]
-Yeah, I think especially once we switch only to Ranger 5, we can delete a whole bunch of UOPs. We can delete a whole bunch of op types. We can delete view and stop. And then we should have a relatively small spec. We can also get rid of... We can merge assign and store. Yeah, then I think the spec overall will be pretty small. And we can check every UOP on creation. So it's important that every intermediate state preserve the spec. I fixed a few things in the de-vectorizer that didn't. Maybe there's a few things in the index stuff that don't also.
+Yeah, I think especially once we switch only to Ranger 5, we can delete a whole bunch of UOPs. We can delete a whole bunch of op types. We can delete view and stop. And then we should have a relatively small spec. We can also get rid of.. We can merge assign and store. Yeah, then I think the spec overall will be pretty small. And we can check every UOP on creation. So it's important that every intermediate state preserve the spec. I fixed a few things in the de-vectorizer that didn't. Maybe there's a few things in the index stuff that don't also.
 
 ##### **Chenyu** [[00:06:41](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=401)]
 Great. Okay.
 
 ##### **Chenyu** [[00:06:46](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=406)]
-We can quickly go through the remaining bugs. We found a few. We found the random counter increment thing in JIT. That was the issue for Beautiful MNIST. So Beautiful MNIST, we find a few things about Beautiful MNIST. But one of it is because the random doesn't work properly with JIT. It's like creating... It's like if you overfit one batch, you got 95%. Our current master has like 98%. And this behavior is kind of trend on a smaller batch, like gives you 97%. And things like these are very hard to debug because it just... In this case, we got lucky because it's kind of easy to tell. It's like 98 versus 97. But just imagine in a much bigger model, it's very hard to say, okay, now our model regressed by slightly. Is it a bug or numerical or something else? So it's good that we kind of fixed... We at least through costless. Okay. And GPT-2 weight is transposed on disk is wrong or silently wrong?
+We can quickly go through the remaining bugs. We found a few. We found the random counter increment thing in JIT. That was the issue for Beautiful MNIST. So Beautiful MNIST, we find a few things about Beautiful MNIST. But one of it is because the random doesn't work properly with JIT. It's like creating.. It's like if you overfit one batch, you got 95%. Our current master has like 98%. And this behavior is kind of trend on a smaller batch, like gives you 97%. And things like these are very hard to debug because it just.. In this case, we got lucky because it's kind of easy to tell. It's like 98 versus 97. But just imagine in a much bigger model, it's very hard to say, okay, now our model regressed by slightly. Is it a bug or numerical or something else? So it's good that we kind of fixed.. We at least through costless. Okay. And GPT-2 weight is transposed on disk is wrong or silently wrong?
 
 ##### **Geohot** [[00:08:18](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=498)]
 Yeah. It's not a range of high related bug. Range of high just exposed it because it didn't push the transpose after the copy.
@@ -181,7 +181,7 @@ Okay.
 So that's hashing.
 
 ##### **Chenyu** [[00:14:01](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=841)]
-It's not hat Linear algebra you R and SVD, I think it's related to a sign, but I can it's really cool. double check. And that tells me how the даже looks like. I think we've done all the IQs and system dentist sites so far. I think it's related to a sign. But I don't know if it's just that and not clear how to fix it yet. This I will look later. Next is the thing is kind of an optimization, but kind of important is the buff limits for metal and for web GPU. I saw Nimmo, do you have a temp on that? I don't know if you have update on that.
+It's not hat Linear algebra you R and SVD, I think it's related to a sign, but I can it's really cool. double check. And that tells me how the looks like. I think we've done all the IQs and system dentist sites so far. I think it's related to a sign. But I don't know if it's just that and not clear how to fix it yet. This I will look later. Next is the thing is kind of an optimization, but kind of important is the buff limits for metal and for web GPU. I saw Nimmo, do you have a temp on that? I don't know if you have update on that.
 
 ##### **Nimlgen** [[00:14:59](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=899)]
 Yeah. I fixed metal on non-Rangify because it was broken and didn't account for variables. And we have tests now. And because of that, actually, I used to implement buffer limit before Rangify, so it was as simple as realize. But because we need variables, it should be after Rangify because they happen at this stage.
@@ -189,14 +189,13 @@ Yeah. I fixed metal on non-Rangify because it was broken and didn't account for 
 ##### **Chenyu** [[00:15:29](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=929)]
 So yeah. And you like to take the variables from the Thank you. I wouldn't do that. I would do it at the last minute. After the first bufferize pass. Yeah.
 
-##### **Geohot** [[00:16:00](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=960)]
-, because the buffer is going to be optimized out also. Also, Nimmojin, you want to look at memory usage, just memory
+##### **Geohot** [[00:16:00](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=960)], because the buffer is going to be optimized out also. Also, Nimmojin, you want to look at memory usage, just memory
 
 ##### **Chenyu** [[00:16:09](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=969)]
 usage in general? Yeah.
 
 ##### **Geohot** [[00:16:17](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=977)]
-So there's a function that's commented out now called remove dead axes. I think you're going to want to fix that and make that work. So what that does is sometimes there's a, you know, you're going to have to fix that. Like, if you have a P ask, that is an access going into a bufferize, that's just a range. That's not actually... The range is actually used anywhere. And this happens with
+So there's a function that's commented out now called remove dead axes. I think you're going to want to fix that and make that work. So what that does is sometimes there's a, you know, you're going to have to fix that. Like, if you have a P ask, that is an access going into a bufferize, that's just a range. That's not actually.. The range is actually used anywhere. And this happens with
 
 ##### **Chenyu** [[00:16:40](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1000)]
 Can you post the link?
@@ -244,7 +243,7 @@ Yeah, no, I mean, there's a lot of there's a lot of polished work to do. And whe
 That's good. Leading stuff is nice. I also just pushed into my library.
 
 ##### **Chenyu** [[00:19:23](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1163)]
-So my library and, and yeah, like Noel or思 separate your own libraries here as well. And like, and they're saying like 30 50 or so in the mainstream or like like 15,000 or something like that. But yeah, just, just adding this to the script. So I don't know what's happening. We will take a look.
+So my library and, and yeah, like Noel or separate your own libraries here as well. And like, and they're saying like 30 50 or so in the mainstream or like like 15,000 or something like that. But yeah, just, just adding this to the script. So I don't know what's happening. We will take a look.
 
 ##### **Chenyu** [[00:20:04](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1204)]
 I see. OK.
@@ -352,7 +351,7 @@ Oh, ooh, OK, the NIR backend, cool.
 Cool.
 
 ##### **Geohot** [[00:27:40](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1660)]
-Here we have some progress there. So the NIR backend is going to give us a full path to running NVIDIA without CUDA. Mesa has a replacement for SAS. But for the, yeah, so yeah, we just render to NIR. It's pretty cool. And then we can do all the Mesa stuff too. Mesa has a Qualcomm backend. And yeah, I mean, we've made some progress in this direction, with the CPU and CPU LLVM thing. Another thing that we could search across is just which compiler to use. I bet we'll be able to make some OpenPilot kernels faster by using the Mesa compiler.
+Here we have some progress there. So the NIR backend is going to give us a full path to running NVIDIA without CUDA. Mesa has a replacement for SASS. But for the, yeah, so yeah, we just render to NIR. It's pretty cool. And then we can do all the Mesa stuff too. Mesa has a Qualcomm backend. And yeah, I mean, we've made some progress in this direction, with the CPU and CPU LLVM thing. Another thing that we could search across is just which compiler to use. I bet we'll be able to make some OpenPilot kernels faster by using the Mesa compiler.
 
 ##### **Chenyu** [[00:28:26](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1706)]
 Mm, mm. Yeah, OpenPilot speed. Talking about non-contiguous for search. Nice. Yeah.
@@ -370,7 +369,7 @@ We made our own. All right. Yeah, going to start selling them. And they don't ju
 OK.
 
 ##### **Chenyu** [[00:29:22](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1762)]
-You want to share something you're working on? The AMD machine. It didn't work last week. So I didn't expect to be able to come. GPU, I was done. I cannot really hear you. Can you hear me now? Yes, go on. Last week, the AMD machine was done. It's . My GPU was done. So I didn't . My machine is done. The MI300 and the MI350 were done. They're all down? The GPU down.
+You want to share something you're working on? The AMD machine. It didn't work last week. So I didn't expect to be able to come. GPU, I was done. I cannot really hear you. Can you hear me now? Yes, go on. Last week, the AMD machine was done. It's. My GPU was done. So I didn't. My machine is done. The MI300 and the MI350 were done. They're all down? The GPU down.
 
 ##### **Chenyu** [[00:30:29](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1829)]
 Now it works.
@@ -379,7 +378,7 @@ Now it works.
 Oh, machine is up, but GPU dropped.
 
 ##### **Chenyu** [[00:30:35](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1835)]
-Yeah. So I don't know. It's probably .
+Yeah. So I don't know. It's probably.
 
 ##### **Geohot** [[00:30:48](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1848)]
 Well, it looks like tinyAMD3 needs
@@ -418,7 +417,7 @@ Someone needs to reboot the machine or do something. OK. What else? We have here
 You have anything to say about writing on it?
 
 ##### **Flata** [[00:32:34](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1954)]
-Not that much yet. I think I was talking to . I think I was talking to a copy about that JIT issue that I was experiencing with the mass select. I tried with optimize equals true. But I think the last time when I tried it last week, what happened was that it hung. So I think seeds restarted the machine. So that was OK. So I'll have to take a look into that and see if that fixes that issue. Because he also had problems with, I think, related to the on exchanges that he made. So I'll take a look into that. And hopefully, that helps with my case.
+Not that much yet. I think I was talking to. I think I was talking to a copy about that JIT issue that I was experiencing with the mass select. I tried with optimize equals true. But I think the last time when I tried it last week, what happened was that it hung. So I think seeds restarted the machine. So that was OK. So I'll have to take a look into that and see if that fixes that issue. Because he also had problems with, I think, related to the on exchanges that he made. So I'll take a look into that. And hopefully, that helps with my case.
 
 ##### **Geohot** [[00:33:07](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=1987)]
 OK. Thanks. It'll be cool to get. We should try to get something submitted on the 350 machines.
@@ -463,7 +462,7 @@ No, not really. I addressed the LR scheduler PR, so that's ready again. And the 
 Yeah, I think those looks fine.
 
 ##### **Chenyu** [[00:35:04](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=2104)]
-I just want to make sure. I think the principle is anything that touches me, I'm going to have to fix it. The first work will come right away, depending on where I use the UI, there's winners and losers. So I kind of keep it to the very end. if you haven't��면't hit it, I have indic heleomuch would be kind of the ESYPro does more oh enter çalıştings than when you perform
+I just want to make sure. I think the principle is anything that touches me, I'm going to have to fix it. The first work will come right away, depending on where I use the UI, there's winners and losers. So I kind of keep it to the very end. if you haven't��'t hit it, I have indic heleomuch would be kind of the ESYPro does more oh enter çalıştings than when you perform
 
 ##### **Chenyu** [[00:35:37](https://www.youtube.com/watch?v=AX6o0lK6RZA&t=2137)]
 everything.

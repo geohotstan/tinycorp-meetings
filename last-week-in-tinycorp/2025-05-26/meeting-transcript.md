@@ -9,7 +9,7 @@
 - scheduler
 - driver
 - wozeparrot stuff
-- webgpu
+- WebGPU
 - locals
 - onnx (proto parser), move to tinygrad proper
 - z3 fuzzer
@@ -21,7 +21,7 @@
 
 ### Highlights
 
-- **[Company Update](#geohot-000005)**: Tinybox V2s shipped last week; Green V2s currently delayed due to case shortages, expected within 2-3 weeks; Reds available for immediate shipping.
+- **[Company Update](#geohot-000005)**: TinyBox V2s shipped last week; Green V2s currently delayed due to case shortages, expected within 2-3 weeks; Reds available for immediate shipping.
 - **[Tenstorrent Update](#geohot-000115)**: Tenstorrent backend integration stalled due to incomplete hardware and software stacks; progress appears worse compared to previous versions.
 - **[Scheduler and View Operations](#geohot-000115)**: Implementing view inversion via caching (reverse cache), aiming to simplify `becomes_map` significantly.
 - **[MLPerf CI and Stable Diffusion XL](#chenyu-000328)**: Cron jobs set up to log MLPerf results; adding similar timing metrics for Stable Diffusion XL searches and first steps.
@@ -50,7 +50,7 @@ So we have all the other parts.
 So hopefully more will ship this week.
 But if not, next week.
 And that should be everyone who's ordered one so far.
-So if you order a Tinybox Green V2 today, it will probably come in two to three weeks.
+So if you order a TinyBox Green V2 today, it will probably come in two to three weeks.
 And if you order a Red, it will ship literally tomorrow.
 
 ##### **Chenyu** [[00:00:41](https://www.youtube.com/watch?v=bktO9YRV8pc&t=41)]
@@ -85,7 +85,7 @@ I don't know.
 I don't think they're going in that direction.
 The other thing I'm going to work on, well, what I worked on a lot last week was scheduler stuff.
 I'm going to write the function to invert views, to go from views back to movement ops, but I'm not going to do it by reasoning about the problem, I'm going to do it by caching.
-So that'll probably take a few days, but then...
+So that'll probably take a few days, but then..
 I think that'll simplify becomes map a lot, because we can just put views in the tensor graph.
 
 ##### **Chenyu** [[00:02:39](https://www.youtube.com/watch?v=bktO9YRV8pc&t=159)]
@@ -149,7 +149,7 @@ Yeah.
 If we have a good way to do this, I think we could probably also do it for the llamas we're already beaming in benchmark.
 We only instrument the token time.
 We don't instrument the setup time.
-Yeah, I think for Lama should be easier since we have already been made.
+Yeah, I think for LLaMA should be easier since we have already been made.
 We just need to log the time to first token or something like that.
 
 ##### **Chenyu** [[00:06:28](https://www.youtube.com/watch?v=bktO9YRV8pc&t=388)]
@@ -161,12 +161,12 @@ We now have gbarrier, which is very, very nice.
 It enables a lot of simplification in the grouper, I think.
 It was really hard to, like, you would basically get infinite loops whenever you would try to do any sort of grouping algorithm.
 I'm glad that's merged.
-It fixed a bunch of the fragility issues you saw last week with the... Good question.
+It fixed a bunch of the fragility issues you saw last week with the.. Good question.
 
 ##### **Geohot** [[00:07:04](https://www.youtube.com/watch?v=bktO9YRV8pc&t=424)]
 What does gbarrier do?
 I think I misled.
-So...
+So..
 
 ##### **Qazalin** [[00:07:11](https://www.youtube.com/watch?v=bktO9YRV8pc&t=431)]
 The barrier is basically a global memory barrier between two UOPs.
@@ -215,7 +215,7 @@ And then that copy base itself, well, that's not realized.
 It's a best effort, what exists, but it's not.
 
 ##### **Geohot** [[00:10:39](https://www.youtube.com/watch?v=bktO9YRV8pc&t=639)]
-Yeah, if something...
+Yeah, if something..
 If something is best effort, we just shouldn't be writing it.
 We have to wait until we're writing it the right way.
 
@@ -470,7 +470,7 @@ The GSP is managing the page tables on the GPU?
 I don't think so.
 No, no, no, no, no, no, no, no.
 I mean, yeah, there are several file descriptors we open, and there are different IOC tables we send.
-Oh, yeah, there's like NVIDIA, UBM, and .
+Oh, yeah, there's like NVIDIA, UBM, and.
 Yeah, I just go straight to the GSP, like the device stuff and all these things.
 
 ##### **Chenyu** [[00:24:26](https://www.youtube.com/watch?v=bktO9YRV8pc&t=1466)]
@@ -488,7 +488,7 @@ You propose something?
 ##### **Geohot** [[00:24:56](https://www.youtube.com/watch?v=bktO9YRV8pc&t=1496)]
 Well, yeah, I mean, there's a few things we can do.
 One is to just jit it and then we have a jitted chunk for the hash function if the schedule time is like on the order of five seconds slow.
-If the schedule time is on the order of 50 seconds slow, then... The schedule time is on the order of two minutes slow.
+If the schedule time is on the order of 50 seconds slow, then.. The schedule time is on the order of two minutes slow.
 Oh.
 Yeah, I'll just take a look at it.
 That sounds like a bug more than anything else.
@@ -586,7 +586,7 @@ I mean, I think the first thing to do here is kind of just get a taxonomy of lik
 
 ##### **Chenyu** [[00:30:39](https://www.youtube.com/watch?v=bktO9YRV8pc&t=1839)]
 And I think that's everything.
-And you could imagine...
+And you could imagine..
 
 ##### **Geohot** [[00:30:49](https://www.youtube.com/watch?v=bktO9YRV8pc&t=1849)]
 You could imagine the JIT just computing which buffers are in which sets and then handling each of those sets appropriately.
@@ -667,7 +667,7 @@ Of the target outputs, and that one I know less about.
 ##### **Hooved** [[00:34:03](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2043)]
 And then why do we care about that?
 Could you explain why we care about if it's not on the path to the outputs, why do we care about those assigns?
-Do you want to ?
+Do you want to?
 
 ##### **Geohot** [[00:34:14](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2054)]
 No.
@@ -716,9 +716,9 @@ No, no, this is hard for me to understand.
 
 ##### **Geohot** [[00:36:30](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2190)]
 Okay, he said he will have some other poc working this week.
-Yeah, I mean, the main thing to think about here is you want your locals to be the size of, like, take every... What you want to do is you want to run every index through the global shape tracker, and then you're going to get an output set, and then the size of that set is the size of your locals.
+Yeah, I mean, the main thing to think about here is you want your locals to be the size of, like, take every.. What you want to do is you want to run every index through the global shape tracker, and then you're going to get an output set, and then the size of that set is the size of your locals.
 Because every local should only be stored once.
-It shouldn't have to do with the product of the shape, because I can just trivially alias things or expand things or...
+It shouldn't have to do with the product of the shape, because I can just trivially alias things or expand things or..
 
 ##### **Chenyu** [[00:37:15](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2235)]
 Next, we have Onyx.
@@ -755,7 +755,7 @@ It's not do that.
 Yeah, we got to fix that.
 
 ##### **B1tg** [[00:39:42](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2382)]
-When we meet a chunk of data, we assign a slice of the tensor to the .. Exactly, yeah.
+When we meet a chunk of data, we assign a slice of the tensor to the. Exactly, yeah.
 OK.
 
 ##### **Chenyu** [[00:39:56](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2396)]
@@ -769,15 +769,15 @@ So I'm worried about the speed.
 Copying some bytes to the CPU is OK.
 
 ##### **B1tg** [[00:40:21](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2421)]
-Copying... So many variable-wise integers across a field.
+Copying.. So many variable-wise integers across a field.
 Not like GGUF only puts the metadata at the head of the field.
 And it's only needed to read the metadata length and read the chunk of metadata and passing it.
 
 ##### **Geohot** [[00:40:46](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2446)]
 Yeah, okay.
-So you're saying there's just many, many copies from the...
+So you're saying there's just many, many copies from the..
 And even if we're running this on the CPU, the whole goal of this parser is to avoid copying the tensors, right?
-The metadata size is going to be trivial compared to the size of... So maybe you don't want to do like byte by byte, right?
+The metadata size is going to be trivial compared to the size of.. So maybe you don't want to do like byte by byte, right?
 Like maybe if it's something like a varint, you want to just like look ahead, read eight bytes and then decode the varint, right?
 Like pick the max size or something.
 Just to make that be like one copy instead of, I think there's a question of like how many copies there are per tensor.
@@ -831,7 +831,7 @@ Yeah, like right now, Onyx Runner is being constructed with a model proto.
 It has to be constructed with a tensor or file name.
 Okay.
 So maybe let's start with that.
-Having a...
+Having a..
 
 ##### **Geohot** [[00:44:45](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2685)]
 I suspect also with the new parser, we can clean a lot of this like D type parse and attribute parse stuff up.
@@ -885,7 +885,7 @@ It was pretty good.
 Whenever I changed one of the symbolic rules to be incorrect, it would generally find it.
 
 ##### **Chenyu** [[00:47:51](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2871)]
-This PR looks...
+This PR looks..
 Good.
 
 ##### **Geohot** [[00:47:59](https://www.youtube.com/watch?v=bktO9YRV8pc&t=2879)]
@@ -956,7 +956,7 @@ Yeah, I do.
 ##### **Geohot** [[00:51:55](https://www.youtube.com/watch?v=bktO9YRV8pc&t=3115)]
 I did.
 I don't know what it's sorting by now.
-It's... Oh, I just... I put all the new bounties at the top.
+It's.. Oh, I just.. I put all the new bounties at the top.
 
 ##### **Chenyu** [[00:52:04](https://www.youtube.com/watch?v=bktO9YRV8pc&t=3124)]
 Oh, okay.
@@ -968,17 +968,17 @@ Yeah, yeah.
 ##### **Chenyu** [[00:52:06](https://www.youtube.com/watch?v=bktO9YRV8pc&t=3126)]
 I'll move it up there.
 Okay, okay.
-It's like... Yeah, yeah, yeah.
-Also... Go ahead.
+It's like.. Yeah, yeah, yeah.
+Also.. Go ahead.
 Oh, yeah, yeah.
 No, go ahead.
 Sorry.
-I mean, the...
+I mean, the..
 
 ##### **Geohot** [[00:52:23](https://www.youtube.com/watch?v=bktO9YRV8pc&t=3143)]
 Motivation is in that tweet exchange.
 And we definitely should also test some of this.
-For example, our Lama of, I don't know, some examples, we just convert everything to Flow16 because it worked.
+For example, our LLaMA of, I don't know, some examples, we just convert everything to Flow16 because it worked.
 But I'm pretty sure that also hurts the output of these tokens.
 So it would be nice.
 I think once someone fix this, we can also add it to the Chrome Job CI so this is tracked periodically.
@@ -1087,7 +1087,7 @@ No, no.
 The two paths softmax, we currently cannot express that, I think.
 
 ##### **Chenyu** [[00:58:37](https://www.youtube.com/watch?v=bktO9YRV8pc&t=3517)]
-Because you need a sequential dependency on your .
+Because you need a sequential dependency on your.
 
 ##### **Geohot** [[00:58:43](https://www.youtube.com/watch?v=bktO9YRV8pc&t=3523)]
 Yeah, from what I've seen, the like, I've read like the the softmax kernels in CUDA and stuff.
@@ -1104,7 +1104,7 @@ So we'd have to move to stuff being upcasted to the warp size.
 We can totally do this.
 Yeah, I think that's fine.
 The thing I was mentioning is the 2Path Softmax use the intermediate value of the ACC.
-So it has a...
+So it has a..
 That input is the ACC so far.
 Yeah, we don't have anything like so far.
 So that's the thing we are currently missing.

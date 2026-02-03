@@ -6,7 +6,7 @@
 - CDNA4/RDNA3 SQTT in VIZ, same view as RGP
 - apple usb gpu without SIP bypass. i bought 3x 5060 for mac CI machines
 - why is progress on tinykittens so slow? if it can't do a SOTA gemm, we should look elsewhere
-- llama trainer using custom_kernel to get memory usage to acceptable place, figure out what kernels we need to write
+- LLaMA trainer using custom_kernel to get memory usage to acceptable place, figure out what kernels we need to write
 - openpilot regressions
 - other bounties
 
@@ -20,7 +20,7 @@
 - **[Apple USB GPU CI without SIP](#sieds-lykles-000857)**: To get the Apple USB GPUs working on CI machines without disabling System Integrity Protection (SIP), a signed binary is required to allow Python to connect to the driver kit. The team will also set up three new 5060 GPUs for the Mac CI machines.
 - **[LLVM Pipe Support](#chenyu-001104)**: With real hardware now available for Mac CI, the team discussed removing the LLVM pipe software renderer. The consensus is to move the code into a test-only fixture rather than deleting it, which cleans up the main code path while preserving hardware-independent CI tests.
 - **[tinykittens Performance](#chenyu-001502)**: Progress on tinykittens is considered slow as it has not yet achieved state-of-the-art GEMM performance, particularly on consumer GPUs like the 4090. The focus is shifting from optimizing GEMM to implementing a flash attention kernel.
-- **[Custom Kernels for Llama Trainer](#chenyu-001928)**: To reduce the memory footprint of the Llama trainer, custom kernels are necessary. The key kernels needed are flash attention forward and backward. Writing the softmax backward component as a single kernel in UOps is the current challenge.
+- **[Custom Kernels for LLaMA Trainer](#chenyu-001928)**: To reduce the memory footprint of the LLaMA trainer, custom kernels are necessary. The key kernels needed are flash attention forward and backward. Writing the softmax backward component as a single kernel in UOps is the current challenge.
 - **[Openpilot Regressions](#sieds-lykles-002253)**: Two regressions are under investigation: an ONNX model parsing failure, which is likely due to a change in how comma.ai serves LFS files, and a performance regression caused by the removal of a block reordering optimization in the new linearizer.
 - **[Clan2Py Bounty Update](#chenyu-002709)**: The bounty to generate Python bindings from C headers is progressing. Remaining tasks include handling Objective-C, resolving a Windows issue, and fixing MyPy errors. A potential switch from MyPy to the faster and stricter Pyre type checker is being considered.
 - **[FP8 BERT Training Bounty](#chenyu-003217)**: A contributor is working on training BERT with FP8. Initial tests show a ~5% speed improvement, but the training loss stalls. The immediate goal is to fix the convergence issues on a single GPU.
@@ -45,13 +45,13 @@ for probably the short meeting.
 So let's start it.
 
 ##### **Sieds Lykles** [[00:00:23](https://www.youtube.com/watch?v=gmY_RjZsYys&t=23)]
-A little sqtt stuff in this.
+A little SQTT stuff in this.
 
 ##### **Chenyu** [[00:00:31](https://www.youtube.com/watch?v=gmY_RjZsYys&t=31)]
-I merged the sqtt table in this.
+I merged the SQTT table in this.
 
 ##### **Chenyu** [[00:00:35](https://www.youtube.com/watch?v=gmY_RjZsYys&t=35)]
-So right now if you run with viz equals one, you can actually see the sqtt stuff.
+So right now if you run with viz equals one, you can actually see the SQTT stuff.
 
 ##### **Chenyu** [[00:00:42](https://www.youtube.com/watch?v=gmY_RjZsYys&t=42)]
 I'll post a picture of it on the channel.
@@ -105,7 +105,7 @@ It's pretty much it on that side.
 And if Nemo-Chan wants to add anything.
 
 ##### **Chenyu** [[00:01:59](https://www.youtube.com/watch?v=gmY_RjZsYys&t=119)]
-No, nothing to it, to sqtt.
+No, nothing to it, to SQTT.
 
 ##### **Chenyu** [[00:02:02](https://www.youtube.com/watch?v=gmY_RjZsYys&t=122)]
 So for PMC, I think that's not the priority for now.
@@ -129,7 +129,7 @@ I'm just trying to keep in mind that this is going to be a pretty busy session.
 Yeah, go ahead.
 
 ##### **Chenyu** [[00:02:29](https://www.youtube.com/watch?v=gmY_RjZsYys&t=149)]
-Does this work for both cDNA4 and rDNA3 now?
+Does this work for both CDNA4 and RDNA3 now?
 
 ##### **Chenyu** [[00:02:36](https://www.youtube.com/watch?v=gmY_RjZsYys&t=156)]
 I think, I mean, yeah, I think.
@@ -141,16 +141,16 @@ So that kind of works for both, and I think UI as well.
 I was thinking post a comment on where that I can test later.
 
 ##### **Chenyu** [[00:02:56](https://www.youtube.com/watch?v=gmY_RjZsYys&t=176)]
-I imagine running that comment on like tiny box red will work.
+I imagine running that comment on like TinyBox red will work.
 
 ##### **Chenyu** [[00:03:02](https://www.youtube.com/watch?v=gmY_RjZsYys&t=182)]
-Just run with with with sqtt equals one.
+Just run with with with SQTT equals one.
 
 ##### **Chenyu** [[00:03:07](https://www.youtube.com/watch?v=gmY_RjZsYys&t=187)]
 We'll show.
 
 ##### **Chenyu** [[00:03:16](https://www.youtube.com/watch?v=gmY_RjZsYys&t=196)]
-sqtt equals one.
+SQTT equals one.
 
 ##### **Sieds Lykles** [[00:03:18](https://www.youtube.com/watch?v=gmY_RjZsYys&t=198)]
 Okay, I see that in test.
@@ -600,7 +600,7 @@ What's the general direction?
 Okay, that makes sense.
 
 ##### **Chenyu** [[00:12:52](https://www.youtube.com/watch?v=gmY_RjZsYys&t=772)]
-Yeah, the reason I say that is because there's no reason that an end user would ever want to use LVM pipe because it's just going to be worse than that LVM back end.
+Yeah, the reason I say that is because there's no reason that an end user would ever want to use llvmpipe because it's just going to be worse than that LLVM back end.
 
 ##### **Sieds Lykles** [[00:12:59](https://www.youtube.com/watch?v=gmY_RjZsYys&t=779)]
 But yeah, that makes sense.
@@ -717,7 +717,7 @@ And we use it.
 Slender kittens is not fast.
 
 ##### **Chenyu** [[00:15:05](https://www.youtube.com/watch?v=gmY_RjZsYys&t=905)]
-We can't get good gem performance out of it.
+We can't get good GEMM performance out of it.
 
 ##### **Chenyu** [[00:15:07](https://www.youtube.com/watch?v=gmY_RjZsYys&t=907)]
 I don't know how much of that is just down to me not tuning.
@@ -732,10 +732,10 @@ All right.
 Okay.
 
 ##### **Chenyu** [[00:15:19](https://www.youtube.com/watch?v=gmY_RjZsYys&t=919)]
-Also don't know how many more of the gem tricks.
+Also don't know how many more of the GEMM tricks.
 
 ##### **Chenyu** [[00:15:23](https://www.youtube.com/watch?v=gmY_RjZsYys&t=923)]
-I'm missing the gem that I wrote using Thunder kittens.
+I'm missing the GEMM that I wrote using Thunder kittens.
 
 ##### **Chenyu** [[00:15:30](https://www.youtube.com/watch?v=gmY_RjZsYys&t=930)]
 Uh, totally publish like any of the numbers.
@@ -765,7 +765,7 @@ So I know George is going back soon.
 So maybe you can just you who can discuss any ideas for how to progress on this front.
 
 ##### **Sieds Lykles** [[00:16:12](https://www.youtube.com/watch?v=gmY_RjZsYys&t=972)]
-So I don't know how much I think I don't know how much time I want to waste more on looking at the gem performance.
+So I don't know how much I think I don't know how much time I want to waste more on looking at the GEMM performance.
 
 ##### **Chenyu** [[00:16:21](https://www.youtube.com/watch?v=gmY_RjZsYys&t=981)]
 So I've switched to just copying the flash attention example over to you ops.
@@ -846,7 +846,7 @@ Yeah.
 But it also won't be fast, right?
 
 ##### **Chenyu** [[00:18:07](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1087)]
-Because it has like three gym three gems inside.
+Because it has like three gym three GEMMs inside.
 
 ##### **Chenyu** [[00:18:15](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1095)]
 Yes.
@@ -1098,7 +1098,7 @@ in this case it's much slower because I post it in the fast tiny graph channel
 so currently it's doing some read image
 
 ##### **Chenyu** [[00:24:23](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1463)]
-then do some AOU on that image
+then do some ALU on that image
 
 ##### **Chenyu** [[00:24:25](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1465)]
 then read another image
@@ -1110,7 +1110,7 @@ things like that
 while it's faster to just initiate bunch of loads of read image
 
 ##### **Chenyu** [[00:24:34](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1474)]
-then following up by AOU
+then following up by ALU
 
 ##### **Chenyu** [[00:24:37](https://www.youtube.com/watch?v=gmY_RjZsYys&t=1477)]
 imagine it's doing something smarter there
@@ -2010,7 +2010,7 @@ Oh.
 Onyx.
 
 ##### **Chenyu** [[00:38:43](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2323)]
-Other bounty... so I think all the flash attention ones is kind of on the main TinyGrid team.
+Other bounty.. so I think all the flash attention ones is kind of on the main TinyGrid team.
 
 ##### **Chenyu** [[00:38:53](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2333)]
 I see several attempts for remove tensor.pool alternative, and pretty much everyone is doing the same thing that's not working.
@@ -2028,7 +2028,7 @@ Any attempt to fix that and claim all the tests passed is because those tests ar
 What else do we have?
 
 ##### **Chenyu** [[00:39:33](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2373)]
-Uh...
+Uh..
 
 ##### **Chenyu** [[00:39:43](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2383)]
 Anyway, if this meeting has any other questions or things to add, you can ask in general channel or look at for this meeting.
@@ -2052,7 +2052,7 @@ I think that's it for this meeting.
 Next.
 
 ##### **Chenyu** [[00:40:33](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2433)]
-So this...
+So this..
 
 ##### **Chenyu** [[00:40:34](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2434)]
 Saturday is CommaCon, commerce conference, and I think TinyCorp has a booth.
@@ -2085,7 +2085,7 @@ That make sense?
 Okay.
 
 ##### **Chenyu** [[00:41:36](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2496)]
-So...
+So..
 
 ##### **Chenyu** [[00:41:40](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2500)]
 Yeah.
@@ -2109,7 +2109,7 @@ And see what's caused the difference.
 I know there are some parameters that's slightly permuted.
 
 ##### **Chenyu** [[00:42:05](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2525)]
-So I think let's...
+So I think let's..
 
 ##### **Chenyu** [[00:42:06](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2526)]
 We will fix it, but I'm not sure.
@@ -2121,7 +2121,7 @@ And that's why it's a bounty.
 Great.
 
 ##### **Chenyu** [[00:42:18](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2538)]
-Yeah, I think...
+Yeah, I think..
 
 ##### **Chenyu** [[00:42:19](https://www.youtube.com/watch?v=gmY_RjZsYys&t=2539)]
 No, I think the unfold thing is just because some are probably not handled correctly, and there's an off-by-one somewhere.

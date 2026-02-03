@@ -13,7 +13,7 @@
 - cloud hashing stuff
 - onnx
 - local
-- webgpu
+- WebGPU
 - symbolic z3 stuff
 - other bounties (lm_eval, AMD_LLVM, cloud)
 
@@ -42,7 +42,7 @@
 Let's get started.
 Company update.
 I don't have anything to update.
-Woze do you know anything about Tinybox?
+Woze do you know anything about TinyBox?
 I also don't know if Woze is there.
 
 ##### **Chenyu** [[00:00:26](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=26)]
@@ -74,7 +74,7 @@ Speaking of MLPerf, so official result is out this Wednesday, I believe, like We
 Yeah, I think AMD.
 Since they made a submission and they are really looking to drive the numbers down, we will see more about those results with the official announcement.
 Our time is May, so there's that.
-And I have moved the... So there are two benchmark jobs running about MLPerf.
+And I have moved the.. So there are two benchmark jobs running about MLPerf.
 One is ResNet running on Red Machine.
 And I also have another job that runs the stable diffusion XL.
 The ResNet job is running daily every day now.
@@ -147,7 +147,7 @@ Let's move on to driver.
 ##### **Nimlgen** [[00:08:14](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=494)]
 Yeah, so I suppose, yes, stability, I think.
 Yeah.
-You reported several bugs about llama and like
+You reported several bugs about LLaMA and like
 So, actually, I mean, the page faults are, actually, I mean, like, for the half of the year, we've never seen page faults in AM related to AM.
 So, I think that the page faults which are reported as page faults are
 Kernel page faults.
@@ -187,7 +187,7 @@ And that's really bad because it's very hard for user to tell.
 Yeah, but actually like from, yeah, I've seen these issues only in the training and I just tried to reproduce them.
 Like in the all-reduce thing, like just sending data between GPUs.
 And I've never seen that.
-So yeah, I mean, that's .
+So yeah, I mean, that's.
 
 ##### **Chenyu** [[00:12:04](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=724)]
 So for now, it seems to be something like, both for BERT and for ResNet, it seems to be something that only happens after a few hours of running.
@@ -235,7 +235,7 @@ Nimlgen: No, Woze said that.
 Woze: That was from me.
 Unfortunately, I don't know if I have logs for it.
 It was on the machine.
-It was on that Tinybox V2 that was going out to people that don't have logs on this.
+It was on that TinyBox V2 that was going out to people that don't have logs on this.
 If I ever reproduce it on another one, I can send you logs.
 
 ##### **Nimlgen** [[00:15:23](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=923)]
@@ -253,7 +253,7 @@ So we have something to track and something to make sure we are improving on thi
 By the way, so what's the, do we run anything MLPerf for the new TinyBox v2 before we ship?
 
 ##### **Wozeparrot** [[00:16:07](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=967)]
-It's the same as Tinybox v1.
+It's the same as TinyBox v1.
 We still do a ResNet training run, the same provisioning stack.
 
 ##### **Chenyu** [[00:16:14](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=974)]
@@ -528,11 +528,11 @@ And every time we introduce a flag, we need to think about what's the default va
 What happens if the user changes the flag?
 
 ##### **Chenyu** [[00:33:06](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1986)]
-I think unless there's a strong reason why we still want... The case where you need to realize?
+I think unless there's a strong reason why we still want.. The case where you need to realize?
 Say that again?
 
 ##### **Geohot** [[00:33:12](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=1992)]
-I see the reason why... So the problem is if you do an assign inside of a JIT, if you don't realize that assign, it may not end up in the JIT.
+I see the reason why.. So the problem is if you do an assign inside of a JIT, if you don't realize that assign, it may not end up in the JIT.
 So I'm not sure exactly how we want to deal with this, but yeah, no, I don't think ban realize should be a flag.
 
 ##### **Chenyu** [[00:33:36](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2016)]
@@ -644,7 +644,7 @@ Okay.
 Does assign mutate the tensor?
 
 ##### **Hooved** [[00:41:31](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2491)]
-Um...I think so.
+Um..I think so.
 Yeah, tensor.assign, it calls uop.assign and does an assign, you know, inserts and assigns.
 
 ##### **Geohot** [[00:41:40](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=2500)]
@@ -835,7 +835,7 @@ I have a principled argument about that, but we're sort of running out of time.
 ##### **Chenyu** [[00:53:17](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3197)]
 Yeah.
 OK, let's conclude this.
-I think one specific thing is, if I'm working on this, I will also check how JAX does it, because I know they make some .
+I think one specific thing is, if I'm working on this, I will also check how JAX does it, because I know they make some.
 
 ##### **Hooved** [[00:53:31](https://www.youtube.com/watch?v=xyn3mZGiXd8&t=3211)]
 As an input.

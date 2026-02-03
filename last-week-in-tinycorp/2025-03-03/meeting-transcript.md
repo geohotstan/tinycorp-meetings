@@ -9,7 +9,7 @@
 - bert, rand, fuse_arange
 - schedule become_map
 - drivers, interop
-- webgpu (tinychat, export)
+- WebGPU (tinychat, export)
 - onnx
 - amx tensor core
 - retinanet
@@ -82,7 +82,7 @@ Intel did make big GPUs.
 They just didn't sell them as consumer GPUs.
 The MAX 1450 is, again, the software is going to need a lot of work, but from a hardware perspective, it's as good as an H100, so.
 Somewhere between A100 and H100.
-But yeah, so if the stars align, we'll be able to purchase a lot of them, build some blue tiny box pros.
+But yeah, so if the stars align, we'll be able to purchase a lot of them, build some blue TinyBox pros.
 Yeah, and if they don't, well, the AMD stuff looks OK.
 The new AMD stuff looks OK.
 Samples are real.
@@ -251,8 +251,8 @@ Yeah, it doesn't use triton or CUDA.
 It's tiny grad, it's totally separate.
 Like if you're using triton or CUDA, you're using the CUDA backend, you're not using the tiny backend.
 Tiny grad is like a new device.
-You do like .tiny, device = tiny, all that stuff.
-So if you want raw CUDA, you're going to have to do it using like tinygrad's abstractions, .torch's abstractions.
+You do like.tiny, device = tiny, all that stuff.
+So if you want raw CUDA, you're going to have to do it using like tinygrad's abstractions,.torch's abstractions.
 But yeah, for now, that stuff's not going to be supported.
 
 ##### **Chenyu** [[00:10:37](https://www.youtube.com/watch?v=hIWzGyEX2do&t=634)]
@@ -372,7 +372,7 @@ So it's like twice as fast in what's in TinyGrad.
 It's like 40% faster than what's in Rocm.
 So I basically just extracted the tricks.
 The main trick that we're not doing in TinyGrad is we're not using shared memory.
-We're not using... It's called like shared in CUDA, but it's like the local memory.
+We're not using.. It's called like shared in CUDA, but it's like the local memory.
 We're not first copying the stuff into SRAM.
 Uh, so I want to finish the quantized stuff and then I want to add that as a search.
 I want to add that to beam.
@@ -477,7 +477,7 @@ ordering like how like what data is sent to the GPU and what GPU sees because fi
 So only for AM, we use queues which are physically allocated on the GPU.
 Not on the system RAM, but on the GPU.
 So when we need to write into the queue, we just push into the device, and not device pulling from the system queue.
-And I'm not sure that it's... That's the main difference with the AMD backend.
+And I'm not sure that it's.. That's the main difference with the AMD backend.
 
 ##### **Geohot** [[00:21:57](https://www.youtube.com/watch?v=hIWzGyEX2do&t=1317)]
 And is there any reason we do it differently?
@@ -572,12 +572,12 @@ Like, does the MEC have a cache?
 
 ##### **Nimlgen** [[00:26:42](https://www.youtube.com/watch?v=hIWzGyEX2do&t=1589)]
 Yeah, that's interesting.
-But actually, I think it's... Yeah, I mean, I had, like... Like, yeah, I've seen that crashes.
+But actually, I think it's.. Yeah, I mean, I had, like.. Like, yeah, I've seen that crashes.
 And, I mean, the reason we see hang is sometimes we can see page faults because it just takes only the help of the address.
 And the other help is zero, so I think it's, like, not filled with data.
-It's not really... I mean, it's GPU doesn't see this data.
+It's not really.. I mean, it's GPU doesn't see this data.
 Because sometimes we see somehow it's completely zero.
-Yeah, I think I can also... Okay, so yeah, I'll focus on this.
+Yeah, I think I can also.. Okay, so yeah, I'll focus on this.
 
 ##### **Chenyu** [[00:27:40](https://www.youtube.com/watch?v=hIWzGyEX2do&t=1660)]
 OK, sounds good.
@@ -912,7 +912,7 @@ Okay, let's move on.
 Nimlgen
 
 ##### **Nimlgen** [[00:43:45](https://www.youtube.com/watch?v=hIWzGyEX2do&t=2625)]
-Yeah, so... Yeah, so I'm going to look into the AM.
+Yeah, so.. Yeah, so I'm going to look into the AM.
 So this problem I want to talk about also is the main piece.
 Yeah, for AM.
 it is.
@@ -979,7 +979,7 @@ Yeah, no.
 First priority is bugs and fuzzing.
 Fast ring reduce and fast drive load.
 What I'm going to do after that drive load benchmarks fast, I'm going to run the, I'll run the PyTorch loader on the GPU.
-So instead of loading Llama, like we're doing right now, and we load one weight at a time, that's always going to be slow.
+So instead of loading LLaMA, like we're doing right now, and we load one weight at a time, that's always going to be slow.
 Just copy the whole PTH file to the GPU.
 Oh no, we wasted a few megs for offsets.
 Who cares?
@@ -1197,7 +1197,7 @@ I think we're pretty much aiming towards the target metric.
 I think I just checked the latest one that I ran.
 It's just like 0.001, I think.
 It's really close, but it looks like it needed another epoch from four to five.
-So I'll see if I can hyper-parameter tune that just to see if it can get under the...
+So I'll see if I can hyper-parameter tune that just to see if it can get under the..
 before Epoch run.
 So that's what I'm kind of working on.
 But I think the two bottlenecks right now are the eval, for sure, because it takes, I think, like an hour and a half maybe to just go through, I think it's like 20k, probably like 25k images for the eval, and then try to see if I can optimize more on the forward time as well.
@@ -1259,7 +1259,7 @@ Yes, that's right.
 ##### **Chenyu** [[00:57:48](https://www.youtube.com/watch?v=hIWzGyEX2do&t=3468)]
 OK.
 Sounds good.
-We can coordinate in the Tiny box access panel.
+We can coordinate in the TinyBox access panel.
 Because we only have three green box, and everyone wants to use their green box.
 
 ##### **Flata** [[00:58:06](https://www.youtube.com/watch?v=hIWzGyEX2do&t=3486)]
