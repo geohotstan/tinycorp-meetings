@@ -32,7 +32,7 @@
 - **[Qualcomm box coherency issue](#nimlgen-002420)**: Investigating CPU/GPU cache/coherency behavior as a likely root cause; marked as priority #1.
 - **[NVIDIA trace status](#nimlgen-002458)**: Tracing works with the NVIDIA driver on 4090 and 5090; decoder script parses the format; still investigating odd driver behavior (possibly power/perf-state related).
 - **[Apple driver approval mismatch](#geohot-002705)**: Apple validated submitted items, but granted entitlements don’t match; “vendor ID issue” persists; considered low priority.
-- **[LLaMA training shape constraints](#wozeparrot-002755)**: Have a 1496 sequence-length model trained at BS16; expect BS8 @ 8192 to be similar by tokens/step, but 8192 doesn’t fit due to SMGEM constraints.
+- **[LLaMA training shape constraints](#wozeparrot-002755)**: Have a 4096 sequence-length model trained at BS16; expect BS8 @ 8192 to be similar by tokens/step, but 8192 doesn’t fit due to SMGEM constraints.
 - **[Flash attention throughput + kernel mix](#geohot-002806)**: Flash attention reported at ~330 TFLOPs; 8192 context is “very small” and workload is dominated by GEMM (~70%).
 - **[FFN/output GEMM is wildly slow](#geohot-002906)**: FFN/output GEMM reported ~300ms / ~26 TFLOPs—described as “50x off”; likely a bug or wrong path; plan to benchmark specific GEMM dimensions and verify ASMGEM usage.
 - **[Int64 long decomp status](#chrism-003156)**: Long decomp works broadly except where shift support/PTX interactions break; fallback to multiplication is acceptable; denormals aren’t a priority.
@@ -440,7 +440,7 @@ Anything else? I love seeing these exceptions. They're beautiful. No, that's it.
 So, I think that's it.
 
 ##### **Wozeparrot** [[00:27:55](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1675)]
-So, we have a 1496 sequence length model trained at BS16. I would expect a BS8 8192 sequence length to train about the same just because the token
+So, we have a 4096 sequence length model trained at BS16. I would expect a BS8 8192 sequence length to train about the same just because the token
 
 ##### **Geohot** [[00:28:06](https://www.youtube.com/watch?v=GL9FmVHIYXs&t=1686)]
 counts per step match. 8192 doesn't fit because of SMGEM. I do wonder if there's value in finding a fused Swigloo kernel. That does like all the.. Yeah, it does the full FFN in one kernel and it doesn't.. Yeah. How fast do you think you can get our flash attention to it? I'm at 330 TFLOPs right now. Okay. And then do you know what percentage of the TFLOPs that are at 3,000?
