@@ -202,7 +202,7 @@ Things are definitely going to go to something that looks like this.
 
 And then... how can we move down that value chain as much as possible, commoditize every single piece of AI?
 Because the best thing that you can possibly hope for...
-There's two for crypto mining, too.
+This is true for crypto mining, too.
 
 The best thing that you can possibly hope for for the future is that it's linear.
 Right? Big billionaires are going to own tons of intelligence. Everybody already knows this.
