@@ -5,6 +5,7 @@ import os
 import torch
 import json
 import tempfile
+import inspect
 from typing import Any
 from pathlib import Path
 
@@ -24,7 +25,66 @@ def _allow_pyannote_checkpoint():
         pass
 
 
+def _allow_hf_hub_use_auth_token():
+    """
+    pyannote/whisperx still pass `use_auth_token` to hf_hub_download, but
+    huggingface_hub>=1 removed that keyword in favor of `token`.
+    Install a compatibility wrapper when needed.
+    """
+    try:
+        import huggingface_hub
+
+        hf_hub_download = huggingface_hub.hf_hub_download
+        if "use_auth_token" in inspect.signature(hf_hub_download).parameters:
+            return
+        if not getattr(hf_hub_download, "_supports_use_auth_token_compat", False):
+            original_download = hf_hub_download
+
+            def compat_hf_hub_download(*args, use_auth_token=None, token=None, **kwargs):
+                if token is None and "token" in kwargs:
+                    token = kwargs["token"]
+                if token is None and "use_auth_token" in kwargs:
+                    token = kwargs.pop("use_auth_token")
+                if token is None and use_auth_token is not None:
+                    token = use_auth_token
+                if token is not None:
+                    kwargs["token"] = token
+                return original_download(*args, **kwargs)
+
+            compat_hf_hub_download._supports_use_auth_token_compat = True
+            huggingface_hub.hf_hub_download = compat_hf_hub_download
+
+        # pyannote imports hf_hub_download into its module namespace, so patch
+        # that reference too when available.
+        try:
+            import pyannote.audio.core.pipeline as pyannote_pipeline
+
+            pyannote_pipeline.hf_hub_download = huggingface_hub.hf_hub_download
+        except Exception:
+            pass
+    except Exception:
+        # If huggingface_hub is unavailable or patching fails, downstream code
+        # will raise a clearer import/runtime error.
+        pass
+
+
+def _load_diarization_pipeline(Pipeline: Any, hf_token: str | None):
+    primary_model = "pyannote/speaker-diarization-community-1"
+    fallback_model = "pyannote/speaker-diarization-3.1"
+    try:
+        return Pipeline.from_pretrained(primary_model, use_auth_token=hf_token)
+    except TypeError as exc:
+        if "unexpected keyword argument 'plda'" not in str(exc):
+            raise
+        print(
+            "community-1 diarization config is incompatible with installed "
+            "pyannote-audio; retrying with speaker-diarization-3.1"
+        )
+        return Pipeline.from_pretrained(fallback_model, use_auth_token=hf_token)
+
+
 _allow_pyannote_checkpoint()
+_allow_hf_hub_use_auth_token()
 
 initial_prompt = "Audio of Tinygrad weekly meeting, a technical meeting about artificial intelligence, GPU and other computational hardware, and the machine learning framework Tinygrad."
 
@@ -180,9 +240,7 @@ class Whisper(BaseTranscription):
 
         # setup
         whisper_model = whisper.load_model("large-v3")
-        diarization_pipeline = Pipeline.from_pretrained(
-            "pyannote/speaker-diarization-3.1", use_auth_token=HF_TOKEN
-        )
+        diarization_pipeline = _load_diarization_pipeline(Pipeline, HF_TOKEN)
         standardized_audio = standardize_audio(self.input_path)
 
         # pipeline
