@@ -19,6 +19,20 @@
 
 ### Highlights
 
+- **[Company update: Exa Box pre-order and TinyRed momentum](#geohot-000003)**: Geohot said the Exa Box pre-order has launched and the TinyRed eGPU is close to shipping, with strong interest especially around Mac usage.
+- **[FP8 matmul merged; focus shifts to the remaining bottlenecks](#geohot-000150)**: The FP8 matmul is already merged, and the team agreed the next priority is reducing the non-FP8 latency that is still dominating runtime.
+- **[Top MLPerf priority: faster startup and sub-minute profiling](#geohot-000502)**: Geohot made it clear that the LLaMA training/profile loop must get much faster, with trainer startup targeted near 10 seconds and benchmark profiles under 1 minute.
+- **[Agentic optimization loop becomes the strategic goal](#geohot-001117)**: The team aligned around making the profiling and optimization workflow fast enough for agents to iterate automatically, not just humans.
+- **[x86 and lower-level kernel work will help bridge toward assembly-speed performance](#geohot-001147)**: Geohot framed tinygrad’s long-term goal as supporting the full spectrum from torch-like ops down to assembly instructions so performance losses can be isolated and recovered.
+- **[R11 crash likely points to hardware instability, not just software](#geohot-001535)**: After discussing an agent-triggered failure on TinyR11, Geohot concluded the issue may be a hardware or PCI-layer fault and should be treated as a machine reliability problem.
+- **[DEV interfaces merged; semicolon syntax and remote ergonomics still need work](#geohot-002145)**: The new interface work is mostly in, but device-number selection, semicolon syntax, and some awkwardness around remote configuration still need cleanup.
+- **[Custom USB GPU firmware is nearly ready and much faster](#geohot-002521)**: Geohot said the custom firmware is close to rollout, removing the old `CUSTOM=1` flag and adding fast paths that dramatically improve PCIe-over-USB transfers.
+- **[USB4 instability traced to power negotiation brownouts](#geohot-002636)**: The team identified USB PD negotiation as the likely cause of reset and race-condition issues on the USB4 path, even though links appear stable once brought up.
+- **[Remote training needs a better data path, with NVMe and `ext4` as the long-term fix](#geohot-004154)**: Geohot argued that current remote training is bottlenecked by TCP-based data movement and that tinygrad should eventually own the NVMe and `ext4` path directly.
+- **[Tensor and execution cleanups continue, including moving split-accumulation logic out of `tensor.py`](#geohot-005212)**: Chenyu’s cleanup work was highlighted as important, especially relocating optimization logic that never should have lived inside high-level tensor code.
+- **[Strategic principle: tinygrad and local AI only win if they are simpler than the cloud](#geohot-003541)**: Geohot emphasized that convenience, low friction, and minimal dependencies—not ideology—are what will drive real adoption of tinygrad, local AI, and the eGPU path at Comma.
+- **[Next steps: Qwen upstreaming, x86 review, remote training, and possible DSP revival](#geohot-004041)**: Geohot said his own week will focus on Qwen upstreaming and x86 review, while the team continues on remote training, firmware integration, and possibly modernizing DSP support for Comma in a future sprint.
+
 ### Transcript
 ##### **Geohot** [[00:00:00](https://www.youtube.com/watch?v=ksHFf4DqGcs&t=0)]
 All right, let's get started.
