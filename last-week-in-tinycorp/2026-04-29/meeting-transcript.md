@@ -19,20 +19,20 @@
 
 ### Highlights
 
-- **[Company Update](#geohot-000021)**: New GPU dock prototypes arrived; testing, USB4 validation, firmware checks, load tests, and stress tests are planned before launch, with a goal of 1,000 units in stock.
-- **[Tentative Launch Date](#geohot-000049)**: The GPU dock launch is tentatively targeted for May 21, though Geohot cautioned that the date may slip.
-- **[MLPerf LLaMA Run](#wozeparrot-000144)**: The team achieved its first sub-three-hour LLaMA run, with a reported time of about 2 hours 57 minutes.
-- **[MLPerf Submission Readiness](#chenyu-000241)**: The run still needs proper MLPerf logging, required fields, and compliant evaluation frequency before it can be trusted for submission.
-- **[LLaMA Performance Gaps](#nimlgen-000339)**: Remaining slowdown is attributed to slower GEMM, slower flash attention, and extra copies from function behavior; realistic near-term time was estimated around 2:45.
-- **[New DEV Improvements](#chrism-000653)**: The new device interface now supports AMX, BSD AMD64 fixes, multiple USB devices, USB 3.0 on Mac, and richer `python -m tinygrad.device` output.
-- **[Device Listing Scope](#chenyu-001345)**: Anything capable of running kernels correctly should appear in `tinygrad.device`, including materially different backend/device combinations.
-- **[Vecless Progress](#geohot-001426)**: The vecless rewrite shifted from a broad devectorizer/expander rewrite to replacing `vcount` logic with shape-based logic, though load fusion and load shape syntax remain unresolved.
-- **[Tensor UOp Mixin Refactor](#chenyu-001801)**: Tensor has been reduced to roughly 800–900 lines, with blockers including multi, training-dependent methods, input-dependent ops, concat/bitcast behavior, disk paths, random APIs, and getitem semantics.
-- **[Tensor Forwarder Direction](#geohot-002702)**: The desired end state is for Tensor to stop subclassing `OpMixin` and instead use a forwarder that creates functions, with pure function/call separation.
-- **[JIT and ExecItem Refactor](#nimlgen-003245)**: ExecItem was removed, JIT and schedule now use `run_linear`, runners are being removed, and CompiledRunner is next on the chopping block.
-- **[UOp Runtime Graph Vision](#geohot-003510)**: Longer term, AMD ComputeQueue and CopyQueue should become UOp graph renderers that emit device-specific command bytes, analogous to rendering WebGPU graphs into JavaScript.
-- **[Viz and Profiling Work](#qazalin-004434)**: The team reproduced Kimi’s result on M3, cleaned up CLI defaults, and is moving toward bigger models while investigating RDNA4 WMA/VALU overlap behavior.
-- **[MLPerf Optimization Sprint](#geohot-004836)**: Profiling, LLM-assisted search, and human tuning are being directed toward making MLPerf faster, with 2:45 good, 2:30 better, and 2:15 considered highly competitive.
+- **[Company Update](#geohot-000021)**: New GPU dock prototypes arrived; the team plans firmware, USB4, load, and stress testing, with a goal of having about 1,000 units in stock for launch day.
+- **[MLPerf LLaMA Run](#geohot-000225)**: The first under-three-hour LLaMA run was reported at 2h57m, but it did not include MLPerf logging, so submission-ready logging and required fields still need validation.
+- **[MLPerf Deadline](#chenyu-000607)**: The submission deadline was discussed as May 11, making the next two weeks a submission sprint focused on correctness, logging, and performance.
+- **[New DEV](#chrism-000653)**: The new DEV syntax is considered stable; AMX support was added, BSD AMD64 was fixed, and `python -m tinygrad.device` now prints richer interface/device information.
+- **[USB Device Support](#chrism-000923)**: Multiple USB devices can now be used from one laptop, and USB 3.0 on Mac was fixed to work repeatedly instead of only on the first run.
+- **[Device Listing Scope](#chenyu-001345)**: The team wants `tinygrad.device` to show all materially different combinations that can actually run kernels correctly, including mock where appropriate.
+- **[Vecless](#geohot-001426)**: The first vecless approach was too ambitious, so the current path replaces `vcount` logic with shape-based logic; it mostly works, but load fusion and load-shape syntax remain unresolved.
+- **[Tensor/UOp Mixin](#chenyu-001801)**: Tensor is down to roughly 800–900 lines, with remaining cleanup blocked by multi, training-specific methods, input-dependent ops, shape-changing bitcast, random APIs, getitem/indexing, and div semantics.
+- **[Tensor Forwarder Direction](#geohot-002925)**: The intended endpoint is to remove Tensor’s direct `OpMixin` inheritance and replace it with a forwarder, while pushing more logic into pure UOp/function behavior.
+- **[JIT and ExecItem Refactor](#nimlgen-003245)**: `ExecItem` was removed; both JIT and schedule now use `run_linear`, runners are being removed, and `CompiledRunner` is next on the chopping block.
+- **[Runtime Graphs as UOps](#geohot-003638)**: The longer-term direction is to model queues and runtime execution as UOp graphs, with renderers targeting AMD compute/copy queues, PM4/MEC/SDMA bytes, or WebGPU JavaScript.
+- **[LLaMA Optimization Push](#geohot-004843)**: The profiler/viz work is being aimed at MLPerf speedups, especially finding unnecessary copies and dumb copy kernels to push LLaMA from around 2h45 toward 2h30 or 2h15.
+- **[Comma Regressions](#chenyu-005432)**: Comma hit regressions from the JIT refactor, especially around the no-locals behavior; the team wants supported flags preserved and more tests matching Comma’s real compile usage where practical.
+- **[LLM Model Support](#geohot-005956)**: Kimi is running and worth supporting; GQA is also likely valuable, while DeepSeek is deferred for now and Gemma support remains an open question.
 
 ### Transcript
 ##### **Chenyu** [[00:00:00](https://www.youtube.com/watch?v=z0SgQk_yySo&t=0)]
