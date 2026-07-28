@@ -1413,7 +1413,7 @@ I'm not sure what we're going to do with this one. I think it's going to be
 ##### **Chrism** [[00:49:50](https://www.youtube.com/watch?v=Rsl-Gtifyuc&t=2990)]
 interesting. I'm not sure. I'm not sure. Yeah.
 
-##### **Reina** [[00:49:52](https://www.youtube.com/watch?v=Rsl-Gtifyuc&t=2992)]
+##### **Raine** [[00:49:52](https://www.youtube.com/watch?v=Rsl-Gtifyuc&t=2992)]
 I'm not sure. I'm not sure.
 
 ##### **Qazalin** [[00:49:56](https://www.youtube.com/watch?v=Rsl-Gtifyuc&t=2996)]

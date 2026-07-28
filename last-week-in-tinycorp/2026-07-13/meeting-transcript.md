@@ -41,7 +41,7 @@
 
 * **[HCQ2 Migration](#geohot-005503)**: The company is fully committed to HCQ2 and will migrate AMD first, accepting temporary disruption while simplifying HCQ2-specific classes into the standard Buffer and Allocator abstractions.
 
-* **[RDNA3 Backend](#reina-005828)**: The RDNA3 backend is down to roughly 19 failing tests; spill/fill support, slow integer-division expansion, and a few remaining correctness failures are the main blockers to reaching full test coverage.
+* **[RDNA3 Backend](#raine-005828)**: The RDNA3 backend is down to roughly 19 failing tests; spill/fill support, slow integer-division expansion, and a few remaining correctness failures are the main blockers to reaching full test coverage.
 
 
 ### Transcript
@@ -1051,10 +1051,10 @@ Not a whole lot yet. I think the config from the reference implementation is con
 Sounds good.
 
 ##### **Chenyu** [[00:57:45](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3465)]
-We also have Reina. Do you want to talk about anything for your backend, the RDNA backend?
+We also have Raine. Do you want to talk about anything for your backend, the RDNA backend?
 
 ##### **Geohot** [[00:57:52](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3472)]
-Reina, yeah, I added you as a speaker.
+Raine, yeah, I added you as a speaker.
 
 ##### **Geohot** [[00:57:54](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3474)]
 You have to exit the meeting and re-enter, and then you can talk. Can you hear me? Yes. OK, perfect.
@@ -1062,13 +1062,13 @@ You have to exit the meeting and re-enter, and then you can talk. Can you hear m
 ##### **Geohot** [[00:58:23](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3503)]
 Yeah, yeah, so just anything about the RDNA3 backend?
 
-##### **Reina** [[00:58:28](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3508)]
+##### **Raine** [[00:58:28](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3508)]
 Yeah, so most of the tests are passing now. If you see the latest CI run in the PR, I think I'm down to like 19 tests out of the backend run. Most of those are just spilling, which I'm working on right now, adding spill and fill to my regalloc.
 
 ##### **Flata** [[00:58:46](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3526)]
 Cool.
 
-##### **Reina** [[00:58:47](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3527)]
+##### **Raine** [[00:58:47](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3527)]
 Yeah. One of the weird things is my integer division expansion algorithm seems to be super slow on the transcendental run. So tests SIN and COS are like 30 seconds, which is kind of annoying. That's something I need to look into too. And then there are two or three tests, I think a BITCAST shape change and a transformer test, that are also failing on the CI run. But I'm hoping in like a week, maybe this weekend, I should be able to have 100% of tests passing, and then I'll start working on speed.
 
 ##### **Flata** [[00:59:24](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3564)]
@@ -1077,13 +1077,13 @@ Yeah.
 ##### **Geohot** [[00:59:24](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3564)]
 I mean, a few of these things. If you need a dtype decomposition for that division, you shouldn't have to handle that in your backend. We should have a generic one.
 
-##### **Reina** [[00:59:33](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3573)]
+##### **Raine** [[00:59:33](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3573)]
 Yeah, that's what I was thinking. Make it higher level, like in codegen or something.
 
 ##### **Geohot** [[00:59:38](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3578)]
 We should already have that. This is what dtype decomp is.
 
-##### **Reina** [[00:59:41](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3581)]
+##### **Raine** [[00:59:41](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3581)]
 Well, it's not like IDIV needs integer division. I don't think there's a way to expand that at a high level. Even fast IDIV and stuff expands into `cdiv`, no?
 
 ##### **Chrism** [[00:59:56](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3596)]
@@ -1092,7 +1092,7 @@ Okay. So I don't know exactly what you're talking about here, but in theory ther
 ##### **Geohot** [[01:00:09](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3609)]
 Yeah. I mean, GPUs don't actually have integer division. All this stuff should be dealt with at a higher level. You shouldn't have to deal with this in your backend.
 
-##### **Reina** [[01:00:18](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3618)]
+##### **Raine** [[01:00:18](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3618)]
 Okay. Because I thought LLVM does its own lowering for that, because I don't have `Ops.IDIV` in my code for op.
 
 ##### **Geohot** [[01:00:24](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3624)]
@@ -1104,34 +1104,34 @@ Don't worry about that.
 ##### **Geohot** [[01:00:28](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3628)]
 You do have to worry about spilling, though. You do need spilling to work.
 
-##### **Reina** [[01:00:31](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3631)]
+##### **Raine** [[01:00:31](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3631)]
 Yeah. No, I was planning on implementing that.
 
 ##### **Geohot** [[01:00:34](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3634)]
 Yeah. If you get it down to just integer division stuff not working, then you can just skip those tests for your backend, and that's totally fine.
 
-##### **Reina** [[01:00:45](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3645)]
+##### **Raine** [[01:00:45](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3645)]
 Okay. Yeah. Hopefully I'll have spill/fill this weekend, and then I'll go and fix x86 because it's broken right now on my branch.
 
 ##### **Geohot** [[01:00:55](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3655)]
 Right. Yeah. Enjoy your camping trip. Once you get these tests passing, I will get you access to it. Actually, just send me a public key and I'll get you access to a TinyBox. You can test this on real hardware.
 
-##### **Reina** [[01:01:07](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3667)]
+##### **Raine** [[01:01:07](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3667)]
 Perfect. Okay. Yeah, I've been using MockGPU, which has been great, though, because I don't even have an AMD GPU.
 
 ##### **Geohot** [[01:01:12](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3672)]
 Oh, it's much better to test things with MockGPU anyway. I mean, the real GPU crashes and it's not that introspective. But yeah, send me, I'll get you that.
 
-##### **Reina** [[01:01:22](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3682)]
+##### **Raine** [[01:01:22](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3682)]
 It's also possible there are some bugs in my video.
 
-##### **Reina** [[01:01:26](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3686)]
+##### **Raine** [[01:01:26](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3686)]
 Yeah, I don't have a wait/sync pass yet. So I know it's going to fail right away, probably just because of the data dependencies. But I'm going to fix that too. I've been looking at LLVM to add that.
 
 ##### **Geohot** [[01:01:40](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3700)]
 Oh, you mean a barrier?
 
-##### **Reina** [[01:01:42](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3702)]
+##### **Raine** [[01:01:42](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3702)]
 No, because when you do memory operations, it's asynchronous. So if you don't wait...
 
 ##### **Geohot** [[01:01:47](https://www.youtube.com/watch?v=dfMxyGxd_WE&t=3707)]
