@@ -1,5 +1,15 @@
 # Last Week in Tinycorp
 
+<!-- LATEST_START -->
+## Latest
+
+- [2026-07-20](last-week-in-tinycorp/2026-07-20/meeting-transcript.md)
+- [2026-07-13](last-week-in-tinycorp/2026-07-13/meeting-transcript.md)
+- [2026-07-06](last-week-in-tinycorp/2026-07-06/meeting-transcript.md)
+- [2026-06-29](last-week-in-tinycorp/2026-06-29/meeting-transcript.md)
+
+<!-- LATEST_END -->
+
 This repository serves as an archive for weekly meetings held on the [Tinygrad Discord](https://discord.gg/ZjZadyC7PK) and logs of the dev work of the week. 
 
 ## Meeting Schedule
