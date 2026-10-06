@@ -18,6 +18,21 @@
 
 ### Highlights
 
+- **[CMU course](#geohot-000003)**: Geohot is 90% confident the tinygrad course will run in the spring semester at CMU, aiming to expose many people to tinygrad ideas.
+- **[Secret product announcement](#geohot-000039)**: No recent AMD communication while the new contract is worked out; the secret project may be announced next week as a new product.
+- **[UIR](#geohot-000114)**: UIR is a text-based UOp graph replacing pyrender/pickling, usable as an interchange format; JITs could be saved as safetensors and potentially replace ONNX.
+- **[MLPerf GPT-OSS](#wozeparrot-000529)**: Initial GPT-OSS submissions are in for both single-machine and two-machine: 117 minutes and 67.2 minutes, respectively.
+- **[MLPerf LLaMA](#geohot-000737)**: Single-machine LLaMA at 101.2 minutes is fine to submit, but two-machine LLaMA must be fixed and should target under 60 minutes to avoid looking bad on scaling.
+- **[HCQ2 progress](#nimlgen-001245)**: Functions and binaries have been added into HCQ2 and it looks cleaner; CL support is still TODO, likely after LLaMA fixes.
+- **[CI queue time](#chrism-002409)**: CI queue time is about 25 seconds between job submission and start; Chrism thinks another ~5 seconds can be shaved off, and this work also helps GPU runners.
+- **[HCQ default LLVM](#geohot-002701)**: Geohot wants HCQ to default to LLVM because in-process LLVM compilation is much faster than forking Clang, with Clang as fallback.
+- **[UIR viz and assembly](#qazalin-003233)**: CALL merged in codegen; CALLs and BINARY can render codegen, and Qazalin plans to use this for lifting assembly into UOps.
+- **[SQTT wave ends](#qazalin-003636)**: SQTT visualization now shows wave ends; analysis suggests ~30% of idle time is in wave termination, motivating persistent/loop assembly work.
+- **[LLM shards and prefill](#b1tg-004443)**: Prefill is currently only ~500 tokens/sec; B1tg thinks 800-1000 is possible, and prefill speed should be added to benchmarks.
+- **[Qualcomm emulator bounty](#geohot-004621)**: Geohot locked a bounty for a Qualcomm compiler/emulator using NumPy; it needs to be fast enough to run the openpilot model, then IR3 can be tested end-to-end.
+- **[12-GPU 9700 product](#geohot-004950)**: A twelve-GPU 9700 machine is coming soon as part of the new product launch next week; it should run GLM Flash and DeepSeek Flash across twelve GPUs.
+- **[Tinybox orders and KYC](#geohot-005109)**: Tinybox orders are delayed partly by GPU KYC/compliance; tinybox pro RTX orders are shipping, and prices may need to rise as RTX 6000 costs increase.
+
 ### Transcript
 ##### **Wozeparrot** [[00:00:00](https://www.youtube.com/watch?v=eojuJ_9for8&t=0)]
 Okay, we'll start with the company update.
