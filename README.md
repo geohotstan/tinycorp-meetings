@@ -3,10 +3,10 @@
 <!-- LATEST_START -->
 ## Latest
 
+- [2026-11-24](last-week-in-tinycorp/2026-11-24/meeting-transcript.md)
 - [2026-11-17](last-week-in-tinycorp/2026-11-17/meeting-transcript.md)
 - [2026-11-10](last-week-in-tinycorp/2026-11-10/meeting-transcript.md)
 - [2026-11-03](last-week-in-tinycorp/2026-11-03/meeting-transcript.md)
-- [2026-10-27](last-week-in-tinycorp/2026-10-27/meeting-transcript.md)
 
 <!-- LATEST_END -->
 
